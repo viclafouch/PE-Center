@@ -78,6 +78,8 @@ article.TC_center_article_result.active {
 div.TC_center_actions {
     display: flex;
     flex-direction: row;
+    padding-top: 5px;
+    border-top: 1px solid rgba(0, 0, 0, 0.15);
     justify-content: center;
 }
 

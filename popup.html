@@ -1,22 +1,50 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<title>TC's Center</title>
-	<meta charset="UTF-8">
-	<link href="https://fonts.googleapis.com/css?family=Francois+One" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="styles.css">
+    <title>TC's Center</title>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css?family=Francois+One" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <style type="text/css">
+    div#storageCopy * {
+        font-family: "Roboto", Arial, sans-serif;
+        line-height: normal;
+        font-size: 13px;
+        background-color: transparent;
+        color: #222;
+        text-align: left;
+        vertical-align: baseline;
+    }
+
+    div#storageCopy a {
+        text-decoration: none;
+        color: #15c;
+    }
+
+    div#storageCopy a * {
+        color: inherit;
+    }
+
+    div#storageCopy ul {
+        list-style-type: disc;
+    }
+    </style>
 </head>
+
 <body>
-	<h1 class="TC_center_title">TC's Center</h1>
-	<a href="https://ficheandtricks.vicandtips.fr" id="website-anchor" data-href="https://ficheandtricks.vicandtips.fr" class="TC_center_website">Go to website <i class="fa fa-external-link" aria-hidden="true"></i></a>
-	<input type="text" name="search" id="input-search" autocomplete="off" spellcheck="false" class="TC_center_input_search" placeholder="Tap your article">
-	<div class="TC_center_column_result" id="result">
-	</div>
-	<div class="TC_center_actions" style="display: none;">
-		<button class="TC_center_button button-primary" id="TC_center_action_location" disabled>Redirection</button>
-		<button class="TC_center_button button-primary" id="TC_center_action_copy" disabled>Copy</button>
-	</div>
-	<script src="main.js" type="text/javascript"></script>
+    <div id="storageCopy" style="display: block; position: fixed"></div>
+    <h1 class="TC_center_title">TC's Center</h1>
+    <a href="https://ficheandtricks.vicandtips.fr" id="website-anchor" data-href="https://ficheandtricks.vicandtips.fr" class="TC_center_website">Go to website <i class="fa fa-external-link" aria-hidden="true"></i></a>
+    <input type="text" name="search" id="input-search" autocomplete="off" spellcheck="false" class="TC_center_input_search" placeholder="Tap your article">
+    <div class="TC_center_column_result" id="result">
+    </div>
+    <div class="TC_center_actions" style="display: none;">
+        <button class="TC_center_button button-primary" id="TC_center_action_location" disabled>Redirection</button>
+        <button class="TC_center_button button-primary" id="TC_center_action_copy" disabled>Copy</button>
+    </div>
+    <script src="main.js" type="text/javascript"></script>
 </body>
+
 </html>
