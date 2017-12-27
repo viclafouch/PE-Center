@@ -2,7 +2,7 @@
     "manifest_version": 2,
 
     "name": "TC's Center",
-    "description": "Descriptions",
+    "description": "Fast and easy way to copy and access to the tips of the Google Help Center",
     "version": "1.0",
 
     "permissions": [
@@ -15,11 +15,15 @@
     {
         "default_icon": "icon16.png",
         "default_popup": "popup.html",
-        "default_title": "Click here!"
+        "default_title": "Open me !"
     },
     "icons":
     {
-        "16": "icon16.png"
+        "16": "icon16.png",
+        "48": "icon48.png",
+        "128": "icon128.png"
     },
-    "content_security_policy":"script-src 'self' https://apis.google.com; object-src 'self'"
+    "content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self'",
+    "author": "Victor de la Fouchardière",
+    "homepage_url": "http://ficheandtricks.vicandtips.fr/"
 }

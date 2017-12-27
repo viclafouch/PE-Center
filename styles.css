@@ -14,7 +14,13 @@ a.TC_center_website {
     top: 5px;
     right: 5px;
     color: #15c;
+    text-decoration: none;
 }
+
+a.TC_center_website:hover {
+    color: #43a7fd;
+}
+
 
 h1.TC_center_title {
     color: #444;
