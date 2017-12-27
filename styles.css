@@ -1,65 +1,142 @@
 @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css);
 
 body {
-	margin: 0;
-	padding: 5px 10px;
-	width: 300px;
-	position: relative;
-	box-sizing: border-box;
-	font-family: "Open Sans",sans-serif;
+    margin: 0;
+    padding: 5px 10px;
+    width: 300px;
+    position: relative;
+    box-sizing: border-box;
+    font-family: "Open Sans", sans-serif;
 }
 
 a.TC_center_website {
-	position: absolute;
-	top: 5px;
-	right: 5px;
-	color: #15c;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: #15c;
 }
 
 h1.TC_center_title {
-	color: #444;
-	font-family: 'Francois One', sans-serif;
+    color: #444;
+    font-family: 'Francois One', sans-serif;
 }
 
 input.TC_center_input_search {
-	border: 0;
+    border: 0;
     -webkit-appearance: none;
     outline: none;
     font-size: 13px;
     width: 100%;
-    border-bottom: 1px dotted rgba(0,0,0,.1);
+    border-bottom: 1px dotted rgba(0, 0, 0, .1);
     padding: 3px 0;
-    font-family: "Open Sans",sans-serif;
+    font-family: "Open Sans", sans-serif;
 }
 
 div.TC_center_column_result {
-	width: 100%;
-	display: flex;
-	flex-direction: column;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
-div.TC_center_column_result > article.TC_center_article_result {
-	width: 100%;
-	padding: 0 10px;
-	box-sizing: border-box;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-	margin-top: 10px;
-	font-family: "Open Sans",sans-serif;
+div.TC_center_column_result>article.TC_center_article_result {
+    width: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 10px;
+    font-family: "Open Sans", sans-serif;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 article.TC_center_article_result img {
-	width: 30px;
-	height: 30px;
-	padding-right: 10px;
+    width: 30px;
+    height: 30px;
+    padding-right: 10px;
 }
 
-article.TC_center_article_result p {
-
-}
+article.TC_center_article_result p {}
 
 article.TC_center_article_result:hover {
-	background-color: rgba(0,0,0,0.1);
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+article.TC_center_article_result.hidden {
+    display: none!important;
+}
+
+article.TC_center_article_result.active {
+    background-color: #43a7fd;
+    color: #ffffff;
+}
+
+div.TC_center_actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+button.TC_center_button {
+    padding: 5px 10px;
+    border-radius: 7px;
+    color: #fff;
+    margin: 5px;
+    text-decoration: none;
+    border: 0;
+    cursor: pointer;
+    outline: none;
+    font-size: 13px;
+    font-family: "Francois One", sans-serif;
+    -moz-transition: none 0.3s ease 0s;
+    -o-transition: none 0.3s ease 0s;
+    -webkit-transition: none 0.3s ease;
+    -webkit-transition-delay: 0s;
+    -webkit-transition: none 0.3s ease 0s;
+    transition: none 0.3s ease 0s;
+    -webkit-transition-property: -webkit-transform, opacity, border-bottom-width, background-color, border-color, text-shadow;
+    -webkit-transition-property: opacity, border-bottom-width, background-color, border-color, text-shadow, -webkit-transform;
+    transition-property: opacity, border-bottom-width, background-color, border-color, text-shadow, -webkit-transform;
+    transition-property: transform, opacity, border-bottom-width, background-color, border-color, text-shadow;
+    transition-property: transform, opacity, border-bottom-width, background-color, border-color, text-shadow, -webkit-transform;
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=85);
+    opacity: 0.85;
+    border-bottom-width: 4px;
+    border-bottom-style: solid;
+    border-color: #ffffff;
+    text-shadow: 0px -2px transparent;
+    white-space: nowrap;
+}
+
+button.TC_center_button.button-primary {
+    background-color: #0275d8;
+    border-color: #43a7fd;
+    text-shadow: 0px -2px #43a7fd;
+}
+
+button.TC_center_button:active {
+    -webkit-transform: translate(0px, 3px);
+    transform: translate(0px, 3px);
+    border-bottom-width: 1px;
+}
+
+button.TC_center_button[disabled] {
+    background-color: #ecf0f1!important;
+    border-color: #bdc3c7!important;
+    text-shadow: 0px -2px white;
+    cursor: not-allowed;
+}
+
+button.TC_center_button.success {
+    background-color: #27ae60;
+    border-color: #60db94;
+}
+
+button.TC_center_button:hover {
+    filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+    opacity: 1;
 }
