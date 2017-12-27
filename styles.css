@@ -1,0 +1,65 @@
+@import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css);
+
+body {
+	margin: 0;
+	padding: 5px 10px;
+	width: 300px;
+	position: relative;
+	box-sizing: border-box;
+	font-family: "Open Sans",sans-serif;
+}
+
+a.TC_center_website {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	color: #15c;
+}
+
+h1.TC_center_title {
+	color: #444;
+	font-family: 'Francois One', sans-serif;
+}
+
+input.TC_center_input_search {
+	border: 0;
+    -webkit-appearance: none;
+    outline: none;
+    font-size: 13px;
+    width: 100%;
+    border-bottom: 1px dotted rgba(0,0,0,.1);
+    padding: 3px 0;
+    font-family: "Open Sans",sans-serif;
+}
+
+div.TC_center_column_result {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+div.TC_center_column_result > article.TC_center_article_result {
+	width: 100%;
+	padding: 0 10px;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 10px;
+	font-family: "Open Sans",sans-serif;
+}
+
+article.TC_center_article_result img {
+	width: 30px;
+	height: 30px;
+	padding-right: 10px;
+}
+
+article.TC_center_article_result p {
+
+}
+
+article.TC_center_article_result:hover {
+	background-color: rgba(0,0,0,0.1);
+}
