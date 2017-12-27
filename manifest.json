@@ -1,0 +1,19 @@
+{
+    "manifest_version": 2,
+
+    "name": "TC's Center",
+    "description": "Descriptions",
+    "version": "1.0",
+
+    "browser_action":
+    {
+        "default_icon": "icon16.png",
+        "default_popup": "popup.html",
+        "default_title": "Click here!"
+    },
+    "icons":
+    {
+        "16": "icon16.png"
+    },
+    "permissions": []
+}
