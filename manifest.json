@@ -1,10 +1,10 @@
 {
     "name": "TC's Center",
-    "short_name":"TCs Center",
+    "short_name": "TCs Center",
     "manifest_version": 2,
     "description": "Fast and easy way to copy and access to the tips of the Google Help Center",
     "author": "Victor de la Fouchardière",
-    "version": "1.0",
+    "version": "1.02",
 
     "permissions": [
         "clipboardWrite",
@@ -23,6 +23,18 @@
         "16": "icon16.png",
         "48": "icon48.png",
         "128": "icon128.png"
+    },
+    "commands":
+    {
+        "_execute_browser_action":
+        {
+            "suggested_key":
+            {
+                "default": "Alt+C",
+                "windows": "Alt+C",
+                "mac": "Alt+C"
+            }
+        }
     },
     "content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self'",
     "homepage_url": "http://ficheandtricks.vicandtips.fr/"
