@@ -101,6 +101,7 @@ function removeDiacritics(str) {
     });
 }
 
+
 let anchor = document.getElementById('website-anchor');
 let searchInput = document.getElementById('input-search');
 let containerResult = document.getElementById('result');
@@ -119,6 +120,10 @@ let limit = 5;
 let plateforme = 'forum';
 
 var request = new Request('http://ficheandtricks.vicandtips.fr/filename.json');
+
+window.onload = function() {
+  searchInput.focus();
+}
 
 fetch(request)
     .then(function(response) { return response.json(); })

@@ -1,8 +1,10 @@
 {
     "manifest_version": 2,
-
     "name": "TC's Center",
+    "short_name":"TCs Center",
     "description": "Fast and easy way to copy and access to the tips of the Google Help Center",
+    "authors": [{"name": "Victor de la Fouchardiere", "email": "victor.dlf@outlook.fr"}],
+    "author": "Victor de la Fouchardière",
     "version": "1.0",
 
     "permissions": [
@@ -24,6 +26,5 @@
         "128": "icon128.png"
     },
     "content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self'",
-    "author": "Victor de la Fouchardière",
     "homepage_url": "http://ficheandtricks.vicandtips.fr/"
 }
