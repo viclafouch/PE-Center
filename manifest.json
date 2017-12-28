@@ -1,9 +1,8 @@
 {
-    "manifest_version": 2,
     "name": "TC's Center",
     "short_name":"TCs Center",
+    "manifest_version": 2,
     "description": "Fast and easy way to copy and access to the tips of the Google Help Center",
-    "authors": [{"name": "Victor de la Fouchardiere", "email": "victor.dlf@outlook.fr"}],
     "author": "Victor de la Fouchardière",
     "version": "1.0",
 
