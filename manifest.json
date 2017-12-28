@@ -4,7 +4,7 @@
     "manifest_version": 2,
     "description": "Fast and easy way to copy and access to the tips of the Google Help Center",
     "author": "Victor de la Fouchardière",
-    "version": "1.02",
+    "version": "1.03",
 
     "permissions": [
         "clipboardWrite",
