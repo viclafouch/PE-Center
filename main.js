@@ -119,7 +119,7 @@ function redirection(url, active) {
 let limit = 5;
 let plateforme = 'forum';
 
-var request = new Request('http://ficheandtricks.vicandtips.fr/filename.json');
+var request = new Request('http://ficheandtricks.vicandtips.fr/tccenter.json');
 
 window.onload = function() {
   searchInput.focus();
