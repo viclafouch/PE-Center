@@ -2,7 +2,7 @@
 
 body {
     margin: 0;
-    padding: 5px 10px;
+    padding: 15px 10px;
     width: 300px;
     position: relative;
     box-sizing: border-box;
@@ -12,13 +12,24 @@ body {
 a.TC_center_website {
     position: absolute;
     top: 5px;
-    right: 5px;
     color: #15c;
     text-decoration: none;
 }
 
+a.TC_center_website#toWebsite {
+    right: 5px;
+}
+a.TC_center_website#toOptions {
+    left: 5px;
+}
+
 a.TC_center_website:hover {
     color: #43a7fd;
+}
+
+p.error {
+    text-align: center;
+    color: red;
 }
 
 
@@ -147,4 +158,100 @@ button.TC_center_button.success {
 button.TC_center_button:hover {
     filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
     opacity: 1;
+}
+
+div.container-options {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 12px 24px;
+    margin: 20px;
+}
+
+div.container-options span.flag {
+    height: 78px;
+    cursor: pointer;
+    width: 78px;
+    opacity: 0.45;
+    position: relative;
+    margin: 25px 25px;
+}
+
+div.container-options span.flag.active {
+    opacity: 1;
+}
+
+
+div.container-options span.flag:hover {
+    opacity: 1;
+}
+
+div.container-options p.message {
+    color: #444;
+    text-align: center;
+}
+
+div.container-options p.message.active {
+    color: #27ae60;
+}
+
+
+div.container-options p.message i {
+    font-weight: bold;
+}
+
+ul.list-product {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+ul.list-product li.product {
+    width: 78px;
+    display: block;
+    height: 78px;
+    cursor: pointer;
+    margin: 25px 25px;
+}
+
+ul.list-product li.product img {
+    opacity: 0.45;
+}
+
+
+ul.list-product li.product.active img,
+ul.list-product li.product:hover img {
+    opacity: 1;
+}
+
+div.container-options p.shortcut {
+    padding: 15px 0;
+    padding-bottom: 3px;
+    width: 100%;
+    color: #7f8c8d;
+    margin-top: 15px;
+    border-top: 1px dotted rgba(0,0,0,0.10)
+}
+
+div.home-screen > p {
+    position: absolute;
+    left: 50%;
+    bottom: 10px;
+    transform: translateX(-50%);
+    color: #fff!important;
+    font-family: "Open Sans", sans-serif;
+}
+
+div.home-screen > p > a:hover {
+   opacity: 0.85;
+}
+
+a.star {
+    display: block;
+    color: #444;
+    font-size: 30px;
+    text-decoration: none;
+}
+
+a.star:hover {
+    color: #f1c40f;
 }

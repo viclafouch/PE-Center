@@ -95,6 +95,28 @@ for (var i = 0; i < defaultDiacriticsRemovalMap.length; i++) {
     }
 }
 
+class Card {
+    constructor(data) {
+        this.title = {
+            'fr': data.fiche_title_fr,
+            'en': data.fiche_title_en,
+            'default' : null
+        };
+
+        this.product = data.product_name;
+        this.date = data.fiche_date_creat;
+        this.url = data.fiche_url;
+        this.category = data.cat_name;
+        this.img = data.product_name.toLowerCase()+'.png';
+    }
+}
+
+var storage = {};
+chrome.storage.sync.get(null, function(data) {
+    storage = data;
+    init();
+});
+
 function removeDiacritics(str) {
     return str.replace(/[^\u0000-\u007E]/g, function(a) {
         return diacriticsMap[a] || a;
@@ -102,7 +124,7 @@ function removeDiacritics(str) {
 }
 
 
-let anchor = document.getElementById('website-anchor');
+let anchor = document.querySelectorAll('[data-location]');
 let searchInput = document.getElementById('input-search');
 let containerResult = document.getElementById('result');
 let cards;
@@ -118,69 +140,173 @@ function redirection(url, active) {
 
 let limit = 5;
 let plateforme = 'forum';
+let filename = 'tccenter.json';
 
-var request = new Request('http://ficheandtricks.vicandtips.fr/tccenter.json');
+var request = new Request('https://ficheandtricks.vicandtips.fr/'+ filename + '?' + Date.now());
 
 window.onload = function() {
-  searchInput.focus();
+    searchInput.focus();
 }
 
-fetch(request)
-    .then(function(response) { return response.json(); })
-    .then(function(card) {
-        for (var i = 0; i < card.length; i++) {
-            var article = document.createElement('article');
-            article.classList.add('TC_center_article_result');
-            article.classList.add('card');
-            article.classList.add('hidden');
+function init() {
 
-            var img = document.createElement('img');
+    var favoriteLanguage = storage.favoriteLanguage;
+    var favoriteProducts = storage.favoriteProducts;
 
-            if (card[i].fiche_product == "1") {
-                img.src = 'youtube.png';
-            } else if (card[i].fiche_product == "2") {
-                img.src = 'chrome.png';
+    searchInput.setAttribute('placeholder', 'Your search here ('+favoriteLanguage+')');
+
+    fetch(request)
+        .then(function(response) { return response.json(); })
+        .catch(function(error) {
+            var p = document.createElement('p');
+            p.textContent = 'API failed, please contact the web developer';
+            p.classList.add('error');
+            containerResult.appendChild(p);
+            return false;
+        })
+
+        /* Choose language */
+        
+        .then(function (allCards){
+
+            let array = [];
+
+            for (var i = allCards.length - 1; i >= 0; i--) {
+                let card = new Card(allCards[i]);
+
+                if (favoriteLanguage == 'fr') {
+                    if (card.title.fr) {
+                        card.title.default = card.title.fr
+                        array.push(card);
+                    }
+                }
+
+                else if (favoriteLanguage == 'en') {
+                    if (card.title.en) {
+                        card.title.default = card.title.en
+                        array.push(card);
+                    }
+                }
             }
 
-            img.setAttribute('alt', card[i].fiche_title);
+            return array;
+        }).then(function(allCards) {
 
-            var p = document.createElement('p');
-            p.textContent = card[i].fiche_title;
+            let array = [];
 
+            for (var i = allCards.length - 1; i >= 0; i--) {
 
-            article.setAttribute('data-href', card[i].fiche_url);
-            article.setAttribute('data-title', card[i].fiche_title);
-            article.appendChild(img);
-            article.appendChild(p);
-
-            containerResult.appendChild(article);
-        }
-        return card;
-    })
-    .then(function() {
-        cards = document.querySelectorAll('.hidden');
-        cards.forEach(function(element, index) {
-            element.addEventListener('click', function(e) {
-                e.preventDefault();
-                if (element.classList.contains('active')) {
-                    element.classList.remove('active');
-                    statutBtn(buttonsAction, true);
-                } else {
-                    var cardActive = document.querySelector('.card.active');
-                    if (cardActive) {
-                        cardActive.classList.remove('active');
-                    }
-                    element.classList.add('active');
-                    statutBtn(buttonsAction, false);
+                if (favoriteProducts.includes(allCards[i].product)) {
+                    array.push(allCards[i]);
                 }
-            }, false);
+            }
+
+            return array;
+        })
+        .then(function(card) {
+            for (var i = 0; i < card.length; i++) {
+
+                let article = document.createElement('article');
+                article.classList.add('TC_center_article_result');
+                article.classList.add('card');
+                article.classList.add('hidden');
+
+                let img = document.createElement('img');
+                img.src = card[i].img;
+                img.setAttribute('alt', card[i].title.default);
+
+                var p = document.createElement('p');
+                p.textContent = card[i].title.default;
+
+                article.setAttribute('data-href', card[i].url);
+                article.setAttribute('data-title', card[i].title.default);
+
+                article.appendChild(img);
+                article.appendChild(p);
+
+                containerResult.appendChild(article);
+            }
+            return card;
+        })
+        .then(function() {
+            cards = document.querySelectorAll('.hidden');
+            cards.forEach(function(element, index) {
+                element.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (element.classList.contains('active')) {
+                        element.classList.remove('active');
+                        statutBtn(buttonsAction, true);
+                    } else {
+                        var cardActive = document.querySelector('.card.active');
+                        if (cardActive) {
+                            cardActive.classList.remove('active');
+                        }
+                        element.classList.add('active');
+                        statutBtn(buttonsAction, false);
+                    }
+                }, false);
+            });
         });
+
+    anchor.forEach( function(element, index) {
+        element.addEventListener('click', function(e) {
+            let url = this.getAttribute('href');
+            redirection(url, true);
+        }, false);
     });
 
-anchor.addEventListener('click', function(e) {
-    let url = this.getAttribute('href');
-    redirection(url, true);
-}, false);
+    searchInput.addEventListener('keyup', function(e) {
+
+        let searchValue = removeDiacritics(this.value);
+
+        if (this.value.length > 2) {
+            statutBtn(buttonsAction, true);
+            this.value = capitalizeFirstLetter(this.value);
+
+            cards.forEach(function(element, index) {
+                var title = removeDiacritics(element.textContent.trim());
+                if (title.search(new RegExp(searchValue, "i")) < 0) {
+                    element.classList.add('hidden');
+                    element.classList.remove('visible');
+                } else if (lenghtResult() <= limit) {
+                    element.classList.remove('hidden');
+                    element.classList.add('visible');
+                }
+
+                if (lenghtResult() > 0) {
+                    document.querySelector('.TC_center_actions').style.display = 'flex';
+                } else {
+                    document.querySelector('.TC_center_actions').style.display = 'none';
+                }
+            });
+        } else {
+            for (var i = cards.length - 1; i >= 0; i--) {
+                cards[i].classList.add('hidden');
+                cards[i].classList.remove('visible');
+                document.querySelector('.TC_center_actions').style.display = 'none';
+            }
+        }
+    }, false);
+
+    buttonsAction.forEach(function(element, index) {
+        element.addEventListener('click', function(e) {
+            if (this.getAttribute('id') == 'TC_center_action_location') {
+                let cardActive = document.querySelector('.card.active');
+                let url = cardActive.getAttribute('data-href');
+                redirection(url, false);
+                this.classList.add('success');
+                setTimeout(function() {
+                    element.classList.remove('success');
+                }, 750);
+            } else if (this.getAttribute('id') == 'TC_center_action_copy') {
+                let cardActive = document.querySelector('.card.active');
+                let url = cardActive.getAttribute('data-href');
+                let title = cardActive.getAttribute('data-title');
+                copy(this, url, title);
+            }
+        }, false);
+    });
+}
 
 var lenghtResult = () => {
     return containerResult.querySelectorAll('.visible').length;
@@ -196,56 +322,9 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-searchInput.addEventListener('keyup', function(e) {
-
-    let searchValue = removeDiacritics(this.value);
-
-    if (this.value.length > 2) {
-        statutBtn(buttonsAction, true);
-        this.value = capitalizeFirstLetter(this.value);
-
-        cards.forEach(function(element, index) {
-            var title = removeDiacritics(element.textContent.trim());
-            if (title.search(new RegExp(searchValue, "i")) < 0) {
-                element.classList.add('hidden');
-                element.classList.remove('visible');
-            } else if (lenghtResult() <= limit) {
-                element.classList.remove('hidden');
-                element.classList.add('visible');
-            }
-
-            if (lenghtResult() > 0) {
-                document.querySelector('.TC_center_actions').style.display = 'flex';
-            } else {
-                document.querySelector('.TC_center_actions').style.display = 'none';
-            }
-        });
-    } else {
-        for (var i = cards.length - 1; i >= 0; i--) {
-            cards[i].classList.add('hidden');
-            cards[i].classList.remove('visible');
-            document.querySelector('.TC_center_actions').style.display = 'none';
-        }
-    }
-}, false);
-
-buttonsAction.forEach(function(element, index) {
-    element.addEventListener('click', function(e) {
-        if (this.getAttribute('id') == 'TC_center_action_location') {
-            let cardActive = document.querySelector('.card.active');
-            let url = cardActive.getAttribute('data-href');
-            redirection(url, false);
-        } else if (this.getAttribute('id') == 'TC_center_action_copy') {
-            let cardActive = document.querySelector('.card.active');
-            let url = cardActive.getAttribute('data-href');
-            let title = cardActive.getAttribute('data-title');
-            copy(this, url, title);
-        }
-    }, false);
-});
-
 var waiting = false;
-function copy(button, url, title) {
+
+function copy(button, url, title, time = 750) {
     if (!waiting) {
         waiting = true;
 
@@ -263,24 +342,17 @@ function copy(button, url, title) {
         document.getElementById('storageCopy').appendChild(storage);
         storage.focus();
         document.execCommand('SelectAll');
-        var successful =  document.execCommand("Copy", false, null);  
+        var successful = document.execCommand("Copy", false, null);
         if (successful) {
             var btn = button;
             btn.classList.add('success');
             setTimeout(function() {
                 btn.classList.remove('success');
-            }, 2000);
-            // if (plateforme) {
-            //     var http = new XMLHttpRequest();
-            //     var action = window.location.href;
-            //     http.open("POST", action, true);
-            //     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            //     http.send(encodeURI('url='+url));
-            // }
+            }, time);
         }
         storage.remove();
         setTimeout(function() {
             waiting = false;
-        }, 2000);
+        }, time);
     }
 }

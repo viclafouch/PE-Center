@@ -3,15 +3,16 @@
     "short_name": "TCs Center",
     "manifest_version": 2,
     "description": "Fast and easy way to copy and access to the tips of the Google Help Center",
-    "author": "Victor de la Fouchardière",
-    "version": "1.03",
-
+    "author": "Victor de la Fouchardiere",
+    "version": "1.05",
     "permissions": [
         "clipboardWrite",
         "clipboardRead",
+        "storage",
         "http://ficheandtricks.vicandtips.fr/",
         "https://ficheandtricks.vicandtips.fr/"
     ],
+    "options_page": "options.html",
     "browser_action":
     {
         "default_icon": "icon16.png",
