@@ -1,161 +1,174 @@
-var flags = document.querySelectorAll('.flag');
-var services = document.querySelectorAll('.product img');
+const languagesDOM = document.querySelectorAll('[data-type="language"]');
+const productsDOM = document.querySelectorAll('[data-type="product"]');
 
-var languages = ['fr', 'en'];
-var products = ['YouTube', 'Chrome'];
+let languages = ['fr', 'en'];
+let products = ['YouTube', 'Chrome'];
 
-services.forEach(function(element, index) {
-    element.addEventListener('click', function(e) {
-        e.preventDefault();
+let productsChoosed = [];
+let languageChoosed = '';
 
-        var parent = this.parentElement;
-        var product = parent.getAttribute('data-name');
+let defaultLanguage = 'fr';
+let defaultProducts = products;
 
-        let favoritesProducts = [];
+var nodeToArray = node => {
+    return [].slice.call(node);
+}
 
-        if (parent.classList.contains('active')) {
-            parent.classList.remove('active');
+function verifActive(element, multiple = true) {
+
+    if (multiple) {
+        if (element.classList.contains('active')) {
+            element.classList.remove('active');
         } else {
-            parent.classList.add('active');
+            element.classList.add('active');
         }
-
-        document.querySelectorAll('.product.active').forEach( function(element, index) {
-
-            let name = element.getAttribute('data-name');
-
-            if (!products.includes(name)) {
-                return false;
-            } else {
-                favoritesProducts.push(name);
-            }
-        });
-        console.log(favoritesProducts);
-        chrome.storage.sync.set({
-            favoriteProducts: favoritesProducts
-        }, function() {
-
-            console.log('test');
-
-            var status = document.getElementById('status_pd');
-            status.classList.add('active');
-            status.textContent = 'Options saved.';
-
-            setTimeout(function() {
-                status.innerHTML = '';
-                status.classList.remove('active');
-                if (favoritesProducts.length > 0) {
-                    var i = document.createElement('i');
-                    var foo = document.createTextNode("\u00A0");
-                    i.textContent = '"'+favoritesProducts.join(', ')+'"';
-                    var t = document.createElement('span');
-                    t.textContent = " is selected";
-                    if (favoritesProducts.length > 1) {
-                        t.textContent = " are selected";
-                    }
-                    status.appendChild(i);
-                    status.appendChild(foo);
-                    status.appendChild(t);
-                } else {
-                    status.textContent = 'No product selected';
-                }
-            }, 1100);
-        });
-
-    }, false);
-});
-
-flags.forEach(function(element, index) {
-    element.addEventListener('click', function(e) {
-
-        e.preventDefault();
-
-        var language = this.getAttribute('id');
-
-        if (!languages.includes(language)) {
-            return false;
-        }
-
-        flags.forEach( function(element, index) {
+    } else {
+        languagesDOM.forEach( function(element, index) {
             element.classList.remove('active');
         });
 
-        chrome.storage.sync.set({
-            favoriteLanguage: language
-        }, function() {
-            element.classList.add('active');
-            var status = document.getElementById('status_lg');
-            status.classList.add('active');
-            status.textContent = 'Options saved.';
+        element.classList.add('active');
+    }
 
-            setTimeout(function() {
-                status.innerHTML = '';
-                status.classList.remove('active');
-                var i = document.createElement('i');
-                var foo = document.createTextNode("\u00A0");
-                i.textContent = '"'+language+'"';
-                var t = document.createElement('span');
-                t.textContent = " is selected";
-                status.appendChild(i);
-                status.appendChild(foo);
-                status.appendChild(t);
-            }, 1100);
-        });
+    return nodeToArray(document.querySelectorAll('[data-type="'+element.getAttribute('data-type')+'"].active'));
+}
+
+function insertMessage(options) {
+
+    let status = document.querySelector('[data-message="'+options.type+'"]');
+
+    if (options.datas.length > 0) {
+        var i = document.createElement('i');
+        i.textContent = '"'+options.datas.join(', ')+'"';
+
+        var space = document.createTextNode("\u00A0");
+
+        var span = document.createElement('span');
+        span.textContent = " is selected";
+        if (options.datas.length > 1) {
+            span.textContent = " are selected";
+        }
+
+        status.appendChild(i);
+        status.appendChild(space);
+        status.appendChild(span);
+
+    } else {
+       status.textContent = 'No '+options.type+' selected'; 
+    }
+}
+
+function successDOM(options, timeOut = 750) {
+    if (typeof options === 'object') {
+        var status = document.querySelector('[data-message="'+options.type+'"]');
+        status.classList.add('active');
+        status.textContent = 'Options saved.';
+
+        setTimeout(function() {
+            while (status.firstChild) {
+                status.removeChild(status.firstChild);
+            }
+            status.classList.remove('active');
+
+            insertMessage(options);
+        }, timeOut);
+    }
+}
+
+productsDOM.forEach(function(element, index) {
+    element.addEventListener('click', function(e) {
+
+        e.preventDefault();
+
+        let product = this.getAttribute('data-name');
+        let productsActive = verifActive(this);
+
+        function verifProduct(product) {
+            return products.includes(product.getAttribute('data-name'));
+        }
+
+        function getProduct(product) {
+            return product.getAttribute('data-name');
+        }
+
+        productsChoosed = productsActive.filter(verifProduct).map(getProduct);
+
+        chrome.storage.sync.set({
+            favoriteProducts: (productsChoosed.length > 0) ? productsChoosed : defaultProducts
+        }, successDOM ({
+            "datas": productsChoosed,
+            "type": 'products'
+        }));
 
     }, false);
 });
 
+languagesDOM.forEach(function(element, index) {
+    element.addEventListener('click', function(e) {
+
+        e.preventDefault();
+
+        let language = this.getAttribute('data-language');
+
+        let languageActive = verifActive(this, false);
 
 
+        function verifLanguage(language) {
+            return languages.includes(language.getAttribute('data-name'));
+        }
+
+        function getLanguage(language) {
+            return language.getAttribute('data-name');
+        }
+
+        languageChoosed = languageActive.filter(verifLanguage).map(getLanguage);
+
+        chrome.storage.sync.set({
+            favoriteLanguage: (languageChoosed.length == 1) ? languageChoosed.join() : 'en'
+        }, successDOM ({
+            "datas": languageChoosed,
+            "type": 'language'
+        }));
+
+    }, false);
+});
 
 function restore_options() {
     chrome.storage.sync.get({
-        favoriteLanguage: 'fr',
-        favoriteProducts: ['YouTube', 'Chrome']
+        favoriteLanguage: defaultLanguage,
+        favoriteProducts: defaultProducts
     }, function(items) {
-        document.getElementById(items.favoriteLanguage).classList.add('active');
-        var status = document.getElementById('status_lg');
 
-        var i = document.createElement('i');
-        var foo = document.createTextNode("\u00A0");
-        i.textContent = '"'+items.favoriteLanguage+'"';
-        var t = document.createElement('span');
-        t.textContent = " is selected";
-        status.appendChild(i);
-        status.appendChild(foo);
-        status.appendChild(t);
+        let elements = nodeToArray(languagesDOM).concat(nodeToArray(productsDOM));
 
-        status = document.getElementById('status_pd');
+        let datas = items.favoriteProducts.concat([items.favoriteLanguage]);
 
-        console.log(items);
-
-         if (items.favoriteProducts.length > 0) {
-            var i = document.createElement('i');
-            var foo = document.createTextNode("\u00A0");
-            i.textContent = '"'+items.favoriteProducts.join(', ')+'"';
-            var t = document.createElement('span');
-            t.textContent = " is selected";
-            if (items.favoriteProducts.length > 1) {
-                t.textContent = " are selected";
+        for (var i = elements.length - 1; i >= 0; i--) {
+            if (datas.includes(elements[i].getAttribute('data-name'))) {
+                elements[i].classList.add('active');
             }
-            status.appendChild(i);
-            status.appendChild(foo);
-            status.appendChild(t);
-        } else {
-            status.textContent = 'No product selected';
         }
 
-        document.querySelectorAll('.product').forEach( function(element, index) {
-            let name = element.getAttribute('data-name');
+        document.querySelectorAll('.message').forEach( function(element, index) {
 
-            if (items.favoriteProducts.includes(name)) {
-                element.classList.add('active');
+            if (element.getAttribute('data-message') == 'products') {
+                var options = {
+                    "datas": items.favoriteProducts,
+                    "type": 'products'
+                };
+            } else {
+                var options = {
+                    "datas": [items.favoriteLanguage],
+                    "type": 'language'
+                };
             }
+
+            insertMessage(options);
         });
     });
 }
 
 document.addEventListener('DOMContentLoaded', restore_options);
 
-Bubblesee.bind('span.flag[title]', 'skew');
+Bubblesee.bind('[data-type][title]', 'skew');
 Bubblesee.bind('a.star i[title]', 'rotate');
-Bubblesee.bind('li.product img[title]', 'skew');

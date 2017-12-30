@@ -1,3 +1,19 @@
+const anchor = document.querySelectorAll('[data-location]');
+const searchInput = document.getElementById('input-search');
+const containerResult = document.getElementById('result');
+const divAction = document.querySelector('.TC_center_actions');
+const buttonsAction = document.querySelectorAll('.TC_center_button');
+
+const filename = 'tccenter.json';
+const limit = 5;
+const request = new Request('https://ficheandtricks.vicandtips.fr/'+ filename + '?' + Date.now());
+
+let DOMCards = [];
+let storage = {};
+let language = '';
+let products = [];
+
+
 var defaultDiacriticsRemovalMap = [
     { 'base': 'A', 'letters': '\u0041\u24B6\uFF21\u00C0\u00C1\u00C2\u1EA6\u1EA4\u1EAA\u1EA8\u00C3\u0100\u0102\u1EB0\u1EAE\u1EB4\u1EB2\u0226\u01E0\u00C4\u01DE\u1EA2\u00C5\u01FA\u01CD\u0200\u0202\u1EA0\u1EAC\u1EB6\u1E00\u0104\u023A\u2C6F' },
     { 'base': 'AA', 'letters': '\uA732' },
@@ -95,6 +111,22 @@ for (var i = 0; i < defaultDiacriticsRemovalMap.length; i++) {
     }
 }
 
+function removeDiacritics(str) {
+    return str.replace(/[^\u0000-\u007E]/g, function(a) {
+        return diacriticsMap[a] || a;
+    });
+}
+
+function redirection(url, active) {
+    chrome.tabs.create({
+        active: active,
+        url: url,
+        pinned: false
+    });
+
+    return true;
+}
+
 class Card {
     constructor(data) {
         this.title = {
@@ -111,52 +143,83 @@ class Card {
     }
 }
 
-var storage = {};
-chrome.storage.sync.get(null, function(data) {
-    storage = data;
-    init();
-});
+var creatArticle = (card) => {
 
-function removeDiacritics(str) {
-    return str.replace(/[^\u0000-\u007E]/g, function(a) {
-        return diacriticsMap[a] || a;
+    if (card instanceof Card) {
+
+        let article = document.createElement('article');
+        article.classList.add('TC_center_article_result');
+        article.classList.add('card');
+        article.classList.add('hidden');
+
+        let img = document.createElement('img');
+        img.src = card.img;
+        img.setAttribute('alt', card.title.default);
+
+        var p = document.createElement('p');
+        p.textContent = card.title.default;
+
+        article.setAttribute('data-href', card.url);
+        article.setAttribute('data-title', card.title.default);
+
+        article.appendChild(img);
+        article.appendChild(p);
+       
+        return article;
+    }
+
+    return false;
+}
+
+var lenghtResult = () => {
+    return containerResult.querySelectorAll('.visible').length;
+}
+
+function disabledButtons(buttons) {
+
+    buttons.forEach(function(elem) {
+        if (document.querySelector('.card.active')) {
+            elem.disabled = false;
+        } else {
+            elem.disabled = true;
+        }
     });
 }
 
+function copy(button, url, title, time = 750) {
+    var storage = document.createElement('div');
+    storage.setAttribute("contentEditable", true);
 
-let anchor = document.querySelectorAll('[data-location]');
-let searchInput = document.getElementById('input-search');
-let containerResult = document.getElementById('result');
-let cards;
-let buttonsAction = document.querySelectorAll('.TC_center_button');
+    var core = document.createElement('a');
+    core.textContent = title;
+    core.setAttribute('href', url);
 
-function redirection(url, active) {
-    chrome.tabs.create({
-        active: active,
-        url: url,
-        pinned: false
-    });
+    storage.appendChild(core);
+    storage.style.position = "fixed";
+    document.getElementById('storageCopy').appendChild(storage);
+    storage.focus();
+    document.execCommand('SelectAll');
+    var successful = document.execCommand("Copy", false, null);
+    storage.remove();
+
+    return successful;
 }
 
-let limit = 5;
-let plateforme = 'forum';
-let filename = 'tccenter.json';
+function init(storage) {
 
-var request = new Request('https://ficheandtricks.vicandtips.fr/'+ filename + '?' + Date.now());
+    language = storage.favoriteLanguage;
+    products = storage.favoriteProducts;
 
-window.onload = function() {
-    searchInput.focus();
-}
-
-function init() {
-
-    var favoriteLanguage = storage.favoriteLanguage;
-    var favoriteProducts = storage.favoriteProducts;
-
-    searchInput.setAttribute('placeholder', 'Your search here ('+favoriteLanguage+')');
+    searchInput.setAttribute('placeholder', 'Your search here ('+language+')');
 
     fetch(request)
+
+        /* Transform to JSON */
+
         .then(function(response) { return response.json(); })
+
+        /* Error ? */
+
         .catch(function(error) {
             var p = document.createElement('p');
             p.textContent = 'API failed, please contact the web developer';
@@ -165,88 +228,167 @@ function init() {
             return false;
         })
 
+         /* Transform to a Card */
+
+        .then(function (cards) {
+            
+            function newCard(card) {
+                return new Card(card);
+            }
+
+            return cards.map(newCard);
+        })
+
         /* Choose language */
         
-        .then(function (allCards){
+        .then(function (cards) {
 
-            let array = [];
-
-            for (var i = allCards.length - 1; i >= 0; i--) {
-                let card = new Card(allCards[i]);
-
-                if (favoriteLanguage == 'fr') {
-                    if (card.title.fr) {
-                        card.title.default = card.title.fr
-                        array.push(card);
-                    }
-                }
-
-                else if (favoriteLanguage == 'en') {
-                    if (card.title.en) {
-                        card.title.default = card.title.en
-                        array.push(card);
-                    }
+            function filterByLanguage(card) {
+                if (card.title[language].length > 0) {
+                    card.title.default = card.title[language];
+                    return card;
                 }
             }
 
-            return array;
-        }).then(function(allCards) {
+            return cards.filter(filterByLanguage);
 
-            let array = [];
-
-            for (var i = allCards.length - 1; i >= 0; i--) {
-
-                if (favoriteProducts.includes(allCards[i].product)) {
-                    array.push(allCards[i]);
-                }
-            }
-
-            return array;
         })
-        .then(function(card) {
-            for (var i = 0; i < card.length; i++) {
 
-                let article = document.createElement('article');
-                article.classList.add('TC_center_article_result');
-                article.classList.add('card');
-                article.classList.add('hidden');
+        /* Choose product(s) */
 
-                let img = document.createElement('img');
-                img.src = card[i].img;
-                img.setAttribute('alt', card[i].title.default);
+        .then(function(cards) {
 
-                var p = document.createElement('p');
-                p.textContent = card[i].title.default;
-
-                article.setAttribute('data-href', card[i].url);
-                article.setAttribute('data-title', card[i].title.default);
-
-                article.appendChild(img);
-                article.appendChild(p);
-
-                containerResult.appendChild(article);
+            function filterByProducts(card) {
+                return products.includes(card.product);
             }
-            return card;
+
+            return cards.filter(filterByProducts);
+
         })
-        .then(function() {
-            cards = document.querySelectorAll('.hidden');
+
+         /* Append cards to DOM */
+
+        .then(function(cards) {
+
+            function addToDom(card) {
+                let art = creatArticle(card);
+                containerResult.appendChild(art);
+
+                return art;
+            }
+
+            return cards.map(addToDom);
+        })
+
+        /* Bind click for each cards */
+
+        .then(function(cards) {
+
             cards.forEach(function(element, index) {
+
                 element.addEventListener('click', function(e) {
                     e.preventDefault();
-                    if (element.classList.contains('active')) {
-                        element.classList.remove('active');
-                        statutBtn(buttonsAction, true);
-                    } else {
-                        var cardActive = document.querySelector('.card.active');
-                        if (cardActive) {
-                            cardActive.classList.remove('active');
+
+                    if (this.classList.contains('active')) {
+                        this.classList.remove('active');
+                    } 
+
+                    else {
+                        if (document.querySelector('.card.active')) { 
+                            document.querySelector('.card.active').classList.remove('active'); 
                         }
-                        element.classList.add('active');
-                        statutBtn(buttonsAction, false);
+                        this.classList.add('active');
                     }
+
+                    disabledButtons(buttonsAction);
+
                 }, false);
             });
+
+            DOMCards = cards;
+
+            return;
         });
+
+    searchInput.addEventListener('keyup', function(e) {
+
+        if (document.querySelector('.card.active')) {
+            document.querySelector('.card.active').classList.remove('active');
+        }
+
+        disabledButtons(buttonsAction);
+
+        let searchValue = removeDiacritics(this.value);
+
+        if (searchValue.length > 2) {
+
+            this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1);
+
+            DOMCards.forEach(function(element, index) {
+
+                let title = removeDiacritics(element.textContent.trim());
+
+                if (title.search(new RegExp(searchValue, "i")) < 0) {
+                    element.classList.add('hidden');
+                    element.classList.remove('visible');
+                } else if (lenghtResult() <= limit) {
+                    element.classList.remove('hidden');
+                    element.classList.add('visible');
+                }
+            });
+
+            if (lenghtResult() > 0) {
+                divAction.style.display = 'flex';
+            } else {
+                divAction.style.display = 'none';
+            }
+
+        } else {
+            for (var i = DOMCards.length - 1; i >= 0; i--) {
+                DOMCards[i].classList.add('hidden');
+                DOMCards[i].classList.remove('visible');
+            }
+
+            divAction.style.display = 'none';
+        }
+    }, false);
+
+    buttonsAction.forEach(function(element, index) {
+
+        element.addEventListener('click', function(e) {
+
+            let cardActive = document.querySelector('.card.active');
+            let action = this.getAttribute('id');
+
+            if (cardActive) {
+
+                let successful = false;
+
+                if (action == 'location') {
+
+                    let url = cardActive.getAttribute('data-href');
+                    successful = redirection(url, false);
+
+                } 
+
+                else if (action == 'copy') {
+
+                    let url = cardActive.getAttribute('data-href');
+                    let title = cardActive.getAttribute('data-title');
+                    successful = copy(this, url, title);
+
+                }
+
+                if (successful) {
+                    element.classList.add('success');
+                    setTimeout(function() {
+                        element.classList.remove('success');
+                    }, 750);
+                }
+            }
+
+        }, false);
+    });
 
     anchor.forEach( function(element, index) {
         element.addEventListener('click', function(e) {
@@ -255,104 +397,13 @@ function init() {
         }, false);
     });
 
-    searchInput.addEventListener('keyup', function(e) {
-
-        let searchValue = removeDiacritics(this.value);
-
-        if (this.value.length > 2) {
-            statutBtn(buttonsAction, true);
-            this.value = capitalizeFirstLetter(this.value);
-
-            cards.forEach(function(element, index) {
-                var title = removeDiacritics(element.textContent.trim());
-                if (title.search(new RegExp(searchValue, "i")) < 0) {
-                    element.classList.add('hidden');
-                    element.classList.remove('visible');
-                } else if (lenghtResult() <= limit) {
-                    element.classList.remove('hidden');
-                    element.classList.add('visible');
-                }
-
-                if (lenghtResult() > 0) {
-                    document.querySelector('.TC_center_actions').style.display = 'flex';
-                } else {
-                    document.querySelector('.TC_center_actions').style.display = 'none';
-                }
-            });
-        } else {
-            for (var i = cards.length - 1; i >= 0; i--) {
-                cards[i].classList.add('hidden');
-                cards[i].classList.remove('visible');
-                document.querySelector('.TC_center_actions').style.display = 'none';
-            }
-        }
-    }, false);
-
-    buttonsAction.forEach(function(element, index) {
-        element.addEventListener('click', function(e) {
-            if (this.getAttribute('id') == 'TC_center_action_location') {
-                let cardActive = document.querySelector('.card.active');
-                let url = cardActive.getAttribute('data-href');
-                redirection(url, false);
-                this.classList.add('success');
-                setTimeout(function() {
-                    element.classList.remove('success');
-                }, 750);
-            } else if (this.getAttribute('id') == 'TC_center_action_copy') {
-                let cardActive = document.querySelector('.card.active');
-                let url = cardActive.getAttribute('data-href');
-                let title = cardActive.getAttribute('data-title');
-                copy(this, url, title);
-            }
-        }, false);
-    });
 }
 
-var lenghtResult = () => {
-    return containerResult.querySelectorAll('.visible').length;
-}
+chrome.storage.sync.get(null, function(data) {
+    storage = data;
+    init(storage);
+});
 
-function statutBtn(elements, statut) {
-    elements.forEach(function(elem) {
-        elem.disabled = statut;
-    });
-}
-
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-var waiting = false;
-
-function copy(button, url, title, time = 750) {
-    if (!waiting) {
-        waiting = true;
-
-        var storage = document.createElement('div');
-        storage.setAttribute("contentEditable", true);
-
-        if (plateforme == 'forum') {
-            var core = document.createElement('a');
-            core.textContent = title;
-            core.setAttribute('href', url);
-        }
-
-        storage.appendChild(core);
-        storage.style.position = "fixed";
-        document.getElementById('storageCopy').appendChild(storage);
-        storage.focus();
-        document.execCommand('SelectAll');
-        var successful = document.execCommand("Copy", false, null);
-        if (successful) {
-            var btn = button;
-            btn.classList.add('success');
-            setTimeout(function() {
-                btn.classList.remove('success');
-            }, time);
-        }
-        storage.remove();
-        setTimeout(function() {
-            waiting = false;
-        }, time);
-    }
+window.onload = function() {
+    searchInput.focus();
 }

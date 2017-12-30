@@ -1,51 +1,51 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <title>TC's Center</title>
-    <meta charset="UTF-8">
-    <link href="https://fonts.googleapis.com/css?family=Francois+One" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="styles.css">
-    <style type="text/css">
-    div#storageCopy * {
-        font-family: "Roboto", Arial, sans-serif;
-        line-height: normal;
-        font-size: 13px;
-        background-color: transparent;
-        color: #222;
-        text-align: left;
-        vertical-align: baseline;
-    }
+    <head>
+        <title>TC's Center</title>
+        <meta charset="UTF-8">
+        <link href="https://fonts.googleapis.com/css?family=Francois+One" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        <style type="text/css">
 
-    div#storageCopy a {
-        text-decoration: none;
-        color: #15c;
-    }
+            div#storageCopy * {
+                font-family: "Roboto", Arial, sans-serif;
+                line-height: normal;
+                font-size: 13px;
+                background-color: transparent;
+                color: #222;
+                text-align: left;
+                vertical-align: baseline;
+            }
 
-    div#storageCopy a * {
-        color: inherit;
-    }
+            div#storageCopy a {
+                text-decoration: none;
+                color: #15c;
+            }
 
-    div#storageCopy ul {
-        list-style-type: disc;
-    }
-    </style>
-</head>
+            div#storageCopy a * {
+                color: inherit;
+            }
 
-<body>
-    <div id="storageCopy" style="display: block; position: fixed"></div>
-    <h1 class="TC_center_title">TC's Center</h1>
-    <input type="text" name="search" autofocus id="input-search" autocomplete="off" spellcheck="false" class="TC_center_input_search" placeholder="Your search here">
-    <a href="https://ficheandtricks.vicandtips.fr" data-location="website-anchor" id="toWebsite" data-href="https://ficheandtricks.vicandtips.fr" class="TC_center_website">Go to website <i class="fa fa-external-link" aria-hidden="true"></i></a>
-    <a href="/options.html" data-location="website-anchor" data-href="/options.html" id="toOptions" class="TC_center_website"><i class="fa fa-cog" aria-hidden="true"></i> Options</a>
-    <div class="TC_center_column_result" id="result">
-    </div>
-    <div class="TC_center_actions" style="display: none;">
-        <button class="TC_center_button button-primary" id="TC_center_action_location" disabled>Redirection</button>
-        <button class="TC_center_button button-primary" id="TC_center_action_copy" disabled>Copy</button>
-    </div>
-    <script src="main.js" type="text/javascript"></script>
-</body>
+            div#storageCopy ul {
+                list-style-type: disc;
+            }
+        </style>
+    </head>
 
+    <body>
+        <div id="storageCopy" style="display: block; position: fixed"></div>
+        <h1 class="TC_center_title">TC's Center</h1>
+        <input type="text" name="search" autofocus id="input-search" autocomplete="off" spellcheck="false" class="TC_center_input_search" placeholder="Your search here">
+        <a href="https://ficheandtricks.vicandtips.fr" data-location="website-anchor" id="toWebsite" data-href="https://ficheandtricks.vicandtips.fr" class="TC_center_website">Go to website <i class="fa fa-external-link" aria-hidden="true"></i></a>
+        <a href="/options.html" data-location="website-anchor" data-href="/options.html" id="toOptions" class="TC_center_website"><i class="fa fa-cog" aria-hidden="true"></i> Options</a>
+        <div class="TC_center_column_result" id="result">
+        </div>
+        <div class="TC_center_actions" style="display: none;">
+            <button class="TC_center_button button-primary" id="location" disabled>Redirection</button>
+            <button class="TC_center_button button-primary" id="copy" disabled>Copy</button>
+        </div>
+        <script src="main.js" type="text/javascript"></script>
+    </body>
 </html>

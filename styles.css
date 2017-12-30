@@ -167,21 +167,45 @@ div.container-options {
     margin: 20px;
 }
 
-div.container-options span.flag {
-    height: 78px;
-    cursor: pointer;
-    width: 78px;
-    opacity: 0.45;
-    position: relative;
-    margin: 25px 25px;
+div.container-options > ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
 }
 
-div.container-options span.flag.active {
+div.container-options > ul > li {
+    margin: 25px 25px;
+    width: 78px;
+    height: 78px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div.container-options > ul > li > span {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+div.container-options > ul > li > img {
+    width: auto;
+    height: auto;
+    cursor: pointer;
+}
+
+div.container-options > ul.list-language > li > span,
+div.container-options > ul.list-product > li > img {
+    opacity: 0.45;
+}
+
+div.container-options > ul.list-product > li > img:hover,
+div.container-options > ul.list-language > li > span:hover {
     opacity: 1;
 }
 
-
-div.container-options span.flag:hover {
+div.container-options > ul.list-product > li > img.active,
+div.container-options > ul.list-language > li > span.active {
     opacity: 1;
 }
 
@@ -199,29 +223,6 @@ div.container-options p.message i {
     font-weight: bold;
 }
 
-ul.list-product {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-}
-
-ul.list-product li.product {
-    width: 78px;
-    display: block;
-    height: 78px;
-    cursor: pointer;
-    margin: 25px 25px;
-}
-
-ul.list-product li.product img {
-    opacity: 0.45;
-}
-
-
-ul.list-product li.product.active img,
-ul.list-product li.product:hover img {
-    opacity: 1;
-}
 
 div.container-options p.shortcut {
     padding: 15px 0;
