@@ -5,13 +5,20 @@ const divAction = document.querySelector('.TC_center_actions');
 const buttonsAction = document.querySelectorAll('.TC_center_button');
 
 const filename = 'tccenter.json';
-const limit = 5;
+const limit = 10;
 const request = new Request('https://ficheandtricks.vicandtips.fr/'+ filename + '?' + Date.now());
 
 let DOMCards = [];
 let storage = {};
 let language = '';
-let products = [];
+let inResult = [];
+let position = -1;
+let map = {};
+
+let products = ['YouTube', 'Chrome'];
+
+let defaultLanguage = 'fr';
+let defaultProducts = products;
 
 
 var defaultDiacriticsRemovalMap = [
@@ -124,7 +131,7 @@ function redirection(url, active) {
         pinned: false
     });
 
-    return true;
+    return 'location';
 }
 
 class Card {
@@ -175,10 +182,10 @@ var lenghtResult = () => {
     return containerResult.querySelectorAll('.visible').length;
 }
 
-function disabledButtons(buttons) {
+function disabledButtons(buttons, force = false) {
 
     buttons.forEach(function(elem) {
-        if (document.querySelector('.card.active')) {
+        if (document.querySelector('.card.active') && !force) {
             elem.disabled = false;
         } else {
             elem.disabled = true;
@@ -186,7 +193,50 @@ function disabledButtons(buttons) {
     });
 }
 
-function copy(button, url, title, time = 750) {
+var IsMultiKey = (event) => {
+    if (event.keyCode == 67 && event.ctrlKey) {
+        event.preventDefault();
+        return 'Copy';
+    }
+
+    else if (event.keyCode == 82 && event.ctrlKey) {
+        event.preventDefault();
+        return 'Location';
+    }
+}
+
+function checkKey(e) {
+
+    e = e || window.event;    
+
+    if (lenghtResult() > 0 && (e.keyCode == '38' || e.keyCode == '40')) {
+
+        searchInput.blur();
+
+        if (position >= -1) {
+            if (e.keyCode == '38') {
+                position -= 1;
+            } 
+            else if (e.keyCode == '40') {
+                position += 1;
+            }
+
+            if (position <= -1) {
+                position = lenghtResult() - 1;
+            }
+
+            if (position == lenghtResult() || lenghtResult() == 1) {
+                position = 0;
+            }
+            
+            if (setActive(inResult[position])) {
+                disabledButtons(buttonsAction);
+            }
+        }
+    }
+}
+
+function copy(url, title, time = 750) {
     var storage = document.createElement('div');
     storage.setAttribute("contentEditable", true);
 
@@ -202,7 +252,27 @@ function copy(button, url, title, time = 750) {
     var successful = document.execCommand("Copy", false, null);
     storage.remove();
 
-    return successful;
+    return (successful === true) ? 'copy' : false;
+}
+
+function setActive(card) {
+    if (getActive()) {
+        getActive().classList.remove('active'); 
+    }
+
+    card.classList.add('active');
+
+    Array.prototype.find.call(inResult, function(child, index) {
+        if (child.classList.contains('active')) {
+            position = index;
+        }
+    });
+
+    return card;
+}
+
+function getActive() {
+    return document.querySelector('.card.active');
 }
 
 function init(storage) {
@@ -291,13 +361,11 @@ function init(storage) {
 
                     if (this.classList.contains('active')) {
                         this.classList.remove('active');
+                        position = -1;
                     } 
 
                     else {
-                        if (document.querySelector('.card.active')) { 
-                            document.querySelector('.card.active').classList.remove('active'); 
-                        }
-                        this.classList.add('active');
+                        setActive(this);
                     }
 
                     disabledButtons(buttonsAction);
@@ -312,9 +380,11 @@ function init(storage) {
 
     searchInput.addEventListener('keyup', function(e) {
 
-        if (document.querySelector('.card.active')) {
-            document.querySelector('.card.active').classList.remove('active');
+        if (getActive() && ![38, 40].includes(e.keyCode)) {
+            getActive().classList.remove('active');
         }
+
+        position = -1;
 
         disabledButtons(buttonsAction);
 
@@ -334,6 +404,7 @@ function init(storage) {
                 } else if (lenghtResult() <= limit) {
                     element.classList.remove('hidden');
                     element.classList.add('visible');
+                    inResult = document.querySelectorAll('.card.visible');
                 }
             });
 
@@ -353,29 +424,33 @@ function init(storage) {
         }
     }, false);
 
+    searchInput.addEventListener('focusin', function(e) {
+        disabledButtons(buttonsAction, true);
+        if (getActive()) { getActive().classList.remove('active'); }
+    }, false);
+
     buttonsAction.forEach(function(element, index) {
 
         element.addEventListener('click', function(e) {
 
-            let cardActive = document.querySelector('.card.active');
             let action = this.getAttribute('id');
 
-            if (cardActive) {
+            if (getActive()) {
 
                 let successful = false;
 
                 if (action == 'location') {
 
-                    let url = cardActive.getAttribute('data-href');
+                    let url = getActive().getAttribute('data-href');
                     successful = redirection(url, false);
 
                 } 
 
                 else if (action == 'copy') {
 
-                    let url = cardActive.getAttribute('data-href');
-                    let title = cardActive.getAttribute('data-title');
-                    successful = copy(this, url, title);
+                    let url = getActive().getAttribute('data-href');
+                    let title = getActive().getAttribute('data-title');
+                    successful = copy(url, title);
 
                 }
 
@@ -390,6 +465,8 @@ function init(storage) {
         }, false);
     });
 
+
+
     anchor.forEach( function(element, index) {
         element.addEventListener('click', function(e) {
             let url = this.getAttribute('href');
@@ -397,9 +474,47 @@ function init(storage) {
         }, false);
     });
 
+    document.onkeydown = function(e) {
+
+        checkKey(e);
+
+        if (getActive()) {
+
+            let successful = false;
+
+            if (IsMultiKey(e) == 'Copy') {
+
+                let url = getActive().getAttribute('data-href');
+                let title = getActive().getAttribute('data-title');
+                successful = copy(url, title);
+
+            } else if (IsMultiKey(e) == 'Location') {
+
+                let url = getActive().getAttribute('data-href');
+                successful = redirection(url, false);
+            }
+
+            if (successful) {
+                let btn = document.getElementById(successful);
+                btn.classList.add('success');
+                btn.classList.add('active'); // :active css
+
+                setTimeout(function() {
+                    btn.classList.remove('active');
+                }, 300);
+
+                setTimeout(function() {
+                    btn.classList.remove('success');
+                }, 750);
+            }
+        }
+    }
 }
 
-chrome.storage.sync.get(null, function(data) {
+chrome.storage.sync.get({
+    favoriteLanguage: defaultLanguage,
+    favoriteProducts: defaultProducts
+}, function(data) {
     storage = data;
     init(storage);
 });

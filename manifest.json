@@ -31,9 +31,9 @@
         {
             "suggested_key":
             {
-                "default": "Alt+C",
-                "windows": "Alt+C",
-                "mac": "Alt+C"
+                "default": "Alt+O",
+                "windows": "Alt+O",
+                "mac": "Alt+O"
             }
         }
     },

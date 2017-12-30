@@ -1,6 +1,11 @@
 @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css);
 
-body {
+
+/*=============================
+=            Popup            =
+=============================*/
+
+body.TC_center_popup {
     margin: 0;
     padding: 15px 10px;
     width: 300px;
@@ -9,36 +14,37 @@ body {
     font-family: "Open Sans", sans-serif;
 }
 
-a.TC_center_website {
+body.TC_center_popup a.TC_center_website {
     position: absolute;
     top: 5px;
     color: #15c;
     text-decoration: none;
 }
 
-a.TC_center_website#toWebsite {
+body.TC_center_popup a.TC_center_website#toWebsite {
     right: 5px;
 }
-a.TC_center_website#toOptions {
+
+body.TC_center_popup a.TC_center_website#toOptions {
     left: 5px;
 }
 
-a.TC_center_website:hover {
+body.TC_center_popup a.TC_center_website:hover {
     color: #43a7fd;
 }
 
-p.error {
+body.TC_center_popup p.error {
     text-align: center;
     color: red;
 }
 
 
-h1.TC_center_title {
+body.TC_center_popup h1.TC_center_title {
     color: #444;
     font-family: 'Francois One', sans-serif;
 }
 
-input.TC_center_input_search {
+body.TC_center_popup input.TC_center_input_search {
     border: 0;
     -webkit-appearance: none;
     outline: none;
@@ -46,16 +52,17 @@ input.TC_center_input_search {
     width: 100%;
     border-bottom: 1px dotted rgba(0, 0, 0, .1);
     padding: 3px 0;
+    margin-bottom: 10px;
     font-family: "Open Sans", sans-serif;
 }
 
-div.TC_center_column_result {
+body.TC_center_popup div.TC_center_column_result {
     width: 100%;
     display: flex;
     flex-direction: column;
 }
 
-div.TC_center_column_result>article.TC_center_article_result {
+body.TC_center_popup div.TC_center_column_result>article.TC_center_article_result {
     width: 100%;
     padding: 0 10px;
     box-sizing: border-box;
@@ -63,7 +70,7 @@ div.TC_center_column_result>article.TC_center_article_result {
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    margin-top: 10px;
+    margin-bottom: 10px;
     font-family: "Open Sans", sans-serif;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -71,28 +78,26 @@ div.TC_center_column_result>article.TC_center_article_result {
     user-select: none;
 }
 
-article.TC_center_article_result img {
+body.TC_center_popup article.TC_center_article_result img {
     width: 30px;
     height: 30px;
     padding-right: 10px;
 }
 
-article.TC_center_article_result p {}
-
-article.TC_center_article_result:hover {
+body.TC_center_popup article.TC_center_article_result:hover {
     background-color: rgba(0, 0, 0, 0.1);
 }
 
-article.TC_center_article_result.hidden {
+body.TC_center_popup article.TC_center_article_result.hidden {
     display: none!important;
 }
 
-article.TC_center_article_result.active {
+body.TC_center_popup article.TC_center_article_result.active {
     background-color: #43a7fd;
     color: #ffffff;
 }
 
-div.TC_center_actions {
+body.TC_center_popup div.TC_center_actions {
     display: flex;
     flex-direction: row;
     padding-top: 5px;
@@ -100,7 +105,7 @@ div.TC_center_actions {
     justify-content: center;
 }
 
-button.TC_center_button {
+body.TC_center_popup button.TC_center_button {
     padding: 5px 10px;
     border-radius: 7px;
     color: #fff;
@@ -131,49 +136,81 @@ button.TC_center_button {
     white-space: nowrap;
 }
 
-button.TC_center_button.button-primary {
+body.TC_center_popup button.TC_center_button.button-primary {
     background-color: #0275d8;
     border-color: #43a7fd;
     text-shadow: 0px -2px #43a7fd;
 }
 
-button.TC_center_button:active {
+body.TC_center_popup button.TC_center_button:active,
+body.TC_center_popup button.TC_center_button.active  {
     -webkit-transform: translate(0px, 3px);
     transform: translate(0px, 3px);
     border-bottom-width: 1px;
 }
 
-button.TC_center_button[disabled] {
+body.TC_center_popup button.TC_center_button[disabled] {
     background-color: #ecf0f1!important;
     border-color: #bdc3c7!important;
     text-shadow: 0px -2px white;
     cursor: not-allowed;
 }
 
-button.TC_center_button.success {
+body.TC_center_popup button.TC_center_button.success {
     background-color: #27ae60;
     border-color: #60db94;
 }
 
-button.TC_center_button:hover {
+body.TC_center_popup button.TC_center_button:hover {
     filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
     opacity: 1;
 }
 
-div.container-options {
+/*=====  End of Popup  ======*/
+
+/*===============================
+=            Options            =
+===============================*/
+
+body.TC_center_options {
+    width: 100%;
+    overflow-x: hidden;
+    font-family: "Open Sans", sans-serif;
+}
+
+body.TC_center_options nav a.plateformeLinks {
+    font-family: "Francois One", sans-serif;
+}
+
+body.TC_center_options div.container-options {
     background-color: #fff;
     border-radius: 8px;
     padding: 12px 24px;
     margin: 20px;
+    box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
 }
 
-div.container-options > ul {
+body.TC_center_options h1 {
+    color: #fff;
+    font-size: 1.8em;
+}
+
+body.TC_center_options div.container-options h2 {
+    font-size: 1.65em;
+    color: #444;
+    width: 100%;
+    padding-bottom: 10px;
+    border-bottom: 1px dotted rgba(0,0,0, 0.10);
+    font-family: "Francois One", sans-serif;
+}
+
+body.TC_center_options div.container-options > ul {
     margin: 0;
     padding: 0;
     list-style-type: none;
 }
 
-div.container-options > ul > li {
+body.TC_center_options div.container-options > ul > li {
     margin: 25px 25px;
     width: 78px;
     height: 78px;
@@ -182,58 +219,57 @@ div.container-options > ul > li {
     justify-content: center;
 }
 
-div.container-options > ul > li > span {
+body.TC_center_options div.container-options > ul > li > span {
     width: 100%;
     height: 100%;
     cursor: pointer;
 }
 
-div.container-options > ul > li > img {
+body.TC_center_options div.container-options > ul > li > img {
     width: auto;
     height: auto;
     cursor: pointer;
 }
 
-div.container-options > ul.list-language > li > span,
-div.container-options > ul.list-product > li > img {
+body.TC_center_options div.container-options > ul.list-language > li > span,
+body.TC_center_options div.container-options > ul.list-product > li > img {
     opacity: 0.45;
 }
 
-div.container-options > ul.list-product > li > img:hover,
-div.container-options > ul.list-language > li > span:hover {
+body.TC_center_options div.container-options > ul.list-product > li > img:hover,
+body.TC_center_options div.container-options > ul.list-language > li > span:hover {
     opacity: 1;
 }
 
-div.container-options > ul.list-product > li > img.active,
-div.container-options > ul.list-language > li > span.active {
+body.TC_center_options div.container-options > ul.list-product > li > img.active,
+body.TC_center_options div.container-options > ul.list-language > li > span.active {
     opacity: 1;
 }
 
-div.container-options p.message {
+body.TC_center_options div.container-options p.message {
     color: #444;
     text-align: center;
 }
 
-div.container-options p.message.active {
+body.TC_center_options div.container-options p.message.active {
     color: #27ae60;
 }
 
 
-div.container-options p.message i {
+body.TC_center_options div.container-options p.message i {
     font-weight: bold;
 }
 
 
-div.container-options p.shortcut {
+body.TC_center_options p.shortcut {
     padding: 15px 0;
     padding-bottom: 3px;
-    width: 100%;
-    color: #7f8c8d;
+    color: #f0F0F0;
     margin-top: 15px;
-    border-top: 1px dotted rgba(0,0,0,0.10)
+    border-top: 1px dotted rgba(255,255,255,0.30)
 }
 
-div.home-screen > p {
+body.TC_center_options div.home-screen > p.copyright {
     position: absolute;
     left: 50%;
     bottom: 10px;
@@ -242,17 +278,19 @@ div.home-screen > p {
     font-family: "Open Sans", sans-serif;
 }
 
-div.home-screen > p > a:hover {
+body.TC_center_options div.home-screen > p.copyright > a:hover {
    opacity: 0.85;
 }
 
-a.star {
+body.TC_center_options a.star {
     display: block;
     color: #444;
     font-size: 30px;
     text-decoration: none;
 }
 
-a.star:hover {
+body.TC_center_options a.star:hover {
     color: #f1c40f;
 }
+
+/*=====  End of Options  ======*/
