@@ -223,10 +223,13 @@ function checkKey(e) {
 
             if (position <= -1) {
                 position = lenghtResult() - 1;
+                console.log('test');
+                window.scrollTo(0, containerResult.clientHeight);
             }
 
             if (position == lenghtResult() || lenghtResult() == 1) {
                 position = 0;
+                window.scrollTo(0, 0);
             }
             
             if (setActive(inResult[position])) {
