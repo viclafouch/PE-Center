@@ -24,11 +24,22 @@
 			<a href="http://ficheandtricks.vicandtips.fr" class="logo" ><img src="Logo.png" alt="Fiche &amp; Tricks"></a>
 			<a class="star" href="https://chrome.google.com/webstore/detail/tcs-center/hanknpkmjbfhcalmipokkfplndkohgdm/reviews"><i class="fa fa-star" title="Give 5 stars ? :)" aria-hidden="true"></i></a>
 		</nav>
+		<div style="height: 90px;"></div>
 
 		<main>
 			<section class="screens">
-				<div class="home-screen col col-verti-center wrap col-hori-center" id="ft">
+				<div class="home-screen col wrap col-hori-center" id="ft">
 					<h1>Options</h1>
+					<div class="container-limit container-options">
+						<h2>Choose your limit</h2>
+						<div>
+							<form action="" id="limitForm" method="post">
+								<input type="number" id="limit" min="1" max="10" class="choose_number" placeholder="Default : 1" name="">
+								<input type="submit" name="limit" value="Save">
+							</form>
+						</div>
+						<p class="message" data-message="limit">&nbsp;</p>
+					</div>
 					<div class="row row-hori-center wrap">
 						<div class="container-options col col-hori-center">
 							<h2>Choose your favorite language</h2>
@@ -55,7 +66,13 @@
 							<p class="message" data-message="products">&nbsp;</p>
 						</div>
 					</div>
-					<p class="shortcut">Shortcut : ALT + C</p>
+					<p class="shortcuts">Shortcuts</p>
+					<ul class="shortcuts-list">
+						<li>"ALT + O" to open TC's Center</li>
+						<li>"&#8593;" & "&#8595;" to move in the results</li>
+						<li>"CTRL + C" to copy a card</li>
+						<li>"CTRL + R" to redirection to the card</li>
+					</ul>
 					<p class="copyright">Copyright &copy; 2017 by <a style="color: inherit;" href="http://www.victor-de-la-fouchardiere.fr/" target="_blank">Victor de la Fouchardière</a></p>
 				</div>
 			</section>

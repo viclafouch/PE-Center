@@ -5,7 +5,6 @@ const divAction = document.querySelector('.TC_center_actions');
 const buttonsAction = document.querySelectorAll('.TC_center_button');
 
 const filename = 'tccenter.json';
-const limit = 10;
 const request = new Request('https://ficheandtricks.vicandtips.fr/'+ filename + '?' + Date.now());
 
 let DOMCards = [];
@@ -16,9 +15,11 @@ let position = -1;
 let map = {};
 
 let products = ['YouTube', 'Chrome'];
+let limit;
 
 let defaultLanguage = 'fr';
 let defaultProducts = products;
+let defaultLimit = 6;
 
 
 var defaultDiacriticsRemovalMap = [
@@ -282,6 +283,7 @@ function init(storage) {
 
     language = storage.favoriteLanguage;
     products = storage.favoriteProducts;
+    limit = storage.favoriteLimit - 1;
 
     searchInput.setAttribute('placeholder', 'Your search here ('+language+')');
 
@@ -516,7 +518,8 @@ function init(storage) {
 
 chrome.storage.sync.get({
     favoriteLanguage: defaultLanguage,
-    favoriteProducts: defaultProducts
+    favoriteProducts: defaultProducts,
+    favoriteLimit: defaultLimit
 }, function(data) {
     storage = data;
     init(storage);

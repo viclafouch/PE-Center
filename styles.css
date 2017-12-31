@@ -172,6 +172,12 @@ body.TC_center_popup button.TC_center_button:hover {
 =            Options            =
 ===============================*/
 
+section.screens div.home-screen {
+    height: auto!important;
+    min-height: 100vh;
+    padding: 20px;
+}
+
 body.TC_center_options {
     width: 100%;
     overflow-x: hidden;
@@ -180,6 +186,35 @@ body.TC_center_options {
 
 body.TC_center_options nav a.plateformeLinks {
     font-family: "Francois One", sans-serif;
+}
+
+body.TC_center_options div.container-limit {
+    width: 50%;
+    max-width: 300px;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
+
+body.TC_center_options div.container-limit input.choose_number {
+    width: 200px;
+    padding: 3px 10px;
+    margin: 25px 25px 10px 25px;
+    border: 0;
+    border-bottom: 1px dotted rgba(0,0,0,0.6);
+    font-family: "Open Sans", sans-serif;
+    outline: none;
+    text-align: center;
+    font-size: 15px;
+}
+
+body.TC_center_options div.container-limit input[type=submit] {
+    margin-bottom: 25px;
 }
 
 body.TC_center_options div.container-options {
@@ -261,12 +296,16 @@ body.TC_center_options div.container-options p.message i {
 }
 
 
-body.TC_center_options p.shortcut {
+body.TC_center_options p.shortcuts {
     padding: 15px 0;
     padding-bottom: 3px;
     color: #f0F0F0;
     margin-top: 15px;
     border-top: 1px dotted rgba(255,255,255,0.30)
+}
+
+body.TC_center_options ul.shortcuts-list {
+    list-style: disc;
 }
 
 body.TC_center_options div.home-screen > p.copyright {

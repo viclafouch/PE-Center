@@ -1,5 +1,6 @@
 const languagesDOM = document.querySelectorAll('[data-type="language"]');
 const productsDOM = document.querySelectorAll('[data-type="product"]');
+const formLimit = document.getElementById('limitForm');
 
 let languages = ['fr', 'en'];
 let products = ['YouTube', 'Chrome'];
@@ -9,6 +10,7 @@ let languageChoosed = '';
 
 let defaultLanguage = 'fr';
 let defaultProducts = products;
+let defaultLimit = 6;
 
 var nodeToArray = node => {
     return [].slice.call(node);
@@ -47,6 +49,8 @@ function insertMessage(options) {
         span.textContent = " is selected";
         if (options.datas.length > 1) {
             span.textContent = " are selected";
+        } else if (options.type == 'limit') {
+            span.textContent = " results will be displayed at most";
         }
 
         status.appendChild(i);
@@ -133,11 +137,33 @@ languagesDOM.forEach(function(element, index) {
     }, false);
 });
 
+formLimit.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    let inputLimit = document.getElementById('limit');
+    let value = inputLimit.value;
+
+    if (value = parseInt(value)) {
+        if (value >= 1 && value <= 10) {
+            chrome.storage.sync.set({
+                favoriteLimit: value
+            }, successDOM ({
+                "datas": [value],
+                "type": 'limit'
+            }));
+        }
+    }
+    return false;
+}, false);
+
 function restore_options() {
     chrome.storage.sync.get({
         favoriteLanguage: defaultLanguage,
-        favoriteProducts: defaultProducts
+        favoriteProducts: defaultProducts,
+        favoriteLimit: defaultLimit
     }, function(items) {
+
+        console.log(items);
 
         let elements = nodeToArray(languagesDOM).concat(nodeToArray(productsDOM));
 
@@ -156,15 +182,22 @@ function restore_options() {
                     "datas": items.favoriteProducts,
                     "type": 'products'
                 };
-            } else {
+            } else if (element.getAttribute('data-message') == 'language') {
                 var options = {
                     "datas": [items.favoriteLanguage],
                     "type": 'language'
+                };
+            } else if (element.getAttribute('data-message') == 'limit') {
+                var options = {
+                    "datas": [items.favoriteLimit],
+                    "type": 'limit'
                 };
             }
 
             insertMessage(options);
         });
+
+        document.getElementById('limit').value = items.favoriteLimit;
     });
 }
 
