@@ -50,7 +50,7 @@ function insertMessage(options) {
         if (options.datas.length > 1) {
             span.textContent = " are selected";
         } else if (options.type == 'limit') {
-            span.textContent = " results will be displayed at most";
+            span.textContent = " result(s) will be displayed at most";
         }
 
         status.appendChild(i);
@@ -105,7 +105,19 @@ productsDOM.forEach(function(element, index) {
         }));
 
     }, false);
+
+    tabEnter(element);
 });
+
+function tabEnter(element) {
+    element.addEventListener('focusin', function(e){
+        element.onkeydown = function(e) {
+            if (e.keyCode == 13) {
+                element.click();
+            }
+        };
+    }, false);
+}
 
 languagesDOM.forEach(function(element, index) {
     element.addEventListener('click', function(e) {
@@ -115,7 +127,6 @@ languagesDOM.forEach(function(element, index) {
         let language = this.getAttribute('data-language');
 
         let languageActive = verifActive(this, false);
-
 
         function verifLanguage(language) {
             return languages.includes(language.getAttribute('data-name'));
@@ -135,6 +146,8 @@ languagesDOM.forEach(function(element, index) {
         }));
 
     }, false);
+
+    tabEnter(element);
 });
 
 formLimit.addEventListener('submit', function(e) {
@@ -202,6 +215,43 @@ function restore_options() {
 }
 
 document.addEventListener('DOMContentLoaded', restore_options);
+
+fetch(request)
+        .then(response => {
+            return response.text()
+        })
+        .then(text => {
+            let parser = new DOMParser();
+            let xmlDoc = parser.parseFromString(text,"text/xml");
+            return xmlDoc;
+        })
+
+        .then(response => {
+            console.log(response);
+            let t = response.getElementsByTagName("rss")[0].getElementsByTagName('channel')[0].children;
+            let a = [];
+            for (var i = t.length - 1; i >= 0; i--) {
+                if (t[i].tagName == 'item') {
+                    var div = document.createElement('div');
+                    div.innerHTML = t[i].innerHTML;
+                    console.log(div);
+                    a.push(div);
+                }
+            }
+            console.log(a);
+        })
+
+        // /* Transform to JSON */
+
+        // .then(function(response) { console.log(response) })
+        // .catch(function(error) {
+        //     // var p = document.createElement('p');
+        //     // p.textContent = 'API failed, please contact the web developer';
+        //     // p.classList.add('error');
+        //     // containerResult.appendChild(p);
+        //     // return false;
+        //     console.log(error)
+        // })
 
 Bubblesee.bind('[data-type][title]', 'skew');
 Bubblesee.bind('a.star i[title]', 'rotate');

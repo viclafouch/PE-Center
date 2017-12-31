@@ -1,11 +1,12 @@
 const anchor = document.querySelectorAll('[data-location]');
 const searchInput = document.getElementById('input-search');
 const containerResult = document.getElementById('result');
+const containerTopics = document.getElementById('topics');
 const divAction = document.querySelector('.TC_center_actions');
 const buttonsAction = document.querySelectorAll('.TC_center_button');
 
 const filename = 'tccenter.json';
-const request = new Request('https://ficheandtricks.vicandtips.fr/'+ filename + '?' + Date.now());
+const requestCards = new Request('https://ficheandtricks.vicandtips.fr/'+ filename + '?' + Date.now());
 
 let DOMCards = [];
 let storage = {};
@@ -13,6 +14,7 @@ let language = '';
 let inResult = [];
 let position = -1;
 let map = {};
+let requestTopics;
 
 let products = ['YouTube', 'Chrome'];
 let limit;
@@ -151,6 +153,16 @@ class Card {
     }
 }
 
+class Topic {
+    constructor(data) {
+        this.title = data.getElementsByTagName('title')[0].textContent;
+        this.url = data.getElementsByTagName('guid')[0].textContent;
+        this.description = data.getElementsByTagName('description')[0].textContent;
+        this.author = data.getElementsByTagName('author')[0].textContent.trim() // Why ? Best XML ever.. LOL
+        this.date = data.getElementsByTagName('pubDate')[0].textContent;
+    }
+}
+
 var creatArticle = (card) => {
 
     if (card instanceof Card) {
@@ -224,7 +236,6 @@ function checkKey(e) {
 
             if (position <= -1) {
                 position = lenghtResult() - 1;
-                console.log('test');
                 window.scrollTo(0, containerResult.clientHeight);
             }
 
@@ -287,7 +298,7 @@ function init(storage) {
 
     searchInput.setAttribute('placeholder', 'Your search here ('+language+')');
 
-    fetch(request)
+    fetch(requestCards)
 
         /* Transform to JSON */
 
@@ -382,6 +393,95 @@ function init(storage) {
 
             return;
         });
+
+    if (language == 'en') {
+        requestTopics = 'https://productforums.google.com/forum/feed/'+products[0].toLowerCase()+'/msgs/rss.xml?num=3';
+    } else {
+        requestTopics = 'https://productforums.google.com/forum/feed/'+products[0].toLowerCase()+'-'+language+'/msgs/rss.xml?num=3';
+    }
+
+    fetch(requestTopics)
+
+
+        .then(response => {
+            return response.text()
+        })
+
+
+        .then(text => {
+            let parser = new DOMParser();
+            let xmlDoc = parser.parseFromString(text,"text/xml");
+            return xmlDoc.getElementsByTagName("rss")[0].getElementsByTagName('channel')[0].children;
+        })
+
+        .then(topic => {
+
+            topic = Array.prototype.slice.call(topic);
+
+            return topic;
+        })
+
+        .then(topic => {
+
+            function findItem(card) {
+                if (card.tagName == 'item') {
+                    return card
+                }
+            }
+
+            return topic.filter(findItem).map(function(elem) {
+                return new Topic(elem);
+            });
+        })
+
+        .then(topic => {
+
+            containerTopics.innerHTML = '';
+            var array = [];
+
+            let span = document.createElement('span');
+            span.classList.add('title_topic');
+            span.textContent = 'Last messages from '+products[0]+' forum';
+            containerTopics.appendChild(span);
+
+            for (var i = topic.length - 1; i >= 0; i--) {
+                let article = document.createElement('a');
+                article.classList.add('topic');
+                article.setAttribute('href', topic[i].url);
+
+                let pTitle = document.createElement('p');
+                pTitle.classList.add('topic_title');
+                pTitle.textContent = topic[i].title;
+                article.appendChild(pTitle);
+
+                let pAuthor = document.createElement('p');
+                pAuthor.classList.add('topic_author');
+                pAuthor.textContent = topic[i].author;
+                article.appendChild(pAuthor);
+
+                let pDescription = document.createElement('p');
+                pDescription.classList.add('topic_description');
+                if (topic[i].description.length > 30) {
+                    pDescription.textContent = topic[i].description.slice(0, 100)+'...';
+                } else {
+                    pDescription.textContent = topic[i].description;
+                }
+                article.appendChild(pDescription);
+
+                array.push(article);
+                containerTopics.appendChild(article);
+            }
+
+            return array;
+        })
+
+        .then(links => {
+            links.forEach( function(element, index) {
+                element.addEventListener('click', function(e) {
+                    redirection(element.getAttribute('href'), true);
+                }, false);
+            });
+        })
 
     searchInput.addEventListener('keyup', function(e) {
 

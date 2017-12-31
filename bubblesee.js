@@ -1,1 +1,113 @@
-"use strict";function _classCallCheck(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}var _createClass=function(){function e(e,t){for(var n=0;n<t.length;n++){var i=t[n];i.enumerable=i.enumerable||!1,i.configurable=!0,"value"in i&&(i.writable=!0),Object.defineProperty(e,i.key,i)}}return function(t,n,i){return n&&e(t.prototype,n),i&&e(t,i),t}}(),Bubblesee=function(){function e(t,n,i){_classCallCheck(this,e),this.element=t,this.animation=null!==n?n.split(" "):n,i&&(this.custom=i);var s=this.element.getAttribute("data-bubble");this.title=s?document.querySelector(s).innerHTML:t.getAttribute("title"),this.whichTransitionEvent=this.whichTransitionEvent(),this.bubblesee=null,this.element.addEventListener("mouseover",this.mouseOver.bind(this),!1),this.element.addEventListener("mouseout",this.mouseOut.bind(this),!1)}return _createClass(e,null,[{key:"bind",value:function(t){for(var n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:null,i=arguments.length>2&&void 0!==arguments[2]?arguments[2]:null,s=document.querySelectorAll(t),l=s.length-1;l>=0;l--)new e(s[l],n,i)}}]),_createClass(e,[{key:"mouseOver",value:function(){var e=this.createBubble(),t=e.offsetWidth,n=e.offsetHeight,i=this.element.offsetWidth/2-t/2+this.element.getBoundingClientRect().left+document.documentElement.scrollLeft,s=this.element.getBoundingClientRect().top-n-15+document.documentElement.scrollTop;s<20&&(s=this.element.getBoundingClientRect().top+n+15+document.documentElement.scrollTop,e.classList.add("bubblesee__bottom")),e.style.left=i+"px",e.style.top=s+"px",e.classList.add("bubblesee__visible"),this.element.setAttribute("title","")}},{key:"mouseOut",value:function(){var e=this;null!==this.bubblesee&&(this.bubblesee.classList.remove("bubblesee__visible"),this.bubblesee.addEventListener(this.whichTransitionEvent,function(){null!==e.bubblesee&&(e.element.setAttribute("title",e.title),document.body.removeChild(e.bubblesee),e.bubblesee=null)}))}},{key:"whichTransitionEvent",value:function(){var e,t=document.createElement("div"),n={transition:"transitionend",OTransition:"oTransitionEnd",MozTransition:"transitionend",WebkitTransition:"webkitTransitionEnd"};for(e in n)if(void 0!==t.style[e])return n[e]}},{key:"newId",value:function(){return((new Date).getTime()+Math.floor(1e4*Math.random()+1)).toString(16)}},{key:"createBubble",value:function(){if(null===this.bubblesee){var e=document.createElement("div");e.innerHTML=this.title,e.classList.add("bubblesee"),this.id=this.newId(),e.setAttribute("data-bubblesee",this.newId()),document.body.appendChild(e),this.bubblesee=e,null!==this.animation&&this.animation.forEach(function(t,n){e.classList.add("bubblesee__"+t)}),this.custom&&e.classList.add(this.custom)}return this.bubblesee}}]),e}();
+class Bubblesee {
+    
+    static bind(selector, animation = null, custom = null) {
+        var bubbles = document.querySelectorAll(selector);
+        for (var i = bubbles.length - 1; i >= 0; i--) {
+            new Bubblesee(bubbles[i], animation, custom);
+        }
+    }
+
+    constructor(element, animation, custom) {
+        this.element = element;
+
+        if (animation !== null) {
+            this.animation = animation.split(' ');
+        } else {
+            this.animation = animation;
+        }
+
+        if (custom) {
+            this.custom = custom;
+        }
+
+        let bubbleTarget = this.element.getAttribute('data-bubble');
+        
+        if (bubbleTarget) {
+            this.title = document.querySelector(bubbleTarget).innerHTML;
+        } else {
+            this.title = element.getAttribute('title');
+        }
+
+        this.whichTransitionEvent = this.whichTransitionEvent();
+
+        this.bubblesee = null;
+        this.element.addEventListener('mouseover', this.mouseOver.bind(this), false);
+        this.element.addEventListener('mouseout', this.mouseOut.bind(this), false);
+        this.element.addEventListener('focusin', this.mouseOver.bind(this), false);
+        this.element.addEventListener('focusout', this.mouseOut.bind(this), false);
+    }
+
+    mouseOver() {
+        let bubblesee = this.createBubble();
+        let width = bubblesee.offsetWidth;
+        let height = bubblesee.offsetHeight;
+        let left = this.element.offsetWidth / 2 - width / 2 + this.element.getBoundingClientRect().left + document.documentElement.scrollLeft;
+        var top = this.element.getBoundingClientRect().top - height - 15 + document.documentElement.scrollTop;
+        if (top < 20) {
+            top = this.element.getBoundingClientRect().top + height + 15 + document.documentElement.scrollTop;
+            bubblesee.classList.add('bubblesee__bottom');
+        }
+        bubblesee.style.left = left + "px";
+        bubblesee.style.top = top + "px";
+        bubblesee.classList.add('bubblesee__visible');
+
+        this.element.setAttribute('title', '');
+    }
+
+    mouseOut() {
+        if (this.bubblesee !== null) {
+            this.bubblesee.classList.remove('bubblesee__visible');
+            this.bubblesee.addEventListener(this.whichTransitionEvent, () => {
+                if (this.bubblesee !== null) {
+                    this.element.setAttribute('title', this.title);
+                    document.body.removeChild(this.bubblesee);
+                    this.bubblesee = null;
+                }
+            });
+        }
+    }
+
+    whichTransitionEvent() {
+        var t, el = document.createElement("div");
+
+        var transitions = {
+            "transition"      : "transitionend",
+            "OTransition"     : "oTransitionEnd",
+            "MozTransition"   : "transitionend",
+            "WebkitTransition": "webkitTransitionEnd"
+        }
+
+        for (t in transitions){
+            if (el.style[t] !== undefined){
+                return transitions[t];
+            }
+        }
+    }
+
+    newId() {
+        return (new Date().getTime() + Math.floor((Math.random()*10000)+1)).toString(16);
+    }
+
+    createBubble() {
+        if (this.bubblesee === null) {
+            let bubble = document.createElement('div');
+            bubble.innerHTML = this.title;
+            bubble.classList.add('bubblesee');
+            this.id = this.newId();
+            bubble.setAttribute('data-bubblesee', this.newId());
+            document.body.appendChild(bubble);
+            this.bubblesee = bubble;
+
+            if (this.animation !== null) {
+                this.animation.forEach( function(element, index) {
+                    bubble.classList.add('bubblesee__'+element);
+                });
+            }
+
+            if (this.custom) {
+                bubble.classList.add(this.custom);
+            }
+        }
+        return this.bubblesee;
+    }  
+}

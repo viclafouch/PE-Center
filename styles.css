@@ -84,7 +84,7 @@ body.TC_center_popup article.TC_center_article_result img {
     padding-right: 10px;
 }
 
-body.TC_center_popup article.TC_center_article_result:hover {
+body.TC_center_popup article.TC_center_article_result:hover, body.TC_center_popup a.topic:hover {
     background-color: rgba(0, 0, 0, 0.1);
 }
 
@@ -166,6 +166,47 @@ body.TC_center_popup button.TC_center_button:hover {
     opacity: 1;
 }
 
+body.TC_center_popup div.TC_center_column_topic {
+    width: 100%;
+}
+
+body.TC_center_popup div.TC_center_column_topic span {
+    font-weight: bold;
+    font-size: 14.5px;
+    padding-bottom: 8px;
+    color: #444444;
+    display: block;
+}
+
+body.TC_center_popup div.TC_center_column_topic a.topic {
+    color: #000;
+    text-decoration: none;
+    font-size: 12px;
+    padding: 10px 3px;
+    display: block;
+}
+
+a.topic:not(:last-child) {
+    border-bottom: 1px solid rgba(0,0,0,0.15);
+}
+
+a.topic p.topic_title {
+    color: #000;
+    font-size: 12.5px;
+    margin: 0;
+}
+
+a.topic p.topic_author {
+    color: #7f8c8d;
+    font-size: 10px;
+    margin-top: 3px;
+    margin-bottom: 6px;
+}
+
+a.topic p.topic_description {
+    margin: 0;
+}
+
 /*=====  End of Popup  ======*/
 
 /*===============================
@@ -188,6 +229,15 @@ body.TC_center_options nav a.plateformeLinks {
     font-family: "Francois One", sans-serif;
 }
 
+body.TC_center_options nav a.plateformeLinks:first-child:focus {
+    background-color: transparent;
+    color: #4486f7;
+}
+body.TC_center_options nav a.plateformeLinks:nth-child(2):focus {
+    background-color: transparent;
+    color: #202d42;
+}
+
 body.TC_center_options div.container-limit {
     width: 50%;
     max-width: 300px;
@@ -206,7 +256,7 @@ body.TC_center_options div.container-limit input.choose_number {
     padding: 3px 10px;
     margin: 25px 25px 10px 25px;
     border: 0;
-    border-bottom: 1px dotted rgba(0,0,0,0.6);
+    border-bottom: 1px dotted rgba(0,0,0,0.1);
     font-family: "Open Sans", sans-serif;
     outline: none;
     text-align: center;
@@ -269,6 +319,12 @@ body.TC_center_options div.container-options > ul > li > img {
 body.TC_center_options div.container-options > ul.list-language > li > span,
 body.TC_center_options div.container-options > ul.list-product > li > img {
     opacity: 0.45;
+}
+
+body.TC_center_options div.container-options > ul > li > span:focus,
+body.TC_center_options div.container-options > ul.list-product > li > img:focus {
+    outline: 1px dashed #15c;
+    opacity: 1;
 }
 
 body.TC_center_options div.container-options > ul.list-product > li > img:hover,
