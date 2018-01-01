@@ -207,6 +207,68 @@ a.topic p.topic_description {
     margin: 0;
 }
 
+div.container-form {
+    flex-grow: 1;
+}
+
+div.form-field {
+    margin: 10px 0;
+}
+
+div.TC_center_switch {
+    margin-top: 2px;
+    display: inline-block;
+    position: relative;
+    --switch-width: 45px;
+    --switch-height: 14px;
+    height: var(--switch-height);
+    width: var(--switch-width);
+    margin-left: 15px;
+}
+
+div.TC_center_switch input[type=checkbox] {
+    visibility: hidden;
+    position: absolute;
+}
+
+div.TC_center_switch label {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    display: block;
+    border-radius: 4rem;
+    position: absolute;
+    cursor: pointer;
+    left: 0; top: 0; right: 0; bottom: 0;
+}
+
+div.TC_center_switch label:after {
+    width: calc(var(--switch-height) + 5px);
+    height: calc(var(--switch-height) + 5px);
+    border-radius: 50%;
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: calc(100% - calc(var(--switch-height) + 5px));
+    background: #fff;
+    box-shadow: 0 0.1rem 0.25rem 0rem rgba(0, 0, 0, 0.3);
+    transition: all 0.3s;
+}
+
+div.TC_center_switch input[type=checkbox]:checked + label:after {
+    right: 0;
+    background-color: #4abc90;
+    box-shadow: none;
+}
+form.formfeed select {
+    margin-left: 15px;
+    font-family: "Open Sans", sans-serif;
+    padding: 3px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+
 /*=====  End of Popup  ======*/
 
 /*===============================
@@ -238,9 +300,19 @@ body.TC_center_options nav a.plateformeLinks:nth-child(2):focus {
     color: #202d42;
 }
 
-body.TC_center_options div.container-limit {
-    width: 50%;
-    max-width: 300px;
+body.TC_center_options section > div.home-screen > div.row {
+    width: 100%;
+}
+
+body.TC_center_options div.container-options {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 12px 24px;
+    width: 40%;
+    margin: 4%;
+    min-width: 450px;
+    box-sizing: border-box;
+    box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
 }
 
 input[type=number]::-webkit-inner-spin-button, 
@@ -265,14 +337,6 @@ body.TC_center_options div.container-limit input.choose_number {
 
 body.TC_center_options div.container-limit input[type=submit] {
     margin-bottom: 25px;
-}
-
-body.TC_center_options div.container-options {
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 12px 24px;
-    margin: 20px;
-    box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
 }
 
 body.TC_center_options h1 {

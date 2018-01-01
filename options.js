@@ -1,6 +1,7 @@
 const languagesDOM = document.querySelectorAll('[data-type="language"]');
 const productsDOM = document.querySelectorAll('[data-type="product"]');
 const formLimit = document.getElementById('limitForm');
+const formFeed = document.getElementById('formFeed');
 
 let languages = ['fr', 'en'];
 let products = ['YouTube', 'Chrome'];
@@ -11,6 +12,11 @@ let languageChoosed = '';
 let defaultLanguage = 'fr';
 let defaultProducts = products;
 let defaultLimit = 6;
+let defaultFeed = {
+    "show": true,
+    "content": 'msgs',
+    "product": 'Chrome'
+}
 
 var nodeToArray = node => {
     return [].slice.call(node);
@@ -57,6 +63,13 @@ function insertMessage(options) {
         status.appendChild(space);
         status.appendChild(span);
 
+    } else if (options.type == 'feed') {
+        console.log(options);
+        var span = document.createElement('span');
+        let w = (options.datas.show) ? 'will be' : 'will not be';
+        span.textContent = 'Last '+options.datas.content+' from '+options.datas.product+' forum '+w+' display';
+        status.appendChild(span);
+        return false;
     } else {
        status.textContent = 'No '+options.type+' selected'; 
     }
@@ -169,11 +182,40 @@ formLimit.addEventListener('submit', function(e) {
     return false;
 }, false);
 
+formFeed.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const contentsAvailable = ['msgs', 'topics'];
+    const productsAvailable = ['YouTube', 'Chrome', 'Gmail', 'AdSense', 'Maps', 'Photos', 'WebSearch', 'Calendar', 'Webmaster'];
+
+    let show = document.getElementById('showFeed').checked;
+    let content = contentsAvailable.includes(document.getElementById('contentFeed').value) ? document.getElementById('contentFeed').value : false;
+    let product = productsAvailable.includes(document.getElementById('productFeed').value) ? document.getElementById('productFeed').value : false;
+
+    if (typeof(show) === "boolean" && content && product) {
+
+        let feed = {
+            "show": show,
+            "content": content,
+            "product": product
+        }
+
+        chrome.storage.sync.set({
+            feed: feed
+        }, successDOM ({
+            "datas": feed,
+            "type": 'feed'
+        }));
+    }
+
+}, false);
+
 function restore_options() {
     chrome.storage.sync.get({
         favoriteLanguage: defaultLanguage,
         favoriteProducts: defaultProducts,
-        favoriteLimit: defaultLimit
+        favoriteLimit: defaultLimit,
+        feed: defaultFeed
     }, function(items) {
 
         console.log(items);
@@ -207,51 +249,21 @@ function restore_options() {
                 };
             }
 
-            insertMessage(options);
+            if (options) {
+                insertMessage(options);
+            }
         });
 
         document.getElementById('limit').value = items.favoriteLimit;
+        if (items.feed.show) {
+             document.getElementById('showFeed').setAttribute('checked', 'checked');
+        }
+        document.getElementById('contentFeed').value = items.feed.content;
+        document.getElementById('productFeed').value = items.feed.product;
     });
 }
 
 document.addEventListener('DOMContentLoaded', restore_options);
-
-fetch(request)
-        .then(response => {
-            return response.text()
-        })
-        .then(text => {
-            let parser = new DOMParser();
-            let xmlDoc = parser.parseFromString(text,"text/xml");
-            return xmlDoc;
-        })
-
-        .then(response => {
-            console.log(response);
-            let t = response.getElementsByTagName("rss")[0].getElementsByTagName('channel')[0].children;
-            let a = [];
-            for (var i = t.length - 1; i >= 0; i--) {
-                if (t[i].tagName == 'item') {
-                    var div = document.createElement('div');
-                    div.innerHTML = t[i].innerHTML;
-                    console.log(div);
-                    a.push(div);
-                }
-            }
-            console.log(a);
-        })
-
-        // /* Transform to JSON */
-
-        // .then(function(response) { console.log(response) })
-        // .catch(function(error) {
-        //     // var p = document.createElement('p');
-        //     // p.textContent = 'API failed, please contact the web developer';
-        //     // p.classList.add('error');
-        //     // containerResult.appendChild(p);
-        //     // return false;
-        //     console.log(error)
-        // })
 
 Bubblesee.bind('[data-type][title]', 'skew');
 Bubblesee.bind('a.star i[title]', 'rotate');

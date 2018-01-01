@@ -30,19 +30,60 @@
 			<section class="screens">
 				<div class="home-screen col wrap col-hori-center" id="ft">
 					<h1>Options</h1>
-					<div class="container-limit container-options">
-						<h2>Choose your limit</h2>
-						<div>
-							<form action="" id="limitForm" method="post">
-								<input type="number" id="limit" min="1" max="10" class="choose_number" placeholder="Default : 1" name="">
-								<input type="submit" name="limit" value="Save">
-							</form>
+					<div class="row row-hori-center wrap">
+						<div class="container-options col col-hori-center col-verti-between container-limit">
+							<h2>Choose your limit</h2>
+							<div class="container-form">
+								<form action="" id="limitForm" method="post" class="col col-hori-center">
+									<input type="number" id="limit" min="1" max="10" class="choose_number" placeholder="Default : 1" name="">
+									<input type="submit" name="limit" value="Save">
+								</form>
+							</div>
+							<p class="message" data-message="limit">&nbsp;</p>
 						</div>
-						<p class="message" data-message="limit">&nbsp;</p>
+						<div class="container-options col col-hori-center col-verti-between container-others">
+							<h2>Choose your feed</h2>
+							<div class="container-form">
+								<form action="" id="formFeed" method="post" class="formfeed">
+									<div class="form-field row row-verti-center">
+										<span>Show feed ?</span>
+										<div class="TC_center_switch row">
+											<input id="showFeed" class="TC_center_toggle" name="show" type="checkbox">
+											<label for="showFeed"></label>
+										</div>
+									</div>
+									<div class="form-field row row-verti-center">
+										<span>Which content :</span>
+										<select name="content" id="contentFeed">
+											<option value="topics">Last Topic</option>
+											<option value="msgs">Last Message</option>
+										</select>
+									</div>
+									<div class="form-field row row-verti-center">
+										<span>Which product :</span>
+										<select name="product" id="productFeed">
+											<option value="YouTube">YouTube</option>
+											<option value="Chrome">Chrome</option>
+											<option value="Gmail">Gmail</option>
+											<option value="AdSense">AdSense</option>
+											<option value="WebSearch">Search</option>
+											<option value="Maps">Maps</option>
+											<option value="Webmaster">Webmaster</option>
+											<option value="Photos">Photos</option>
+											<option value="Calendar">Calendar</option>
+										</select>
+									</div>
+									<div class="form-field row row-hori-center">
+										<input type="submit" name="save" value="save">
+									</div>
+								</form>
+							</div>
+							<p class="message" data-message="feed">test</p>
+						</div>
 					</div>
 					<div class="row row-hori-center wrap">
-						<div class="container-options col col-hori-center">
-							<h2>Choose your favorite language</h2>
+						<div class="container-options col col-hori-center container-language">
+							<h2>Choose your language</h2>
 							<ul class="row wrap list-language">
 								<li class="language">
 									<span data-type="language" tabindex="0" data-name="fr" class="flag-icon flag-icon-fr" title="Francais"></span>
@@ -53,8 +94,8 @@
 							</ul>
 							<p class="message" data-message="language">&nbsp;</p>
 						</div>
-						<div class="container-options col col-hori-center">
-							<h2>Choose your favorite products</h2>
+						<div class="container-options col col-hori-center container-products">
+							<h2>Choose your products</h2>
 							<ul class="row wrap list-product">
 								<li class="product">
 									<img data-type="product" tabindex="0" data-name="YouTube" src="youtube.png" title="YouTube" alt="YouTube">
