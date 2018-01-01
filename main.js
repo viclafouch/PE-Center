@@ -24,10 +24,17 @@ let limit;
 let defaultLanguage = 'fr';
 let defaultProducts = products;
 let defaultLimit = 6;
+let defaultFeed = {
+    "show": true,
+    "content": 'msgs',
+    "product": 'Chrome'
+}
 
 class Content {
 
-    constructor(product) {
+    constructor(product, content) {
+
+        let c = (content == 'msgs') ? 'messages' : 'topics';
 
         this.anchor = {
             "fr": "Site web",
@@ -40,8 +47,8 @@ class Content {
         },
 
         this.title = {
-            "fr": "Derniers messages du forum "+ product,
-            "en": "Last messages from "+product+" forum"
+            "fr": "Derniers "+c+" du forum "+ product,
+            "en": "Last "+c+" from "+product+" forum"
         },
 
         this.loading = {
@@ -232,11 +239,13 @@ function copy(url, title, time = 750) {
     return (successful === true) ? 'copy' : false;
 }
 
-function insertContent(datas, language) {
+function insertContent(datas, language, feed = false) {
     if (datas instanceof Content) {
         linktoWebsite.innerHTML = datas.anchor[language]+' <i class="fa fa-external-link" aria-hidden="true"></i>';
         searchInput.setAttribute('placeholder', datas.placeholder[language]);
-        containerTopics.textContent = datas.loading[language]+'...';
+        if (feed === true) {
+            containerTopics.textContent = datas.loading[language]+'...';
+        }
         document.getElementById('copy').textContent = datas.copy[language];
         document.getElementById('location').textContent = datas.location[language];
     }
@@ -258,6 +267,13 @@ function setActive(card) {
     return card;
 }
 
+function errorFeed(container, mess) {
+    var p = document.createElement('p');
+    p.textContent = mess;
+    p.classList.add('error');
+    container.appendChild(p);
+}
+
 function getActive() {
     return document.querySelector('.card.active');
 }
@@ -267,23 +283,37 @@ function init(storage) {
     language = storage.favoriteLanguage;
     products = storage.favoriteProducts;
     limit = storage.favoriteLimit - 1;
-    content = new Content(products[0]);
+    feed = storage.feed;
+    content = new Content(feed.product, feed.content);
 
-    insertContent(content, language);
+    insertContent(content, language, feed.show);
 
     fetch(requestCards)
 
-        /* Transform to JSON */
+        /* Check success */
 
-        .then(function(response) { return response.json(); })
+        .then(function(response) {
 
-        /* Error ? */
+            if (response.status != 200) {
+                errorFeed(containerResult, 'API failed, please contact the web developer');
+                throw new Error("API failed !");
+            } else {
+                return response;
+            }
+
+        })
+
+         /* Transform to JSON */
+
+        .then(response => {
+            return response.json();
+        })
+
+        /* Transform success ? */
 
         .catch(function(error) {
-            var p = document.createElement('p');
-            p.textContent = 'API failed, please contact the web developer';
-            p.classList.add('error');
-            containerResult.appendChild(p);
+            errorFeed(containerResult, 'API failed, please contact the web developer');
+            throw new Error("API failed !");
             return false;
         })
 
@@ -368,18 +398,31 @@ function init(storage) {
         });
 
     if (language == 'en') {
-        requestTopics = 'https://productforums.google.com/forum/feed/'+products[0].toLowerCase()+'/msgs/rss.xml?num=3';
+        feed.product = (feed.product == 'Webmaster') ? 'Webmasters' : feed.product; // Why ? Best XML ever.. LOL
+        requestTopics = 'https://productforums.google.com/forum/feed/'+feed.product.toLowerCase()+'/'+feed.content+'/rss.xml?num=3';
     } else {
-        requestTopics = 'https://productforums.google.com/forum/feed/'+products[0].toLowerCase()+'-'+language+'/msgs/rss.xml?num=3';
+        requestTopics = 'https://productforums.google.com/forum/feed/'+feed.product.toLowerCase()+'-'+language+'/'+feed.content+'/rss.xml?num=3';
     }
 
-    fetch(requestTopics)
+    if (feed.show === true) {
+        
+        fetch(requestTopics)
 
+        .then(function(response) {
+
+            if (response.status != 200) {
+                containerTopics.innerHTML = '';
+                errorFeed(containerTopics, 'Feed RSS failed, please contact the web developer');
+                throw new Error("RSS Feed failed !");
+            } else {
+                return response;
+            }
+
+        })
 
         .then(response => {
             return response.text()
         })
-
 
         .then(text => {
             let parser = new DOMParser();
@@ -414,7 +457,6 @@ function init(storage) {
 
             let span = document.createElement('span');
             span.classList.add('title_topic');
-            console.log(content);
             span.textContent = content.title[language];
             containerTopics.appendChild(span);
 
@@ -456,6 +498,7 @@ function init(storage) {
                 }, false);
             });
         })
+    }
 
     searchInput.addEventListener('keyup', function(e) {
 
@@ -599,7 +642,8 @@ function init(storage) {
 chrome.storage.sync.get({
     favoriteLanguage: defaultLanguage,
     favoriteProducts: defaultProducts,
-    favoriteLimit: defaultLimit
+    favoriteLimit: defaultLimit,
+    feed: defaultFeed
 }, function(data) {
     storage = data;
     init(storage);

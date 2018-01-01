@@ -56,7 +56,7 @@ function insertMessage(options) {
         if (options.datas.length > 1) {
             span.textContent = " are selected";
         } else if (options.type == 'limit') {
-            span.textContent = " result(s) will be displayed at most";
+            span.textContent = " result(s) will be display at most";
         }
 
         status.appendChild(i);
@@ -247,6 +247,11 @@ function restore_options() {
                     "datas": [items.favoriteLimit],
                     "type": 'limit'
                 };
+            } else if (element.getAttribute('data-message') == 'feed') {
+                var options = {
+                    "datas": items.feed,
+                    "type": 'feed'
+                };
             }
 
             if (options) {
@@ -255,11 +260,10 @@ function restore_options() {
         });
 
         document.getElementById('limit').value = items.favoriteLimit;
-        if (items.feed.show) {
-             document.getElementById('showFeed').setAttribute('checked', 'checked');
-        }
+        if (items.feed.show) { document.getElementById('showFeed').setAttribute('checked', 'checked'); }
         document.getElementById('contentFeed').value = items.feed.content;
         document.getElementById('productFeed').value = items.feed.product;
+        tabEnter(document.getElementById('toggleLabel'));
     });
 }
 
