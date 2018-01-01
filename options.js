@@ -64,7 +64,6 @@ function insertMessage(options) {
         status.appendChild(span);
 
     } else if (options.type == 'feed') {
-        console.log(options);
         var span = document.createElement('span');
         let w = (options.datas.show) ? 'will be' : 'will not be';
         span.textContent = 'Last '+options.datas.content+' from '+options.datas.product+' forum '+w+' display';
@@ -217,8 +216,6 @@ function restore_options() {
         favoriteLimit: defaultLimit,
         feed: defaultFeed
     }, function(items) {
-
-        console.log(items);
 
         let elements = nodeToArray(languagesDOM).concat(nodeToArray(productsDOM));
 

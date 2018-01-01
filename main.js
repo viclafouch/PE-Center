@@ -397,6 +397,8 @@ function init(storage) {
             return;
         });
 
+
+
     if (language == 'en') {
         feed.product = (feed.product == 'Webmaster') ? 'Webmasters' : feed.product; // Why ? Best XML ever.. LOL
         requestTopics = 'https://productforums.google.com/forum/feed/'+feed.product.toLowerCase()+'/'+feed.content+'/rss.xml?num=3';
@@ -404,9 +406,14 @@ function init(storage) {
         requestTopics = 'https://productforums.google.com/forum/feed/'+feed.product.toLowerCase()+'-'+language+'/'+feed.content+'/rss.xml?num=3';
     }
 
+    /* Show feed */
+    
     if (feed.show === true) {
         
         fetch(requestTopics)
+
+        /* Test status */
+        
 
         .then(function(response) {
 
@@ -420,15 +427,21 @@ function init(storage) {
 
         })
 
+        /* Transform to text */
+
         .then(response => {
             return response.text()
         })
+
+        /* Parse XML to DOM */
 
         .then(text => {
             let parser = new DOMParser();
             let xmlDoc = parser.parseFromString(text,"text/xml");
             return xmlDoc.getElementsByTagName("rss")[0].getElementsByTagName('channel')[0].children;
         })
+
+        /* Transform to array */
 
         .then(topic => {
 
@@ -437,6 +450,8 @@ function init(storage) {
             return topic;
         })
 
+        /* Get items */
+        
         .then(topic => {
 
             function findItem(card) {
@@ -449,6 +464,8 @@ function init(storage) {
                 return new Topic(elem);
             });
         })
+
+        /* Append each items */
 
         .then(topic => {
 
@@ -491,6 +508,8 @@ function init(storage) {
             return array;
         })
 
+        /* Bind click for each item */
+
         .then(links => {
             links.forEach( function(element, index) {
                 element.addEventListener('click', function(e) {
@@ -500,7 +519,11 @@ function init(storage) {
         })
     }
 
+     /* Search in livestream */
+
     searchInput.addEventListener('keyup', function(e) {
+
+        /* Show/Hide feed */
 
         if (this.value.length > 0) {
             containerTopics.style.display = 'none';
@@ -508,16 +531,21 @@ function init(storage) {
             containerTopics.style.display = 'block';
         }
 
+        /* Remove active if user tap */
+
         if (getActive() && ![38, 40].includes(e.keyCode)) {
             getActive().classList.remove('active');
         }
 
+        // Update Position
         position = -1;
 
+        // Make buttons disabled
         disabledButtons(buttonsAction);
 
+        /* Search */
+        
         let searchValue = removeDiacritics(this.value);
-
         if (searchValue.length > 2) {
 
             this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1);
@@ -536,6 +564,8 @@ function init(storage) {
                 }
             });
 
+            /* Show/hide parent button if result */
+
             if (lenghtResult() > 0) {
                 divAction.style.display = 'flex';
             } else {
@@ -543,6 +573,9 @@ function init(storage) {
             }
 
         } else {
+
+            /* Hide all cards & parent buttons */
+            
             for (var i = DOMCards.length - 1; i >= 0; i--) {
                 DOMCards[i].classList.add('hidden');
                 DOMCards[i].classList.remove('visible');

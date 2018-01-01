@@ -4,7 +4,7 @@
     "manifest_version": 2,
     "description": "Fast and easy way to copy and access to the tips of the Google Help Center",
     "author": "Victor de la Fouchardiere",
-    "version": "1.06",
+    "version": "2",
     "permissions": [
         "clipboardWrite",
         "clipboardRead",
@@ -29,15 +29,6 @@
     },
     "commands":
     {
-        "toggle-feature-foo":
-        {
-            "suggested_key":
-            {
-                "default": "Ctrl+C",
-                "mac": "Ctrl+C"
-            },
-            "description": "Toggle feature foo"
-        },
         "_execute_browser_action":
         {
             "suggested_key":
