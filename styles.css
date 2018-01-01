@@ -307,6 +307,7 @@ body.TC_center_options div.TC_center_switch label {
     background-color: rgba(0, 0, 0, 0.2);
     display: block;
     border-radius: 4rem;
+    outline: none;
     position: absolute;
     cursor: pointer;
     left: 0; top: 0; right: 0; bottom: 0;
@@ -386,8 +387,8 @@ body.TC_center_options div.container-options > ul.list-product > li > img {
 
 body.TC_center_options div.container-options > ul > li > span:focus,
 body.TC_center_options div.container-options > ul.list-product > li > img:focus {
-    outline: 1px dashed #15c;
-    opacity: 1;
+/*    outline: 1px dashed #15c
+    opacity: 1;*/
 }
 
 body.TC_center_options div.container-options > ul.list-product > li > img:hover,

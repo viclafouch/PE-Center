@@ -413,13 +413,13 @@ function init(storage) {
         fetch(requestTopics)
 
         /* Test status */
-        
 
         .then(function(response) {
 
             if (response.status != 200) {
+                let message = (response.status == 503) ? 'Stop spamming. Please, reload in a few seconds' : 'Feed RSS failed, please contact the web developer';
                 containerTopics.innerHTML = '';
-                errorFeed(containerTopics, 'Feed RSS failed, please contact the web developer');
+                errorFeed(containerTopics, message);
                 throw new Error("RSS Feed failed !");
             } else {
                 return response;
