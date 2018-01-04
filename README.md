@@ -20,6 +20,8 @@ It's an exceptional group of passionate Google product enthusiasts. Are you pass
 
 - [ECMAScript 6](http://es6-features.org)
 
+- To contact me : [Twitter](https://twitter.com/VicAndTips)
+
 ### Made with ❤️ for TC !
 
 _"Save the day, one answer at a time"_
