@@ -1,15 +1,30 @@
+/**
+ *
+ * Script file for options
+ * Contact me if you need some explanation
+ *
+ */
+
+/* If you need to add node / element */
+
 const languagesDOM = document.querySelectorAll('[data-type="language"]');
 const productsDOM = document.querySelectorAll('[data-type="product"]');
 const formLimit = document.getElementById('limitForm');
 const formFeed = document.getElementById('formFeed');
 
+/* Products/languages available for now */
+
 let languages = ['fr', 'en'];
 let products = ['YouTube', 'Chrome'];
+
+/* What I'm going to set/get */
 
 let productsChoosed = [];
 let languageChoosed = '';
 
-let defaultLanguage = 'fr';
+/* Default settings */
+
+let defaultLanguage = languages[0];
 let defaultProducts = products;
 let defaultLimit = 6;
 let defaultFeed = {
@@ -18,9 +33,13 @@ let defaultFeed = {
     "product": 'Chrome'
 }
 
+/* Convert a node to array. Very useful */
+
 var nodeToArray = node => {
     return [].slice.call(node);
 }
+
+/* Verif which product/language is active (language ! multiple / products = multiple) */
 
 function verifActive(element, multiple = true) {
 
@@ -40,6 +59,8 @@ function verifActive(element, multiple = true) {
 
     return nodeToArray(document.querySelectorAll('[data-type="'+element.getAttribute('data-type')+'"].active'));
 }
+
+/* Insert message after the message "Options saved", it's a callback if u want */
 
 function insertMessage(options) {
 
@@ -74,6 +95,8 @@ function insertMessage(options) {
     }
 }
 
+/* Insert message after select/saved/change an option */
+
 function successDOM(options, timeOut = 750) {
     if (typeof options === 'object') {
         var status = document.querySelector('[data-message="'+options.type+'"]');
@@ -90,6 +113,8 @@ function successDOM(options, timeOut = 750) {
         }, timeOut);
     }
 }
+
+/* Options for products selection */
 
 productsDOM.forEach(function(element, index) {
     element.addEventListener('click', function(e) {
@@ -121,6 +146,8 @@ productsDOM.forEach(function(element, index) {
     tabEnter(element);
 });
 
+/* If user use keyboard shortcuts to move in the different options */
+
 function tabEnter(element) {
     element.addEventListener('focusin', function(e){
         element.onkeydown = function(e) {
@@ -130,6 +157,8 @@ function tabEnter(element) {
         };
     }, false);
 }
+
+/* Options for language selection */
 
 languagesDOM.forEach(function(element, index) {
     element.addEventListener('click', function(e) {
@@ -162,6 +191,8 @@ languagesDOM.forEach(function(element, index) {
     tabEnter(element);
 });
 
+/* Options for limit selection */
+
 formLimit.addEventListener('submit', function(e) {
     e.preventDefault();
 
@@ -180,6 +211,8 @@ formLimit.addEventListener('submit', function(e) {
     }
     return false;
 }, false);
+
+/* Options for RSS feed selection */
 
 formFeed.addEventListener('submit', function(e) {
     e.preventDefault();
@@ -208,6 +241,8 @@ formFeed.addEventListener('submit', function(e) {
     }
 
 }, false);
+
+/* Get chrome storage */
 
 function restore_options() {
     chrome.storage.sync.get({
@@ -266,5 +301,6 @@ function restore_options() {
 
 document.addEventListener('DOMContentLoaded', restore_options);
 
+// Go hover a product node
 Bubblesee.bind('[data-type][title]', 'skew');
 Bubblesee.bind('a.star i[title]', 'rotate');
