@@ -6,9 +6,13 @@ Welcome to the repository of this fabulous extension : __TC's Center__ !
 
 This extension has been __specially developed__ for volunteers of the __Top Contributor Program__. This extension will allow all Google volunteers __to respond faster on different forums__ (YouTube, Google Chrome, etc..).
 
-Extension only available on [Google Chrome](http://www.google.fr/chrome).
+Only available on [Google Chrome](http://www.google.fr/chrome), you can download the extension [here](https://chrome.google.com/webstore/detail/tcs-center/hanknpkmjbfhcalmipokkfplndkohgdm).
 
-Here [the link to download](https://chrome.google.com/webstore/detail/tcs-center/hanknpkmjbfhcalmipokkfplndkohgdm) the extension
+## Some screenshots : 
+
+![TC-center-1](https://ficheandtricks.vicandtips.fr/TC-center.gif)
+
+![TC-center-2](https://ficheandtricks.vicandtips.fr/TC-center-2.gif)
 
 ## I don't know what is the Top Contributor Program, what is it ?
 
