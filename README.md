@@ -12,7 +12,7 @@ Here [the link to download](https://chrome.google.com/webstore/detail/tcs-center
 
 ## I don't know what is the Top Contributor Program, what is it ?
 
-It's an exceptional group of passionate Google product enthusiasts. Are you passionate about Google products ? Do you enjoy helping others ? Join here : [g.co/topcontributor](g.co/topcontributor).
+It's an exceptional group of passionate Google product enthusiasts. Are you passionate about Google products ? Do you enjoy helping others ? Join here : [g.co/topcontributor](http://g.co/topcontributor).
 
 ### Some links if you want to help me on the development of this extension :
 
