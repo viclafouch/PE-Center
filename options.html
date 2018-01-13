@@ -5,7 +5,7 @@
 	    <meta charset="utf-8">
 	   	<link rel="stylesheet" type="text/css" href="styles.css">
 	    <link rel="stylesheet" type="text/css" href="http://ficheandtricks.vicandtips.fr/public/assets/css/styles.min.css">
-	    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/2.9.0/css/flag-icon.css">
+	    <link rel="stylesheet" type="text/css" href="lib/flag-icon/flag-icon.min.css">
 
 	    <link rel="stylesheet" href="bubblesee.css" />
 	</head>
@@ -85,24 +85,12 @@
 						<div class="container-options col col-hori-center container-language">
 							<h2>Choose your language</h2>
 							<ul class="row wrap list-language">
-								<li class="language">
-									<span data-type="language" tabindex="0" data-name="fr" class="flag-icon flag-icon-fr" title="Francais"></span>
-								</li>
-								<li class="language">
-									<span data-type="language" tabindex="0" data-name="en" class="flag-icon flag-icon-gb" title="English"></span>
-								</li>
 							</ul>
 							<p class="message" data-message="language">&nbsp;</p>
 						</div>
 						<div class="container-options col col-hori-center container-products">
 							<h2>Choose your products</h2>
 							<ul class="row wrap list-product">
-								<li class="product">
-									<img data-type="product" tabindex="0" data-name="YouTube" src="youtube.png" title="YouTube" alt="YouTube">
-								</li>
-								<li class="product">
-									<img data-type="product" tabindex="0" data-name="Chrome" src="chrome.png" title="Chrome" alt="Chrome">
-								</li>
 							</ul>
 							<p class="message" data-message="products">&nbsp;</p>
 						</div>
@@ -119,7 +107,7 @@
 			</section>
 		</main>
 	   	<script src="bubblesee.js"></script>
-	   	<script src="options.js"></script>
+	   	<script type="module" src="options.js"></script>
 
 	</body>
 </html>

@@ -19,13 +19,14 @@ const buttonsAction = document.querySelectorAll('.TC_center_button');
 /* I'm using my own "API" */
 
 const filename = 'tccenter.json';
-const requestCards = new Request('https://ficheandtricks.vicandtips.fr/'+ filename + '?' + Date.now());
+const requestCards = new Request(filename + '?' + Date.now());
 
 /* What I'm going to set/get */
 
 let DOMCards = []; // all cards
 let storage = {}; // chrome sync
 let language = ''; // language used
+let feed;
 let inResult = []; // cards visible
 let position = -1; // position if user use keyboard
 let limit = 6; // number of cards visible max
@@ -34,8 +35,11 @@ let requestTopics; // Which forum for RSS feed
 
 /* Products/languages available for now */
 
-let products = ['YouTube', 'Chrome'];
-let languages = ['fr', 'en'];
+import getLanguages from './datas/Languages.datas.js';
+import getProducts from './datas/Products.datas.js';
+
+let products = getProducts();
+let languages = getLanguages();
 
 /* Default settings */
 
@@ -47,7 +51,6 @@ let defaultFeed = {
     "content": 'msgs',
     "product": 'Chrome'
 }
-
 /* Use class for traduction. Please DON'T use any library */
 
 class Content {
@@ -58,32 +61,38 @@ class Content {
 
         this.anchor = {
             "fr": "Site web",
-            "en": "Website"
+            "en": "Website",
+            "de": "Webseite"
         },
 
         this.placeholder = {
             "fr": "Votre recherche ici",
-            "en": "Your search here"
+            "en": "Your search here",
+            "de": "de"
         },
 
         this.title = {
             "fr": "Derniers "+c+" du forum "+ product,
-            "en": "Last "+c+" from "+product+" forum"
+            "en": "Last "+c+" from "+product+" forum", 
+            "de": "Last looodl form"
         },
 
         this.loading = {
             "fr": "Chargement",
-            "en": "Loading"
+            "en": "Loading",
+            "de": "Laden"
         },
 
         this.copy = {
             "fr": "Copier",
-            "en": "Copy"
+            "en": "Copy",
+            "de": "Kopie"
         },
 
         this.location = {
             "fr": "Redirection",
-            "en": "Redirection"
+            "en": "Redirection",
+            "de": "Umleitung"
         }
     }
 }
@@ -97,6 +106,7 @@ class Card {
         this.title = {
             'fr': data.fiche_title_fr,
             'en': data.fiche_title_en,
+            'de': data.fiche_title_de,
             'default' : null
         };
 
@@ -384,8 +394,11 @@ function init(storage) {
         
         .then(function (cards) {
 
+            console.log(cards);
+            console.log(language);
+
             function filterByLanguage(card) {
-                if (card.title[language].length > 0) {
+                if (card.title[language]) {
                     card.title.default = card.title[language];
                     return card;
                 }
@@ -735,7 +748,9 @@ chrome.storage.sync.get({
     feed: defaultFeed
 }, function(data) {
     storage = data;
-    init(storage);
+
+    console.log(storage);
+    // init(storage);
 });
 
 /* Autofocus to the search input */

@@ -14,50 +14,110 @@ const formFeed = document.getElementById('formFeed');
 
 /* Products/languages available for now */
 
-let languages = ['fr', 'en'];
-let products = ['YouTube', 'Chrome'];
+import getLanguages from './class/Language.class.js';
+import getProducts from './class/Product.class.js';
+import getLimit from './class/Limit.class.js';
+import getFeed from './class/Feed.class.js';
 
-/* What I'm going to set/get */
+let products = getProducts();
+let languages = getLanguages();
+let limit = getLimit();
+let feed = getFeed();
 
-let productsChoosed = [];
-let languageChoosed = '';
+const defaultLanguage = languages.filter(function(obj) {
+    return obj.active == true;
+})[0];
 
-/* Default settings */
+const defaultProducts = products.filter(function(obj) {
+    return obj.active == true;
+});
 
-let defaultLanguage = languages[0];
-let defaultProducts = products;
-let defaultLimit = 6;
-let defaultFeed = {
-    "show": true,
-    "content": 'msgs',
-    "product": 'Chrome'
-}
+var setNodes = new Promise(function(resolve, reject) {
 
-/* Convert a node to array. Very useful */
-
-var nodeToArray = node => {
-    return [].slice.call(node);
-}
-
-/* Verif which product/language is active (language ! multiple / products = multiple) */
-
-function verifActive(element, multiple = true) {
-
-    if (multiple) {
-        if (element.classList.contains('active')) {
-            element.classList.remove('active');
-        } else {
-            element.classList.add('active');
-        }
-    } else {
-        languagesDOM.forEach( function(element, index) {
-            element.classList.remove('active');
-        });
-
-        element.classList.add('active');
+    for (var i = languages.length - 1; i >= 0; i--) {
+        document.querySelector('.list-language').appendChild(languages[i].node);
     }
 
-    return nodeToArray(document.querySelectorAll('[data-type="'+element.getAttribute('data-type')+'"].active'));
+    for (var i = products.length - 1; i >= 0; i--) {
+        document.querySelector('.list-product').appendChild(products[i].node);
+    }
+
+    resolve({
+        'languages': languages,
+        'products': products
+    });
+});
+
+setNodes.then(function(response) {
+    bindProducts(response.products);
+    bindLanguages(response.languages);
+});
+
+/* Options for products selection */
+
+function bindProducts(products) {
+
+    products.forEach(function(product, index) {
+
+        product.node.addEventListener('click', function(e) {
+
+            e.preventDefault();
+
+            product.active = (product.active === true) ? false : true;
+
+            if (product.active) {
+                this.firstElementChild.classList.add('active');
+            } else {
+                this.firstElementChild.classList.remove('active');
+            }
+
+            let activeProducts = products.filter(function(elem) {
+                return elem.active;
+            });
+
+            chrome.storage.sync.set({
+                products: (activeProducts.length > 0) ? activeProducts : defaultProducts
+            }, successDOM ({
+                "datas": activeProducts,
+                "type": 'products'
+            }));
+
+        }, false);
+
+        tabEnter(product.node);
+    });
+}
+
+/* Options for language selection */
+
+function bindLanguages(languagesNodes) {
+
+    languagesNodes.forEach(function(language, index) {
+
+        language.node.addEventListener('click', function(e) {
+
+            e.preventDefault();
+
+            for (var i = languages.length - 1; i >= 0; i--) {
+                languages[i].active = false;
+                languages[i].node.firstElementChild.classList.remove('active');
+            }
+
+            language.active = true;
+
+            this.firstElementChild.classList.add('active');
+
+            chrome.storage.sync.set({
+                language: language || defaultLanguage
+            }, successDOM ({
+                "datas": languages,
+                "type": 'language'
+            }));
+
+        }, false);
+
+        tabEnter(language.node);
+    });
 }
 
 /* Insert message after the message "Options saved", it's a callback if u want */
@@ -66,28 +126,47 @@ function insertMessage(options) {
 
     let status = document.querySelector('[data-message="'+options.type+'"]');
 
-    if (options.datas.length > 0) {
-        var i = document.createElement('i');
-        i.textContent = '"'+options.datas.join(', ')+'"';
+    if (options.type == 'products' || options.type == 'language' || options.type == 'limit') {
 
-        var space = document.createTextNode("\u00A0");
+        let datas = (Array.isArray(options.datas)) ? options.datas : [options.datas];
 
-        var span = document.createElement('span');
-        span.textContent = " is selected";
-        if (options.datas.length > 1) {
-            span.textContent = " are selected";
-        } else if (options.type == 'limit') {
-            span.textContent = " result(s) will be display at most";
+        if (datas.length > 0 || options.type == 'limit') {
+
+            var i = document.createElement('i');
+
+            datas = datas
+            .filter(function(elem) {
+                return elem.active;
+            }).map(function(elem, index) {
+                return elem.name || elem.number;
+            });
+
+            i.textContent = '"'+datas.join(', ')+'"';
+
+            var space = document.createTextNode("\u00A0");
+            var span = document.createElement('span');
+            span.textContent = " is selected";
+
+
+            if (datas.length > 1) {
+                span.textContent = " are selected";
+            } else if (options.type == 'limit') {
+                span.textContent = " result(s) will be display at most";
+            } 
+
+            status.appendChild(i);
+            status.appendChild(space);
+            status.appendChild(span);
+        } else {
+            status.textContent = 'No '+options.type+' selected'; 
         }
 
-        status.appendChild(i);
-        status.appendChild(space);
-        status.appendChild(span);
+    }
 
-    } else if (options.type == 'feed') {
+    else if (options.type == 'feed') {
         var span = document.createElement('span');
-        let w = (options.datas.show) ? 'will be' : 'will not be';
-        span.textContent = 'Last '+options.datas.content+' from '+options.datas.product+' forum '+w+' display';
+        let w = (options.datas.active) ? 'will be' : 'will not be';
+        span.innerHTML = 'Last <b>'+options.datas.content+'</b> from <b>'+options.datas.product+'</b> forum <b>'+w+'</b> display';
         status.appendChild(span);
         return false;
     } else {
@@ -114,38 +193,6 @@ function successDOM(options, timeOut = 750) {
     }
 }
 
-/* Options for products selection */
-
-productsDOM.forEach(function(element, index) {
-    element.addEventListener('click', function(e) {
-
-        e.preventDefault();
-
-        let product = this.getAttribute('data-name');
-        let productsActive = verifActive(this);
-
-        function verifProduct(product) {
-            return products.includes(product.getAttribute('data-name'));
-        }
-
-        function getProduct(product) {
-            return product.getAttribute('data-name');
-        }
-
-        productsChoosed = productsActive.filter(verifProduct).map(getProduct);
-
-        chrome.storage.sync.set({
-            favoriteProducts: (productsChoosed.length > 0) ? productsChoosed : defaultProducts
-        }, successDOM ({
-            "datas": productsChoosed,
-            "type": 'products'
-        }));
-
-    }, false);
-
-    tabEnter(element);
-});
-
 /* If user use keyboard shortcuts to move in the different options */
 
 function tabEnter(element) {
@@ -158,87 +205,42 @@ function tabEnter(element) {
     }, false);
 }
 
-/* Options for language selection */
-
-languagesDOM.forEach(function(element, index) {
-    element.addEventListener('click', function(e) {
-
-        e.preventDefault();
-
-        let language = this.getAttribute('data-language');
-
-        let languageActive = verifActive(this, false);
-
-        function verifLanguage(language) {
-            return languages.includes(language.getAttribute('data-name'));
-        }
-
-        function getLanguage(language) {
-            return language.getAttribute('data-name');
-        }
-
-        languageChoosed = languageActive.filter(verifLanguage).map(getLanguage);
-
-        chrome.storage.sync.set({
-            favoriteLanguage: (languageChoosed.length == 1) ? languageChoosed.join() : 'en'
-        }, successDOM ({
-            "datas": languageChoosed,
-            "type": 'language'
-        }));
-
-    }, false);
-
-    tabEnter(element);
-});
-
 /* Options for limit selection */
 
 formLimit.addEventListener('submit', function(e) {
+
     e.preventDefault();
 
-    let inputLimit = document.getElementById('limit');
-    let value = inputLimit.value;
+    limit.number = parseInt(document.getElementById('limit').value);
 
-    if (value = parseInt(value)) {
-        if (value >= 1 && value <= 10) {
-            chrome.storage.sync.set({
-                favoriteLimit: value
-            }, successDOM ({
-                "datas": [value],
-                "type": 'limit'
-            }));
-        }
+    if (parseInt(limit.number) && limit.number >= 1 && limit.number <= 10) {
+        chrome.storage.sync.set({
+            limit: limit
+        }, successDOM ({
+            "datas": limit,
+            "type": 'limit'
+        }));
     }
     return false;
+
 }, false);
 
 /* Options for RSS feed selection */
 
 formFeed.addEventListener('submit', function(e) {
+
     e.preventDefault();
 
-    const contentsAvailable = ['msgs', 'topics'];
-    const productsAvailable = ['YouTube', 'Chrome', 'Gmail', 'AdSense', 'Maps', 'Photos', 'WebSearch', 'Calendar', 'Webmaster'];
+    feed.setActive(document.getElementById('showFeed').checked);
+    feed.setProduct(document.getElementById('productFeed').value);
+    feed.setContent(document.getElementById('contentFeed').value);
 
-    let show = document.getElementById('showFeed').checked;
-    let content = contentsAvailable.includes(document.getElementById('contentFeed').value) ? document.getElementById('contentFeed').value : false;
-    let product = productsAvailable.includes(document.getElementById('productFeed').value) ? document.getElementById('productFeed').value : false;
-
-    if (typeof(show) === "boolean" && content && product) {
-
-        let feed = {
-            "show": show,
-            "content": content,
-            "product": product
-        }
-
-        chrome.storage.sync.set({
-            feed: feed
-        }, successDOM ({
-            "datas": feed,
-            "type": 'feed'
-        }));
-    }
+    chrome.storage.sync.set({
+        feed: feed
+    }, successDOM ({
+        "datas": feed,
+        "type": 'feed'
+    }));
 
 }, false);
 
@@ -246,42 +248,52 @@ formFeed.addEventListener('submit', function(e) {
 
 function restore_options() {
     chrome.storage.sync.get({
-        favoriteLanguage: defaultLanguage,
-        favoriteProducts: defaultProducts,
-        favoriteLimit: defaultLimit,
-        feed: defaultFeed
+        language: defaultLanguage,
+        products: defaultProducts,
+        limit: limit,
+        feed: feed
     }, function(items) {
 
-        let elements = nodeToArray(languagesDOM).concat(nodeToArray(productsDOM));
+        items.products.forEach(function(element, index) {
+            for (var i = products.length - 1; i >= 0; i--) {
+                if (products[i].name == element.name) {
+                    products[i].active = true;
+                    products[i].node.firstElementChild.classList.add('active');
+                }
+            }
+        });
 
-        let datas = items.favoriteProducts.concat([items.favoriteLanguage]);
-
-        for (var i = elements.length - 1; i >= 0; i--) {
-            if (datas.includes(elements[i].getAttribute('data-name'))) {
-                elements[i].classList.add('active');
+        for (var i = languages.length - 1; i >= 0; i--) {
+            languages[i].active = false;
+            if (languages[i].name == items.language.name) {
+                languages[i].active = true;
+                languages[i].node.firstElementChild.classList.add('active');
             }
         }
+
+        feed = getFeed(items.feed);
+        limit = items.limit
 
         document.querySelectorAll('.message').forEach( function(element, index) {
 
             if (element.getAttribute('data-message') == 'products') {
                 var options = {
-                    "datas": items.favoriteProducts,
+                    "datas": products,
                     "type": 'products'
                 };
             } else if (element.getAttribute('data-message') == 'language') {
                 var options = {
-                    "datas": [items.favoriteLanguage],
+                    "datas": languages,
                     "type": 'language'
                 };
             } else if (element.getAttribute('data-message') == 'limit') {
                 var options = {
-                    "datas": [items.favoriteLimit],
+                    "datas": limit,
                     "type": 'limit'
-                };
+                }
             } else if (element.getAttribute('data-message') == 'feed') {
                 var options = {
-                    "datas": items.feed,
+                    "datas": feed,
                     "type": 'feed'
                 };
             }
@@ -291,8 +303,8 @@ function restore_options() {
             }
         });
 
-        document.getElementById('limit').value = items.favoriteLimit;
-        if (items.feed.show) { document.getElementById('showFeed').setAttribute('checked', 'checked'); }
+        document.getElementById('limit').value = limit.number
+        if (feed.active) { document.getElementById('showFeed').setAttribute('checked', 'checked'); }
         document.getElementById('contentFeed').value = items.feed.content;
         document.getElementById('productFeed').value = items.feed.product;
         tabEnter(document.getElementById('toggleLabel'));

@@ -356,6 +356,7 @@ body.TC_center_options div.container-options h2 {
 body.TC_center_options div.container-options > ul {
     margin: 0;
     padding: 0;
+    flex-grow: 1;
     list-style-type: none;
 }
 
@@ -387,8 +388,7 @@ body.TC_center_options div.container-options > ul.list-product > li > img {
 
 body.TC_center_options div.container-options > ul > li > span:focus,
 body.TC_center_options div.container-options > ul.list-product > li > img:focus {
-/*    outline: 1px dashed #15c
-    opacity: 1;*/
+    outline: none;
 }
 
 body.TC_center_options div.container-options > ul.list-product > li > img:hover,
