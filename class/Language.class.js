@@ -7,7 +7,7 @@ const _languages = [
 	},
 
 	{
-		'iso': 'es',
+		'iso': 'en',
 		'flag': 'gb',
 		'name': 'English',
 		'active': false

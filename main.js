@@ -16,6 +16,27 @@ const containerTopics = document.getElementById('topics');
 const divAction = document.querySelector('.TC_center_actions');
 const buttonsAction = document.querySelectorAll('.TC_center_button');
 
+import getLanguages from './class/Language.class.js';
+import getProducts from './class/Product.class.js';
+import getLimit from './class/Limit.class.js';
+import getFeed from './class/Feed.class.js';
+import getContent from './class/Content.class.js';
+import Card from './class/Card.class.js';
+import Topic from './class/Topic.class.js';
+
+let products = getProducts();
+let languages = getLanguages();
+let limit = getLimit();
+let feed = getFeed();
+
+const defaultLanguage = languages.filter(function(obj) {
+    return obj.active == true;
+})[0];
+
+const defaultProducts = products.filter(function(obj) {
+    return obj.active == true;
+});
+
 /* I'm using my own "API" */
 
 const filename = 'tccenter.json';
@@ -26,119 +47,12 @@ const requestCards = new Request(filename + '?' + Date.now());
 let DOMCards = []; // all cards
 let storage = {}; // chrome sync
 let language = ''; // language used
-let feed;
 let inResult = []; // cards visible
 let position = -1; // position if user use keyboard
-let limit = 6; // number of cards visible max
 let content; // All text of popup in the language used
 let requestTopics; // Which forum for RSS feed
 
-/* Products/languages available for now */
-
-import getLanguages from './datas/Languages.datas.js';
-import getProducts from './datas/Products.datas.js';
-
-let products = getProducts();
-let languages = getLanguages();
-
-/* Default settings */
-
-let defaultLanguage = languages[0];
-let defaultProducts = products;
-let defaultLimit = limit;
-let defaultFeed = {
-    "show": true,
-    "content": 'msgs',
-    "product": 'Chrome'
-}
-/* Use class for traduction. Please DON'T use any library */
-
-class Content {
-
-    constructor(product, content) {
-
-        let c = (content == 'msgs') ? 'messages' : 'topics';
-
-        this.anchor = {
-            "fr": "Site web",
-            "en": "Website",
-            "de": "Webseite"
-        },
-
-        this.placeholder = {
-            "fr": "Votre recherche ici",
-            "en": "Your search here",
-            "de": "de"
-        },
-
-        this.title = {
-            "fr": "Derniers "+c+" du forum "+ product,
-            "en": "Last "+c+" from "+product+" forum", 
-            "de": "Last looodl form"
-        },
-
-        this.loading = {
-            "fr": "Chargement",
-            "en": "Loading",
-            "de": "Laden"
-        },
-
-        this.copy = {
-            "fr": "Copier",
-            "en": "Copy",
-            "de": "Kopie"
-        },
-
-        this.location = {
-            "fr": "Redirection",
-            "en": "Redirection",
-            "de": "Umleitung"
-        }
-    }
-}
-
-/* Card Object */
-
-class Card {
-
-    constructor(data) {
-
-        this.title = {
-            'fr': data.fiche_title_fr,
-            'en': data.fiche_title_en,
-            'de': data.fiche_title_de,
-            'default' : null
-        };
-
-        this.product = data.product_name;
-
-        this.date = data.fiche_date_creat;
-
-        this.url = data.fiche_url;
-
-        this.category = data.cat_name;
-
-        this.img = data.product_name.toLowerCase()+'.png';
-    }
-}
-
-/* Topic Object */
-
-class Topic {
-
-    constructor(data) {
-
-        this.title = data.getElementsByTagName('title')[0].textContent;
-
-        this.url = data.getElementsByTagName('guid')[0].textContent;
-
-        this.description = data.getElementsByTagName('description')[0].textContent;
-
-        this.author = data.getElementsByTagName('author')[0].textContent.trim() // Why ? Best XML ever.. LOL
-        
-        this.date = data.getElementsByTagName('pubDate')[0].textContent;
-    }
-}
+let activeCard;
 
 /* I'm using diacritics for the search feature */
 
@@ -169,42 +83,6 @@ function redirection(url, active) {
     });
 
     return 'location';
-}
-
-/* Transform an object Card in a node */
-
-var creatArticle = (card) => {
-
-    if (card instanceof Card) {
-
-        let article = document.createElement('article');
-        article.classList.add('TC_center_article_result');
-        article.classList.add('card');
-        article.classList.add('hidden');
-
-        let img = document.createElement('img');
-        img.src = card.img;
-        img.setAttribute('alt', card.title.default);
-
-        var p = document.createElement('p');
-        p.textContent = card.title.default;
-
-        article.setAttribute('data-href', card.url);
-        article.setAttribute('data-title', card.title.default);
-
-        article.appendChild(img);
-        article.appendChild(p);
-       
-        return article;
-    }
-
-    return false;
-}
-
-/* Just if u want to know how many result is visible */
-
-var lenghtResult = () => {
-    return containerResult.querySelectorAll('.visible').length;
 }
 
 /* Two buttons : Copy / Redirection can be disabled */
@@ -238,13 +116,12 @@ var IsMultiKey = (event) => {
 
 function checkKey(e) {
 
-    e = e || window.event;    
+    e = e || window.event;
 
-    if (lenghtResult() > 0 && (e.keyCode == '38' || e.keyCode == '40')) {
-
-        searchInput.blur();
+    if (inResult.length > 0 && (e.keyCode == '38' || e.keyCode == '40')) {
 
         if (position >= -1) {
+
             if (e.keyCode == '38') {
                 position -= 1;
             } 
@@ -253,77 +130,27 @@ function checkKey(e) {
             }
 
             if (position <= -1) {
-                position = lenghtResult() - 1;
+                position = inResult.length - 1;
                 window.scrollTo(0, containerResult.clientHeight);
             }
 
-            if (position == lenghtResult() || lenghtResult() == 1) {
+            if (position == inResult.length || inResult.length == 1) {
                 position = 0;
                 window.scrollTo(0, 0);
             }
-            
-            if (setActive(inResult[position])) {
-                disabledButtons(buttonsAction);
+
+            if (activeCard) {
+                activeCard.setNoActive();
             }
+
+            activeCard = inResult[position];
+            activeCard.setActive();
+            disabledButtons(buttonsAction);
         }
     }
-}
-
-/* Copy Function. Please DON'T touch */
-
-function copy(url, title, time = 750) {
-    var storage = document.createElement('div');
-    storage.setAttribute("contentEditable", true);
-
-    var core = document.createElement('a');
-    core.textContent = title;
-    core.setAttribute('href', url);
-
-    storage.appendChild(core);
-    storage.style.position = "fixed";
-    document.getElementById('storageCopy').appendChild(storage);
-    storage.focus();
-    document.execCommand('SelectAll');
-    var successful = document.execCommand("Copy", false, null);
-    storage.remove();
-
-    return (successful === true) ? 'copy' : false;
-}
-
-/* Use the object Content. It sets all content to the popup */
-
-function insertContent(datas, language, feed = false) {
-    if (datas instanceof Content) {
-        linktoWebsite.innerHTML = datas.anchor[language]+' <i class="fa fa-external-link" aria-hidden="true"></i>';
-        searchInput.setAttribute('placeholder', datas.placeholder[language]);
-        if (feed === true) {
-            containerTopics.textContent = datas.loading[language]+'...';
-        }
-        document.getElementById('copy').textContent = datas.copy[language];
-        document.getElementById('location').textContent = datas.location[language];
-    }
-}
-
-/* Set an active Card. Change the position */
-
-function setActive(card) {
-    if (getActive()) {
-        getActive().classList.remove('active'); 
-    }
-
-    card.classList.add('active');
-
-    Array.prototype.find.call(inResult, function(child, index) {
-        if (child.classList.contains('active')) {
-            position = index;
-        }
-    });
-
-    return card;
 }
 
 /* Insert Error instead of RSS feed */
-
 
 function errorFeed(container, mess) {
     var p = document.createElement('p');
@@ -332,23 +159,31 @@ function errorFeed(container, mess) {
     container.appendChild(p);
 }
 
-/* Get the active Card */
+/* Use the object Content. It sets all content to the popup */
 
-function getActive() {
-    return document.querySelector('.card.active');
+function insertContent(content, iso = language.iso) {
+
+    linktoWebsite.innerHTML = content.anchor[iso]+' <i class="fa fa-external-link" aria-hidden="true"></i>';
+    searchInput.setAttribute('placeholder', content.placeholder[iso]);
+
+    if (feed.active) {
+        containerTopics.textContent = content.loading[iso]+'...';
+    }
+    document.getElementById('copy').textContent = content.copy[iso];
+    document.getElementById('location').textContent = content.location[iso];
 }
 
 /* Function which has to be loaded after getting chrome storage. (ASYNC) */
 
 function init(storage) {
 
-    language = storage.favoriteLanguage;
-    products = storage.favoriteProducts;
-    limit = storage.favoriteLimit - 1;
+    language = storage.language;
+    products = storage.products;
+    limit = storage.limit;
     feed = storage.feed;
-    content = new Content(feed.product, feed.content);
 
-    insertContent(content, language, feed.show);
+    content = getContent(storage.feed);
+    insertContent(content);
 
     fetch(requestCards)
 
@@ -394,63 +229,68 @@ function init(storage) {
         
         .then(function (cards) {
 
-            console.log(cards);
-            console.log(language);
-
             function filterByLanguage(card) {
-                if (card.title[language]) {
-                    card.title.default = card.title[language];
+                if (card.title[language.iso]) {
+                    card.title.default = card.title[language.iso];
                     return card;
                 }
             }
 
-            return cards.filter(filterByLanguage);
-
+           return cards.filter(filterByLanguage);
         })
 
-        /* Choose product(s) */
+        // /* Choose product(s) */
 
         .then(function(cards) {
 
             function filterByProducts(card) {
-                return products.includes(card.product);
+                for (var i = products.length - 1; i >= 0; i--) {
+                    if (products[i].name == card.product) {
+                        return true;
+                    }
+                }
             }
 
             return cards.filter(filterByProducts);
 
         })
 
-         /* Append cards to DOM */
+        //  /* Append cards to DOM */
 
         .then(function(cards) {
 
             function addToDom(card) {
-                let art = creatArticle(card);
-                containerResult.appendChild(art);
-
-                return art;
+                card.node = card.setNode();
+                containerResult.appendChild(card.node);
+                return card;
             }
 
             return cards.map(addToDom);
         })
 
-        /* Bind click for each cards */
+        // /* Bind click for each cards */
 
         .then(function(cards) {
 
             cards.forEach(function(element, index) {
 
-                element.addEventListener('click', function(e) {
+                element.node.addEventListener('click', function(e) {
+
                     e.preventDefault();
 
-                    if (this.classList.contains('active')) {
-                        this.classList.remove('active');
-                        position = -1;
-                    } 
+                    if (activeCard) {
+                        activeCard.setNoActive();
 
-                    else {
-                        setActive(this);
+                        if (activeCard.position != element.position) {
+                            element.setActive();
+                            activeCard = element;
+                        }
+                    } else {
+                        element.setActive();
+                        activeCard = element;
                     }
+
+                    position = (activeCard) ? activeCard.position -1 : -1;
 
                     disabledButtons(buttonsAction);
 
@@ -462,18 +302,14 @@ function init(storage) {
             return;
         });
 
-
-
-    if (language == 'en') {
+    if (language.iso == 'en') {
         feed.product = (feed.product == 'Webmaster') ? 'Webmasters' : feed.product; // Why ? Best XML ever.. LOL
         requestTopics = 'https://productforums.google.com/forum/feed/'+feed.product.toLowerCase()+'/'+feed.content+'/rss.xml?num=3';
     } else {
-        requestTopics = 'https://productforums.google.com/forum/feed/'+feed.product.toLowerCase()+'-'+language+'/'+feed.content+'/rss.xml?num=3';
+        requestTopics = 'https://productforums.google.com/forum/feed/'+feed.product.toLowerCase()+'-'+language.iso+'/'+feed.content+'/rss.xml?num=3';
     }
-
-    /* Show feed */
     
-    if (feed.show === true) {
+    if (feed.active) {
         
         fetch(requestTopics)
 
@@ -519,10 +355,8 @@ function init(storage) {
         
         .then(topic => {
 
-            function findItem(card) {
-                if (card.tagName == 'item') {
-                    return card
-                }
+            function findItem(topic) {
+                return topic.tagName == 'item';
             }
 
             return topic.filter(findItem).map(function(elem) {
@@ -530,129 +364,109 @@ function init(storage) {
             });
         })
 
-        /* Append each items */
+        // /* Bind click for each item */
 
         .then(topic => {
 
             containerTopics.innerHTML = '';
-            var array = [];
 
-            let span = document.createElement('span');
-            span.classList.add('title_topic');
-            span.textContent = content.title[language];
-            containerTopics.appendChild(span);
+            topic.forEach( function(element, index) {
+                containerTopics.appendChild(element.node);
 
-            for (var i = topic.length - 1; i >= 0; i--) {
-                let article = document.createElement('a');
-                article.classList.add('topic');
-                article.setAttribute('href', topic[i].url);
-
-                let pTitle = document.createElement('p');
-                pTitle.classList.add('topic_title');
-                pTitle.textContent = topic[i].title;
-                article.appendChild(pTitle);
-
-                let pAuthor = document.createElement('p');
-                pAuthor.classList.add('topic_author');
-                pAuthor.textContent = topic[i].author;
-                article.appendChild(pAuthor);
-
-                let pDescription = document.createElement('p');
-                pDescription.classList.add('topic_description');
-                if (topic[i].description.length > 30) {
-                    pDescription.textContent = topic[i].description.slice(0, 100)+'...';
-                } else {
-                    pDescription.textContent = topic[i].description;
-                }
-                article.appendChild(pDescription);
-
-                array.push(article);
-                containerTopics.appendChild(article);
-            }
-
-            return array;
-        })
-
-        /* Bind click for each item */
-
-        .then(links => {
-            links.forEach( function(element, index) {
-                element.addEventListener('click', function(e) {
-                    redirection(element.getAttribute('href'), true);
+                element.node.addEventListener('click', function(e) {
+                    redirection(element.node.getAttribute('href'), true);
                 }, false);
             });
         })
     }
 
-     /* Search in livestream */
+    //  /* Search in livestream */
 
     searchInput.addEventListener('keyup', function(e) {
 
         /* Show/Hide feed */
 
-        if (this.value.length > 0) {
-            containerTopics.style.display = 'none';
-        } else {
-            containerTopics.style.display = 'block';
-        }
+        containerTopics.style.display = (this.value.length > 0) ? 'none' : 'block';
 
         /* Remove active if user tap */
 
-        if (getActive() && ![38, 40].includes(e.keyCode)) {
-            getActive().classList.remove('active');
+        if (activeCard && ![38, 40].includes(e.keyCode)) {
+            activeCard.setNoActive();
+            activeCard = null;
         }
 
-        // Update Position
-        position = -1;
-
         // Make buttons disabled
+
         disabledButtons(buttonsAction);
 
-        /* Search */
+        // /* Search */
         
         let searchValue = removeDiacritics(this.value);
+
         if (searchValue.length > 2) {
 
             this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1);
 
             DOMCards.forEach(function(element, index) {
 
-                let title = removeDiacritics(element.textContent.trim());
+                let title = removeDiacritics(element.title.default);
 
                 if (title.search(new RegExp(searchValue, "i")) < 0) {
-                    element.classList.add('hidden');
-                    element.classList.remove('visible');
-                } else if (lenghtResult() <= limit) {
-                    element.classList.remove('hidden');
-                    element.classList.add('visible');
-                    inResult = document.querySelectorAll('.card.visible');
+
+                    var found = inResult.find(function(card) {
+                      return card.id == element.id;
+                    });
+
+                    if (found) {
+                        for (var i = inResult.length - 1; i >= 0; i--) {
+                            if (inResult[i] == found) {
+                                inResult.splice(i,1);
+                                break;
+                            }
+                        }
+                    }
+                    element.setHidden();
+                }
+                else if (inResult.length <= limit.number && limit.active) {
+
+                    var found = inResult.find(function(card) {
+                      return card.id == element.id;
+                    });
+
+                    if (!found) {
+                        element.position = inResult.length + 1; 
+                        inResult.push(element);
+                    }
+                    element.setVisible();
                 }
             });
 
-            /* Show/hide parent button if result */
+             /* Show/hide parent button if result */
+        } 
 
-            if (lenghtResult() > 0) {
-                divAction.style.display = 'flex';
-            } else {
-                divAction.style.display = 'none';
-            }
-
-        } else {
+        else {
 
             /* Hide all cards & parent buttons */
             
-            for (var i = DOMCards.length - 1; i >= 0; i--) {
-                DOMCards[i].classList.add('hidden');
-                DOMCards[i].classList.remove('visible');
-            }
-
-            divAction.style.display = 'none';
+            inResult = inResult.map(function(elem, index) {
+                elem.setHidden();
+            }).filter(function(index) {
+                return false;
+            });
         }
+
+        divAction.style.display = (inResult.length) ? 'flex' : 'none';
     }, false);
 
-    searchInput.addEventListener('focusin', function(e) {
+    searchInput.addEventListener('click', function(e) {
+        
         disabledButtons(buttonsAction, true);
-        if (getActive()) { getActive().classList.remove('active'); }
+
+        if (activeCard) {
+            activeCard.setNoActive();
+            activeCard = null;
+        }
+
     }, false);
 
     buttonsAction.forEach(function(element, index) {
@@ -661,37 +475,27 @@ function init(storage) {
 
             let action = this.getAttribute('id');
 
-            if (getActive()) {
-
-                let successful = false;
+            if (activeCard) {
 
                 if (action == 'location') {
-
-                    let url = getActive().getAttribute('data-href');
-                    successful = redirection(url, false);
-
+                    activeCard.redirection();
                 } 
 
                 else if (action == 'copy') {
-
-                    let url = getActive().getAttribute('data-href');
-                    let title = getActive().getAttribute('data-title');
-                    successful = copy(url, title);
-
+                    activeCard.copy();
                 }
 
-                if (successful) {
-                    element.classList.add('success');
-                    setTimeout(function() {
-                        element.classList.remove('success');
-                    }, 750);
-                }
+                element.classList.add('success');
+
+                setTimeout(function() {
+                    element.classList.remove('success');
+                }, 750);
             }
 
         }, false);
     });
 
-    /* Each anchor will redirect now */
+    // /* Each anchor will redirect now */
 
     anchors.forEach( function(element, index) {
         element.addEventListener('click', function(e) {
@@ -704,35 +508,29 @@ function init(storage) {
 
         checkKey(e);
 
-        if (getActive()) {
+        let shortcut = IsMultiKey(e);
+
+        if (shortcut && activeCard) {
 
             let successful = false;
 
-            if (IsMultiKey(e) == 'Copy') {
-
-                let url = getActive().getAttribute('data-href');
-                let title = getActive().getAttribute('data-title');
-                successful = copy(url, title);
-
-            } else if (IsMultiKey(e) == 'Location') {
-
-                let url = getActive().getAttribute('data-href');
-                successful = redirection(url, false);
+            if (shortcut == 'Copy') {
+                activeCard.copy();
+            } else if (shortcut == 'Location') {
+                activeCard.redirection();
             }
 
-            if (successful) {
-                let btn = document.getElementById(successful);
-                btn.classList.add('success');
-                btn.classList.add('active'); // :active css
+            let btn = document.getElementById(shortcut.toLowerCase());
+            btn.classList.add('success');
+            btn.classList.add('active'); // :active css
 
-                setTimeout(function() {
-                    btn.classList.remove('active');
-                }, 300);
+            setTimeout(function() {
+                btn.classList.remove('active');
+            }, 300);
 
-                setTimeout(function() {
-                    btn.classList.remove('success');
-                }, 750);
-            }
+            setTimeout(function() {
+                btn.classList.remove('success');
+            }, 750);
         }
     }
 }
@@ -742,15 +540,13 @@ function init(storage) {
 /* Get saved options */
 
 chrome.storage.sync.get({
-    favoriteLanguage: defaultLanguage,
-    favoriteProducts: defaultProducts,
-    favoriteLimit: defaultLimit,
-    feed: defaultFeed
+    language: defaultLanguage,
+    products: defaultProducts,
+    limit: limit,
+    feed: feed
 }, function(data) {
     storage = data;
-
-    console.log(storage);
-    // init(storage);
+    init(storage);
 });
 
 /* Autofocus to the search input */

@@ -254,11 +254,13 @@ function restore_options() {
         feed: feed
     }, function(items) {
 
-        items.products.forEach(function(element, index) {
-            for (var i = products.length - 1; i >= 0; i--) {
-                if (products[i].name == element.name) {
-                    products[i].active = true;
-                    products[i].node.firstElementChild.classList.add('active');
+        products.forEach(function(element, index) {
+            element.active = false;
+            for (var i = items.products.length - 1; i >= 0; i--) {
+                if (items.products[i].name == element.name) {
+                    element.active = true;
+                    element.node.firstElementChild.classList.add('active');
+                    continue;
                 }
             }
         });
@@ -270,6 +272,8 @@ function restore_options() {
                 languages[i].node.firstElementChild.classList.add('active');
             }
         }
+
+        // console.log(products);
 
         feed = getFeed(items.feed);
         limit = items.limit
