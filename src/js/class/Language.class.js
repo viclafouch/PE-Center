@@ -36,24 +36,27 @@ class Language {
 		this.iso = language.iso;
 		this.flag = language.flag;
 		this.name = language.name;
+        this.node = this.setNode();
+        this.active = language.active;
+        this.messageNode = document.querySelector('[data-message="language"]');
+	}
 
+	setNode() {
 		let li = document.createElement('li');
         li.classList.add('language');
 
         let span = document.createElement('span');
         span.setAttribute('data-type', 'language');
         span.setAttribute('tabindex', 0);
-        span.setAttribute('data-name', language.iso);
-        span.setAttribute('title', language.name);
+        span.setAttribute('data-name', this.iso);
+        span.setAttribute('title', this.name);
 
         span.classList.add('flag-icon');
-        span.classList.add('flag-icon-'+language.flag);
+        span.classList.add('flag-icon-'+this.flag);
 
         li.appendChild(span);
 
-        this.node = li;
-        this.active = language.active;
-        this.messageNode = document.querySelector('[data-message="language"]');
+        return li;
 	}
 
 }

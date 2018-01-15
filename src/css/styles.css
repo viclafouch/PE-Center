@@ -1,5 +1,7 @@
 @import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css);
 
+.col,.row{-webkit-box-direction:normal;display:-webkit-box;display:-ms-flexbox;display:flex}.row{-webkit-box-orient:horizontal;-ms-flex-direction:row;flex-direction:row}.col{-webkit-box-orient:vertical;-ms-flex-direction:column;flex-direction:column}.wrap{-ms-flex-wrap:wrap;flex-wrap:wrap}.nowrap{-ms-flex-wrap:nowrap;flex-wrap:nowrap}.row-verti-center{-webkit-box-align:center;-ms-flex-align:center;align-items:center}.col-verti-center,.row-hori-center{-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center}.col-hori-center{-webkit-box-align:center;-ms-flex-align:center;align-items:center}.row-hori-between{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}.col-hori-between,.row-verti-between{-webkit-box-align:space-between;-ms-flex-align:space-between;align-items:space-between}.col-verti-between{-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between}.row-hori-around{-ms-flex-pack:distribute;justify-content:space-around}.col-hori-around,.row-verti-around{-webkit-box-align:space-around;-ms-flex-align:space-around;align-items:space-around}.col-verti-around{-ms-flex-pack:distribute;justify-content:space-around}
+a,abbr,acronym,address,applet,article,aside,audio,big,blockquote,body,canvas,center,cite,code,dd,del,details,dfn,div,dl,dt,em,embed,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,iframe,img,ins,kbd,label,li,mark,menu,nav,object,ol,output,p,pre,q,ruby,s,samp,section,small,span,strike,strong,sub,summary,sup,time,tt,u,var,video{margin:0;padding:0;border:0;font-size:100%}html{line-height:normal}ol,ul{list-style-type:none}blockquote,q{quotes:none}strong{font-weight:700;color:"Francois One",sans-serif}blockquote:after,blockquote:before,q:after,q:before{content:"";content:none}a img{border:none}article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary{display:block}
 
 /*=============================
 =            Popup            =
@@ -18,15 +20,16 @@ body.TC_center_popup a.TC_center_website {
     position: absolute;
     top: 5px;
     color: #15c;
+    font-size: 13px;
     text-decoration: none;
 }
 
 body.TC_center_popup a.TC_center_website#toWebsite {
-    right: 5px;
+    right: 10px;
 }
 
 body.TC_center_popup a.TC_center_website#toOptions {
-    left: 5px;
+    left: 10px;
 }
 
 body.TC_center_popup a.TC_center_website:hover {
@@ -42,6 +45,9 @@ body.TC_center_popup p.error {
 body.TC_center_popup h1.TC_center_title {
     color: #444;
     font-family: 'Francois One', sans-serif;
+    margin: 15px 0;
+    font-weight: bold;
+    font-size: 1.45em;
 }
 
 body.TC_center_popup input.TC_center_input_search {
@@ -68,6 +74,7 @@ body.TC_center_popup div.TC_center_column_result>article.TC_center_article_resul
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
+    font-size: 13px;
     justify-content: flex-start;
     align-items: center;
     margin-bottom: 10px;
@@ -82,6 +89,10 @@ body.TC_center_popup article.TC_center_article_result img {
     width: 30px;
     height: 30px;
     padding-right: 10px;
+}
+
+body.TC_center_popup article.TC_center_article_result p {
+    margin: 12px 0;
 }
 
 body.TC_center_popup article.TC_center_article_result:hover, body.TC_center_popup a.topic:hover {
@@ -168,6 +179,7 @@ body.TC_center_popup button.TC_center_button:hover {
 
 body.TC_center_popup div.TC_center_column_topic {
     width: 100%;
+    font-size: 13px;
 }
 
 body.TC_center_popup div.TC_center_column_topic span {
@@ -213,32 +225,94 @@ a.topic p.topic_description {
 =            Options            =
 ===============================*/
 
-section.screens div.home-screen {
+/*section.screens {
     height: auto!important;
     min-height: 100vh;
     padding: 20px;
 }
-
+*/
 body.TC_center_options {
+    padding: 0;
+    margin: 0;
     width: 100%;
+    font-size: 100%;
     overflow-x: hidden;
     font-family: "Open Sans", sans-serif;
 }
 
-body.TC_center_options nav a.plateformeLinks {
-    font-family: "Francois One", sans-serif;
+body.TC_center_options main {
+    min-height: calc(100vh - 120px);
+    background-color: #f7f7f7;
 }
 
-body.TC_center_options nav a.plateformeLinks:first-child:focus {
+body.TC_center_options main section {
+    position: relative;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    background: -webkit-linear-gradient(280deg, #ff3b49, #0275d8);
+    background: -o-linear-gradient(280deg, #ff3b49, #0275d8);
+    background: linear-gradient(10deg, #ff3b49, #0275d8);
+}   
+
+body.TC_center_options nav {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 90px;
+    width: 100%;
+    background-color: rgba(255,255,255,.88);
+    padding: 10px 15px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    z-index: 9999;
+    -webkit-box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
+    box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
+}
+
+body.TC_center_options nav a.plateformeLinks {
+    font-family: "Francois One", sans-serif;
+    padding: 10px;
+    border: 2px solid transparent;
+    color: #f0f0f0;
+    transition: all .3s ease 0s;
+    border-radius: 3px;
+    text-decoration: none;
+}
+
+body.TC_center_options nav a.plateformeLinks:first-child {
+    background-color: #4486f7;
+    border-color: #4486f7;
+}
+
+body.TC_center_options nav a.plateformeLinks:last-child {
+    background-color: #202d42;
+    margin-left: 15px;
+    border-color: #202d42;
+}
+
+
+body.TC_center_options nav a.plateformeLinks:first-child:focus, 
+body.TC_center_options nav a.plateformeLinks:first-child:hover{
     background-color: transparent;
     color: #4486f7;
 }
-body.TC_center_options nav a.plateformeLinks:nth-child(2):focus {
+body.TC_center_options nav a.plateformeLinks:nth-child(2):focus,
+body.TC_center_options nav a.plateformeLinks:nth-child(2):hover {
     background-color: transparent;
     color: #202d42;
 }
 
-body.TC_center_options section > div.home-screen > div.row {
+body.TC_center_options nav a.logo { 
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+}
+
+body.TC_center_options section > div.row {
     width: 100%;
 }
 
@@ -342,12 +416,16 @@ body.TC_center_options form.formfeed select {
 body.TC_center_options h1 {
     color: #fff;
     font-size: 1.8em;
+    margin: 0;
+    text-transform: uppercase;
 }
 
 body.TC_center_options div.container-options h2 {
     font-size: 1.65em;
     color: #444;
     width: 100%;
+    text-align: center;
+    margin: 0;
     padding-bottom: 10px;
     border-bottom: 1px dotted rgba(0,0,0, 0.10);
     font-family: "Francois One", sans-serif;
@@ -429,14 +507,14 @@ body.TC_center_options ul.shortcuts-list {
     list-style: disc;
 }
 
-body.TC_center_options div.home-screen > p.copyright {
+body.TC_center_options p.copyright {
     text-align: center;
     margin: 30px 0 0;
     color: #fff!important;
     font-family: "Open Sans", sans-serif;
 }
 
-body.TC_center_options div.home-screen > p.copyright > a:hover {
+body.TC_center_options > p.copyright > a:hover {
    opacity: 0.85;
 }
 

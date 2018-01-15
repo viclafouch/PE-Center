@@ -16,13 +16,13 @@ const containerTopics = document.getElementById('topics');
 const divAction = document.querySelector('.TC_center_actions');
 const buttonsAction = document.querySelectorAll('.TC_center_button');
 
-import getLanguages from './class/Language.class.js';
-import getProducts from './class/Product.class.js';
-import getLimit from './class/Limit.class.js';
-import getFeed from './class/Feed.class.js';
-import getContent from './class/Content.class.js';
-import Card from './class/Card.class.js';
-import Topic from './class/Topic.class.js';
+import getLanguages from './src/js/class/Language.class.js';
+import getProducts from './src/js/class/Product.class.js';
+import getLimit from './src/js/class/Limit.class.js';
+import getFeed from './src/js/class/Feed.class.js';
+import getContent from './src/js/class/Content.class.js';
+import Card from './src/js/class/Card.class.js';
+import Topic from './src/js/class/Topic.class.js';
 
 let products = getProducts();
 let languages = getLanguages();
@@ -90,7 +90,7 @@ function redirection(url, active) {
 function disabledButtons(buttons, force = false) {
 
     buttons.forEach(function(elem) {
-        if (document.querySelector('.card.active') && !force) {
+        if (activeCard && !force) {
             elem.disabled = false;
         } else {
             elem.disabled = true;
@@ -120,35 +120,39 @@ function checkKey(e) {
 
     if (inResult.length > 0 && (e.keyCode == '38' || e.keyCode == '40')) {
 
-        if (position >= -1) {
+        e.preventDefault();
 
-            if (e.keyCode == '38') {
-                position -= 1;
-            } 
-            else if (e.keyCode == '40') {
-                position += 1;
-            }
+        position = (e.keyCode == '40') ? position + 1 : position - 1;
 
-            if (position <= -1) {
-                position = inResult.length - 1;
-                window.scrollTo(0, containerResult.clientHeight);
-            }
+        console.log(inResult);
 
-            if (position == inResult.length || inResult.length == 1) {
-                position = 0;
-                window.scrollTo(0, 0);
-            }
-
-            if (activeCard) {
-                activeCard.setNoActive();
-            }
-
-            activeCard = inResult[position];
-            activeCard.setActive();
-            disabledButtons(buttonsAction);
+        if (position < 0) {
+            position = inResult.length - 1;
+            window.scrollTo(0, containerResult.clientHeight);
         }
+
+        else if (position > inResult.length - 1) {
+            position = 0;
+            window.scrollTo(0, 0);
+        }
+
+        if (activeCard) {
+            activeCard.setNoActive();
+        }
+
+        activeCard = inResult[position];
+        activeCard.setActive();
+        disabledButtons(buttonsAction);
     }
 }
+
+var delay = (function(){
+  var timer = 0;
+  return function(callback, ms){
+    clearTimeout (timer);
+    timer = setTimeout(callback, ms);
+  };
+})();
 
 /* Insert Error instead of RSS feed */
 
@@ -169,8 +173,40 @@ function insertContent(content, iso = language.iso) {
     if (feed.active) {
         containerTopics.textContent = content.loading[iso]+'...';
     }
+    document.getElementById('toOptions').textContent = content.options[iso];
     document.getElementById('copy').textContent = content.copy[iso];
     document.getElementById('location').textContent = content.location[iso];
+}
+
+/* Search */
+
+function searchCards(value) {
+
+    value = removeDiacritics(value);
+
+    inResult = [];
+
+    DOMCards.forEach(function(element, index) {
+
+        let title = removeDiacritics(element.title.default);
+
+        if (title.search(new RegExp(value, "i")) < 0) {
+            element.setHidden();
+        }
+        else if (inResult.length <= limit.number - 1 && limit.active) {
+
+            element.setVisible();
+
+            inResult = DOMCards.filter(function(obj) {
+                return obj.visible;
+            }).map(function(elem, index) {
+                elem.position = index;
+                return elem;
+            });
+        }
+    });
+
+    divAction.style.display = (inResult.length) ? 'flex' : 'none';
 }
 
 /* Function which has to be loaded after getting chrome storage. (ASYNC) */
@@ -239,7 +275,7 @@ function init(storage) {
            return cards.filter(filterByLanguage);
         })
 
-        // /* Choose product(s) */
+        /* Choose product(s) */
 
         .then(function(cards) {
 
@@ -255,7 +291,7 @@ function init(storage) {
 
         })
 
-        //  /* Append cards to DOM */
+        /* Append cards to DOM */
 
         .then(function(cards) {
 
@@ -268,7 +304,7 @@ function init(storage) {
             return cards.map(addToDom);
         })
 
-        // /* Bind click for each cards */
+        /* Bind click for each cards */
 
         .then(function(cards) {
 
@@ -299,7 +335,16 @@ function init(storage) {
 
             DOMCards = cards;
 
-            return;
+            return DOMCards;
+        })
+
+        .then(cards => {
+
+            if (storage.search.length > 2) {
+                searchInput.value = storage.search;
+                containerTopics.style.display = 'none';
+                searchCards(storage.search);
+            }
         });
 
     if (language.iso == 'en') {
@@ -364,11 +409,16 @@ function init(storage) {
             });
         })
 
-        // /* Bind click for each item */
+        /* Bind click for each item */
 
         .then(topic => {
 
             containerTopics.innerHTML = '';
+
+            let span = document.createElement('span');
+            span.classList.add('title_topic');
+            span.textContent = content.title[language.iso];
+            containerTopics.appendChild(span);
 
             topic.forEach( function(element, index) {
                 containerTopics.appendChild(element.node);
@@ -380,74 +430,41 @@ function init(storage) {
         })
     }
 
-    //  /* Search in livestream */
+    /* Search in livestream */
 
     searchInput.addEventListener('keyup', function(e) {
 
-        /* Show/Hide feed */
-
         containerTopics.style.display = (this.value.length > 0) ? 'none' : 'block';
-
-        /* Remove active if user tap */
 
         if (activeCard && ![38, 40].includes(e.keyCode)) {
             activeCard.setNoActive();
             activeCard = null;
         }
 
-        // Make buttons disabled
+        if (![38, 40].includes(e.keyCode)) {
+            position = -1;
+        }
 
         disabledButtons(buttonsAction);
 
-        // /* Search */
-        
-        let searchValue = removeDiacritics(this.value);
+        if (this.value.length > 2) {
 
-        if (searchValue.length > 2) {
+            let self = this;
 
             this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1);
 
-            DOMCards.forEach(function(element, index) {
+            searchCards(this.value);
 
-                let title = removeDiacritics(element.title.default);
-
-                if (title.search(new RegExp(searchValue, "i")) < 0) {
-
-                    var found = inResult.find(function(card) {
-                      return card.id == element.id;
+            if (![38, 40].includes(e.keyCode)) {
+                delay(function(){
+                    chrome.storage.sync.set({
+                        search: (self.value.trim().length > 2) ? self.value : ''
                     });
-
-                    if (found) {
-                        for (var i = inResult.length - 1; i >= 0; i--) {
-                            if (inResult[i] == found) {
-                                inResult.splice(i,1);
-                                break;
-                            }
-                        }
-                    }
-                    element.setHidden();
-                }
-                else if (inResult.length <= limit.number && limit.active) {
-
-                    var found = inResult.find(function(card) {
-                      return card.id == element.id;
-                    });
-
-                    if (!found) {
-                        element.position = inResult.length + 1; 
-                        inResult.push(element);
-                    }
-                    element.setVisible();
-                }
-            });
-
-             /* Show/hide parent button if result */
+                }, 1000);
+            }
         } 
 
-        else {
-
-            /* Hide all cards & parent buttons */
-            
+        else { 
             inResult = inResult.map(function(elem, index) {
                 elem.setHidden();
             }).filter(function(index) {
@@ -456,6 +473,7 @@ function init(storage) {
         }
 
         divAction.style.display = (inResult.length) ? 'flex' : 'none';
+
     }, false);
 
     searchInput.addEventListener('click', function(e) {
@@ -495,7 +513,7 @@ function init(storage) {
         }, false);
     });
 
-    // /* Each anchor will redirect now */
+    /* Each anchor will redirect now */
 
     anchors.forEach( function(element, index) {
         element.addEventListener('click', function(e) {
@@ -543,12 +561,12 @@ chrome.storage.sync.get({
     language: defaultLanguage,
     products: defaultProducts,
     limit: limit,
-    feed: feed
+    feed: feed,
+    search: ''
 }, function(data) {
     storage = data;
     init(storage);
 });
-
 /* Autofocus to the search input */
 
 window.onload = function() {

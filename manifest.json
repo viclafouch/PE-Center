@@ -4,7 +4,7 @@
     "manifest_version": 2,
     "description": "Fast and easy way to copy and access to the tips of the Google Help Center",
     "author": "Victor de la Fouchardiere",
-    "version": "2.01",
+    "version": "2.1",
     "permissions": [
         "clipboardWrite",
         "clipboardRead",
@@ -17,15 +17,15 @@
     "options_page": "options.html",
     "browser_action":
     {
-        "default_icon": "icon16.png",
+        "default_icon": "src/icon/icon16.png",
         "default_popup": "popup.html",
         "default_title": "TCs Center"
     },
     "icons":
     {
-        "16": "icon16.png",
-        "48": "icon48.png",
-        "128": "icon128.png"
+        "16": "src/icon/icon128.png",
+        "48": "src/icon/icon128.png",
+        "128": "src/icon/icon128.png"
     },
     "commands":
     {

@@ -16,6 +16,12 @@ class Content {
             "de": "de"
         },
 
+        this.options = {
+            "fr": "Options",
+            "en": "Settings",
+            "de": "Optionen"
+        },
+
         this.loading = {
             "fr": "Chargement",
             "en": "Loading",

@@ -1,3 +1,5 @@
+let path = 'src/products';
+
 /* Card Object */
 
 export default class Card {
@@ -39,7 +41,7 @@ export default class Card {
         article.classList.add('hidden');
 
         let img = document.createElement('img');
-        img.src = this.img;
+        img.src = path+'/'+this.img;
         img.setAttribute('alt', this.title.default);
 
         var p = document.createElement('p');

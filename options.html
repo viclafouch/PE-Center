@@ -3,110 +3,104 @@
 	<head>
 	    <title>TC's Center</title>
 	    <meta charset="utf-8">
-	   	<link rel="stylesheet" type="text/css" href="styles.css">
-	    <link rel="stylesheet" type="text/css" href="http://ficheandtricks.vicandtips.fr/public/assets/css/styles.min.css">
+	   	<link rel="stylesheet" type="text/css" href="src/css/styles.css">
 	    <link rel="stylesheet" type="text/css" href="lib/flag-icon/flag-icon.min.css">
-
-	    <link rel="stylesheet" href="bubblesee.css" />
+	    <link rel="stylesheet" href="lib/bubblesee/bubblesee.css" />
 	</head>
 	<body class="TC_center_options">
 		<nav class="row nowrap row-verti-center row-hori-between" id="nav">
 			<div>
 				<a href="https://productforums.google.com/forum/" class="plateformeLinks" target="_blank">
 					<span>Google Forums</span>
-					<img src="http://ficheandtricks.vicandtips.fr/public/assets/img/forum.png" alt="Forums Google">
 				</a>
 				<a href="https://crowds.conversocial.com/" class="plateformeLinks" target="_blank">
 					<span>Help On Social</span>
-					<img src="http://ficheandtricks.vicandtips.fr/public/assets/img/hos.png" alt="Help On Social">
 				</a>
 			</div>
-			<a href="http://ficheandtricks.vicandtips.fr" class="logo" ><img src="Logo.png" alt="Fiche &amp; Tricks"></a>
+			<a href="http://ficheandtricks.vicandtips.fr" class="logo" ><img src="src/img/Logo.png" alt="Fiche &amp; Tricks"></a>
 			<a class="star" tabindex="-1" href="https://chrome.google.com/webstore/detail/tcs-center/hanknpkmjbfhcalmipokkfplndkohgdm/reviews"><i class="fa fa-star" tabindex="0" title="Give 5 stars ? :)" aria-hidden="true"></i></a>
 		</nav>
 		<div style="height: 90px;"></div>
 
 		<main>
-			<section class="screens">
-				<div class="home-screen col wrap col-hori-center" id="ft">
-					<h1>Options</h1>
-					<div class="row row-hori-center wrap">
-						<div class="container-options col col-hori-center col-verti-between container-limit">
-							<h2>Choose your limit</h2>
-							<div class="container-form">
-								<form action="" id="limitForm" method="post" class="col col-hori-center">
-									<input type="number" id="limit" min="1" max="10" class="choose_number" placeholder="Default : 1" name="">
-									<input type="submit" name="limit" value="Save">
-								</form>
-							</div>
-							<p class="message" data-message="limit">&nbsp;</p>
+			<section class="screens col col-hori-center wrap">
+				<h1>Options</h1>
+				<div class="row row-hori-center wrap">
+					<div class="container-options col col-hori-center col-verti-between container-limit">
+						<h2>Choose your limit</h2>
+						<div class="container-form">
+							<form action="" id="limitForm" method="post" class="col col-hori-center">
+								<input type="number" id="limit" min="1" max="10" class="choose_number" placeholder="Default : 1" name="">
+								<input type="submit" name="limit" value="Save">
+							</form>
 						</div>
-						<div class="container-options col col-hori-center col-verti-between container-others">
-							<h2>Choose your feed</h2>
-							<div class="container-form">
-								<form action="" id="formFeed" method="post" class="formfeed">
-									<div class="form-field row row-verti-center">
-										<span>Show feed ?</span>
-										<div class="TC_center_switch row">
-											<input id="showFeed" class="TC_center_toggle" name="show" type="checkbox">
-											<label for="showFeed" id="toggleLabel" tabindex="0"></label>
-										</div>
-									</div>
-									<div class="form-field row row-verti-center">
-										<span>Which content :</span>
-										<select name="content" id="contentFeed">
-											<option value="topics">Last Topic</option>
-											<option value="msgs">Last Message</option>
-										</select>
-									</div>
-									<div class="form-field row row-verti-center">
-										<span>Which product :</span>
-										<select name="product" id="productFeed">
-											<option value="YouTube">YouTube</option>
-											<option value="Chrome">Chrome</option>
-											<option value="Gmail">Gmail</option>
-											<option value="AdSense">AdSense</option>
-											<option value="WebSearch">Search</option>
-											<option value="Maps">Maps</option>
-											<option value="Webmaster">Webmaster</option>
-											<option value="Photos">Photos</option>
-											<option value="Calendar">Calendar</option>
-										</select>
-									</div>
-									<div class="form-field row row-hori-center">
-										<input type="submit" name="save" value="Save">
-									</div>
-								</form>
-							</div>
-							<p class="message" data-message="feed">&nbsp;</p>
-						</div>
+						<p class="message" data-message="limit">&nbsp;</p>
 					</div>
-					<div class="row row-hori-center wrap">
-						<div class="container-options col col-hori-center container-language">
-							<h2>Choose your language</h2>
-							<ul class="row wrap list-language">
-							</ul>
-							<p class="message" data-message="language">&nbsp;</p>
+					<div class="container-options col col-hori-center col-verti-between container-others">
+						<h2>Choose your feed</h2>
+						<div class="container-form">
+							<form action="" id="formFeed" method="post" class="formfeed">
+								<div class="form-field row row-verti-center">
+									<span>Show feed ?</span>
+									<div class="TC_center_switch row">
+										<input id="showFeed" class="TC_center_toggle" name="show" type="checkbox">
+										<label for="showFeed" id="toggleLabel" tabindex="0"></label>
+									</div>
+								</div>
+								<div class="form-field row row-verti-center">
+									<span>Which content :</span>
+									<select name="content" id="contentFeed">
+										<option value="topics">Last Topic</option>
+										<option value="msgs">Last Message</option>
+									</select>
+								</div>
+								<div class="form-field row row-verti-center">
+									<span>Which product :</span>
+									<select name="product" id="productFeed">
+										<option value="YouTube">YouTube</option>
+										<option value="Chrome">Chrome</option>
+										<option value="Gmail">Gmail</option>
+										<option value="AdSense">AdSense</option>
+										<option value="WebSearch">Search</option>
+										<option value="Maps">Maps</option>
+										<option value="Webmaster">Webmaster</option>
+										<option value="Photos">Photos</option>
+										<option value="Calendar">Calendar</option>
+									</select>
+								</div>
+								<div class="form-field row row-hori-center">
+									<input type="submit" name="save" value="Save">
+								</div>
+							</form>
 						</div>
-						<div class="container-options col col-hori-center container-products">
-							<h2>Choose your products</h2>
-							<ul class="row wrap list-product">
-							</ul>
-							<p class="message" data-message="products">&nbsp;</p>
-						</div>
+						<p class="message" data-message="feed">&nbsp;</p>
 					</div>
-					<p class="shortcuts">Shortcuts</p>
-					<ul class="shortcuts-list">
-						<li>"<b>ALT + O</b>" : open TC's Center</li>
-						<li>"<b>&#8593;</b>" & "<b>&#8595;</b>" : move in the results</li>
-						<li>"<b>CTRL + C</b>" : copy a card</li>
-						<li>"<b>CTRL + R</b>" : redirection to the card</li>
-					</ul>
-					<p class="copyright">Copyright &copy; 2017 by <a style="color: inherit;" href="http://www.victor-de-la-fouchardiere.fr/" target="_blank">Victor de la Fouchardière</a></p>
 				</div>
+				<div class="row row-hori-center wrap">
+					<div class="container-options col col-hori-center container-language">
+						<h2>Choose your language</h2>
+						<ul class="row wrap list-language">
+						</ul>
+						<p class="message" data-message="language">&nbsp;</p>
+					</div>
+					<div class="container-options col col-hori-center container-products">
+						<h2>Choose your products</h2>
+						<ul class="row wrap list-product">
+						</ul>
+						<p class="message" data-message="products">&nbsp;</p>
+					</div>
+				</div>
+				<p class="shortcuts">Shortcuts</p>
+				<ul class="shortcuts-list">
+					<li>"<b>ALT + O</b>" : open TC's Center</li>
+					<li>"<b>&#8593;</b>" & "<b>&#8595;</b>" : move in the results</li>
+					<li>"<b>CTRL + C</b>" : copy a card</li>
+					<li>"<b>CTRL + R</b>" : redirection to the card</li>
+				</ul>
+				<p class="copyright">Copyright &copy; 2017 by <a style="color: inherit;" href="http://www.victor-de-la-fouchardiere.fr/" target="_blank">Victor de la Fouchardière</a></p>
 			</section>
 		</main>
-	   	<script src="bubblesee.js"></script>
+	   	<script src="lib/bubblesee/bubblesee.js"></script>
 	   	<script type="module" src="options.js"></script>
 
 	</body>

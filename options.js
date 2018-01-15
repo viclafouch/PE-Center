@@ -14,10 +14,10 @@ const formFeed = document.getElementById('formFeed');
 
 /* Products/languages available for now */
 
-import getLanguages from './class/Language.class.js';
-import getProducts from './class/Product.class.js';
-import getLimit from './class/Limit.class.js';
-import getFeed from './class/Feed.class.js';
+import getLanguages from './src/js/class/Language.class.js';
+import getProducts from './src/js/class/Product.class.js';
+import getLimit from './src/js/class/Limit.class.js';
+import getFeed from './src/js/class/Feed.class.js';
 
 let products = getProducts();
 let languages = getLanguages();
