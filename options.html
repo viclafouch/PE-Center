@@ -27,10 +27,17 @@
 				<h1>Options</h1>
 				<div class="row row-hori-center wrap">
 					<div class="container-options col col-hori-center col-verti-between container-limit">
-						<h2>Choose your limit</h2>
+						<h2>Choose your search options</h2>
 						<div class="container-form">
-							<form action="" id="limitForm" method="post" class="col col-hori-center">
+							<form action="" id="formSearch" method="post" class="col col-hori-center">
 								<input type="number" id="limit" min="1" max="10" class="choose_number" placeholder="Default : 1" name="">
+								<div class="form-field row row-verti-center">
+									<span>Save your search ?</span>
+									<div class="TC_center_switch row">
+										<input id="saveSearch" class="TC_center_toggle" tabindex="0" name="show" type="checkbox">
+										<label for="saveSearch" id="saveSearch"></label>
+									</div>
+								</div>
 								<input type="submit" name="limit" value="Save">
 							</form>
 						</div>
@@ -43,8 +50,8 @@
 								<div class="form-field row row-verti-center">
 									<span>Show feed ?</span>
 									<div class="TC_center_switch row">
-										<input id="showFeed" class="TC_center_toggle" name="show" type="checkbox">
-										<label for="showFeed" id="toggleLabel" tabindex="0"></label>
+										<input id="showFeed" class="TC_center_toggle" tabindex="0" name="show" type="checkbox">
+										<label for="showFeed" id="showFeed"></label>
 									</div>
 								</div>
 								<div class="form-field row row-verti-center">

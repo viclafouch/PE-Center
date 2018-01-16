@@ -18,7 +18,7 @@ const buttonsAction = document.querySelectorAll('.TC_center_button');
 
 import getLanguages from './src/js/class/Language.class.js';
 import getProducts from './src/js/class/Product.class.js';
-import getLimit from './src/js/class/Limit.class.js';
+import getSearch from './src/js/class/Search.class.js';
 import getFeed from './src/js/class/Feed.class.js';
 import getContent from './src/js/class/Content.class.js';
 import Card from './src/js/class/Card.class.js';
@@ -26,8 +26,9 @@ import Topic from './src/js/class/Topic.class.js';
 
 let products = getProducts();
 let languages = getLanguages();
-let limit = getLimit();
+let search = getSearch();
 let feed = getFeed();
+let version = 2;
 
 const defaultLanguage = languages.filter(function(obj) {
     return obj.active == true;
@@ -40,7 +41,7 @@ const defaultProducts = products.filter(function(obj) {
 /* I'm using my own "API" */
 
 const filename = 'tccenter.json';
-const requestCards = new Request(filename + '?' + Date.now());
+const requestCards = new Request('https://ficheandtricks.vicandtips.fr/'+ filename + '?' + Date.now());
 
 /* What I'm going to set/get */
 
@@ -53,6 +54,14 @@ let content; // All text of popup in the language used
 let requestTopics; // Which forum for RSS feed
 
 let activeCard;
+
+storage = {
+    language: defaultLanguage,
+    products: defaultProducts,
+    feed: feed,
+    search: search,
+    update: 1
+}
 
 /* I'm using diacritics for the search feature */
 
@@ -114,36 +123,33 @@ var IsMultiKey = (event) => {
 
 /* Same as above. Here It's for moving in the results */
 
-function checkKey(e) {
+function moveInResult(e) {
 
     e = e || window.event;
 
-    if (inResult.length > 0 && (e.keyCode == '38' || e.keyCode == '40')) {
+    position = (e.keyCode == '40') ? position + 1 : position - 1;
 
-        e.preventDefault();
-
-        position = (e.keyCode == '40') ? position + 1 : position - 1;
-
-        console.log(inResult);
-
-        if (position < 0) {
-            position = inResult.length - 1;
-            window.scrollTo(0, containerResult.clientHeight);
-        }
-
-        else if (position > inResult.length - 1) {
-            position = 0;
-            window.scrollTo(0, 0);
-        }
-
-        if (activeCard) {
-            activeCard.setNoActive();
-        }
-
-        activeCard = inResult[position];
-        activeCard.setActive();
-        disabledButtons(buttonsAction);
+    if (position < 0) {
+        position = inResult.length - 1;
     }
+
+    else if (position > inResult.length - 1) {
+        position = 0;
+    }
+
+    if (position == inResult.length - 1) {
+        window.scrollTo(0, containerResult.clientHeight);
+    } else if (position == 0) {
+        window.scrollTo(0, 0);
+    }
+
+    if (activeCard) {
+        activeCard.setNoActive();
+    }
+
+    activeCard = inResult[position];
+    activeCard.setActive();
+    disabledButtons(buttonsAction);
 }
 
 var delay = (function(){
@@ -158,7 +164,7 @@ var delay = (function(){
 
 function errorFeed(container, mess) {
     var p = document.createElement('p');
-    p.textContent = mess;
+    p.innerHTML = mess;
     p.classList.add('error');
     container.appendChild(p);
 }
@@ -173,7 +179,7 @@ function insertContent(content, iso = language.iso) {
     if (feed.active) {
         containerTopics.textContent = content.loading[iso]+'...';
     }
-    document.getElementById('toOptions').textContent = content.options[iso];
+    document.getElementById('toOptions').innerHTML = '<i class="fa fa-cog" aria-hidden="true"></i> '+content.options[iso];
     document.getElementById('copy').textContent = content.copy[iso];
     document.getElementById('location').textContent = content.location[iso];
 }
@@ -193,7 +199,7 @@ function searchCards(value) {
         if (title.search(new RegExp(value, "i")) < 0) {
             element.setHidden();
         }
-        else if (inResult.length <= limit.number - 1 && limit.active) {
+        else if (inResult.length <= search.limit - 1 && search.active) {
 
             element.setVisible();
 
@@ -215,7 +221,7 @@ function init(storage) {
 
     language = storage.language;
     products = storage.products;
-    limit = storage.limit;
+    search = getSearch(storage.search);
     feed = storage.feed;
 
     content = getContent(storage.feed);
@@ -314,6 +320,8 @@ function init(storage) {
 
                     e.preventDefault();
 
+                    position = (element.active) ? -1 : element.position;
+
                     if (activeCard) {
                         activeCard.setNoActive();
 
@@ -325,8 +333,6 @@ function init(storage) {
                         element.setActive();
                         activeCard = element;
                     }
-
-                    position = (activeCard) ? activeCard.position -1 : -1;
 
                     disabledButtons(buttonsAction);
 
@@ -340,10 +346,10 @@ function init(storage) {
 
         .then(cards => {
 
-            if (storage.search.length > 2) {
-                searchInput.value = storage.search;
+            if (storage.search.value.length > 2) {
+                searchInput.value = storage.search.value;
                 containerTopics.style.display = 'none';
-                searchCards(storage.search);
+                searchCards(storage.search.value);
             }
         });
 
@@ -363,14 +369,33 @@ function init(storage) {
         .then(function(response) {
 
             if (response.status != 200) {
-                let message = (response.status == 503) ? 'Stop spamming. Please, reload in a few seconds' : 'Feed RSS failed, please contact the web developer';
+
+                var message = 'Feed RSS failed, please contact the web developer';
+
+                if (response.status == 500) {
+                    message = feed.product+' forum ('+language.name+') doesn\'t exist.<br/>RSS feed is disabled';
+                    feed.active = false;
+                    chrome.storage.sync.set({
+                        feed: feed
+                    });
+
+                } else if (response.status == 503) {
+                    message = 'Stop spamming. Please, reload in a few seconds';
+                } 
+
                 containerTopics.innerHTML = '';
                 errorFeed(containerTopics, message);
-                throw new Error("RSS Feed failed !");
+                throw new Error(message);
             } else {
                 return response;
             }
 
+        })
+
+        .catch(function(error) {
+            containerTopics.innerHTML = '';
+            errorFeed(containerTopics, error);
+            throw new Error("RSS Feed failed !");
         })
 
         /* Transform to text */
@@ -455,10 +480,11 @@ function init(storage) {
 
             searchCards(this.value);
 
-            if (![38, 40].includes(e.keyCode)) {
+            if (![38, 40].includes(e.keyCode) && search.save) {
                 delay(function(){
+                    search.value = (self.value.trim().length > 2) ? self.value : '';
                     chrome.storage.sync.set({
-                        search: (self.value.trim().length > 2) ? self.value : ''
+                        search: search
                     });
                 }, 1000);
             }
@@ -524,7 +550,10 @@ function init(storage) {
 
     document.onkeydown = function(e) {
 
-        checkKey(e);
+        if (inResult.length > 0 && (e.keyCode == '38' || e.keyCode == '40')) {
+            e.preventDefault();
+            moveInResult(e);
+        }    
 
         let shortcut = IsMultiKey(e);
 
@@ -560,13 +589,27 @@ function init(storage) {
 chrome.storage.sync.get({
     language: defaultLanguage,
     products: defaultProducts,
-    limit: limit,
     feed: feed,
-    search: ''
+    search: search,
+    update: 0
 }, function(data) {
-    storage = data;
+    if (data.update == 0) {
+        storage.update = version;
+        chrome.storage.sync.set({
+            language: storage.language,
+            products: storage.products,
+            feed: storage.feed,
+            search: storage.search,
+            update: storage.update
+        });
+    } else {
+        storage = data;
+    }
+
     init(storage);
+
 });
+
 /* Autofocus to the search input */
 
 window.onload = function() {

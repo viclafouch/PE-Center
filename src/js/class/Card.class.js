@@ -10,6 +10,7 @@ export default class Card {
             'fr': data.fiche_title_fr,
             'en': data.fiche_title_en,
             'de': data.fiche_title_de,
+            'it': data.fiche_title_it,
             'default' : null
         };
 

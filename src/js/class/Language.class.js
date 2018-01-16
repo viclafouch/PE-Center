@@ -2,7 +2,7 @@ const _languages = [
 	{
 		'iso': 'fr',
 		'flag': 'fr',
-		'name': 'Francais',
+		'name': 'French',
 		'active': true
 	},
 
@@ -16,7 +16,7 @@ const _languages = [
 	{
 		'iso': 'de',
 		'flag': 'de',
-		'name': 'Deutch',
+		'name': 'German',
 		'active': false
 	},
 

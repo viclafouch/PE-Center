@@ -74,7 +74,6 @@ body.TC_center_popup div.TC_center_column_result>article.TC_center_article_resul
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
-    font-size: 13px;
     justify-content: flex-start;
     align-items: center;
     margin-bottom: 10px;
@@ -93,6 +92,7 @@ body.TC_center_popup article.TC_center_article_result img {
 
 body.TC_center_popup article.TC_center_article_result p {
     margin: 12px 0;
+    font-size: 12px;
 }
 
 body.TC_center_popup article.TC_center_article_result:hover, body.TC_center_popup a.topic:hover {
@@ -371,7 +371,7 @@ body.TC_center_options div.TC_center_switch {
 }
 
 body.TC_center_options div.TC_center_switch input[type=checkbox] {
-    visibility: hidden;
+    opacity: 0;
     position: absolute;
 }
 
@@ -519,7 +519,7 @@ body.TC_center_options > p.copyright > a:hover {
 }
 
 body.TC_center_options a.star {
-    display: block;
+    display: inline-block;
     color: #444;
     font-size: 30px;
     text-decoration: none;

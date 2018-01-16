@@ -9,19 +9,19 @@
 
 const languagesDOM = document.querySelectorAll('[data-type="language"]');
 const productsDOM = document.querySelectorAll('[data-type="product"]');
-const formLimit = document.getElementById('limitForm');
+const formSearch = document.getElementById('formSearch');
 const formFeed = document.getElementById('formFeed');
 
 /* Products/languages available for now */
 
 import getLanguages from './src/js/class/Language.class.js';
 import getProducts from './src/js/class/Product.class.js';
-import getLimit from './src/js/class/Limit.class.js';
+import getSearch from './src/js/class/Search.class.js';
 import getFeed from './src/js/class/Feed.class.js';
 
 let products = getProducts();
 let languages = getLanguages();
-let limit = getLimit();
+let search = getSearch();
 let feed = getFeed();
 
 const defaultLanguage = languages.filter(function(obj) {
@@ -138,7 +138,7 @@ function insertMessage(options) {
             .filter(function(elem) {
                 return elem.active;
             }).map(function(elem, index) {
-                return elem.name || elem.number;
+                return elem.name || elem.limit;
             });
 
             i.textContent = '"'+datas.join(', ')+'"';
@@ -207,20 +207,21 @@ function tabEnter(element) {
 
 /* Options for limit selection */
 
-formLimit.addEventListener('submit', function(e) {
+formSearch.addEventListener('submit', function(e) {
 
     e.preventDefault();
 
-    limit.number = parseInt(document.getElementById('limit').value);
+    search.setLimit(document.getElementById('limit').value);
+    search.setSave(document.getElementById('saveSearch').checked); 
+    search.value = (search.save === true) ? search.value : '';
 
-    if (parseInt(limit.number) && limit.number >= 1 && limit.number <= 10) {
-        chrome.storage.sync.set({
-            limit: limit
-        }, successDOM ({
-            "datas": limit,
-            "type": 'limit'
-        }));
-    }
+    chrome.storage.sync.set({
+        search: search
+    }, successDOM ({
+        "datas": search,
+        "type": 'limit'
+    }));
+
     return false;
 
 }, false);
@@ -250,7 +251,7 @@ function restore_options() {
     chrome.storage.sync.get({
         language: defaultLanguage,
         products: defaultProducts,
-        limit: limit,
+        search: search,
         feed: feed
     }, function(items) {
 
@@ -273,10 +274,8 @@ function restore_options() {
             }
         }
 
-        // console.log(products);
-
         feed = getFeed(items.feed);
-        limit = items.limit
+        search = getSearch(items.search);
 
         document.querySelectorAll('.message').forEach( function(element, index) {
 
@@ -292,7 +291,7 @@ function restore_options() {
                 };
             } else if (element.getAttribute('data-message') == 'limit') {
                 var options = {
-                    "datas": limit,
+                    "datas": search,
                     "type": 'limit'
                 }
             } else if (element.getAttribute('data-message') == 'feed') {
@@ -307,11 +306,13 @@ function restore_options() {
             }
         });
 
-        document.getElementById('limit').value = limit.number
+        document.getElementById('limit').value = search.limit
         if (feed.active) { document.getElementById('showFeed').setAttribute('checked', 'checked'); }
+        if (search.save) { document.getElementById('saveSearch').setAttribute('checked', 'checked'); }
         document.getElementById('contentFeed').value = items.feed.content;
         document.getElementById('productFeed').value = items.feed.product;
-        tabEnter(document.getElementById('toggleLabel'));
+        tabEnter(document.getElementById('showFeed'));
+        tabEnter(document.getElementById('saveSearch'));
     });
 }
 

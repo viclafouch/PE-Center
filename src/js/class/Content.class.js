@@ -5,49 +5,57 @@ class Content {
     constructor(feed) {
 
         this.anchor = {
-            "fr": "Site web",
-            "en": "Website",
-            "de": "Webseite"
+            "fr": "Donner votre avis",
+            "en": "Give your feedback",
+            "de": "Geben Sie Ihre Meinung ab",
+            "it": "Dai la tua opinione",
         },
 
         this.placeholder = {
             "fr": "Votre recherche ici",
             "en": "Your search here",
-            "de": "de"
+            "de": "Ihre Suche hier",
+            "it": "La tua ricerca qui",
         },
 
         this.options = {
             "fr": "Options",
-            "en": "Settings",
-            "de": "Optionen"
+            "en": "Options",
+            "de": "Einstellungen",
+            "it": "Opzioni",
         },
 
         this.loading = {
             "fr": "Chargement",
             "en": "Loading",
-            "de": "Laden"
+            "de": "Wird geladen",
+            "it": "In caricamento",
         },
 
         this.copy = {
             "fr": "Copier",
             "en": "Copy",
-            "de": "Kopie"
+            "de": "Kopieren",
+            "it": "Copia",
         },
 
         this.location = {
             "fr": "Redirection",
             "en": "Redirection",
-            "de": "Umleitung"
+            "de": "Umleitung",
+            "it": "Reindirizzamento",
         }
 
         this.title = (feed.content == 'msgs') ? {
             "fr": "Derniers messages du forum "+ feed.product,
             "en": "Last messages from "+feed.product+" forum", 
-            "de": "Last looodl form"
+            "de": "Die letzten Nachrichten vom "+feed.product+" forum",
+            "it": "Gli ultimi messaggi del forum di "+ feed.product,
         } : {
             "fr": "Derniers topic du forum "+ feed.product,
             "en": "Last topics from "+feed.product+" forum", 
-            "de": "Last looodl form"
+            "de": "Die letzten Themen vom "+feed.product+" forum", 
+            "it": "Gli ultimi argomenti sul forum di "+ feed.product,
         }
     }
 }
