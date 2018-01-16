@@ -45,4 +45,12 @@ export default class Topic {
 
        	return article;
   	}
+
+    redirection() {
+        chrome.tabs.create({
+            active: true,
+            url: this.url,
+            pinned: false
+        });
+    }
 }

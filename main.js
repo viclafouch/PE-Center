@@ -50,8 +50,8 @@ let storage = {}; // chrome sync
 let language = ''; // language used
 let inResult = []; // cards visible
 let position = -1; // position if user use keyboard
-let content; // All text of popup in the language used
-let requestTopics; // Which forum for RSS feed
+let content; // all text of popup in the language used
+let requestTopics; // which forum for RSS feed
 
 let activeCard;
 
@@ -344,6 +344,8 @@ function init(storage) {
             return DOMCards;
         })
 
+        /* Insert saved search and init searchCards function */
+
         .then(cards => {
 
             if (storage.search.value.length > 2) {
@@ -434,7 +436,7 @@ function init(storage) {
             });
         })
 
-        /* Bind click for each item */
+        /* Bind click for each topic */
 
         .then(topic => {
 
@@ -446,10 +448,11 @@ function init(storage) {
             containerTopics.appendChild(span);
 
             topic.forEach( function(element, index) {
+                
                 containerTopics.appendChild(element.node);
 
                 element.node.addEventListener('click', function(e) {
-                    redirection(element.node.getAttribute('href'), true);
+                    element.redirection();
                 }, false);
             });
         })
