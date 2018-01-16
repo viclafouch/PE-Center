@@ -459,6 +459,8 @@ function init(storage) {
 
     searchInput.addEventListener('keyup', function(e) {
 
+        let self = this;
+
         containerTopics.style.display = (this.value.length > 0) ? 'none' : 'block';
 
         if (activeCard && ![38, 40].includes(e.keyCode)) {
@@ -474,20 +476,9 @@ function init(storage) {
 
         if (this.value.length > 2) {
 
-            let self = this;
-
             this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1);
 
             searchCards(this.value);
-
-            if (![38, 40].includes(e.keyCode) && search.save) {
-                delay(function(){
-                    search.value = (self.value.trim().length > 2) ? self.value : '';
-                    chrome.storage.sync.set({
-                        search: search
-                    });
-                }, 1000);
-            }
         } 
 
         else { 
@@ -499,6 +490,15 @@ function init(storage) {
         }
 
         divAction.style.display = (inResult.length) ? 'flex' : 'none';
+
+        if (![38, 40].includes(e.keyCode) && search.save) {
+            delay(function(){
+                search.value = (self.value.trim().length > 2) ? self.value : '';
+                chrome.storage.sync.set({
+                    search: search
+                });
+            }, 1000);
+        }
 
     }, false);
 
