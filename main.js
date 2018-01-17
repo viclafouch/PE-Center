@@ -60,7 +60,7 @@ storage = {
     products: defaultProducts,
     feed: feed,
     search: search,
-    update: 1
+    update: version
 }
 
 /* I'm using diacritics for the search feature */
@@ -594,9 +594,9 @@ chrome.storage.sync.get({
     products: defaultProducts,
     feed: feed,
     search: search,
-    update: 0
+    update: version
 }, function(data) {
-    if (data.update == 0) {
+    if (data.update != version) {
         storage.update = version;
         chrome.storage.sync.set({
             language: storage.language,
