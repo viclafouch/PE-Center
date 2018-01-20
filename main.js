@@ -287,14 +287,14 @@ function init(storage) {
 
             function filterByProducts(card) {
                 for (var i = products.length - 1; i >= 0; i--) {
-                    if (products[i].name == card.product) {
+                    if (products[i].id == card.product.id) {
+                        card.img = products[i].image.name+'.png';
                         return true;
                     }
                 }
             }
 
             return cards.filter(filterByProducts);
-
         })
 
         /* Append cards to DOM */

@@ -2,6 +2,7 @@ let path = 'src/products';
 
 const _products = [
 	{
+		'id': 1,
 		'name': 'YouTube',
 		'image': {
 			'ext': 'png',
@@ -10,6 +11,7 @@ const _products = [
 		'active': true,
 	},
 	{
+		'id': 2,
 		'name': 'Chrome',
 		'image': {
 			'ext': 'png',
@@ -17,12 +19,30 @@ const _products = [
 		},
 		'active': true
 	},
+	{
+		'id': 4,
+		'name': 'Google Chromebook',
+		'image': {
+			'ext': 'png',
+			'name': 'chromebook'
+		},
+		'active': false
+	},
+	{
+		'id': 5,
+		'name': 'Google Calendar',
+		'image': {
+			'ext': 'png',
+			'name': 'calendar'
+		},
+		'active': false
+	},
 ]
 
 class Product {
 
 	constructor(product) {
-		this.id = 'product';
+		this.id = product.id;
 		this.name = product.name;
 		this.image = {
 			'name': product.image.name,

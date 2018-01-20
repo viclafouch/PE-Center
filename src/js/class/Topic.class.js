@@ -2,8 +2,6 @@
 
 export default class Topic {
 
-
-
     constructor(data) {
 
         this.title = data.getElementsByTagName('title')[0].textContent;

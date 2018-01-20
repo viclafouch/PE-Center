@@ -9,6 +9,9 @@ class Content {
             "en": "Give your feedback",
             "de": "Geben Sie Ihre Meinung ab",
             "it": "Dai la tua opinione",
+            "ru": "Поделитесь своим мнением",
+            "pt": "Dê o seu feedback",
+            "es": "Comparte tu opinión",
         },
 
         this.placeholder = {
@@ -16,6 +19,9 @@ class Content {
             "en": "Your search here",
             "de": "Ihre Suche hier",
             "it": "La tua ricerca qui",
+            "ru": "Ваш поиск здесь",
+            "pt": "Sua busca aqui",
+            "es": "Tu búsqueda aquí",
         },
 
         this.options = {
@@ -23,6 +29,9 @@ class Content {
             "en": "Options",
             "de": "Einstellungen",
             "it": "Opzioni",
+            "ru": "Варианты",
+            "pt": "Opções",
+            "es": "Opciones",
         },
 
         this.loading = {
@@ -30,6 +39,9 @@ class Content {
             "en": "Loading",
             "de": "Wird geladen",
             "it": "In caricamento",
+            "ru": "загрузка",
+            "pt": "Carregando",
+            "es": "Cargando",
         },
 
         this.copy = {
@@ -37,6 +49,9 @@ class Content {
             "en": "Copy",
             "de": "Kopieren",
             "it": "Copia",
+            "ru": "Скопировать",
+            "pt": "Copiar",
+            "es": "Copiar",
         },
 
         this.location = {
@@ -44,6 +59,9 @@ class Content {
             "en": "Redirection",
             "de": "Umleitung",
             "it": "Reindirizzamento",
+            "ru": "Перенаправляем",
+            "pt": "Redirecionar",
+            "es": "Redirección",
         }
 
         this.title = (feed.content == 'msgs') ? {
@@ -51,11 +69,17 @@ class Content {
             "en": "Last messages from "+feed.product+" forum", 
             "de": "Die letzten Nachrichten vom "+feed.product+" forum",
             "it": "Gli ultimi messaggi del forum di "+ feed.product,
+            "ru": "Последние сообщения на форуме "+ feed.product,
+            "pt": "Últimas mensagens do fórum do "+ feed.product,
+            "es": "Últimos mensajes del foro de "+ feed.product,
         } : {
             "fr": "Derniers topic du forum "+ feed.product,
             "en": "Last topics from "+feed.product+" forum", 
             "de": "Die letzten Themen vom "+feed.product+" forum", 
             "it": "Gli ultimi argomenti sul forum di "+ feed.product,
+            "ru": "Последние темы на форуме "+ feed.product,
+            "pt": "Últimos tópicos do fórum do "+ feed.product,
+            "es": "Últimos hilos del foro de "+ feed.product,
         }
     }
 }

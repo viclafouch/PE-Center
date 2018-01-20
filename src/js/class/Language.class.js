@@ -25,7 +25,28 @@ const _languages = [
 		'flag': 'it',
 		'name': 'Italian',
 		'active': false
-	}
+	},
+
+	{
+		'iso': 'ru',
+		'flag': 'ru',
+		'name': 'Russian',
+		'active': false
+	},
+
+	{
+		'iso': 'es',
+		'flag': 'es',
+		'name': 'Spanish',
+		'active': false
+	},
+
+	{
+		'iso': 'pt',
+		'flag': 'pt',
+		'name': 'Portuguese',
+		'active': false
+	},
 	
 ]
 

@@ -4,17 +4,23 @@ let path = 'src/products';
 
 export default class Card {
 
-    constructor(data) {
+    constructor(data, product) {
 
         this.title = {
             'fr': data.fiche_title_fr,
             'en': data.fiche_title_en,
             'de': data.fiche_title_de,
             'it': data.fiche_title_it,
+            'ru': data.fiche_title_ru,
+            'es': data.fiche_title_es,
+            'pt': data.fiche_title_pt,
             'default' : null
         };
 
-        this.product = data.product_name;
+        this.product = {
+            'name': data.product_name,
+            'id': parseInt(data.fiche_product),
+        };
 
         this.date = data.fiche_date_creat;
 
@@ -26,7 +32,7 @@ export default class Card {
 
         this.category = data.cat_name;
 
-        this.img = data.product_name.toLowerCase()+'.png';
+        this.img = null;
 
         this.node = null;
 
