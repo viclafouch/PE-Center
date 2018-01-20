@@ -28,7 +28,7 @@ let products = getProducts();
 let languages = getLanguages();
 let search = getSearch();
 let feed = getFeed();
-let version = 2;
+let version = 3;
 
 const defaultLanguage = languages.filter(function(obj) {
     return obj.active == true;
