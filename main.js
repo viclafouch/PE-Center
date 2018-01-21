@@ -19,7 +19,7 @@ const buttonsAction = document.querySelectorAll('.TC_center_button');
 import getLanguages from './src/js/class/Language.class.js';
 import getProducts from './src/js/class/Product.class.js';
 import getSearch from './src/js/class/Search.class.js';
-import getFeed from './src/js/class/Feed.class.js';
+import { getFeed } from './src/js/class/Feed.class.js';
 import getContent from './src/js/class/Content.class.js';
 import Card from './src/js/class/Card.class.js';
 import Topic from './src/js/class/Topic.class.js';
@@ -28,7 +28,7 @@ let products = getProducts();
 let languages = getLanguages();
 let search = getSearch();
 let feed = getFeed();
-let version = 3;
+let version = 4;
 
 const defaultLanguage = languages.filter(function(obj) {
     return obj.active == true;
@@ -356,10 +356,10 @@ function init(storage) {
         });
 
     if (language.iso == 'en') {
-        feed.product = (feed.product == 'Webmaster') ? 'Webmasters' : feed.product; // Why ? Best XML ever.. LOL
-        requestTopics = 'https://productforums.google.com/forum/feed/'+feed.product.toLowerCase()+'/'+feed.content+'/rss.xml?num=3';
+        feed.product.param = (feed.product.param == 'webmaster') ? 'webmasters' : feed.product.param; // Why ? Best XML ever.. LOL
+        requestTopics = 'https://productforums.google.com/forum/feed/'+feed.product.param+'/'+feed.content+'/rss.xml?num=3';
     } else {
-        requestTopics = 'https://productforums.google.com/forum/feed/'+feed.product.toLowerCase()+'-'+language.iso+'/'+feed.content+'/rss.xml?num=3';
+        requestTopics = 'https://productforums.google.com/forum/feed/'+feed.product.param+'-'+language.iso+'/'+feed.content+'/rss.xml?num=3';
     }
     
     if (feed.active) {
@@ -375,7 +375,7 @@ function init(storage) {
                 var message = 'Feed RSS failed, please contact the web developer';
 
                 if (response.status == 500) {
-                    message = feed.product+' forum ('+language.name+') doesn\'t exist.<br/>RSS feed is disabled';
+                    message = feed.product.name+' forum ('+language.name+') doesn\'t exist.<br/>RSS feed is disabled';
                     feed.active = false;
                     chrome.storage.sync.set({
                         feed: feed

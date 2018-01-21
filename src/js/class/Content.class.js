@@ -65,21 +65,21 @@ class Content {
         }
 
         this.title = (feed.content == 'msgs') ? {
-            "fr": "Derniers messages du forum "+ feed.product,
-            "en": "Last messages from "+feed.product+" forum", 
-            "de": "Die letzten Nachrichten vom "+feed.product+" forum",
-            "it": "Gli ultimi messaggi del forum di "+ feed.product,
-            "ru": "Последние сообщения на форуме "+ feed.product,
-            "pt": "Últimas mensagens do fórum do "+ feed.product,
-            "es": "Últimos mensajes del foro de "+ feed.product,
+            "fr": "Derniers messages du forum "+ feed.product.name,
+            "en": "Last messages from "+feed.product.name+" forum", 
+            "de": "Die letzten Nachrichten vom "+feed.product.name+" forum",
+            "it": "Gli ultimi messaggi del forum di "+ feed.product.name,
+            "ru": "Последние сообщения на форуме "+ feed.product.name,
+            "pt": "Últimas mensagens do fórum do "+ feed.product.name,
+            "es": "Últimos mensajes del foro de "+ feed.product.name,
         } : {
-            "fr": "Derniers topic du forum "+ feed.product,
-            "en": "Last topics from "+feed.product+" forum", 
-            "de": "Die letzten Themen vom "+feed.product+" forum", 
-            "it": "Gli ultimi argomenti sul forum di "+ feed.product,
-            "ru": "Последние темы на форуме "+ feed.product,
-            "pt": "Últimos tópicos do fórum do "+ feed.product,
-            "es": "Últimos hilos del foro de "+ feed.product,
+            "fr": "Derniers topic du forum "+ feed.product.name,
+            "en": "Last topics from "+feed.product.name+" forum", 
+            "de": "Die letzten Themen vom "+feed.product.name+" forum", 
+            "it": "Gli ultimi argomenti sul forum di "+ feed.product.name,
+            "ru": "Последние темы на форуме "+ feed.product.name,
+            "pt": "Últimos tópicos do fórum do "+ feed.product.name,
+            "es": "Últimos hilos del foro de "+ feed.product.name,
         }
     }
 }

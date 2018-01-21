@@ -17,7 +17,7 @@ const formFeed = document.getElementById('formFeed');
 import getLanguages from './src/js/class/Language.class.js';
 import getProducts from './src/js/class/Product.class.js';
 import getSearch from './src/js/class/Search.class.js';
-import getFeed from './src/js/class/Feed.class.js';
+import { getFeed, productsAvailable } from './src/js/class/Feed.class.js';
 
 let products = getProducts();
 let languages = getLanguages();
@@ -166,7 +166,7 @@ function insertMessage(options) {
     else if (options.type == 'feed') {
         var span = document.createElement('span');
         let w = (options.datas.active) ? 'will be' : 'will not be';
-        span.innerHTML = 'Last <b>'+options.datas.content+'</b> from <b>'+options.datas.product+'</b> forum <b>'+w+'</b> display';
+        span.innerHTML = 'Last <b>'+options.datas.content+'</b> from <b>'+options.datas.product.name+'</b> forum <b>'+w+'</b> display';
         status.appendChild(span);
         return false;
     } else {
@@ -266,12 +266,19 @@ function restore_options() {
             }
         });
 
-        for (var i = languages.length - 1; i >= 0; i--) {
+        for (var i = 0; i < languages.length; i++) {
             languages[i].active = false;
             if (languages[i].name == items.language.name) {
                 languages[i].active = true;
                 languages[i].node.firstElementChild.classList.add('active');
             }
+        }
+
+        for (var i = productsAvailable.length - 1; i >= 0; i--) {
+            let option = document.createElement('option');
+            option.setAttribute('value', productsAvailable[i].id);
+            option.textContent = productsAvailable[i].name;
+            document.getElementById('productFeed').appendChild(option);
         }
 
         feed = getFeed(items.feed);
@@ -310,7 +317,7 @@ function restore_options() {
         if (feed.active) { document.getElementById('showFeed').setAttribute('checked', 'checked'); }
         if (search.save) { document.getElementById('saveSearch').setAttribute('checked', 'checked'); }
         document.getElementById('contentFeed').value = items.feed.content;
-        document.getElementById('productFeed').value = items.feed.product;
+        document.getElementById('productFeed').value = items.feed.product.id;
         tabEnter(document.getElementById('showFeed'));
         tabEnter(document.getElementById('saveSearch'));
     });
