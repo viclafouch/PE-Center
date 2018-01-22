@@ -151,7 +151,7 @@ function insertMessage(options) {
             if (datas.length > 1) {
                 span.textContent = " are selected";
             } else if (options.type == 'limit') {
-                span.textContent = " result(s) will be display at most";
+                span.textContent = " result(s) will be displayed at most";
             } 
 
             status.appendChild(i);
@@ -166,7 +166,7 @@ function insertMessage(options) {
     else if (options.type == 'feed') {
         var span = document.createElement('span');
         let w = (options.datas.active) ? 'will be' : 'will not be';
-        span.innerHTML = 'Last <b>'+options.datas.content+'</b> from <b>'+options.datas.product.name+'</b> forum <b>'+w+'</b> display';
+        span.innerHTML = 'Last <b>'+options.datas.content+'</b> from <b>'+options.datas.product.name+'</b> forum <b>'+w+'</b> displayed';
         status.appendChild(span);
         return false;
     } else {

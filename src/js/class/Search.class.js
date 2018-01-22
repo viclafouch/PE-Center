@@ -13,7 +13,7 @@ class Search {
 	}
 
 	setLimit(value) {
-		this.limit = (parseInt(value) && parseInt(value) >= 1 && parseInt(value) <= 10) ? parseInt(value) : limit;
+		this.limit = (parseInt(value) && parseInt(value) >= 1 && parseInt(value) <= 20) ? parseInt(value) : limit;
 	}
 }
 
