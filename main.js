@@ -374,7 +374,7 @@ function init(storage) {
 
                 var message = 'Feed RSS failed, please contact the web developer';
 
-                if (response.status == 500) {
+                if (response.status == 500 || response.status == 400) {
                     message = feed.product.name+' forum ('+language.name+') doesn\'t exist.<br/>RSS feed is disabled';
                     feed.active = false;
                     chrome.storage.sync.set({

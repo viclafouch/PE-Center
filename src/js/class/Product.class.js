@@ -37,12 +37,21 @@ const _products = [
 		},
 		'active': false
 	},
-		{
+	{
 		'id': 6,
 		'name': 'G Suite Administrator',
 		'image': {
 			'ext': 'png',
 			'name': 'g-suite'
+		},
+		'active': false
+	},
+	{
+		'id': 7,
+		'name': 'Search Console',
+		'image': {
+			'ext': 'png',
+			'name': 'search-console'
 		},
 		'active': false
 	},
