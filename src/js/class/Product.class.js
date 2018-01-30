@@ -55,6 +55,15 @@ const _products = [
 		},
 		'active': false
 	},
+	{
+		'id': 8,
+		'name': 'Google Home',
+		'image': {
+			'ext': 'png',
+			'name': 'googlehome'
+		},
+		'active': false
+	},
 
 ]
 

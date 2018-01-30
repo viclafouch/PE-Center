@@ -30,6 +30,8 @@ let search = getSearch();
 let feed = getFeed();
 let version = 4;
 
+let flagFetch = false;
+
 const defaultLanguage = languages.filter(function(obj) {
     return obj.active == true;
 })[0];
@@ -176,9 +178,14 @@ function insertContent(content, iso = language.iso) {
     linktoWebsite.innerHTML = content.anchor[iso]+' <i class="fa fa-external-link" aria-hidden="true"></i>';
     searchInput.setAttribute('placeholder', content.placeholder[iso]);
 
-    if (feed.active) {
-        containerTopics.textContent = content.loading[iso]+'...';
+    document.querySelectorAll('.loaderCards').forEach( function(element, index) {
+        element.textContent = content.loading[iso]+'...';
+    });
+
+    if (!feed.active) {
+        document.getElementById('loaderTopics').classList.add('hidden');
     }
+
     document.getElementById('toOptions').innerHTML = '<i class="fa fa-cog" aria-hidden="true"></i> '+content.options[iso];
     document.getElementById('copy').textContent = content.copy[iso];
     document.getElementById('location').textContent = content.location[iso];
@@ -213,6 +220,10 @@ function searchCards(value) {
     });
 
     divAction.style.display = (inResult.length) ? 'flex' : 'none';
+
+    if (flagFetch) {
+        document.getElementById('loaderCards').classList.add('hidden');
+    }
 }
 
 /* Function which has to be loaded after getting chrome storage. (ASYNC) */
@@ -341,6 +352,8 @@ function init(storage) {
 
             DOMCards = cards;
 
+            flagFetch = true;
+
             return DOMCards;
         })
 
@@ -440,7 +453,7 @@ function init(storage) {
 
         .then(topic => {
 
-            containerTopics.innerHTML = '';
+            document.getElementById('loaderTopics').classList.add('hidden');
 
             let span = document.createElement('span');
             span.classList.add('title_topic');
@@ -463,6 +476,14 @@ function init(storage) {
     searchInput.addEventListener('keyup', function(e) {
 
         let self = this;
+
+        if (!flagFetch && this.value.length > 2) {
+            delay(function(){
+                searchCards(self.value);
+            }, 1000);
+            document.getElementById('loaderCards').classList.remove('hidden');
+            return false;
+        }
 
         containerTopics.style.display = (this.value.length > 0) ? 'none' : 'block';
 

@@ -41,6 +41,14 @@ body.TC_center_popup p.error {
     color: red;
 }
 
+body.TC_center_popup p.loaderCards {
+    text-align: left;
+    font-size: 12px;
+}
+
+body.TC_center_popup p.loaderCards.hidden {
+    display: none;
+}
 
 body.TC_center_popup h1.TC_center_title {
     color: #444;
@@ -323,6 +331,7 @@ body.TC_center_options div.container-options {
     width: 40%;
     margin: 4%;
     min-width: 450px;
+    max-width: 600px;
     box-sizing: border-box;
     box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
 }
