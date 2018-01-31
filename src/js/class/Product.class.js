@@ -64,6 +64,25 @@ const _products = [
 		},
 		'active': false
 	},
+	{
+		'id': 8,
+		'name': 'Chromecast',
+		'image': {
+			'ext': 'png',
+			'name': 'chromecast'
+		},
+		'active': false
+	},
+	{
+		'id': 9,
+		'name': 'Google Play',
+		'image': {
+			'ext': 'png',
+			'name': 'googleplay'
+		},
+		'active': false
+	},
+
 
 ]
 

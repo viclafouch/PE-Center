@@ -430,7 +430,6 @@ function init(storage) {
         /* Transform to array */
 
         .then(topic => {
-
             topic = Array.prototype.slice.call(topic);
 
             return topic;
@@ -467,6 +466,7 @@ function init(storage) {
                 element.node.addEventListener('click', function(e) {
                     element.redirection();
                 }, false);
+
             });
         })
     }
@@ -582,8 +582,6 @@ function init(storage) {
         let shortcut = IsMultiKey(e);
 
         if (shortcut && activeCard) {
-
-            let successful = false;
 
             if (shortcut == 'Copy') {
                 activeCard.copy();
