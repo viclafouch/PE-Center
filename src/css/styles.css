@@ -444,6 +444,8 @@ body.TC_center_options div.container-options > ul {
     margin: 0;
     padding: 0;
     flex-grow: 1;
+    align-items: flex-start;
+    align-content: flex-start;
     list-style-type: none;
 }
 
