@@ -1,4 +1,4 @@
-# TC's Center (v2.1)
+# TC's Center (v2.17)
 
 Welcome to the repository of this fabulous extension : __TC's Center__ ! 
 
