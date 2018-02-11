@@ -32,11 +32,11 @@ let version = 4;
 
 let flagFetch = false;
 
-const defaultLanguage = languages.filter(function(obj) {
+const defaultLanguage = languages.filter(obj => {
     return obj.active == true;
 })[0];
 
-const defaultProducts = products.filter(function(obj) {
+const defaultProducts = products.filter(obj => {
     return obj.active == true;
 });
 
@@ -178,7 +178,7 @@ function insertContent(content, iso = language.iso) {
     linktoWebsite.innerHTML = content.anchor[iso]+' <i class="fa fa-external-link" aria-hidden="true"></i>';
     searchInput.setAttribute('placeholder', content.placeholder[iso]);
 
-    document.querySelectorAll('.loaderCards').forEach( function(element, index) {
+    document.querySelectorAll('.loaderCards').forEach( element => {
         element.textContent = content.loading[iso]+'...';
     });
 
@@ -199,7 +199,7 @@ function searchCards(value) {
 
     inResult = [];
 
-    DOMCards.forEach(function(element, index) {
+    DOMCards.forEach(element => {
 
         let title = removeDiacritics(element.title.default);
 
@@ -261,10 +261,9 @@ function init(storage) {
 
         /* Transform success ? */
 
-        .catch(function(error) {
+        .catch(() => {
             errorFeed(containerResult, 'API failed, please contact the web developer');
             throw new Error("API failed !");
-            return false;
         })
 
          /* Transform to a Card */
@@ -325,7 +324,7 @@ function init(storage) {
 
         .then(function(cards) {
 
-            cards.forEach(function(element, index) {
+            cards.forEach(element => {
 
                 element.node.addEventListener('click', function(e) {
 
@@ -359,7 +358,7 @@ function init(storage) {
 
         /* Insert saved search and init searchCards function */
 
-        .then(cards => {
+        .then(() => {
 
             if (storage.search.value.length > 2) {
                 searchInput.value = storage.search.value;
@@ -459,11 +458,11 @@ function init(storage) {
             span.textContent = content.title[language.iso];
             containerTopics.appendChild(span);
 
-            topic.forEach( function(element, index) {
+            topic.forEach(element => {
 
                 containerTopics.appendChild(element.node);
 
-                element.node.addEventListener('click', function(e) {
+                element.node.addEventListener('click', () => {
                     element.redirection();
                 }, false);
 
@@ -506,9 +505,9 @@ function init(storage) {
         }
 
         else {
-            inResult = inResult.map(function(elem, index) {
-                elem.setHidden();
-            }).filter(function(index) {
+            inResult = inResult.map(element => {
+                element.setHidden();
+            }).filter(() => {
                 return false;
             });
         }
@@ -516,7 +515,7 @@ function init(storage) {
         divAction.style.display = (inResult.length) ? 'flex' : 'none';
 
         if (![38, 40].includes(e.keyCode) && search.save) {
-            delay(function(){
+            delay(() =>{
                 search.value = (self.value.trim().length > 2) ? self.value : '';
                 chrome.storage.sync.set({
                     search: search
@@ -526,7 +525,7 @@ function init(storage) {
 
     }, false);
 
-    searchInput.addEventListener('click', function(e) {
+    searchInput.addEventListener('click', () => {
 
         disabledButtons(buttonsAction, true);
 
@@ -537,9 +536,9 @@ function init(storage) {
 
     }, false);
 
-    buttonsAction.forEach(function(element, index) {
+    buttonsAction.forEach(element => {
 
-        element.addEventListener('click', function(e) {
+        element.addEventListener('click', () => {
 
             let action = this.getAttribute('id');
 
@@ -565,9 +564,9 @@ function init(storage) {
 
     /* Each anchor will redirect now */
 
-    anchors.forEach( function(element, index) {
+    anchors.forEach(element => {
         element.addEventListener('click', function(e) {
-            var url = this.getAttribute('href');
+            let url = this.getAttribute('href');
             redirection(url, true);
         }, false);
     });

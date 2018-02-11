@@ -64,6 +64,7 @@ class Feed {
 		this.product = feed.product;
 		this.active = feed.active;
 		this.content = feed.content;
+		this.topics = [];
 	}
 
 	setProduct(value) {

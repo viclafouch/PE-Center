@@ -152,13 +152,13 @@ function insertMessage(options) {
                 span.textContent = " are selected";
             } else if (options.type == 'limit') {
                 span.textContent = " result(s) will be displayed at most";
-            } 
+            }
 
             status.appendChild(i);
             status.appendChild(space);
             status.appendChild(span);
         } else {
-            status.textContent = 'No '+options.type+' selected'; 
+            status.textContent = 'No '+options.type+' selected';
         }
 
     }
@@ -170,7 +170,7 @@ function insertMessage(options) {
         status.appendChild(span);
         return false;
     } else {
-       status.textContent = 'No '+options.type+' selected'; 
+       status.textContent = 'No '+options.type+' selected';
     }
 }
 
@@ -212,7 +212,7 @@ formSearch.addEventListener('submit', function(e) {
     e.preventDefault();
 
     search.setLimit(document.getElementById('limit').value);
-    search.setSave(document.getElementById('saveSearch').checked); 
+    search.setSave(document.getElementById('saveSearch').checked);
     search.value = (search.save === true) ? search.value : '';
 
     chrome.storage.sync.set({

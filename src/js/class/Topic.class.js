@@ -11,10 +11,12 @@ export default class Topic {
         this.description = data.getElementsByTagName('description')[0].textContent;
 
         this.author = data.getElementsByTagName('author')[0].textContent.trim() // Why ? Best XML ever.. LOL
-        
+
         this.date = data.getElementsByTagName('pubDate')[0].textContent;
 
         this.node = this.newNode();
+
+        this.new = false;
     }
 
   	newNode() {

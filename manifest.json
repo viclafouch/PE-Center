@@ -9,6 +9,8 @@
         "clipboardWrite",
         "clipboardRead",
         "storage",
+        "alarms",
+        "notifications",
         "http://ficheandtricks.vicandtips.fr/",
         "https://ficheandtricks.vicandtips.fr/",
         "https://productforums.google.com/",
