@@ -110,8 +110,11 @@ function init(datas) {
                 if (feed.topics.length > 0) {
 
                     function checkDate(topic) {
-                        let date = new Date(topic.date);
-                        topic.new = date > lastUpdate;
+                        topic.new = (new Date(topic.date)) > lastUpdate;
+
+                        let index = feed.topics.findIndex(elem => elem.date === topic.date);
+                        topic.visited = (index >= 0) ? feed.topics[index].visited : false;
+
                         return topic;
                     }
 
@@ -126,16 +129,14 @@ function init(datas) {
 
                 console.log(topics);
 
-                function checkNew(topic) {
-                   return topic.new;
-                }
-
                 feed.topics = topics;
                 chrome.storage.sync.set({
                     feed: feed
                 });
 
-                topics = topics.filter(checkNew);
+                topics = topics.filter(topic => {
+                    return topic.new;
+                });
                 chrome.browserAction.setBadgeText({
                     text: (topics.length > 0) ? topics.length.toString() : ''
                 });
@@ -144,4 +145,3 @@ function init(datas) {
     }
 
 };
-

@@ -204,6 +204,11 @@ body.TC_center_popup div.TC_center_column_topic a.topic {
     font-size: 12px;
     padding: 10px 3px;
     display: block;
+
+}
+
+a.topic:not(.visited) {
+    opacity: 0.6;
 }
 
 a.topic:not(:last-child) {
@@ -261,7 +266,7 @@ body.TC_center_options main section {
     background: -webkit-linear-gradient(280deg, #ff3b49, #0275d8);
     background: -o-linear-gradient(280deg, #ff3b49, #0275d8);
     background: linear-gradient(10deg, #ff3b49, #0275d8);
-}   
+}
 
 body.TC_center_options nav {
     position: fixed;
@@ -301,7 +306,7 @@ body.TC_center_options nav a.plateformeLinks:last-child {
 }
 
 
-body.TC_center_options nav a.plateformeLinks:first-child:focus, 
+body.TC_center_options nav a.plateformeLinks:first-child:focus,
 body.TC_center_options nav a.plateformeLinks:first-child:hover{
     background-color: transparent;
     color: #4486f7;
@@ -312,7 +317,7 @@ body.TC_center_options nav a.plateformeLinks:nth-child(2):hover {
     color: #202d42;
 }
 
-body.TC_center_options nav a.logo { 
+body.TC_center_options nav a.logo {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -336,12 +341,12 @@ body.TC_center_options div.container-options {
     box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
 }
 
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    margin: 0; 
+    margin: 0;
 }
 
 body.TC_center_options div.container-limit input.choose_number {

@@ -367,107 +367,56 @@ function init(storage) {
             }
         });
 
-    if (language.iso == 'en') {
-        feed.product.param = (feed.product.param == 'webmaster') ? 'webmasters' : feed.product.param; // Why ? Best XML ever.. LOL
-        requestTopics = 'https://productforums.google.com/forum/feed/'+feed.product.param+'/'+feed.content+'/rss.xml?num=3';
-    } else {
-        requestTopics = 'https://productforums.google.com/forum/feed/'+feed.product.param+'-'+language.iso+'/'+feed.content+'/rss.xml?num=3';
-    }
-
     if (feed.active) {
 
-        fetch(requestTopics)
+        console.log(feed);
 
-        /* Test status */
 
-        .then(function(response) {
+        document.getElementById('loaderTopics').classList.add('hidden');
 
-            if (response.status != 200) {
+        let span = document.createElement('span');
+        span.classList.add('title_topic');
+        span.textContent = content.title[language.iso];
+        containerTopics.appendChild(span);
 
-                var message = 'Feed RSS failed, please contact the web developer';
+        feed.topics = feed.topics.map(topic => {
+            console.log(topic);
+            return new Topic(topic);
+        });
 
-                if (response.status == 500 || response.status == 400) {
-                    message = feed.product.name+' forum ('+language.name+') doesn\'t exist.<br/>RSS feed is disabled';
-                    feed.active = false;
+        console.log(feed.topics);
+        
+        feed.topics.forEach(element => {
+
+            containerTopics.appendChild(element.node);
+
+            element.node.addEventListener('click', () => {
+
+                chrome.storage.sync.get('feed', items => {
+
+                    element.redirection();
+
+                    feed.topics = items.feed.topics.map(topic => {
+                        return new Topic(topic);
+                    });
+
+                    let index = feed.topics.findIndex(topic => topic.id === element.id);
+
+                    if (index >= 0) {
+                        feed.topics[index] = element;
+                    }
+
+                    console.log(feed.topics);
+
+
                     chrome.storage.sync.set({
                         feed: feed
                     });
+                });
 
-                } else if (response.status == 503) {
-                    message = 'Stop spamming. Please, reload in a few seconds';
-                }
+            }, false);
 
-                containerTopics.innerHTML = '';
-                errorFeed(containerTopics, message);
-                throw new Error(message);
-            } else {
-                return response;
-            }
-
-        })
-
-        .catch(function(error) {
-            containerTopics.innerHTML = '';
-            errorFeed(containerTopics, error);
-            throw new Error("RSS Feed failed !");
-        })
-
-        /* Transform to text */
-
-        .then(response => {
-            return response.text()
-        })
-
-        /* Parse XML to DOM */
-
-        .then(text => {
-            let parser = new DOMParser();
-            let xmlDoc = parser.parseFromString(text,"text/xml");
-            return xmlDoc.getElementsByTagName("rss")[0].getElementsByTagName('channel')[0].children;
-        })
-
-        /* Transform to array */
-
-        .then(topic => {
-            topic = Array.prototype.slice.call(topic);
-
-            return topic;
-        })
-
-        /* Get items */
-
-        .then(topic => {
-
-            function findItem(topic) {
-                return topic.tagName == 'item';
-            }
-
-            return topic.filter(findItem).map(function(elem) {
-                return new Topic(elem);
-            });
-        })
-
-        /* Bind click for each topic */
-
-        .then(topic => {
-
-            document.getElementById('loaderTopics').classList.add('hidden');
-
-            let span = document.createElement('span');
-            span.classList.add('title_topic');
-            span.textContent = content.title[language.iso];
-            containerTopics.appendChild(span);
-
-            topic.forEach(element => {
-
-                containerTopics.appendChild(element.node);
-
-                element.node.addEventListener('click', () => {
-                    element.redirection();
-                }, false);
-
-            });
-        })
+        });
     }
 
     /* Search in livestream */
