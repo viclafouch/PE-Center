@@ -202,9 +202,9 @@ body.TC_center_popup div.TC_center_column_topic a.topic {
     color: #000;
     text-decoration: none;
     font-size: 12px;
+    position: relative;
     padding: 10px 3px;
     display: block;
-
 }
 
 a.topic:not(.visited) {
@@ -213,6 +213,13 @@ a.topic:not(.visited) {
 
 a.topic:not(:last-child) {
     border-bottom: 1px solid rgba(0,0,0,0.15);
+}
+
+a.topic span.displaying {
+    display: block;
+    position: absolute;
+    bottom: 2px;
+    right: 5px;
 }
 
 a.topic p.topic_title {

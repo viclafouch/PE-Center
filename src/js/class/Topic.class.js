@@ -37,6 +37,11 @@ export default class Topic {
         pTitle.textContent = this.title;
         article.appendChild(pTitle);
 
+        let pSpan = document.createElement('span');
+        pSpan.classList.add('displaying');
+        pSpan.innerHTML = (this.visited) ? '<i class="fa fa-envelope-open"></i>' : '<i class="fa fa-envelope"></i>';
+        article.appendChild(pSpan);
+
         let pAuthor = document.createElement('p');
         pAuthor.classList.add('topic_author');
         pAuthor.textContent = this.author;
@@ -58,7 +63,7 @@ export default class Topic {
         this.visited = true;
         this.node.classList.add('visited');
         chrome.tabs.create({
-            active: true,
+            active: false,
             url: this.url,
             pinned: false
         });
