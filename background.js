@@ -4,6 +4,7 @@ import Topic from './src/js/class/Topic.class.js';
 
 let feed = getFeed();
 let languages = getLanguages();
+let lastUpdate;
 let requestTopics;
 
 let language = languages.filter(function (obj) {
@@ -20,6 +21,7 @@ chrome.alarms.onAlarm.addListener(alarms => {
         chrome.storage.sync.get({
             language: language,
             feed: feed,
+            lastUpdateFeed: new Date()
         }, items => {
             init(items);
         });
@@ -30,6 +32,7 @@ function init(datas) {
 
     language = datas.language;
     feed = datas.feed;
+    lastUpdate = (datas.lastUpdateFeed instanceof Date) ? datas.lastUpdateFeed : new Date(datas.lastUpdateFeed);
 
     if (language.iso == 'en') {
         feed.product.param = (feed.product.param == 'webmaster') ? 'webmasters' : feed.product.param;
@@ -39,7 +42,6 @@ function init(datas) {
     }
 
     if (feed.active) {
-        console.log(feed.topics);
 
         fetch(requestTopics)
 
@@ -107,11 +109,9 @@ function init(datas) {
 
                 if (feed.topics.length > 0) {
 
-                    let lastDate = new Date(feed.topics[0].date);
-
                     function checkDate(topic) {
                         let date = new Date(topic.date);
-                        topic.new = date > lastDate;
+                        topic.new = date > lastUpdate;
                         return topic;
                     }
 
@@ -124,6 +124,8 @@ function init(datas) {
 
             .then(topics => {
 
+                console.log(topics);
+
                 function checkNew(topic) {
                    return topic.new;
                 }
@@ -134,7 +136,6 @@ function init(datas) {
                 });
 
                 topics = topics.filter(checkNew);
-
                 chrome.browserAction.setBadgeText({
                     text: (topics.length > 0) ? topics.length.toString() : ''
                 });

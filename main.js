@@ -627,6 +627,14 @@ chrome.storage.sync.get({
         storage = data;
     }
 
+    chrome.storage.sync.set({
+        lastUpdateFeed: (new Date()).toString()
+    });
+
+    chrome.browserAction.setBadgeText({
+        text: ''
+    });
+
     init(storage);
 
 });
