@@ -348,6 +348,17 @@ body.TC_center_options div.container-options {
     box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
 }
 
+body.TC_center_options div.container-options.container-name {
+    text-align: center;
+}
+
+body.TC_center_options div.container-options.container-name div.diveditable {
+    text-align: center;
+    padding: 10px;
+    max-width: 400px;
+    margin: 10px 0;
+}
+
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;

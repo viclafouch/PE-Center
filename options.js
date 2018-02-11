@@ -11,6 +11,8 @@ const languagesDOM = document.querySelectorAll('[data-type="language"]');
 const productsDOM = document.querySelectorAll('[data-type="product"]');
 const formSearch = document.getElementById('formSearch');
 const formFeed = document.getElementById('formFeed');
+const displayName = document.getElementById('displayName');
+const addDN = document.getElementById('saveDisplayName');
 
 /* Products/languages available for now */
 
@@ -18,11 +20,13 @@ import getLanguages from './src/js/class/Language.class.js';
 import getProducts from './src/js/class/Product.class.js';
 import getSearch from './src/js/class/Search.class.js';
 import { getFeed, productsAvailable } from './src/js/class/Feed.class.js';
+import User from './src/js/class/User.class.js';
 
 let products = getProducts();
 let languages = getLanguages();
 let search = getSearch();
 let feed = getFeed();
+let user;
 
 const defaultLanguage = languages.filter(function(obj) {
     return obj.active == true;
@@ -252,7 +256,8 @@ function restore_options() {
         language: defaultLanguage,
         products: defaultProducts,
         search: search,
-        feed: feed
+        feed: feed,
+        user: null
     }, function(items) {
 
         products.forEach(function(element, index) {
@@ -283,6 +288,7 @@ function restore_options() {
 
         feed = getFeed(items.feed);
         search = getSearch(items.search);
+        user = items.user;
 
         document.querySelectorAll('.message').forEach( function(element, index) {
 
@@ -320,8 +326,37 @@ function restore_options() {
         document.getElementById('productFeed').value = items.feed.product.id;
         tabEnter(document.getElementById('showFeed'));
         tabEnter(document.getElementById('saveSearch'));
+
+        console.log(items.user);
+
+        if (items.user) {
+            displayName.textContent = items.user.name;
+        }
+
     });
 }
+
+displayName.addEventListener('focus', function (e) {
+    if (!user) {
+        this.textContent = '';
+    }
+}, false);
+
+displayName.addEventListener('blur', function (e) {
+    if (this.textContent.trim() == '') {
+        user = null;
+        this.textContent = 'Put your display name (forum) here';
+    }
+}, false);
+
+addDN.addEventListener('click', function (e) {
+    if (displayName.textContent.trim() != '') {
+        user = new User(displayName.textContent.toString());
+        chrome.storage.sync.set({
+            user: user
+        });
+    }
+});
 
 document.addEventListener('DOMContentLoaded', restore_options);
 

@@ -385,7 +385,7 @@ function init(storage) {
         });
 
         console.log(feed.topics);
-        
+
         feed.topics.forEach(element => {
 
             containerTopics.appendChild(element.node);

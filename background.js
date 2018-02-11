@@ -6,13 +6,14 @@ let feed = getFeed();
 let languages = getLanguages();
 let lastUpdate;
 let requestTopics;
+let user;
 
 let language = languages.filter(function (obj) {
     return obj.active == true;
 })[0];
 
 chrome.alarms.create("feed", {
-    delayInMinutes: 0.1,
+    delayInMinutes: 0,
     periodInMinutes: 0.3
 });
 
@@ -21,7 +22,8 @@ chrome.alarms.onAlarm.addListener(alarms => {
         chrome.storage.sync.get({
             language: language,
             feed: feed,
-            lastUpdateFeed: new Date()
+            lastUpdateFeed: new Date(),
+            user: null,
         }, items => {
             init(items);
         });
@@ -33,6 +35,7 @@ function init(datas) {
     language = datas.language;
     feed = datas.feed;
     lastUpdate = (datas.lastUpdateFeed instanceof Date) ? datas.lastUpdateFeed : new Date(datas.lastUpdateFeed);
+    user = datas.user;
 
     if (language.iso == 'en') {
         feed.product.param = (feed.product.param == 'webmaster') ? 'webmasters' : feed.product.param;
@@ -127,16 +130,18 @@ function init(datas) {
 
             .then(topics => {
 
-                console.log(topics);
-
                 feed.topics = topics;
+
+                console.log(feed.topics);
+
                 chrome.storage.sync.set({
                     feed: feed
                 });
 
                 topics = topics.filter(topic => {
-                    return topic.new;
+                    return topic.new
                 });
+
                 chrome.browserAction.setBadgeText({
                     text: (topics.length > 0) ? topics.length.toString() : ''
                 });
