@@ -270,7 +270,7 @@ function init(storage) {
          /* Transform to a Card */
 
         .then(function (cards) {
-            
+
             function newCard(card) {
                 return new Card(card);
             }
@@ -279,7 +279,7 @@ function init(storage) {
         })
 
         /* Choose language */
-        
+
         .then(function (cards) {
 
             function filterByLanguage(card) {
@@ -374,9 +374,9 @@ function init(storage) {
     } else {
         requestTopics = 'https://productforums.google.com/forum/feed/'+feed.product.param+'-'+language.iso+'/'+feed.content+'/rss.xml?num=3';
     }
-    
+
     if (feed.active) {
-        
+
         fetch(requestTopics)
 
         /* Test status */
@@ -396,7 +396,7 @@ function init(storage) {
 
                 } else if (response.status == 503) {
                     message = 'Stop spamming. Please, reload in a few seconds';
-                } 
+                }
 
                 containerTopics.innerHTML = '';
                 errorFeed(containerTopics, message);
@@ -436,7 +436,7 @@ function init(storage) {
         })
 
         /* Get items */
-        
+
         .then(topic => {
 
             function findItem(topic) {
@@ -460,7 +460,7 @@ function init(storage) {
             containerTopics.appendChild(span);
 
             topic.forEach( function(element, index) {
-                
+
                 containerTopics.appendChild(element.node);
 
                 element.node.addEventListener('click', function(e) {
@@ -503,9 +503,9 @@ function init(storage) {
             this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1);
 
             searchCards(this.value);
-        } 
+        }
 
-        else { 
+        else {
             inResult = inResult.map(function(elem, index) {
                 elem.setHidden();
             }).filter(function(index) {
@@ -527,7 +527,7 @@ function init(storage) {
     }, false);
 
     searchInput.addEventListener('click', function(e) {
-        
+
         disabledButtons(buttonsAction, true);
 
         if (activeCard) {
@@ -547,7 +547,7 @@ function init(storage) {
 
                 if (action == 'location') {
                     activeCard.redirection();
-                } 
+                }
 
                 else if (action == 'copy') {
                     activeCard.copy();
@@ -567,7 +567,7 @@ function init(storage) {
 
     anchors.forEach( function(element, index) {
         element.addEventListener('click', function(e) {
-            let url = this.getAttribute('href');
+            var url = this.getAttribute('href');
             redirection(url, true);
         }, false);
     });
@@ -577,7 +577,7 @@ function init(storage) {
         if (inResult.length > 0 && (e.keyCode == '38' || e.keyCode == '40')) {
             e.preventDefault();
             moveInResult(e);
-        }    
+        }
 
         let shortcut = IsMultiKey(e);
 
