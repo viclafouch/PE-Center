@@ -382,6 +382,7 @@ function init(storage) {
            return topic;
         });
 
+
         chrome.storage.sync.set({
             feed: feed
         });
@@ -394,11 +395,13 @@ function init(storage) {
 
                 chrome.storage.sync.get('feed', items => {
 
-                    element.redirection();
-
                     feed.topics = items.feed.topics.map(topic => {
-                        return new Topic(topic);
+                        topic = new Topic(topic);
+                        topic.new = false;
+                        return topic;
                     });
+
+                    element.visited = true;
 
                     let index = feed.topics.findIndex(topic => topic.id === element.id);
 
@@ -408,6 +411,8 @@ function init(storage) {
 
                     chrome.storage.sync.set({
                         feed: feed
+                    }, () => {
+                        element.redirection();
                     });
                 });
 

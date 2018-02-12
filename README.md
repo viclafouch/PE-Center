@@ -1,6 +1,6 @@
-# TC's Center (v2.17)
+# TC's Center (v2.2)
 
-Welcome to the repository of this fabulous extension : __TC's Center__ ! 
+Welcome to the repository of this fabulous extension : __TC's Center__ !
 
 ![Google TC](https://topcontributor.withgoogle.com/static/img/share.jpg)
 
@@ -8,7 +8,7 @@ This extension has been __specially developed__ for volunteers of the __Top Cont
 
 Only available on [Google Chrome](http://www.google.fr/chrome), you can download the extension [here](https://chrome.google.com/webstore/detail/tcs-center/hanknpkmjbfhcalmipokkfplndkohgdm).
 
-## Some screenshots : 
+## Some screenshots :
 
 ![TC-center-1](https://ficheandtricks.vicandtips.fr/TC-center.gif)
 

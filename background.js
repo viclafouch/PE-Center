@@ -15,7 +15,7 @@ let language = languages.filter(function (obj) {
 
 chrome.alarms.create("feed", {
     delayInMinutes: 0,
-    periodInMinutes: 0.2
+    periodInMinutes: 0.5
 });
 
 chrome.alarms.onAlarm.addListener(alarms => {
@@ -48,9 +48,6 @@ function init(datas) {
     }
 
     if (feed.active) {
-
-        console.log(feed.topics);
-
 
         fetch(requestTopics)
 
