@@ -110,6 +110,7 @@ function bindLanguages(languagesNodes) {
             language.active = true;
 
             feed.topics = [];
+            feed.status = 200;
 
             this.firstElementChild.classList.add('active');
 
@@ -242,6 +243,9 @@ formFeed.addEventListener('submit', function(e) {
     feed.setActive(document.getElementById('showFeed').checked);
     feed.setProduct(document.getElementById('productFeed').value);
     feed.setContent(document.getElementById('contentFeed').value);
+
+    feed.status = 200;
+    feed.topics = [];
 
     chrome.storage.sync.set({
         feed: feed

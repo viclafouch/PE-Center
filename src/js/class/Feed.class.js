@@ -76,6 +76,7 @@ class Feed {
 		this.active = feed.active;
 		this.content = feed.content;
 		this.topics = feed.topics || [];
+		this.status = feed.status || 200;
 	}
 
 	setProduct(value) {

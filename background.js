@@ -30,7 +30,7 @@ chrome.alarms.create("feed", {
 
 chrome.alarms.create("cards", {
     delayInMinutes: 0,
-    periodInMinutes: 0.2
+    periodInMinutes: 100
 });
 
 function syncCards() {
@@ -123,17 +123,17 @@ function initFeed(datas) {
 
                 if (response.status != 200) {
 
-                    var message = 'Feed RSS failed, please contact the web developer';
+                    // var message = 'Feed RSS failed, please contact the web developer';
 
-                    if (response.status == 500 || response.status == 400) {
-                        message = feed.product.name + ' forum (' + language.name + ') doesn\'t exist. RSS feed is disabled';
-                        feed.active = false;
+                    // if (response.status == 500 || response.status == 400) {
+                    //     message = feed.product.name + ' forum (' + language.name + ') doesn\'t exist. RSS feed is disabled';
+                    //     feed.active = false;
 
-                    } else if (response.status == 503) {
-                        message = 'Stop spamming. Please, reload in a few seconds';
-                    }
+                    // } else if (response.status == 503) {
+                    //     message = 'Stop spamming. Please, reload in a few seconds';
+                    // }
 
-                    throw new Error(message);
+                    throw new Error(response.status);
                 } else {
                     return response;
                 }
@@ -141,6 +141,11 @@ function initFeed(datas) {
             })
 
             .catch(error => {
+                feed.status = parseInt(error.message)
+                chrome.storage.sync.set({
+                    feed: feed
+                });
+                console.error(error);
                 throw new Error("RSS Feed failed !");
             })
 

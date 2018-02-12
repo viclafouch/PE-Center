@@ -340,7 +340,27 @@ function init(storage) {
 
     if (feed.active) {
 
-        if (feed.topics.length == 0) {
+        if (feed.status != 200) {
+            var message = 'Feed RSS failed, please contact the web developer';
+
+            if (feed.status == 500 || feed.status == 400) {
+                message = feed.product.name + ' forum (' + language.name + ') doesn\'t exist. RSS feed is disabled';
+                feed.active = false;
+
+                chrome.storage.sync.set({
+                    feed: feed
+                });
+
+            } else if (feed.status == 503) {
+                message = 'Stop spamming. Please, reload in a few seconds';
+            }
+
+            containerTopics.innerHTML = '';
+            errorFeed(containerTopics, message);
+
+            return false;
+
+        } else if (feed.topics.length == 0) {
             return false;
         }
 
@@ -355,7 +375,6 @@ function init(storage) {
            topic.new = false;
            return topic;
         });
-
 
         chrome.storage.sync.set({
             feed: feed
