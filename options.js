@@ -109,10 +109,13 @@ function bindLanguages(languagesNodes) {
 
             language.active = true;
 
+            feed.topics = [];
+
             this.firstElementChild.classList.add('active');
 
             chrome.storage.sync.set({
-                language: language || defaultLanguage
+                language: language || defaultLanguage,
+                feed: feed
             }, successDOM ({
                 "datas": languages,
                 "type": 'language'
@@ -269,7 +272,7 @@ function restore_options() {
                     continue;
                 }
             }
-        });
+        });;
 
         for (var i = 0; i < languages.length; i++) {
             languages[i].active = false;
@@ -287,6 +290,7 @@ function restore_options() {
         }
 
         feed = getFeed(items.feed);
+
         search = getSearch(items.search);
         user = items.user;
 
