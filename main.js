@@ -405,6 +405,8 @@ function init(storage) {
                     chrome.storage.sync.set({
                         feed: feed
                     }, () => {
+                        let today = new Date();
+                        console.log(today);
                         element.redirection();
                     });
                 });

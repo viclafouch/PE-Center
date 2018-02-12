@@ -116,7 +116,8 @@ function bindLanguages(languagesNodes) {
 
             chrome.storage.sync.set({
                 language: language || defaultLanguage,
-                feed: feed
+                feed: feed,
+                lastUpdateFeed: null
             }, successDOM ({
                 "datas": languages,
                 "type": 'language'
@@ -248,7 +249,8 @@ formFeed.addEventListener('submit', function(e) {
     feed.topics = [];
 
     chrome.storage.sync.set({
-        feed: feed
+        feed: feed,
+        lastUpdateFeed: null
     }, successDOM ({
         "datas": feed,
         "type": 'feed'

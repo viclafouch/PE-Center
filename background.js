@@ -25,12 +25,12 @@ const requestCards = new Request('https://ficheandtricks.vicandtips.fr/' + filen
 
 chrome.alarms.create("feed", {
     delayInMinutes: 0,
-    periodInMinutes: 0.5
+    periodInMinutes: 0.3
 });
 
 chrome.alarms.create("cards", {
     delayInMinutes: 0,
-    periodInMinutes: 100
+    periodInMinutes: 0.5
 });
 
 function syncCards() {
@@ -45,7 +45,7 @@ function syncFeed() {
     chrome.storage.sync.get({
         language: language,
         feed: feed,
-        lastUpdateFeed: new Date((new Date()).getTime() - 30000 * 60).toString(),
+        lastUpdateFeed: null,
         user: null,
         lastTopic: null
     }, items => {
@@ -100,11 +100,13 @@ function initCards(datas) {
 
 }
 
+chrome.browserAction.onClicked
+
 function initFeed(datas) {
 
     language = datas.language;
     feed = datas.feed;
-    lastUpdate = (datas.lastUpdateFeed instanceof Date) ? datas.lastUpdateFeed : new Date(datas.lastUpdateFeed);
+    lastUpdate = (datas.lastUpdateFeed === null) ? null : new Date(datas.lastUpdateFeed);
     user = datas.user;
     lastTopic = datas.lastTopic
 
@@ -122,17 +124,6 @@ function initFeed(datas) {
             .then(function (response) {
 
                 if (response.status != 200) {
-
-                    // var message = 'Feed RSS failed, please contact the web developer';
-
-                    // if (response.status == 500 || response.status == 400) {
-                    //     message = feed.product.name + ' forum (' + language.name + ') doesn\'t exist. RSS feed is disabled';
-                    //     feed.active = false;
-
-                    // } else if (response.status == 503) {
-                    //     message = 'Stop spamming. Please, reload in a few seconds';
-                    // }
-
                     throw new Error(response.status);
                 } else {
                     return response;
@@ -196,7 +187,7 @@ function initFeed(datas) {
 
                 function checkDate(elem) {
                     let topicDate = new Date(elem.date);
-                    elem.new = topicDate > lastUpdate;
+                    elem.new = (lastUpdate) ? (topicDate > lastUpdate) : true;
 
                     return elem;
                 }
@@ -253,12 +244,17 @@ function initFeed(datas) {
 
             .then(topics => {
 
-                feed.topics = topics;
-                chrome.storage.sync.set({
-                    feed: feed
-                });
+                let popupOpened = !!(chrome.extension.getViews({ type: "popup" }).length);
 
-                return topics;
+                if (popupOpened && feed.topics.length != 0) {
+                    return false;
+                } else {
+                    feed.topics = topics;
+                    chrome.storage.sync.set({
+                        feed: feed
+                    });
+                    return topics;
+                }
             })
 
             /**
@@ -267,9 +263,19 @@ function initFeed(datas) {
 
             .then(topics => {
 
+                if (topics === false) {
+                    return false;
+                }
+
+                console.log(topics);
+
+
                 let newTopics = topics.filter(topic => {
                     return topic.new;
                 });
+
+                console.log(newTopics);
+
 
                 if (newTopics.length > 0) {
 
@@ -287,9 +293,8 @@ function initFeed(datas) {
 
                             let idNotif = (Math.floor(Math.random() * (1000000000 - 1 + 1)) + 1).toString();
 
-
-
                             chrome.notifications.create(idNotif, {
+
                                 title: (newTopics[0].title.length > 20) ? newTopics[0].title.slice(0, 20) : newTopics[0].title,
                                 type: 'basic',
                                 iconUrl: 'src/products/192/'+feed.product.img+'.png',
@@ -297,6 +302,7 @@ function initFeed(datas) {
                                 isClickable: true,
                                 contextMessage: newTopics[0].url,
                                 requireInteraction: false,
+
                             }, idNotif => {
 
                                 chrome.notifications.onClicked.addListener(function (id) {
