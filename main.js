@@ -30,8 +30,6 @@ let search = getSearch();
 let feed = getFeed();
 let version = 4;
 
-let flagFetch = false;
-
 const defaultLanguage = languages.filter(obj => {
     return obj.active == true;
 })[0];
@@ -178,10 +176,6 @@ function insertContent(content, iso = language.iso) {
     linktoWebsite.innerHTML = content.anchor[iso]+' <i class="fa fa-external-link" aria-hidden="true"></i>';
     searchInput.setAttribute('placeholder', content.placeholder[iso]);
 
-    document.querySelectorAll('.loaderCards').forEach( element => {
-        element.textContent = content.loading[iso]+'...';
-    });
-
     if (!feed.active) {
         document.getElementById('loaderTopics').classList.add('hidden');
     }
@@ -189,6 +183,7 @@ function insertContent(content, iso = language.iso) {
     document.getElementById('toOptions').innerHTML = '<i class="fa fa-cog" aria-hidden="true"></i> '+content.options[iso];
     document.getElementById('copy').textContent = content.copy[iso];
     document.getElementById('location').textContent = content.location[iso];
+    document.getElementById('loaderTopics').textContent = content.loading[iso]+'...';
 }
 
 /* Search */
@@ -220,10 +215,6 @@ function searchCards(value) {
     });
 
     divAction.style.display = (inResult.length) ? 'flex' : 'none';
-
-    if (flagFetch) {
-        document.getElementById('loaderCards').classList.add('hidden');
-    }
 }
 
 /* Function which has to be loaded after getting chrome storage. (ASYNC) */
@@ -333,9 +324,6 @@ function init(storage) {
             });
 
             DOMCards = cards;
-
-            flagFetch = true;
-
             return DOMCards;
         })
 
@@ -352,8 +340,11 @@ function init(storage) {
 
     if (feed.active) {
 
-        document.getElementById('loaderTopics').classList.add('hidden');
+        if (feed.topics.length == 0) {
+            return false;
+        }
 
+        document.getElementById('loaderTopics').classList.add('hidden');
         let span = document.createElement('span');
         span.classList.add('title_topic');
         span.textContent = content.title[language.iso];
@@ -374,7 +365,7 @@ function init(storage) {
 
             containerTopics.appendChild(element.node);
 
-            element.node.addEventListener('click', () => {
+            element.node.addEventListener('click', function(e)  {
 
                 chrome.storage.sync.get('feed', items => {
 
@@ -409,14 +400,6 @@ function init(storage) {
     searchInput.addEventListener('keyup', function(e) {
 
         let self = this;
-
-        if (!flagFetch && this.value.length > 2) {
-            delay(function(){
-                searchCards(self.value);
-            }, 1000);
-            document.getElementById('loaderCards').classList.remove('hidden');
-            return false;
-        }
 
         containerTopics.style.display = (this.value.length > 0) ? 'none' : 'block';
 
@@ -472,7 +455,7 @@ function init(storage) {
 
     buttonsAction.forEach(element => {
 
-        element.addEventListener('click', () => {
+        element.addEventListener('click', function (e) {
 
             let action = this.getAttribute('id');
 
