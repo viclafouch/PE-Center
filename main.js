@@ -238,37 +238,19 @@ function init(storage) {
     content = getContent(storage.feed);
     insertContent(content);
 
-    fetch(requestCards)
+    let cards = new Promise((resolve, reject) => {
+        chrome.storage.local.get({
+            cards: []
+        }, items => {
+           resolve(items.cards);
+        });
+    });
 
-        /* Check success */
+    cards
 
-        .then(function(response) {
+        /* Transform to a Card */
 
-            if (response.status != 200) {
-                errorFeed(containerResult, 'API failed, please contact the web developer');
-                throw new Error("API failed !");
-            } else {
-                return response;
-            }
-
-        })
-
-         /* Transform to JSON */
-
-        .then(response => {
-            return response.json();
-        })
-
-        /* Transform success ? */
-
-        .catch(() => {
-            errorFeed(containerResult, 'API failed, please contact the web developer');
-            throw new Error("API failed !");
-        })
-
-         /* Transform to a Card */
-
-        .then(function (cards) {
+        .then(cards => {
 
             function newCard(card) {
                 return new Card(card);
@@ -279,16 +261,17 @@ function init(storage) {
 
         /* Choose language */
 
-        .then(function (cards) {
+        .then(cards => {
 
             function filterByLanguage(card) {
                 if (card.title[language.iso]) {
                     card.title.default = card.title[language.iso];
-                    return card;
+                    return true;
                 }
+                return false;
             }
 
-           return cards.filter(filterByLanguage);
+            return cards.filter(filterByLanguage);
         })
 
         /* Choose product(s) */
@@ -586,8 +569,7 @@ chrome.storage.sync.get({
         text: ''
     });
 
-    init(storage);
-
+    init(storage)
 });
 
 /* Autofocus to the search input */

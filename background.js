@@ -1,7 +1,10 @@
 import { getFeed } from './src/js/class/Feed.class.js';
 import getLanguages from './src/js/class/Language.class.js';
 import Topic from './src/js/class/Topic.class.js';
+import Card from './src/js/class/Card.class.js';
+import getProducts from './src/js/class/Product.class.js';
 
+let products = getProducts();
 let feed = getFeed();
 let languages = getLanguages();
 let lastUpdate;
@@ -9,30 +12,95 @@ let requestTopics;
 let user;
 let lastTopic;
 
+let defaultProducts = products.filter(obj => {
+    return obj.active == true;
+});
+
 let language = languages.filter(function (obj) {
     return obj.active == true;
 })[0];
+
+const filename = 'tccenter.json';
+const requestCards = new Request('https://ficheandtricks.vicandtips.fr/' + filename + '?' + Date.now());
 
 chrome.alarms.create("feed", {
     delayInMinutes: 0,
     periodInMinutes: 0.5
 });
 
+chrome.alarms.create("cards", {
+    delayInMinutes: 0,
+    periodInMinutes: 0.2
+});
+
+function syncCards() {
+    chrome.storage.sync.get({
+        cards: []
+    }, items => {
+        initCards(items);
+    });
+}
+
+function syncFeed() {
+    chrome.storage.sync.get({
+        language: language,
+        feed: feed,
+        lastUpdateFeed: new Date((new Date()).getTime() - 30000 * 60).toString(),
+        user: null,
+        lastTopic: null
+    }, items => {
+        initFeed(items);
+    });
+}
+
+syncCards();
+syncFeed();
+
 chrome.alarms.onAlarm.addListener(alarms => {
     if (alarms.name == "feed") {
-        chrome.storage.sync.get({
-            language: language,
-            feed: feed,
-            lastUpdateFeed: new Date((new Date()).getTime() - 30000 * 60).toString(),
-            user: null,
-            lastTopic:  null
-        }, items => {
-            init(items);
-        });
+        syncFeed();
+    } else if (alarms.name == "cards") {
+        syncCards();
     }
 });
 
-function init(datas) {
+function initCards(datas) {
+
+    fetch(requestCards)
+
+        /* Check success */
+
+        .then(response => {
+
+            if (response.status != 200) {
+                throw new Error("API failed !");
+            } else {
+                return response;
+            }
+
+        })
+
+        /* Transform to JSON */
+
+        .then(response => {
+            return response.json();
+        })
+
+        /* Transform success ? */
+
+        .catch(() => {
+            throw new Error("API failed !");
+        })
+
+        .then(cards => {
+            chrome.storage.local.set({
+                cards: cards
+            });
+        });
+
+}
+
+function initFeed(datas) {
 
     language = datas.language;
     feed = datas.feed;
@@ -259,5 +327,4 @@ function init(datas) {
                 }
             });
     }
-
 };
