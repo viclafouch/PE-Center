@@ -282,12 +282,15 @@ function initFeed(datas) {
 
                             let idNotif = (Math.floor(Math.random() * (1000000000 - 1 + 1)) + 1).toString();
 
+
+
                             chrome.notifications.create(idNotif, {
-                                title: newTopics[0].title,
+                                title: (newTopics[0].title.length > 20) ? newTopics[0].title.slice(0, 20) : newTopics[0].title,
                                 type: 'basic',
-                                iconUrl: 'src/img/Logo.png',
-                                message: newTopics[0].description,
+                                iconUrl: 'src/products/192/'+feed.product.img+'.png',
+                                message: (newTopics[0].description.length > 30) ? newTopics[0].description.slice(0, 30) : newTopics[0].description,
                                 isClickable: true,
+                                contextMessage: newTopics[0].url,
                                 requireInteraction: false,
                             }, idNotif => {
 

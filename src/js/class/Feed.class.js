@@ -3,57 +3,68 @@ export const productsAvailable = [
 	{
 		'name': 'YouTube',
 		'id': 0,
-		'param': 'youtube'
+		'param': 'youtube',
+		'img': 'youtube'
 	},
 	{
 		'name': 'Chrome',
 		'id': 1,
-		'param': 'chrome'
+		'param': 'chrome',
+		'img': 'chrome'
 	},
 	{
 		'name': 'Gmail',
 		'id': 2,
-		'param': 'gmail'
+		'param': 'gmail',
+		'img': 'gmail'
 	},
 	{
 		'name': 'AdSense',
 		'id': 3,
-		'param': 'adsense'
+		'param': 'adsense',
+		'img': 'adsense'
 	},
 	{
 		'name': 'Maps',
 		'id': 4,
-		'param': 'maps'
+		'param': 'maps',
+		'img': 'maps'
 	},
 	{
 		'name': 'Photos',
 		'id': 5,
-		'param': 'photos'
+		'param': 'photos',
+		'img': 'photos'
 	},
 	{
 		'name': 'Websearch',
 		'id': 6,
-		'param': 'websearch'
+		'param': 'websearch',
+		'img': 'websearch'
 	},
 	{
 		'name': 'Calendar',
 		'id': 7,
-		'param': 'calendar'
+		'param': 'calendar',
+		'img': 'calendar'
 	},
 	{
 		'name': 'Webmaster',
 		'id': 8,
-		'param': 'webmaster'
+		'param': 'webmaster',
+		'img': 'search-console'
 	},
 	{
 		'name': 'Chromebook',
 		'id': 9,
-		'param': 'chromebook-central'
+		'param': 'chromebook-central',
+		'img': 'chromebook'
 	},
 	{
 		'name': 'G Suite Administrator',
 		'id': 10,
-		'param': 'apps'
+		'param': 'apps',
+		'img': 'g-suite'
 	},
 ];
 

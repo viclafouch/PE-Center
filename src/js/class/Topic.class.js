@@ -8,7 +8,11 @@ export default class Topic {
 
         this.url = data.url || data.getElementsByTagName('guid')[0].textContent;
 
-        this.description = data.description || data.getElementsByTagName('description')[0].textContent;
+        if (data.description == '') {
+            this.description = data.description == ''
+        } else {
+            this.description = data.description || data.getElementsByTagName('description')[0].textContent;
+        }
 
         this.author = data.author || data.getElementsByTagName('author')[0].textContent.trim() // Why ? Best XML ever.. LOL
 

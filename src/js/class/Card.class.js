@@ -1,4 +1,4 @@
-let path = 'src/products';
+let path = 'src/products/64';
 
 /* Card Object */
 
@@ -61,7 +61,7 @@ export default class Card {
         article.appendChild(p);
 
         this.node = article;
-       
+
         return article;
     }
 

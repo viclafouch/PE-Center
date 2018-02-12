@@ -1,4 +1,4 @@
-let path = 'src/products';
+let path = 'src/products/64';
 
 const _products = [
 	{
