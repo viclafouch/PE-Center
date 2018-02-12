@@ -7,6 +7,7 @@ let languages = getLanguages();
 let lastUpdate;
 let requestTopics;
 let user;
+let lastTopic;
 
 let language = languages.filter(function (obj) {
     return obj.active == true;
@@ -14,7 +15,7 @@ let language = languages.filter(function (obj) {
 
 chrome.alarms.create("feed", {
     delayInMinutes: 0,
-    periodInMinutes: 0.3
+    periodInMinutes: 0.2
 });
 
 chrome.alarms.onAlarm.addListener(alarms => {
@@ -22,8 +23,9 @@ chrome.alarms.onAlarm.addListener(alarms => {
         chrome.storage.sync.get({
             language: language,
             feed: feed,
-            lastUpdateFeed: new Date(),
+            lastUpdateFeed: new Date((new Date()).getTime() - 30000 * 60).toString(),
             user: null,
+            lastTopic:  null
         }, items => {
             init(items);
         });
@@ -36,6 +38,7 @@ function init(datas) {
     feed = datas.feed;
     lastUpdate = (datas.lastUpdateFeed instanceof Date) ? datas.lastUpdateFeed : new Date(datas.lastUpdateFeed);
     user = datas.user;
+    lastTopic = datas.lastTopic
 
     if (language.iso == 'en') {
         feed.product.param = (feed.product.param == 'webmaster') ? 'webmasters' : feed.product.param;
@@ -45,6 +48,9 @@ function init(datas) {
     }
 
     if (feed.active) {
+
+        console.log(feed.topics);
+
 
         fetch(requestTopics)
 
@@ -87,7 +93,7 @@ function init(datas) {
                 return xmlDoc.getElementsByTagName("rss")[0].getElementsByTagName('channel')[0].children;
             })
 
-            /* Transform to array */
+            /* Transform to an array */
 
             .then(topic => {
                 topic = Array.prototype.slice.call(topic);
@@ -95,7 +101,10 @@ function init(datas) {
                 return topic;
             })
 
-            /* Get items */
+            /**
+             * Transform 'item' tag to a Topic
+             * return [Topic]
+             */
 
             .then(topic => {
 
@@ -103,49 +112,154 @@ function init(datas) {
                     return topic.tagName == 'item';
                 }
 
-                return topic.filter(findItem).map(function (elem) {
+                return topic.filter(findItem).map(elem => {
                     return new Topic(elem);
                 });
             })
 
+            /**
+             * Check last date updated
+             * return [Topic]
+             */
+
             .then(topics => {
 
-                if (feed.topics.length > 0) {
+                function checkDate(elem) {
+                    let topicDate = new Date(elem.date);
+                    elem.new = topicDate > lastUpdate;
 
-                    function checkDate(topic) {
-                        topic.new = (new Date(topic.date)) > lastUpdate;
-
-                        let index = feed.topics.findIndex(elem => elem.date === topic.date);
-                        topic.visited = (index >= 0) ? feed.topics[index].visited : false;
-
-                        return topic;
-                    }
-
-                    topics = topics.map(checkDate);
-
+                    return elem;
                 }
 
-                return topics;
+                return topics.map(checkDate);
+
             })
+
+            /**
+             * Check if topic exist in storage
+             * return [Topic]
+             */
+
+            .then(topics => {
+
+                function topicAlreadyExists(topic) {
+                    let index = feed.topics.findIndex(elem => elem.date === topic.date);
+
+                    if (index >= 0) {
+                        topic.visited = feed.topics[index].visited;
+                        topic.new = feed.topics[index].new;
+                    }
+
+                    return topic;
+                }
+
+               return topics.map(topicAlreadyExists);
+            })
+
+            /**
+             * Check author
+             * return [Topic]
+             */
+
+            .then(topics => {
+
+                function checkAuthor(topic) {
+                    if (topic.new) {
+                        topic.new = (user.name != topic.author);
+                    }
+                    if (!topic.visited) {
+                        topic.visited = (user.name == topic.author);
+                    }
+                    return topic;
+                }
+
+                return (user != null) ? topics.map(checkAuthor) : topics;
+            })
+
+            /**
+             * Send topics to storage
+             * return [Topic]
+             */
 
             .then(topics => {
 
                 feed.topics = topics;
-
-                console.log(feed.topics);
-
                 chrome.storage.sync.set({
                     feed: feed
                 });
 
-                topics = topics.filter(topic => {
-                    return topic.new
+                return topics;
+            })
+
+            /**
+             * Get last topic
+             */
+
+            .then(topics => {
+
+                let newTopics = topics.filter(topic => {
+                    return topic.new;
                 });
 
-                chrome.browserAction.setBadgeText({
-                    text: (topics.length > 0) ? topics.length.toString() : ''
-                });
+                if (newTopics.length > 0) {
 
+                    chrome.browserAction.setBadgeText({
+                        text: newTopics.length.toString()
+                    });
+
+                    chrome.storage.sync.set({
+                        lastTopic: newTopics[0]
+                    });
+
+                    if (lastTopic) {
+
+                        if (newTopics[0].date != lastTopic.date) {
+
+                            let idNotif = (Math.floor(Math.random() * (1000000000 - 1 + 1)) + 1).toString();
+
+                            chrome.notifications.create(idNotif, {
+                                title: newTopics[0].title,
+                                type: 'basic',
+                                iconUrl: 'src/img/Logo.png',
+                                message: newTopics[0].description,
+                                isClickable: true,
+                                requireInteraction: false,
+                            }, idNotif => {
+
+                                chrome.notifications.onClicked.addListener(function (id) {
+
+                                    if (id == idNotif) {
+
+                                        chrome.notifications.clear(idNotif, () => {
+
+                                            let index = topics.findIndex(elem => elem.id === newTopics[0].id);
+
+                                            topics[index].visited = true;
+                                            topics[index].redirection(true);
+                                            topics[index].new = false;
+
+                                            chrome.browserAction.getBadgeText({}, (nbNew) => {
+
+                                                nbNew = (nbNew > 0) ? (parseInt(nbNew) - 1) : '';
+                                                nbNew = (nbNew === 0) ? '' : nbNew;
+
+                                                chrome.browserAction.setBadgeText({
+                                                    text: nbNew.toString()
+                                                });
+
+                                                feed.topics = topics;
+
+                                                chrome.storage.sync.set({
+                                                    feed: feed
+                                                });
+                                            });
+                                        });
+                                    }
+                                });
+                            });
+                        }
+                    }
+                }
             });
     }
 

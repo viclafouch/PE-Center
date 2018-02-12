@@ -104,7 +104,7 @@ body.TC_center_popup article.TC_center_article_result p {
 }
 
 body.TC_center_popup article.TC_center_article_result:hover, body.TC_center_popup a.topic:hover {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.05);
 }
 
 body.TC_center_popup article.TC_center_article_result.hidden {
@@ -199,7 +199,6 @@ body.TC_center_popup div.TC_center_column_topic span {
 }
 
 body.TC_center_popup div.TC_center_column_topic a.topic {
-    color: #000;
     text-decoration: none;
     font-size: 12px;
     position: relative;
@@ -207,9 +206,24 @@ body.TC_center_popup div.TC_center_column_topic a.topic {
     display: block;
 }
 
-a.topic:not(.visited) {
-    opacity: 0.6;
+a.topic {
+    color: #000;
+    opacity: 1.0;
 }
+
+a.topic p.topic_title {
+    font-weight: bold;
+}
+
+a.topic.visited p.topic_title {
+    font-weight: normal;
+}
+
+a.topic.visited {
+    opacity: 0.6;
+    color: #444;
+}
+
 
 a.topic:not(:last-child) {
     border-bottom: 1px solid rgba(0,0,0,0.15);
@@ -218,12 +232,13 @@ a.topic:not(:last-child) {
 a.topic span.displaying {
     display: block;
     position: absolute;
-    bottom: 2px;
+    bottom: 1px;
+    z-index: 2;
     right: 5px;
+    color: #202d42;
 }
 
 a.topic p.topic_title {
-    color: #000;
     font-size: 12.5px;
     margin: 0;
 }

@@ -369,9 +369,6 @@ function init(storage) {
 
     if (feed.active) {
 
-        console.log(feed);
-
-
         document.getElementById('loaderTopics').classList.add('hidden');
 
         let span = document.createElement('span');
@@ -380,11 +377,14 @@ function init(storage) {
         containerTopics.appendChild(span);
 
         feed.topics = feed.topics.map(topic => {
-            console.log(topic);
-            return new Topic(topic);
+           topic = new Topic(topic);
+           topic.new = false;
+           return topic;
         });
 
-        console.log(feed.topics);
+        chrome.storage.sync.set({
+            feed: feed
+        });
 
         feed.topics.forEach(element => {
 
@@ -405,9 +405,6 @@ function init(storage) {
                     if (index >= 0) {
                         feed.topics[index] = element;
                     }
-
-                    console.log(feed.topics);
-
 
                     chrome.storage.sync.set({
                         feed: feed

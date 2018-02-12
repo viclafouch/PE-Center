@@ -14,7 +14,7 @@ export default class Topic {
 
         this.date = data.date || data.getElementsByTagName('pubDate')[0].textContent;
 
-        this.new = data.new || true;
+        this.new = data.new || false;
 
         this.visited = data.visited || false;
 
@@ -59,11 +59,14 @@ export default class Topic {
        	return article;
   	}
 
-    redirection() {
+    redirection(active = false) {
         this.visited = true;
         this.node.classList.add('visited');
+
+        this.node.querySelector('.displaying').innerHTML = '<i class="fa fa-envelope-open"></i>';
+
         chrome.tabs.create({
-            active: false,
+            active: active,
             url: this.url,
             pinned: false
         });
