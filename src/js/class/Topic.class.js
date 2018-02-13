@@ -14,7 +14,7 @@ export default class Topic {
             this.description = data.description || data.getElementsByTagName('description')[0].textContent;
         }
 
-        this.author = data.author || data.getElementsByTagName('author')[0].textContent.trim() // Why ? Best XML ever.. LOL
+        this.author = data.author || data.getElementsByTagName('author')[0].textContent.trim();
 
         this.date = data.date || data.getElementsByTagName('pubDate')[0].textContent;
 

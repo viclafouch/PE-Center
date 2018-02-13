@@ -252,6 +252,8 @@ a.topic p.topic_author {
 
 a.topic p.topic_description {
     margin: 0;
+    overflow: hidden;
+    width: 250px;
 }
 
 /*=====  End of Popup  ======*/

@@ -24,13 +24,13 @@ const filename = 'tccenter.json';
 const requestCards = new Request('https://ficheandtricks.vicandtips.fr/' + filename + '?' + Date.now());
 
 chrome.alarms.create("feed", {
-    delayInMinutes: 0,
-    periodInMinutes: 0.3
+    delayInMinutes: 1,
+    periodInMinutes: 1
 });
 
 chrome.alarms.create("cards", {
-    delayInMinutes: 0,
-    periodInMinutes: 0.5
+    delayInMinutes: 1,
+    periodInMinutes: 90
 });
 
 function syncCards() {
@@ -267,15 +267,9 @@ function initFeed(datas) {
                     return false;
                 }
 
-                console.log(topics);
-
-
                 let newTopics = topics.filter(topic => {
                     return topic.new;
                 });
-
-                console.log(newTopics);
-
 
                 if (newTopics.length > 0) {
 
@@ -298,7 +292,7 @@ function initFeed(datas) {
                                 title: (newTopics[0].title.length > 20) ? newTopics[0].title.slice(0, 20) : newTopics[0].title,
                                 type: 'basic',
                                 iconUrl: 'src/products/192/'+feed.product.img+'.png',
-                                message: (newTopics[0].description.length > 30) ? newTopics[0].description.slice(0, 30) : newTopics[0].description,
+                                message: (newTopics[0].description.length > 35) ? newTopics[0].description.slice(0, 35)+'...' : newTopics[0].description,
                                 isClickable: true,
                                 contextMessage: newTopics[0].url,
                                 requireInteraction: false,

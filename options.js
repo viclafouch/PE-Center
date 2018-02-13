@@ -112,6 +112,10 @@ function bindLanguages(languagesNodes) {
             feed.topics = [];
             feed.status = 200;
 
+            chrome.browserAction.setBadgeText({
+                text: ''
+            });
+
             this.firstElementChild.classList.add('active');
 
             chrome.storage.sync.set({
@@ -180,7 +184,10 @@ function insertMessage(options) {
         return false;
     } else if (options.type == 'user') {
         if (options.datas != null) {
-            status.innerHTML = 'Your display name is <b>"'+options.datas.name+'"</b>';
+            let b = document.createElement('b');
+            b.textContent = '"' + options.datas.name+'"';
+            status.textContent = 'Your display name is ';
+            status.appendChild(b);
         } else {
             status.textContent = 'No display name provided';
         }
@@ -255,11 +262,9 @@ formFeed.addEventListener('submit', function(e) {
     feed.status = 200;
     feed.topics = [];
 
-    if (!feed.active) {
-        chrome.browserAction.setBadgeText({
-            text: ''
-        });
-    }
+    chrome.browserAction.setBadgeText({
+        text: ''
+    });
 
     chrome.storage.sync.set({
         feed: feed,
