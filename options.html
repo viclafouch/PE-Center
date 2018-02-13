@@ -27,12 +27,14 @@
 			<section class="screens col col-hori-center wrap">
 				<h1>Options</h1>
 				<div class="container-options col col-hori-center col-verti-between container-name">
-					<h2>Your display name</h2>
+					<h2>Your display name (forum)</h2>
 					<div class="container-form">
-						<div contenteditable="true" id="displayName" spellcheck="false" class="diveditable" tabindex="0">Put your display name (forum) here</div>
-						<button id="saveDisplayName">Save</button>
+						<div contenteditable="true" id="displayName" spellcheck="false" class="diveditable" tabindex="0"></div>
+						<div class="form-field row row-hori-center">
+							<button id="saveDisplayName">Save</button>
+						</div>
 					</div>
-					<p class="message" data-message="name">&nbsp;</p>
+					<p class="message" data-message="user">&nbsp;</p>
 				</div>
 				<div class="row row-hori-center wrap">
 					<div class="container-options col col-hori-center col-verti-between container-limit">
@@ -47,7 +49,9 @@
 										<label for="saveSearch" id="saveSearch"></label>
 									</div>
 								</div>
-								<input type="submit" name="limit" value="Save">
+								<div class="form-field row row-hori-center">
+									<input type="submit" name="limit" value="Save">
+								</div>
 							</form>
 						</div>
 						<p class="message" data-message="limit">&nbsp;</p>
@@ -61,6 +65,13 @@
 									<div class="TC_center_switch row">
 										<input id="showFeed" class="TC_center_toggle" tabindex="0" name="show" type="checkbox">
 										<label for="showFeed" id="showFeed"></label>
+									</div>
+								</div>
+								<div class="form-field row row-verti-center">
+									<span>Show notification ?</span>
+									<div class="TC_center_switch row">
+										<input id="showNotification" class="TC_center_toggle" tabindex="0" name="show" type="checkbox">
+										<label for="showNotification" id="showNotification"></label>
 									</div>
 								</div>
 								<div class="form-field row row-verti-center">

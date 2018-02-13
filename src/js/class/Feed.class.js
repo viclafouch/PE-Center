@@ -74,6 +74,7 @@ class Feed {
 		this.id = 'feed';
 		this.product = feed.product;
 		this.active = feed.active;
+		this.notification = feed.notification;
 		this.content = feed.content;
 		this.topics = feed.topics || [];
 		this.status = feed.status || 200;
@@ -87,6 +88,10 @@ class Feed {
 		this.active = (typeof(value) === "boolean") ? value : true;
 	}
 
+	setNotification(value) {
+		this.notification = (typeof (value) === "boolean") ? value : true;
+	}
+
 	setContent(value) {
 		this.content = (contentsAvailable.includes(value)) ? value : contentsAvailable[0];
 	}
@@ -95,6 +100,7 @@ class Feed {
 
 export function getFeed(feed = {
 	'active': true,
+	'notification': true,
 	'product': productsAvailable[0],
 	'content': contentsAvailable[0],
 }) {

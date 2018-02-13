@@ -178,6 +178,12 @@ function insertMessage(options) {
         span.innerHTML = 'Last <b>'+options.datas.content+'</b> from <b>'+options.datas.product.name+'</b> forum <b>'+w+'</b> displayed';
         status.appendChild(span);
         return false;
+    } else if (options.type == 'user') {
+        if (options.datas != null) {
+            status.innerHTML = 'Your display name is <b>"'+options.datas.name+'"</b>';
+        } else {
+            status.textContent = 'No display name provided';
+        }
     } else {
        status.textContent = 'No '+options.type+' selected';
     }
@@ -242,11 +248,18 @@ formFeed.addEventListener('submit', function(e) {
     e.preventDefault();
 
     feed.setActive(document.getElementById('showFeed').checked);
+    feed.setNotification(document.getElementById('showNotification').checked);
     feed.setProduct(document.getElementById('productFeed').value);
     feed.setContent(document.getElementById('contentFeed').value);
 
     feed.status = 200;
     feed.topics = [];
+
+    if (!feed.active) {
+        chrome.browserAction.setBadgeText({
+            text: ''
+        });
+    }
 
     chrome.storage.sync.set({
         feed: feed,
@@ -296,9 +309,11 @@ function restore_options() {
         }
 
         feed = getFeed(items.feed);
-
         search = getSearch(items.search);
         user = items.user;
+
+        console.log(feed);
+
 
         document.querySelectorAll('.message').forEach( function(element, index) {
 
@@ -322,6 +337,11 @@ function restore_options() {
                     "datas": feed,
                     "type": 'feed'
                 };
+            } else if (element.getAttribute('data-message') == 'user') {
+                var options = {
+                    "datas": user,
+                    "type": 'user'
+                };
             }
 
             if (options) {
@@ -331,15 +351,15 @@ function restore_options() {
 
         document.getElementById('limit').value = search.limit
         if (feed.active) { document.getElementById('showFeed').setAttribute('checked', 'checked'); }
+        if (feed.notification) { document.getElementById('showNotification').setAttribute('checked', 'checked'); }
         if (search.save) { document.getElementById('saveSearch').setAttribute('checked', 'checked'); }
         document.getElementById('contentFeed').value = items.feed.content;
         document.getElementById('productFeed').value = items.feed.product.id;
         tabEnter(document.getElementById('showFeed'));
         tabEnter(document.getElementById('saveSearch'));
 
-        console.log(items.user);
-
         if (items.user) {
+            displayName.classList.add('active');
             displayName.textContent = items.user.name;
         }
 
@@ -348,15 +368,18 @@ function restore_options() {
 
 displayName.addEventListener('focus', function (e) {
     if (!user) {
-        this.textContent = '';
+        this.classList.add('active');
     }
 }, false);
 
 displayName.addEventListener('blur', function (e) {
     if (this.textContent.trim() == '') {
         user = null;
-        this.textContent = 'Put your display name (forum) here';
+        this.classList.remove('active');
     }
+
+    this.textContent = this.textContent.trim();
+
 }, false);
 
 addDN.addEventListener('click', function (e) {
@@ -364,7 +387,10 @@ addDN.addEventListener('click', function (e) {
         user = new User(displayName.textContent.toString());
         chrome.storage.sync.set({
             user: user
-        });
+        }, successDOM({
+            "datas": user,
+            "type": 'user'
+        }));
     }
 });
 

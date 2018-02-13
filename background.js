@@ -287,7 +287,7 @@ function initFeed(datas) {
                         lastTopic: newTopics[0]
                     });
 
-                    if (lastTopic) {
+                    if (lastTopic && feed.notification) {
 
                         if (newTopics[0].date != lastTopic.date) {
 

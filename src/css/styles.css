@@ -369,9 +369,32 @@ body.TC_center_options div.container-options.container-name {
 
 body.TC_center_options div.container-options.container-name div.diveditable {
     text-align: center;
-    padding: 10px;
-    max-width: 400px;
-    margin: 10px 0;
+    padding: 3px 10px;
+    width: 200px;
+    margin: 15px 0;
+    border: 0;
+    position: relative;
+    font-size: 15px;
+    outline: none;
+    border-bottom: 1px dotted rgba(0,0,0,0.1);
+}
+
+ div.diveditable::after {
+    content: 'Your display name here';
+    visibility: visible;
+    position: absolute;
+    width: 100%;
+    cursor: text;
+    left: 50%;
+    top: 50%;
+    font-size: 13px;
+    text-align: center;
+    color: #7f8c8d;
+    transform: translate(-50%, -50%);
+ }
+
+div.diveditable.active::after {
+      visibility: hidden;
 }
 
 input[type=number]::-webkit-inner-spin-button,
@@ -392,10 +415,6 @@ body.TC_center_options div.container-limit input.choose_number {
     outline: none;
     text-align: center;
     font-size: 15px;
-}
-
-body.TC_center_options div.container-limit input[type=submit] {
-    margin-bottom: 25px;
 }
 
 body.TC_center_options div.container-form {
