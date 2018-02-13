@@ -116,12 +116,15 @@ function bindLanguages(languagesNodes) {
                 text: ''
             });
 
+            chrome.runtime.sendMessage(null, { update: 'feed' });
+
             this.firstElementChild.classList.add('active');
 
             chrome.storage.sync.set({
                 language: language || defaultLanguage,
                 feed: feed,
-                lastUpdateFeed: null
+                lastUpdateFeed: null,
+                lastTopic: null
             }, successDOM ({
                 "datas": languages,
                 "type": 'language'
@@ -266,9 +269,12 @@ formFeed.addEventListener('submit', function(e) {
         text: ''
     });
 
+    chrome.runtime.sendMessage(null, { update: 'feed' });
+
     chrome.storage.sync.set({
         feed: feed,
-        lastUpdateFeed: null
+        lastUpdateFeed: null,
+        lastTopic: null
     }, successDOM ({
         "datas": feed,
         "type": 'feed'
@@ -296,7 +302,7 @@ function restore_options() {
                     continue;
                 }
             }
-        });;
+        });
 
         for (var i = 0; i < languages.length; i++) {
             languages[i].active = false;
@@ -316,9 +322,6 @@ function restore_options() {
         feed = getFeed(items.feed);
         search = getSearch(items.search);
         user = items.user;
-
-        console.log(feed);
-
 
         document.querySelectorAll('.message').forEach( function(element, index) {
 

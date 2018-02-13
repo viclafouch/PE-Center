@@ -8,10 +8,14 @@ export default class Topic {
 
         this.url = data.url || data.getElementsByTagName('guid')[0].textContent;
 
-        if (data.description == '') {
-            this.description = data.description == ''
+        if (data.url === undefined) {
+            if (data.getElementsByTagName('description')) { // Sometime, RSS bug... wtf(<description/>)
+                this.description = data.getElementsByTagName('description')[0].textContent;
+            } else {
+                this.description = '';
+            }
         } else {
-            this.description = data.description || data.getElementsByTagName('description')[0].textContent;
+            this.description = data.description;
         }
 
         this.author = data.author || data.getElementsByTagName('author')[0].textContent.trim();

@@ -1,3 +1,10 @@
+/**
+ *
+ * Background file
+ * Contact me if you need some explanation
+ *
+ */
+
 import { getFeed } from './src/js/class/Feed.class.js';
 import getLanguages from './src/js/class/Language.class.js';
 import Topic from './src/js/class/Topic.class.js';
@@ -41,6 +48,17 @@ function syncCards() {
     });
 }
 
+/**
+ * If user edit his feed options.
+ * Launch SyncFeed
+ */
+
+chrome.runtime.onMessage.addListener(message => {
+    if (message && message.update == 'feed') {
+        syncFeed();
+    }
+});
+
 function syncFeed() {
     chrome.storage.sync.get({
         language: language,
@@ -52,9 +70,6 @@ function syncFeed() {
         initFeed(items);
     });
 }
-
-syncCards();
-syncFeed();
 
 chrome.alarms.onAlarm.addListener(alarms => {
     if (alarms.name == "feed") {
@@ -188,7 +203,6 @@ function initFeed(datas) {
                 function checkDate(elem) {
                     let topicDate = new Date(elem.date);
                     elem.new = (lastUpdate) ? (topicDate > lastUpdate) : true;
-
                     return elem;
                 }
 
@@ -336,3 +350,6 @@ function initFeed(datas) {
             });
     }
 };
+
+syncCards();
+syncFeed();

@@ -3,14 +3,14 @@ const _languages = [
 		'iso': 'fr',
 		'flag': 'fr',
 		'name': 'French',
-		'active': true
+		'active': false
 	},
 
 	{
 		'iso': 'en',
 		'flag': 'gb',
 		'name': 'English',
-		'active': false
+		'active': true
 	},
 
 	{
@@ -47,7 +47,7 @@ const _languages = [
 		'name': 'Portuguese',
 		'active': false
 	},
-	
+
 ]
 
 class Language {

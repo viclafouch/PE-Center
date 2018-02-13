@@ -2,9 +2,9 @@
     "name": "TC's Center",
     "short_name": "TCs Center",
     "manifest_version": 2,
-    "description": "Fast and easy way to copy and access to the tips of the Google Help Center",
+    "description": "A quick and easy way to help users on the Google Product Forum !",
     "author": "Victor de la Fouchardiere",
-    "version": "2.17",
+    "version": "2.20",
     "permissions": [
         "clipboardWrite",
         "clipboardRead",
