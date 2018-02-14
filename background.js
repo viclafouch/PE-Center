@@ -49,7 +49,7 @@ const requestCards = new Request('https://ficheandtricks.vicandtips.fr/' + filen
  * ?? reset default options
  */
 
-const version = 2;
+const version = 1;
 
 chrome.storage.sync.get({
     version: version - 1,
@@ -154,8 +154,6 @@ function initCards(datas) {
 
         .then(response => {
 
-            console.log(response);
-
             if (response.status != 200) {
                 throw new Error("API failed !");
             } else {
@@ -183,8 +181,6 @@ function initCards(datas) {
         });
 
 }
-
-chrome.browserAction.onClicked
 
 function initFeed(datas) {
 
