@@ -11,6 +11,18 @@ import Topic from './src/js/class/Topic.class.js';
 import Card from './src/js/class/Card.class.js';
 import getProducts from './src/js/class/Product.class.js';
 
+const ALARM_FEED = {
+    name: "feed",
+    delay: 1,
+    period: 1
+}
+
+const ALARM_CARDS = {
+    name: "cards",
+    delay: 1,
+    period: 90
+}
+
 let products = getProducts();
 let feed = getFeed();
 let languages = getLanguages();
@@ -30,14 +42,14 @@ let language = languages.filter(function (obj) {
 const filename = 'tccenter.json';
 const requestCards = new Request('https://ficheandtricks.vicandtips.fr/' + filename + '?' + Date.now());
 
-chrome.alarms.create("feed", {
-    delayInMinutes: 1,
-    periodInMinutes: 1
+chrome.alarms.create(ALARM_FEED.name, {
+    delayInMinutes: ALARM_FEED.delay,
+    periodInMinutes: ALARM_FEED.period
 });
 
-chrome.alarms.create("cards", {
-    delayInMinutes: 1,
-    periodInMinutes: 90
+chrome.alarms.create(ALARM_CARDS.name, {
+    delayInMinutes: ALARM_CARDS.delay,
+    periodInMinutes: ALARM_CARDS.period
 });
 
 function syncCards() {
@@ -53,9 +65,24 @@ function syncCards() {
  * Launch SyncFeed
  */
 
+var delay = (function () {
+    var timer = 0;
+    return function (callback, ms) {
+        clearTimeout(timer);
+        timer = setTimeout(callback, ms);
+    };
+})();
+
 chrome.runtime.onMessage.addListener(message => {
     if (message && message.update == 'feed') {
-        syncFeed();
+        chrome.alarms.clear(ALARM_FEED.name);
+        delay(() => {
+            syncFeed();
+            chrome.alarms.create(ALARM_FEED.name, {
+                delayInMinutes: ALARM_FEED.delay,
+                periodInMinutes: ALARM_FEED.period
+            });
+        }, 3000);
     }
 });
 
@@ -136,7 +163,9 @@ function initFeed(datas) {
 
         fetch(requestTopics)
 
-            .then(function (response) {
+            .then(response => {
+
+                feed.status = parseInt(response.status);
 
                 if (response.status != 200) {
                     throw new Error(response.status);
@@ -147,7 +176,6 @@ function initFeed(datas) {
             })
 
             .catch(error => {
-                feed.status = parseInt(error.message)
                 chrome.storage.sync.set({
                     feed: feed
                 });
