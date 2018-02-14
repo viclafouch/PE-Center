@@ -28,7 +28,6 @@ let products = getProducts();
 let languages = getLanguages();
 let search = getSearch();
 let feed = getFeed();
-let version = 4;
 
 const defaultLanguage = languages.filter(obj => {
     return obj.active == true;
@@ -54,14 +53,6 @@ let content; // all text of popup in the language used
 let requestTopics; // which forum for RSS feed
 
 let activeCard;
-
-storage = {
-    language: defaultLanguage,
-    products: defaultProducts,
-    feed: feed,
-    search: search,
-    update: version
-}
 
 /* I'm using diacritics for the search feature */
 
@@ -267,7 +258,7 @@ function init(storage) {
 
         /* Choose product(s) */
 
-        .then(function(cards) {
+        .then(cards => {
 
             function filterByProducts(card) {
                 for (var i = products.length - 1; i >= 0; i--) {
@@ -283,7 +274,7 @@ function init(storage) {
 
         /* Append cards to DOM */
 
-        .then(function(cards) {
+        .then(cards => {
 
             function addToDom(card) {
                 card.node = card.setNode();
@@ -296,7 +287,7 @@ function init(storage) {
 
         /* Bind click for each cards */
 
-        .then(function(cards) {
+        .then(cards => {
 
             cards.forEach(element => {
 
@@ -550,20 +541,9 @@ chrome.storage.sync.get({
     products: defaultProducts,
     feed: feed,
     search: search,
-    update: version
 }, function(data) {
-    if (data.update != version) {
-        storage.update = version;
-        chrome.storage.sync.set({
-            language: storage.language,
-            products: storage.products,
-            feed: storage.feed,
-            search: storage.search,
-            update: storage.update
-        });
-    } else {
-        storage = data;
-    }
+
+    storage = data;
 
     chrome.storage.sync.set({
         lastUpdateFeed: (new Date()).toString()
@@ -573,7 +553,7 @@ chrome.storage.sync.get({
         text: ''
     });
 
-    init(storage)
+    init(storage);
 });
 
 /* Autofocus to the search input */

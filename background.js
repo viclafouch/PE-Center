@@ -7,6 +7,7 @@
 
 import { getFeed } from './src/js/class/Feed.class.js';
 import getLanguages from './src/js/class/Language.class.js';
+import getSearch from './src/js/class/Search.class.js';
 import Topic from './src/js/class/Topic.class.js';
 import Card from './src/js/class/Card.class.js';
 import getProducts from './src/js/class/Product.class.js';
@@ -26,6 +27,7 @@ const ALARM_CARDS = {
 let products = getProducts();
 let feed = getFeed();
 let languages = getLanguages();
+let search = getSearch();
 let lastUpdate;
 let requestTopics;
 let user;
@@ -42,10 +44,48 @@ let language = languages.filter(function (obj) {
 const filename = 'tccenter.json';
 const requestCards = new Request('https://ficheandtricks.vicandtips.fr/' + filename + '?' + Date.now());
 
+/**
+ * Verif version extension chrome
+ * ?? reset default options
+ */
+
+const version = 2;
+
+chrome.storage.sync.get({
+    version: version - 1,
+}, items => {
+    if (version != items.version) {
+
+        chrome.storage.sync.set({
+            language: language,
+            products: defaultProducts,
+            feed: feed,
+            search: search,
+            version: version,
+            lastUpdateFeed: null,
+            user: null,
+            lastTopic: null
+        });
+
+        chrome.browserAction.setBadgeText({
+            text: ''
+        });
+    }
+});
+
+
+/**
+ * Launch alarm feed
+ */
+
 chrome.alarms.create(ALARM_FEED.name, {
     delayInMinutes: ALARM_FEED.delay,
     periodInMinutes: ALARM_FEED.period
 });
+
+/**
+ * Launch alarm cards
+ */
 
 chrome.alarms.create(ALARM_CARDS.name, {
     delayInMinutes: ALARM_CARDS.delay,
