@@ -66,6 +66,12 @@ export const productsAvailable = [
 		'param': 'apps',
 		'img': 'g-suite'
 	},
+	{
+		'name': 'Google Play',
+		'id': 11,
+		'param': 'play',
+		'img': 'google-play'
+	},
 ];
 
 class Feed {

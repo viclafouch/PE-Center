@@ -150,9 +150,11 @@ function initCards(datas) {
 
     fetch(requestCards)
 
-        /* Check success */
+         /* Check success */
 
         .then(response => {
+
+            console.log(response);
 
             if (response.status != 200) {
                 throw new Error("API failed !");
@@ -203,7 +205,24 @@ function initFeed(datas) {
 
         fetch(requestTopics)
 
+            /**
+             * No internet connection ?
+             */
+
+            .catch(e => {
+                return;
+            })
+
+            /**
+             * Another error ?
+             */
+
             .then(response => {
+
+                if (!response) {
+                    feed.status = 999;
+                    throw new Error(999);
+                }
 
                 feed.status = parseInt(response.status);
 
@@ -219,7 +238,6 @@ function initFeed(datas) {
                 chrome.storage.sync.set({
                     feed: feed
                 });
-                console.error(error);
                 throw new Error("RSS Feed failed !");
             })
 

@@ -154,6 +154,7 @@ var delay = (function(){
 /* Insert Error instead of RSS feed */
 
 function errorFeed(container, mess) {
+    container.innerHTML = '';
     var p = document.createElement('p');
     p.innerHTML = mess;
     p.classList.add('error');
@@ -330,81 +331,82 @@ function init(storage) {
         });
 
     if (feed.active) {
+        try {
+            if (feed.status != 200) {
 
-        if (feed.status != 200) {
-            var message = 'Feed RSS failed, please contact the web developer';
+                var message = 'Feed RSS failed, please contact the web developer';
 
-            if (feed.status == 500 || feed.status == 400) {
-                message = feed.product.name + ' forum (' + language.name + ') doesn\'t exist. RSS feed is disabled';
-                feed.active = false;
+                if (feed.status == 500 || feed.status == 400) {
+                    message = feed.product.name + ' forum (' + language.name + ') doesn\'t exist. RSS feed is disabled';
+                    feed.active = false;
+
+                    chrome.storage.sync.set({
+                        feed: feed
+                    });
+
+                } else if (feed.status == 999) {
+                    message = 'No internet connection';
+                }
+                throw message;
+            } else if (feed.topics.length == 0) {
+                // Impossible
+                throw false;
+            } else {
+                document.getElementById('loaderTopics').classList.add('hidden');
+                let span = document.createElement('span');
+                span.classList.add('title_topic');
+                span.textContent = content.title[language.iso];
+                containerTopics.appendChild(span);
+
+                feed.topics = feed.topics.map(topic => {
+                    topic = new Topic(topic);
+                    topic.new = false;
+                    return topic;
+                });
 
                 chrome.storage.sync.set({
                     feed: feed
                 });
 
-            } else if (feed.status == 503) {
-                message = 'Stop spamming. Please, reload in a few seconds';
-            }
+                feed.topics.forEach(element => {
 
-            containerTopics.innerHTML = '';
-            errorFeed(containerTopics, message);
+                    containerTopics.appendChild(element.node);
 
-            return false;
+                    element.node.addEventListener('click', function (e) {
 
-        } else if (feed.topics.length == 0) {
-            return false;
-        }
+                        chrome.storage.sync.get('feed', items => {
 
-        document.getElementById('loaderTopics').classList.add('hidden');
-        let span = document.createElement('span');
-        span.classList.add('title_topic');
-        span.textContent = content.title[language.iso];
-        containerTopics.appendChild(span);
+                            feed.topics = items.feed.topics.map(topic => {
+                                topic = new Topic(topic);
+                                topic.new = false;
+                                return topic;
+                            });
 
-        feed.topics = feed.topics.map(topic => {
-           topic = new Topic(topic);
-           topic.new = false;
-           return topic;
-        });
+                            element.visited = true;
 
-        chrome.storage.sync.set({
-            feed: feed
-        });
+                            let index = feed.topics.findIndex(topic => topic.id === element.id);
 
-        feed.topics.forEach(element => {
+                            if (index >= 0) {
+                                feed.topics[index] = element;
+                            }
 
-            containerTopics.appendChild(element.node);
+                            chrome.storage.sync.set({
+                                feed: feed
+                            }, () => {
+                                let today = new Date();
+                                console.log(today);
+                                element.redirection();
+                            });
+                        });
 
-            element.node.addEventListener('click', function(e)  {
-
-                chrome.storage.sync.get('feed', items => {
-
-                    feed.topics = items.feed.topics.map(topic => {
-                        topic = new Topic(topic);
-                        topic.new = false;
-                        return topic;
-                    });
-
-                    element.visited = true;
-
-                    let index = feed.topics.findIndex(topic => topic.id === element.id);
-
-                    if (index >= 0) {
-                        feed.topics[index] = element;
-                    }
-
-                    chrome.storage.sync.set({
-                        feed: feed
-                    }, () => {
-                        let today = new Date();
-                        console.log(today);
-                        element.redirection();
-                    });
+                    }, false);
                 });
-
-            }, false);
-
-        });
+            }
+        } catch (e) {
+            if (e) {
+                errorFeed(containerTopics, e);
+            }
+        }
     }
 
     /* Search in livestream */
