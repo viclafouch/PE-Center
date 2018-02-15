@@ -72,6 +72,18 @@ export const productsAvailable = [
 		'param': 'play',
 		'img': 'google-play'
 	},
+	{
+		'name': 'Google Home',
+		'id': 12,
+		'param': 'googlehome',
+		'img': 'google-home'
+	},
+	{
+		'name': 'Google Wifi',
+		'id': 13,
+		'param': 'googlewifi',
+		'img': 'google-wifi'
+	},
 ];
 
 class Feed {
