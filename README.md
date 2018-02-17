@@ -11,7 +11,7 @@ This extension has been __specially developed__ for volunteers of the __Top Cont
 
 Since the release 2.20, you can now be notified when a new thread is added in the Google Products Forums ! Then, if you activate it, a notification will show you the thread on your screen and you can directly be redirected to it ! 
 
-![](https://www.victor-de-la-fouchardiere.fr/TC-Center/notification.gif =100x20)
+![](https://www.victor-de-la-fouchardiere.fr/TC-Center/notification.gif)
 
 You can also add you own display name of the forum (You will not be notify by TCs Center if the message/topic was written by you).
 
