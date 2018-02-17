@@ -1,18 +1,27 @@
 # TC's Center (v2.2)
 
 Welcome to the repository of this fabulous extension : __TC's Center__ !
+If you are a Rising Star, Top Contributor or a simple beginner on the Google Products forums, this extension is just for you.
 
 ![Google TC](https://topcontributor.withgoogle.com/static/img/share.jpg)
 
-This extension has been __specially developed__ for volunteers of the __Top Contributor Program__. This extension will allow all Google volunteers __to respond faster on different forums__ (YouTube, Google Chrome, etc..).
+This extension has been __specially developed__ for volunteers of the __Top Contributor Program__. TC's Center will allow all Google volunteers __to respond faster on different forums__ (YouTube, Google Chrome, Gmail etc..).
+
+## RSS Feed
+
+Since the release 2.20, you can now be notified when a new thread is added in the Google Products Forums ! Then, if you activate it, a notification will show you the thread on your screen and you can directly be redirected to it ! 
+
+![](https://www.victor-de-la-fouchardiere.fr/TC-Center/notification.gif =100x20)
+
+You can also add you own display name of the forum (You will not be notify by TCs Center if the message/topic was written by you).
+
+![](https://www.victor-de-la-fouchardiere.fr/TC-Center/options.gif)
+
+You can also be redirected to a thread by going in the popup of TC's Center extension !
+
+![](https://www.victor-de-la-fouchardiere.fr/TC-Center/popup.gif)
 
 Only available on [Google Chrome](http://www.google.fr/chrome), you can download the extension [here](https://chrome.google.com/webstore/detail/tcs-center/hanknpkmjbfhcalmipokkfplndkohgdm).
-
-## Some screenshots :
-
-![TC-center-1](https://ficheandtricks.vicandtips.fr/TC-center.gif)
-
-![TC-center-2](https://ficheandtricks.vicandtips.fr/TC-center-2.gif)
 
 ## I don't know what is the Top Contributor Program, what is it ?
 
