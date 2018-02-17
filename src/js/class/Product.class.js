@@ -20,6 +20,15 @@ const _products = [
 		'active': true
 	},
 	{
+		'id': 3,
+		'name': 'Gmail',
+		'image': {
+			'ext': 'png',
+			'name': 'gmail'
+		},
+		'active': false
+	},
+	{
 		'id': 4,
 		'name': 'Google Chromebook',
 		'image': {
