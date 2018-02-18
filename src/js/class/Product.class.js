@@ -12,7 +12,7 @@ const _products = [
 	},
 	{
 		'id': 2,
-		'name': 'Chrome',
+		'name': 'Google Chrome',
 		'image': {
 			'ext': 'png',
 			'name': 'chrome'
@@ -91,6 +91,15 @@ const _products = [
 		},
 		'active': false
 	},
+	{
+		'id': 10,
+		'name': 'Google Search',
+		'image': {
+			'ext': 'png',
+			'name': 'websearch'
+		},
+		'active': false
+	},
 
 
 ]
@@ -117,7 +126,9 @@ class Product {
 
         let img = document.createElement('img');
         img.setAttribute('data-type', 'product');
-        img.setAttribute('tabindex', 0);
+		img.setAttribute('tabindex', 0);
+		img.setAttribute('height', '50');
+		img.setAttribute('width', '50');
         img.setAttribute('data-name', this.name);
         img.src = path+'/'+this.image.name+'.'+this.image.ext;
         img.setAttribute('title', this.name);
