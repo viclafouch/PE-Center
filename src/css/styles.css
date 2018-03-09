@@ -524,8 +524,6 @@ body.TC_center_options div.container-options > ul > li > span {
 }
 
 body.TC_center_options div.container-options > ul > li > img {
-    width: auto;
-    height: auto;
     cursor: pointer;
 }
 

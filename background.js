@@ -33,13 +33,8 @@ let requestTopics;
 let user;
 let lastTopic;
 
-let defaultProducts = products.filter(obj => {
-    return obj.active == true;
-});
-
-let language = languages.filter(function (obj) {
-    return obj.active == true;
-})[0];
+let defaultProducts = products.filter(obj => obj.active == true);
+let language = languages.filter(obj => obj.active == true)[0];
 
 const filename = 'tccenter.json';
 const requestCards = new Request('https://ficheandtricks.vicandtips.fr/' + filename + '?' + Date.now());
@@ -164,9 +159,7 @@ function initCards(datas) {
 
         /* Transform to JSON */
 
-        .then(response => {
-            return response.json();
-        })
+        .then(response => response.json())
 
         /* Transform success ? */
 
@@ -239,9 +232,7 @@ function initFeed(datas) {
 
             /* Transform to text */
 
-            .then(response => {
-                return response.text()
-            })
+            .then(response => response.text())
 
             /* Parse XML to DOM */
 
@@ -270,9 +261,7 @@ function initFeed(datas) {
                     return topic.tagName == 'item';
                 }
 
-                return topic.filter(findItem).map(elem => {
-                    return new Topic(elem);
-                });
+                return topic.filter(findItem).map(elem => new Topic(elem));
             })
 
             /**
@@ -363,9 +352,7 @@ function initFeed(datas) {
                     return false;
                 }
 
-                let newTopics = topics.filter(topic => {
-                    return topic.new;
-                });
+                let newTopics = topics.filter(topic => topic.new);
 
                 if (newTopics.length > 0) {
 
