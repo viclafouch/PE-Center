@@ -29,18 +29,13 @@ let languages = getLanguages();
 let search = getSearch();
 let feed = getFeed();
 
-const defaultLanguage = languages.filter(obj => {
-    return obj.active == true;
-})[0];
-
-const defaultProducts = products.filter(obj => {
-    return obj.active == true;
-});
+const defaultLanguage = languages.filter(obj => obj.active == true)[0];
+const defaultProducts = products.filter(obj => obj.active == true);
 
 /* I'm using my own "API" */
 
 const filename = 'tccenter.json';
-const requestCards = new Request('https://ficheandtricks.vicandtips.fr/'+ filename + '?' + Date.now());
+const requestCards = new Request(`https://ficheandtricks.vicandtips.fr/${filename}?${Date.now()}`);
 
 /* What I'm going to set/get */
 
@@ -89,12 +84,8 @@ function redirection(url, active) {
 
 function disabledButtons(buttons, force = false) {
 
-    buttons.forEach(function(elem) {
-        if (activeCard && !force) {
-            elem.disabled = false;
-        } else {
-            elem.disabled = true;
-        }
+    buttons.forEach(elem => {
+        elem.disabled = (activeCard && !force) ? false : true;
     });
 }
 
@@ -337,7 +328,7 @@ function init(storage) {
                 var message = 'Feed RSS failed, please contact the web developer.';
 
                 if (feed.status == 500 || feed.status == 400) {
-                    message = feed.product.name + ' forum (' + language.name + ') doesn\'t exist. RSS feed is disabled.';
+                    message = `${feed.product.name}' forum (${language.name}) doesn\'t exist. RSS feed is disabled.`;
                     feed.active = false;
 
                     chrome.storage.sync.set({
@@ -394,7 +385,6 @@ function init(storage) {
                                 feed: feed
                             }, () => {
                                 let today = new Date();
-                                console.log(today);
                                 element.redirection();
                             });
                         });
