@@ -185,9 +185,9 @@ function initFeed(datas) {
 
     if (language.iso == 'en') {
         feed.product.param = (feed.product.param == 'webmaster') ? 'webmasters' : feed.product.param;
-        requestTopics = 'https://productforums.google.com/forum/feed/' + feed.product.param + '/' + feed.content + '/rss.xml?num=3';
+        requestTopics = `https://productforums.google.com/forum/feed/${feed.product.param}/${feed.content}/rss.xml?num=3`;
     } else {
-        requestTopics = 'https://productforums.google.com/forum/feed/' + feed.product.param + '-' + language.iso + '/' + feed.content + '/rss.xml?num=3';
+        requestTopics = `https://productforums.google.com/forum/feed/${feed.product.param}-${language.iso}/${feed.content}/rss.xml?num=3`;
     }
 
     if (feed.active) {
@@ -374,7 +374,7 @@ function initFeed(datas) {
 
                                 title: (newTopics[0].title.length > 20) ? newTopics[0].title.slice(0, 20) : newTopics[0].title,
                                 type: 'basic',
-                                iconUrl: 'src/products/192/'+feed.product.img+'.png',
+                                iconUrl: `src/products/192/${feed.product.img}.png`,
                                 message: (newTopics[0].description.length > 35) ? newTopics[0].description.slice(0, 35)+'...' : newTopics[0].description,
                                 isClickable: true,
                                 contextMessage: newTopics[0].url,
