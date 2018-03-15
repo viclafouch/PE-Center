@@ -4,15 +4,15 @@
     "manifest_version": 2,
     "description": "A quick and easy way to help users on the Google Product Forum !",
     "author": "Victor de la Fouchardiere",
-    "version": "2.22",
+    "version": "2.23",
     "permissions": [
         "clipboardWrite",
         "clipboardRead",
         "storage",
         "alarms",
         "notifications",
-        "http://ficheandtricks.vicandtips.fr/",
-        "https://ficheandtricks.vicandtips.fr/",
+        "http://tc-center.victor-de-la-fouchardiere.fr/",
+        "https://tc-center.victor-de-la-fouchardiere.fr/",
         "https://productforums.google.com/",
         "http://productforums.google.com/"
     ],
@@ -42,7 +42,7 @@
         }
     },
     "content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self'",
-    "homepage_url": "http://ficheandtricks.vicandtips.fr/",
+    "homepage_url": "https://tc-center.victor-de-la-fouchardiere.fr/",
     "background": {
         "page": "background.html"
     }

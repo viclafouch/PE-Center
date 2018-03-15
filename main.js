@@ -32,11 +32,6 @@ let feed = getFeed();
 const defaultLanguage = languages.filter(obj => obj.active == true)[0];
 const defaultProducts = products.filter(obj => obj.active == true);
 
-/* I'm using my own "API" */
-
-const filename = 'tccenter.json';
-const requestCards = new Request(`https://ficheandtricks.vicandtips.fr/${filename}?${Date.now()}`);
-
 /* What I'm going to set/get */
 
 let DOMCards = []; // all cards

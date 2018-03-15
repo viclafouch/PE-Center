@@ -37,7 +37,7 @@ let defaultProducts = products.filter(obj => obj.active == true);
 let language = languages.filter(obj => obj.active == true)[0];
 
 const filename = 'tccenter.json';
-const requestCards = new Request('https://ficheandtricks.vicandtips.fr/' + filename + '?' + Date.now());
+const requestCards = new Request(`https://tc-center.victor-de-la-fouchardiere.fr/${filename}?${Date.now()}`);
 
 /**
  * Verif version extension chrome
