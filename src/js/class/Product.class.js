@@ -109,8 +109,15 @@ const _products = [
 		},
 		'active': false
 	},
-
-
+	{
+		'id': 13,
+		'name': 'CS First',
+		'image': {
+			'ext': 'png',
+			'name': 'csfirst'
+		},
+		'active': false
+	},
 ]
 
 class Product {
