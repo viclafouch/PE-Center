@@ -74,7 +74,7 @@ const _products = [
 		'active': false
 	},
 	{
-		'id': 8,
+		'id': 9,
 		'name': 'Chromecast',
 		'image': {
 			'ext': 'png',
@@ -83,7 +83,7 @@ const _products = [
 		'active': false
 	},
 	{
-		'id': 9,
+		'id': 10,
 		'name': 'Google Play',
 		'image': {
 			'ext': 'png',
@@ -92,11 +92,20 @@ const _products = [
 		'active': false
 	},
 	{
-		'id': 10,
+		'id': 11,
 		'name': 'Google Search',
 		'image': {
 			'ext': 'png',
 			'name': 'websearch'
+		},
+		'active': false
+	},
+	{
+		'id': 12,
+		'name': 'Google Education',
+		'image': {
+			'ext': 'png',
+			'name': 'education'
 		},
 		'active': false
 	},
