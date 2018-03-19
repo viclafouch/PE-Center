@@ -323,7 +323,7 @@ function init(storage) {
                 var message = 'Feed RSS failed, please contact the web developer.';
 
                 if (feed.status == 500 || feed.status == 400) {
-                    message = `${feed.product.name}' forum (${language.name}) doesn\'t exist. RSS feed is disabled.`;
+                    message = `${feed.product.name} forum (${language.name}) doesn\'t exist. RSS feed is disabled.`;
                     feed.active = false;
 
                     chrome.storage.sync.set({

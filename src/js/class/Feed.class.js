@@ -84,6 +84,18 @@ export const productsAvailable = [
 		'param': 'googlewifi',
 		'img': 'google-wifi'
 	},
+	{
+		'name': 'Google Education',
+		'id': 14,
+		'param': 'google-education',
+		'img': 'education'
+	},
+	{
+		'name': 'CS First',
+		'id': 15,
+		'param': 'cs-first',
+		'img': 'csfirst'
+	},
 ];
 
 class Feed {
