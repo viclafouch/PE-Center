@@ -181,13 +181,13 @@ function initFeed(datas) {
     feed = datas.feed;
     lastUpdate = (datas.lastUpdateFeed === null) ? null : new Date(datas.lastUpdateFeed);
     user = datas.user;
-    lastTopic = datas.lastTopic
+    lastTopic = datas.lastTopic;
 
     if (language.iso == 'en') {
         feed.product.param = (feed.product.param == 'webmaster') ? 'webmasters' : feed.product.param;
-        requestTopics = `https://productforums.google.com/forum/feed/${feed.product.param}/${feed.content}/rss.xml?num=3`;
+        requestTopics = `https://productforums.google.com/forum/feed/${feed.product.param}/${feed.content}/rss.xml?num=${feed.number}`;
     } else {
-        requestTopics = `https://productforums.google.com/forum/feed/${feed.product.param}-${language.iso}/${feed.content}/rss.xml?num=3`;
+        requestTopics = `https://productforums.google.com/forum/feed/${feed.product.param}-${language.iso}/${feed.content}/rss.xml?num=${feed.number}`;
     }
 
     if (feed.active) {

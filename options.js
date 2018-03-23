@@ -182,13 +182,13 @@ function insertMessage(options) {
     else if (options.type == 'feed') {
         var span = document.createElement('span');
         let w = (options.datas.active) ? 'will be' : 'will not be';
-        span.innerHTML = 'Last <b>'+options.datas.content+'</b> from <b>'+options.datas.product.name+'</b> forum <b>'+w+'</b> displayed';
+        span.innerHTML = `The last <b>${options.datas.number}</b> <b>${options.datas.content}</b> from <b>${options.datas.product.name}</b> forum <b>${w}</b> displayed`;
         status.appendChild(span);
         return false;
     } else if (options.type == 'user') {
         if (options.datas != null) {
             let b = document.createElement('b');
-            b.textContent = '"' + options.datas.name+'"';
+            b.textContent = `"${options.datas.name}"`;
             status.textContent = 'Your display name is ';
             status.appendChild(b);
         } else {
@@ -260,6 +260,7 @@ formFeed.addEventListener('submit', function(e) {
     feed.setActive(document.getElementById('showFeed').checked);
     feed.setNotification(document.getElementById('showNotification').checked);
     feed.setProduct(document.getElementById('productFeed').value);
+    feed.setNumber(document.getElementById('numberFeed').value);
     feed.setContent(document.getElementById('contentFeed').value);
 
     feed.status = 200;
@@ -363,6 +364,7 @@ function restore_options() {
         if (search.save) { document.getElementById('saveSearch').setAttribute('checked', 'checked'); }
         document.getElementById('contentFeed').value = items.feed.content;
         document.getElementById('productFeed').value = items.feed.product.id;
+        document.getElementById('numberFeed').value = items.feed.number;
         tabEnter(document.getElementById('showFeed'));
         tabEnter(document.getElementById('saveSearch'));
 

@@ -104,6 +104,7 @@ class Feed {
 		this.id = 'feed';
 		this.product = feed.product;
 		this.active = feed.active;
+		this.number = feed.number;
 		this.notification = feed.notification;
 		this.content = feed.content;
 		this.topics = feed.topics || [];
@@ -116,6 +117,10 @@ class Feed {
 
 	setActive(value) {
 		this.active = (typeof(value) === "boolean") ? value : true;
+	}
+
+	setNumber(value) {
+		this.number = (parseInt(value, 10) <= 10 && parseInt(value, 10) > 0) ? parseInt(value) : 5;
 	}
 
 	setNotification(value) {
@@ -131,6 +136,7 @@ class Feed {
 export function getFeed(feed = {
 	'active': true,
 	'notification': true,
+	'number': 5,
 	'product': productsAvailable[0],
 	'content': contentsAvailable[0],
 }) {
