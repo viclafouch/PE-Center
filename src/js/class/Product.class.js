@@ -118,6 +118,15 @@ const _products = [
 		},
 		'active': false
 	},
+	{
+		'id': 14,
+		'name': 'Google Maps',
+		'image': {
+			'ext': 'png',
+			'name': 'maps'
+		},
+		'active': false
+	},
 ]
 
 class Product {
