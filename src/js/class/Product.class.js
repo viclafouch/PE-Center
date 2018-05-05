@@ -155,7 +155,7 @@ class Product {
 		img.setAttribute('height', '50');
 		img.setAttribute('width', '50');
         img.setAttribute('data-name', this.name);
-        img.src = path+'/'+this.image.name+'.'+this.image.ext;
+        img.src = `${path}/${this.image.name}.${this.img.ext}`;
         img.setAttribute('title', this.name);
 
         li.appendChild(img);
@@ -167,7 +167,7 @@ class Product {
 }
 
 export default function getProducts() {
- 	return _products.map(function(elem) {
+ 	return _products.map(elem => {
  		return new Product(elem);
  	});
 }
