@@ -211,6 +211,8 @@ function init(storage) {
         chrome.storage.local.get({
             cards: []
         }, items => {
+            console.log(items);
+
            resolve(items.cards);
         });
     });

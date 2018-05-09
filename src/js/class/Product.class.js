@@ -146,6 +146,7 @@ class Product {
 	}
 
 	setNode() {
+
 		let li = document.createElement('li');
         li.classList.add('product');
 
@@ -155,7 +156,7 @@ class Product {
 		img.setAttribute('height', '50');
 		img.setAttribute('width', '50');
         img.setAttribute('data-name', this.name);
-        img.src = `${path}/${this.image.name}.${this.img.ext}`;
+        img.src = `${path}/${this.image.name}.${this.image.ext}`;
         img.setAttribute('title', this.name);
 
         li.appendChild(img);
