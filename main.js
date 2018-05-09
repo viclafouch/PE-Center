@@ -79,9 +79,7 @@ function redirection(url, active) {
 
 function disabledButtons(buttons, force = false) {
 
-    buttons.forEach(elem => {
-        elem.disabled = (activeCard && !force) ? false : true;
-    });
+    buttons.forEach(elem => elem.disabled = (activeCard && !force) ? false : true);
 }
 
 /* Used for shortcut key */
@@ -105,36 +103,24 @@ function moveInResult(e) {
     e = e || window.event;
 
     position = (e.keyCode == '40') ? position + 1 : position - 1;
+    position = (position < 0) ? inResult.length - 1 : (position > inResult.length - 1) ? 0 : position;
 
-    if (position < 0) {
-        position = inResult.length - 1;
-    }
+    if (position == inResult.length - 1) window.scrollTo(0, containerResult.clientHeight);
+    else if (position == 0) window.scrollTo(0, 0);
 
-    else if (position > inResult.length - 1) {
-        position = 0;
-    }
-
-    if (position == inResult.length - 1) {
-        window.scrollTo(0, containerResult.clientHeight);
-    } else if (position == 0) {
-        window.scrollTo(0, 0);
-    }
-
-    if (activeCard) {
-        activeCard.setNoActive();
-    }
+    if (activeCard) activeCard.setNoActive();
 
     activeCard = inResult[position];
     activeCard.setActive();
     disabledButtons(buttonsAction);
 }
 
-var delay = (function(){
-  var timer = 0;
-  return function(callback, ms){
-    clearTimeout (timer);
-    timer = setTimeout(callback, ms);
-  };
+var delay = (() => {
+    var timer = 0;
+    return function(callback, ms) {
+        clearTimeout (timer);
+        timer = setTimeout(callback, ms);
+    };
 })();
 
 /* Insert Error instead of RSS feed */
@@ -154,9 +140,7 @@ function insertContent(content, iso = language.iso) {
     linktoWebsite.innerHTML = content.anchor[iso]+' <i class="fa fa-external-link" aria-hidden="true"></i>';
     searchInput.setAttribute('placeholder', content.placeholder[iso]);
 
-    if (!feed.active) {
-        document.getElementById('loaderTopics').classList.add('hidden');
-    }
+    if (!feed.active) document.getElementById('loaderTopics').classList.add('hidden');
 
     document.getElementById('toOptions').innerHTML = '<i class="fa fa-cog" aria-hidden="true"></i> '+content.options[iso];
     document.getElementById('copy').textContent = content.copy[iso];
@@ -176,16 +160,12 @@ function searchCards(value) {
 
         let title = removeDiacritics(element.title.default);
 
-        if (title.search(new RegExp(value, "i")) < 0) {
-            element.setHidden();
-        }
+        if (title.search(new RegExp(value, "i")) < 0) element.setHidden();
         else if (inResult.length <= search.limit - 1 && search.active) {
 
             element.setVisible();
 
-            inResult = DOMCards.filter(function(obj) {
-                return obj.visible;
-            }).map(function(elem, index) {
+            inResult = DOMCards.filter(obj => obj.visible).map((elem, index) => {
                 elem.position = index;
                 return elem;
             });
@@ -211,9 +191,7 @@ function init(storage) {
         chrome.storage.local.get({
             cards: []
         }, items => {
-            console.log(items);
-
-           resolve(items.cards);
+            resolve(items.cards);
         });
     });
 
@@ -221,58 +199,38 @@ function init(storage) {
 
         /* Transform to a Card */
 
-        .then(cards => {
-
-            function newCard(card) {
-                return new Card(card);
-            }
-
-            return cards.map(newCard);
-        })
+        .then(cards => cards.map(card => new Card(card)))
 
         /* Choose language */
 
         .then(cards => {
-
-            function filterByLanguage(card) {
+            return cards.filter(card => {
                 if (card.title[language.iso]) {
                     card.title.default = card.title[language.iso];
                     return true;
                 }
-                return false;
-            }
-
-            return cards.filter(filterByLanguage);
+            });
         })
 
         /* Choose product(s) */
 
-        .then(cards => {
-
-            function filterByProducts(card) {
-                for (var i = products.length - 1; i >= 0; i--) {
-                    if (products[i].id == card.product.id) {
-                        card.img = products[i].image.name+'.png';
-                        return true;
-                    }
+        .then(cards => cards.filter(card => {
+            for (var i = products.length - 1; i >= 0; i--) {
+                if (products[i].id == card.product.id) {
+                    card.img = products[i].image.name + '.png';
+                    return true;
                 }
             }
-
-            return cards.filter(filterByProducts);
-        })
+        }))
 
         /* Append cards to DOM */
 
-        .then(cards => {
-
-            function addToDom(card) {
+        .then(cards => cards.map(card => {
                 card.node = card.setNode();
                 containerResult.appendChild(card.node);
                 return card;
-            }
-
-            return cards.map(addToDom);
-        })
+            })
+        )
 
         /* Bind click for each cards */
 
@@ -322,7 +280,7 @@ function init(storage) {
         try {
             if (feed.status != 200) {
 
-                var message = 'Feed RSS failed, please contact the web developer.';
+                let message = 'Feed RSS failed, please contact the web developer.'
 
                 if (feed.status == 500 || feed.status == 400) {
                     message = `${feed.product.name} forum (${language.name}) doesn\'t exist. RSS feed is disabled.`;
@@ -332,10 +290,8 @@ function init(storage) {
                         feed: feed
                     });
 
-                } else if (feed.status == 999) {
-                    message = 'No internet connection.';
-                }
-                throw message;
+                } else if (feed.status == 999) message = 'No internet connection.';
+                throw new Error(message);
             } else if (feed.topics.length == 0) {
                 // Impossible
                 throw false;
@@ -374,25 +330,19 @@ function init(storage) {
 
                             let index = feed.topics.findIndex(topic => topic.id === element.id);
 
-                            if (index >= 0) {
-                                feed.topics[index] = element;
-                            }
+                            if (index >= 0) feed.topics[index] = element;
 
                             chrome.storage.sync.set({
                                 feed: feed
-                            }, () => {
-                                let today = new Date();
-                                element.redirection();
-                            });
+                            }, () => element.redirection());
                         });
 
                     }, false);
                 });
             }
-        } catch (e) {
-            if (e) {
-                errorFeed(containerTopics, e);
-            }
+        } catch (error) {
+            let message = error.message || 'An error occurred'
+            return errorFeed(containerTopics, message)
         }
     }
 
@@ -409,25 +359,19 @@ function init(storage) {
             activeCard = null;
         }
 
-        if (![38, 40].includes(e.keyCode)) {
-            position = -1;
-        }
+        if (![38, 40].includes(e.keyCode)) position = -1;
 
         disabledButtons(buttonsAction);
 
         if (this.value.length > 2) {
-
             this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1);
-
             searchCards(this.value);
         }
 
         else {
             inResult = inResult.map(element => {
                 element.setHidden();
-            }).filter(() => {
-                return false;
-            });
+            }).filter(() => false);
         }
 
         divAction.style.display = (inResult.length) ? 'flex' : 'none';
@@ -461,20 +405,10 @@ function init(storage) {
             let action = this.getAttribute('id');
 
             if (activeCard) {
-
-                if (action == 'location') {
-                    activeCard.redirection();
-                }
-
-                else if (action == 'copy') {
-                    activeCard.copy();
-                }
-
+                if (action == 'location') activeCard.redirection();
+                else if (action == 'copy') activeCard.copy();
                 element.classList.add('success');
-
-                setTimeout(function() {
-                    element.classList.remove('success');
-                }, 750);
+                setTimeout(() => element.classList.remove('success'), 750);
             }
 
         }, false);
@@ -484,8 +418,8 @@ function init(storage) {
 
     anchors.forEach(element => {
         element.addEventListener('click', function(e) {
-            let url = this.getAttribute('href');
-            redirection(url, true);
+            e.preventDefault();
+            return redirection(this.getAttribute('href'), true);
         }, false);
     });
 
@@ -500,23 +434,15 @@ function init(storage) {
 
         if (shortcut && activeCard) {
 
-            if (shortcut == 'Copy') {
-                activeCard.copy();
-            } else if (shortcut == 'Location') {
-                activeCard.redirection();
-            }
+            if (shortcut == 'Copy') activeCard.copy();
+            else if (shortcut == 'Location') activeCard.redirection();
 
             let btn = document.getElementById(shortcut.toLowerCase());
             btn.classList.add('success');
             btn.classList.add('active'); // :active css
 
-            setTimeout(function() {
-                btn.classList.remove('active');
-            }, 300);
-
-            setTimeout(function() {
-                btn.classList.remove('success');
-            }, 750);
+            setTimeout(() => btn.classList.remove('active'), 300);
+            setTimeout(() => btn.classList.remove('success'), 750);
         }
     }
 }
@@ -530,7 +456,7 @@ chrome.storage.sync.get({
     products: defaultProducts,
     feed: feed,
     search: search,
-}, function(data) {
+}, data => {
 
     storage = data;
 
@@ -547,6 +473,4 @@ chrome.storage.sync.get({
 
 /* Autofocus to the search input */
 
-window.onload = function() {
-    searchInput.focus();
-}
+window.onload = () => searchInput.focus()

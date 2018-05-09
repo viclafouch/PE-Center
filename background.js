@@ -90,9 +90,7 @@ chrome.alarms.create(ALARM_CARDS.name, {
 function syncCards() {
     chrome.storage.sync.get({
         cards: []
-    }, items => {
-        initCards(items);
-    });
+    }, items => initCards(items));
 }
 
 /**
@@ -134,11 +132,8 @@ function syncFeed() {
 }
 
 chrome.alarms.onAlarm.addListener(alarms => {
-    if (alarms.name == "feed") {
-        syncFeed();
-    } else if (alarms.name == "cards") {
-        syncCards();
-    }
+    if (alarms.name == "feed") syncFeed();
+    else if (alarms.name == "cards") syncCards();
 });
 
 function initCards(datas) {
@@ -148,13 +143,8 @@ function initCards(datas) {
          /* Check success */
 
         .then(response => {
-
-            if (response.status != 200) {
-                throw new Error("API failed !");
-            } else {
-                return response;
-            }
-
+            if (response.status != 200) throw new Error("API failed !");
+            return response;
         })
 
         /* Transform to JSON */
@@ -215,11 +205,9 @@ function initFeed(datas) {
 
                 feed.status = parseInt(response.status);
 
-                if (response.status != 200) {
-                    throw new Error(response.status);
-                } else {
-                    return response;
-                }
+                if (response.status != 200) throw new Error(response.status);
+
+                return response;
 
             })
 
@@ -246,7 +234,6 @@ function initFeed(datas) {
 
             .then(topic => {
                 topic = Array.prototype.slice.call(topic);
-
                 return topic;
             })
 
@@ -255,52 +242,34 @@ function initFeed(datas) {
              * return [Topic]
              */
 
-            .then(topic => {
-
-                function findItem(topic) {
-                    return topic.tagName == 'item';
-                }
-
-                return topic.filter(findItem).map(elem => new Topic(elem));
-            })
+            .then(topic => topic.filter(t => t.tagName == 'item').map(elem => new Topic(elem)))
 
             /**
              * Check last date updated
              * return [Topic]
              */
 
-            .then(topics => {
-
-                function checkDate(elem) {
-                    let topicDate = new Date(elem.date);
-                    elem.new = (lastUpdate) ? (topicDate > lastUpdate) : true;
-                    return elem;
-                }
-
-                return topics.map(checkDate);
-
-            })
+            .then(topics => topics.map(topic => {
+                let topicDate = new Date(topic.date);
+                topic.new = (lastUpdate) ? (topicDate > lastUpdate) : true;
+                return topic;
+            }))
 
             /**
              * Check if topic exist in storage
              * return [Topic]
              */
 
-            .then(topics => {
+            .then(topics => topics.map(topic => {
+                let index = feed.topics.findIndex(elem => elem.date === topic.date);
 
-                function topicAlreadyExists(topic) {
-                    let index = feed.topics.findIndex(elem => elem.date === topic.date);
-
-                    if (index >= 0) {
-                        topic.visited = feed.topics[index].visited;
-                        topic.new = feed.topics[index].new;
-                    }
-
-                    return topic;
+                if (index >= 0) {
+                    topic.visited = feed.topics[index].visited;
+                    topic.new = feed.topics[index].new;
                 }
 
-               return topics.map(topicAlreadyExists);
-            })
+                return topic;
+            }))
 
             /**
              * Check author
@@ -310,12 +279,8 @@ function initFeed(datas) {
             .then(topics => {
 
                 function checkAuthor(topic) {
-                    if (topic.new) {
-                        topic.new = (user.name != topic.author);
-                    }
-                    if (!topic.visited) {
-                        topic.visited = (user.name == topic.author);
-                    }
+                    if (topic.new) topic.new = (user.name != topic.author);
+                    if (!topic.visited) topic.visited = (user.name == topic.author);
                     return topic;
                 }
 
@@ -331,15 +296,14 @@ function initFeed(datas) {
 
                 let popupOpened = !!(chrome.extension.getViews({ type: "popup" }).length);
 
-                if (popupOpened && feed.topics.length != 0) {
-                    return false;
-                } else {
-                    feed.topics = topics;
-                    chrome.storage.sync.set({
-                        feed: feed
-                    });
-                    return topics;
-                }
+                if (popupOpened && feed.topics.length != 0) return false;
+
+                feed.topics = topics;
+
+                chrome.storage.sync.set({
+                    feed: feed
+                });
+                return topics;
             })
 
             /**
@@ -348,9 +312,7 @@ function initFeed(datas) {
 
             .then(topics => {
 
-                if (topics === false) {
-                    return false;
-                }
+                if (topics === false) return false;
 
                 let newTopics = topics.filter(topic => topic.new);
 
