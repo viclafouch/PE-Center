@@ -67,7 +67,7 @@ function bindProducts(products) {
             if (product.active) this.firstElementChild.classList.add('active');
             else this.firstElementChild.classList.remove('active');
 
-            let activeProducts = products.filter(product => elem.active);
+            let activeProducts = products.filter(product => product.active);
 
             chrome.storage.sync.set({
                 products: (activeProducts.length > 0) ? activeProducts : defaultProducts

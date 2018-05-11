@@ -90,6 +90,7 @@ export default class Card {
     setNoActive() {
         this.active = false;
         this.node.classList.remove('active');
+        return null;
     }
 
     copy() {

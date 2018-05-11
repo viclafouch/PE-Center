@@ -78,7 +78,6 @@ function redirection(url, active) {
 /* Two buttons : Copy / Redirection can be disabled */
 
 function disabledButtons(buttons, force = false) {
-
     buttons.forEach(elem => elem.disabled = (activeCard && !force) ? false : true);
 }
 
@@ -246,18 +245,13 @@ function init(storage) {
 
                     if (activeCard) {
                         activeCard.setNoActive();
-
-                        if (activeCard.position != element.position) {
-                            element.setActive();
-                            activeCard = element;
-                        }
+                        if (activeCard.position !== element.position) element.setActive();
+                        activeCard = (element.active) ? element : null;
                     } else {
                         element.setActive();
                         activeCard = element;
                     }
-
                     disabledButtons(buttonsAction);
-
                 }, false);
             });
 
@@ -369,9 +363,11 @@ function init(storage) {
         }
 
         else {
-            inResult = inResult.map(element => {
-                element.setHidden();
-            }).filter(() => false);
+            for (let index = 0; index < inResult.length; index++) {
+                inResult[index].setHidden();
+            }
+
+            inResult = [];
         }
 
         divAction.style.display = (inResult.length) ? 'flex' : 'none';
@@ -388,14 +384,8 @@ function init(storage) {
     }, false);
 
     searchInput.addEventListener('click', () => {
-
         disabledButtons(buttonsAction, true);
-
-        if (activeCard) {
-            activeCard.setNoActive();
-            activeCard = null;
-        }
-
+        if (activeCard) activeCard = activeCard.setNoActive();
     }, false);
 
     buttonsAction.forEach(element => {
