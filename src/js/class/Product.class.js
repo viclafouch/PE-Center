@@ -127,6 +127,15 @@ const _products = [
 		},
 		'active': false
 	},
+	{
+		'id': 14,
+		'name': 'Google +',
+		'image': {
+			'ext': 'png',
+			'name': 'googleplus'
+		},
+		'active': false
+	},
 ]
 
 class Product {
