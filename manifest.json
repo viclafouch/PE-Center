@@ -4,7 +4,7 @@
     "manifest_version": 2,
     "description": "A quick and easy way to help users on the Google Product Forum !",
     "author": "Victor de la Fouchardiere",
-    "version": "2.26",
+    "version": "2.27",
     "permissions": [
         "clipboardWrite",
         "clipboardRead",
