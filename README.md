@@ -33,7 +33,7 @@ It's an exceptional group of passionate Google product enthusiasts. Are you pass
 
 - [ECMAScript 6](http://es6-features.org)
 
-- To contact me : [Twitter](https://twitter.com/VicAndTips)
+- To contact me : [Twitter](https://twitter.com/TrustedSheriff)
 
 ### Made with ❤️ for TC !
 
