@@ -3,7 +3,8 @@
   "version": "3.0.0",
   "description": "📌 A browser extension which allow to find and copy any tips about the Google Help Center",
   "scripts": {
-    "dev": "webpack --mode development --progress --hide-modules --display-error-details",
+    "dev": "webpack -d --progress --hide-modules --display-error-details",
+    "build": "webpack -p --progress --hide-modules --display-error-details",
     "publish": "node tasks/publish.js"
   },
   "repository": {
@@ -22,6 +23,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
+    "@babel/plugin-proposal-class-properties": "^7.4.0",
     "@babel/preset-env": "^7.4.2",
     "@babel/preset-react": "^7.0.0",
     "adm-zip": "^0.4.13",

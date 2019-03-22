@@ -6,14 +6,14 @@ const webpack = require("webpack");
 
 module.exports = (env, argv) => ({
   mode: argv.mode,
+  target: 'node',
   cache: false,
   watch: argv.mode === "development",
   watchOptions: {
-    aggregateTimeout: 5000,
+    aggregateTimeout: 2000,
     ignored: ["node_modules"]
   },
   devtool: argv.mode === "production" ? "source-map" : "cheap-module-eval-source-map",
-  performance: { hints: 'warning' },
   optimization: {
     minimize: argv.mode === "production",
     nodeEnv: argv.mode
@@ -25,7 +25,23 @@ module.exports = (env, argv) => ({
     rules: [
       {
         test: /\.(js|jsx)$/,
-        use: ["babel-loader"],
+        use: {
+          loader: 'babel-loader',
+          options: {
+            cacheDirectory: true,
+            babelrc: false,
+            presets: [
+              [
+                "@babel/preset-env",
+                { targets: { browsers: "last 2 versions" } }
+              ],
+              "@babel/preset-react"
+            ],
+            plugins: [
+              ["@babel/plugin-proposal-class-properties", { loose: true }]
+            ]
+          }
+        },
         exclude: /node_modules/
       }
     ]
@@ -46,7 +62,11 @@ module.exports = (env, argv) => ({
     filename: "[name].bundle.js"
   },
   plugins: [
-    new CleanWebpackPlugin(),
+    new CleanWebpackPlugin({
+      verbose: true,
+      cleanStaleWebpackAssets: false,
+      protectWebpackAssets: true,
+    }),
     new CopyWebpackPlugin([
       {
         from: path.join(__dirname, "manifest.json"),
@@ -63,7 +83,6 @@ module.exports = (env, argv) => ({
       }
     ]),
     new webpack.EnvironmentPlugin({
-      "process.env.NODE_ENV": JSON.stringify(argv.mode),
       "homepage_url": process.env.npm_package_homepage
     }),
     new CopyWebpackPlugin([
