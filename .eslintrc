@@ -13,6 +13,7 @@
     ]
   },
   "globals": {
-    "chrome": true
+    "chrome": true,
+    "browser": true
   }
 }
