@@ -1,12 +1,13 @@
 const path = require("path");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const FixStyleOnlyEntriesPlugin = require("webpack-fix-style-only-entries");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
 
 module.exports = (env, argv) => ({
   mode: argv.mode,
-  target: 'node',
   cache: false,
   watch: argv.mode === "development",
   watchOptions: {
@@ -19,7 +20,8 @@ module.exports = (env, argv) => ({
     nodeEnv: argv.mode
   },
   entry: {
-    popup: path.join(__dirname, "src", "js", "popup.js")
+    popup: path.join(__dirname, "src", "js", "popup.js"),
+    popupcss: path.join(__dirname, "src", "scss", "popup.scss"),
   },
   module: {
     rules: [
@@ -38,10 +40,23 @@ module.exports = (env, argv) => ({
               "@babel/preset-react"
             ],
             plugins: [
+              [ "babel-plugin-styled-components", {
+                "ssr": false,
+                "displayName": argv.mode === "development"
+              }],
               ["@babel/plugin-proposal-class-properties", { loose: true }]
             ]
           }
         },
+        exclude: /node_modules/
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader",
+          "sass-loader"
+        ],
         exclude: /node_modules/
       }
     ]
@@ -91,10 +106,14 @@ module.exports = (env, argv) => ({
         to: path.join(__dirname, "build")
       }
     ]),
+    new FixStyleOnlyEntriesPlugin(),
+    new MiniCssExtractPlugin({
+      filename: "[name].css"
+    }),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, "src", "html", "popup.html"),
       filename: "popup.html",
-      chunks: ["popup"]
+      chunks: ["popup", "popupcss"]
     })
   ]
 });
