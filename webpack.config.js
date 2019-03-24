@@ -102,12 +102,6 @@ module.exports = (env, argv) => ({
     new webpack.EnvironmentPlugin({
       "homepage_url": process.env.npm_package_homepage
     }),
-    new CopyWebpackPlugin([
-      {
-        from: path.join(__dirname, "hot-reload.js"),
-        to: path.join(__dirname, "build")
-      }
-    ]),
     new FixStyleOnlyEntriesPlugin(),
     new MiniCssExtractPlugin({
       filename: "[name].css"

@@ -2,16 +2,23 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { useDebounce } from '@shared/hooks/useDebounce'
 import { searchCards } from '@shared/api/Card.api'
+import ListCards from '@components/ListCards/ListCards'
+import Loader from '@components/Loader/Loader'
 
 const Form = styled.form`
-  width: '100%';
-
+  width: 100%;
+  margin-bottom: 10px;
   &:focus-within {
     input {
       background-color: rgba(255, 255, 255, 1);
-      color: rgba(255, 255, 255, 0.87);
+      color: #202124;
     }
   }
+`
+
+const Content = styled.div`
+  flex: 1;
+  overflow-y: scroll;
 `
 
 const Input = styled.input`
@@ -35,11 +42,7 @@ export default function SearchCards() {
   useEffect(() => {
     if (debouncedSearchTerm) {
       setIsSearching(true)
-      searchCards({
-        search: debouncedSearchTerm,
-        productsId: [1, 2],
-        page: 1
-      }).then(({ result }) => {
+      searchCards().then(({ result }) => {
         setCards(result)
         setIsSearching(false)
       })
@@ -53,12 +56,10 @@ export default function SearchCards() {
       <Form>
         <Input placeholder="Rechercher une aide" onChange={e => setSearchTerm(e.target.value)} />
       </Form>
-      {isSearching && <div>Searching ...</div>}
-      {cards.map(result => (
-        <div key={result.uuid}>
-          <h4>{result.title}</h4>
-        </div>
-      ))}
+      <Content>
+        {isSearching && <Loader />}
+        <ListCards cards={cards} />
+      </Content>
     </React.Fragment>
   )
 }

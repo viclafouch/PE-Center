@@ -1,11 +1,11 @@
 import { fetchCrawler } from './index'
 
-export const searchCards = ({ search = '', page = 1, productsId = [] }) =>
+export const searchCards = (params = {}) =>
   fetchCrawler('/cards', {
     method: 'POST',
     body: JSON.stringify({
-      search,
-      page,
-      productsId
+      search: params.search,
+      page: params.page,
+      productsId: params.productsId
     })
   })
