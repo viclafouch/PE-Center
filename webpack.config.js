@@ -40,6 +40,7 @@ module.exports = (env, argv) => ({
               "@babel/preset-react"
             ],
             plugins: [
+              ['@babel/plugin-transform-runtime'],
               [ "babel-plugin-styled-components", {
                 "ssr": false,
                 "displayName": argv.mode === "development"
@@ -65,6 +66,7 @@ module.exports = (env, argv) => ({
     extensions: [".jsx", ".js", ".scss"],
     alias: {
       "@components": path.resolve(__dirname, "./src/js/components"),
+      "@containers": path.resolve(__dirname, "./src/js/containers"),
       "@stores": path.resolve(__dirname, "./src/js/store"),
       "@shared": path.resolve(__dirname, "./src/js/shared"),
       "@utils": path.resolve(__dirname, "./src/js/utils"),

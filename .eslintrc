@@ -10,7 +10,9 @@
         "semi": false,
         "singleQuote": true
       }
-    ]
+    ],
+    "react/prop-types": 0,
+    "import/no-unresolved": 0
   },
   "globals": {
     "chrome": true,
