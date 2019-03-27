@@ -1,39 +1,32 @@
 import React, { Component } from 'react'
-import { createGlobalStyle } from 'styled-components'
 import ReactDOM from 'react-dom'
 import SearchCards from '@containers/SearchCards'
-
-const GlobalStyle = createGlobalStyle`
-  body {
-    width: 300px;
-    padding: 10px;
-    height: 500px;
-    font-family: 'Poppins', sans-serif;
-    background-color: #202124;
-    margin: 0;
-    box-sizing: border-box;
-
-    & > #popup {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-  }
-`
+import Footer from '@components/Footer/Footer'
+import { getBrowserStorage } from '@utils/browser'
+import { PopupStore } from './stores/PopupContext'
 
 class Popup extends Component {
   render() {
+    const { storage } = this.props
     return (
       <React.Fragment>
-        <SearchCards />
-        <GlobalStyle />
+        <PopupStore initialState={storage}>
+          <>
+            <SearchCards />
+            <Footer />
+          </>
+        </PopupStore>
       </React.Fragment>
     )
   }
 }
 
-ReactDOM.render(<Popup />, document.getElementById('popup'))
+window.onload = async () => {
+  try {
+    const browserStorages = await Promise.all([getBrowserStorage('local'), getBrowserStorage('sync')])
+    const storage = browserStorages.reduce((a, d) => Object.assign(d, a), {})
+    ReactDOM.render(<Popup storage={storage} />, document.getElementById('popup'))
+  } catch (error) {
+    console.warn(error)
+  }
+}

@@ -8,7 +8,6 @@ const List = styled.ul`
   display: flex;
   flex-direction: column;
   width: 100%;
-  background: transparent;
 `
 
 function ListCards({ cards }) {

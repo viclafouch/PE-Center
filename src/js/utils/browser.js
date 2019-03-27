@@ -5,7 +5,6 @@ export const browser = browser || chrome // eslint-disable-line no-use-before-de
  */
 export const storageDefault = {
   sync: {
-    lang: 'autodetect',
     theme: 'light'
   }
 }
@@ -37,6 +36,16 @@ export const setBrowserStorage = (type, items) =>
       browser.storage[type].set(items, result => resolve(result))
     } else {
       const error = new Error(`Error for setting items to the ${type} storage`)
+      reject(error)
+    }
+  })
+
+export const sendMessageToBackground = (type, items) =>
+  new Promise((resolve, reject) => {
+    if (!browser.runtime.lastError) {
+      browser.runtime.sendMessage({ type, ...items }, response => resolve(response))
+    } else {
+      const error = new Error(`Error when sending message ${type}`)
       reject(error)
     }
   })

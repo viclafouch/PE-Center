@@ -1,7 +1,6 @@
 {
   "extends": ["wesbos"],
   "rules": {
-    "no-console": 2,
     "prettier/prettier": [
       "error",
       {
@@ -12,7 +11,8 @@
       }
     ],
     "react/prop-types": 0,
-    "import/no-unresolved": 0
+    "import/no-unresolved": 0,
+    "no-console": 0
   },
   "globals": {
     "chrome": true,

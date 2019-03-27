@@ -1,1 +1,53 @@
 @import "reset";
+@import "theme";
+
+body {
+  width: 300px;
+  padding: 10px;
+  height: 500px;
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+
+  &,
+  * {
+    box-sizing: border-box;
+  }
+
+  &,
+  #popup {
+    background-color: var(--primary-background-color);
+    color: var(--primary-background-color);
+  }
+
+  #popup {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+input,
+select,
+textarea {
+  border-width: 1px;
+  border-style: solid;
+  border: var(--input-border);
+  background-color: var(--input-background);
+  color: var(--input-text);
+}
+
+$md-list: 12 18 24 36 48;
+
+.material-icons {
+  @each $md in $md-list {
+    &.md-#{$md} {
+      font-size: #{$md}px;
+    }
+  }
+  &.md-dark {
+    color: rgba(0, 0, 0, 0.54);
+  }
+  &.md-light {
+    color: rgba(255, 255, 255, 1);
+  }
+}

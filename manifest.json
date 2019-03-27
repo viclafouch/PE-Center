@@ -3,10 +3,13 @@
   "short_name": "TCs Center",
   "manifest_version": 2,
   "author": "Victor de la Fouchardiere",
-  "permissions": ["http://localhost/*"],
+  "permissions": ["http://localhost/*", "storage"],
   "browser_action": {
-    "default_popup": "popup.html",
+    "default_popup": "popup-light.html",
     "default_title": "TCs Center"
+  },
+  "background": {
+    "scripts": ["background.bundle.js"]
   },
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }

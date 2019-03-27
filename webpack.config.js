@@ -22,6 +22,7 @@ module.exports = (env, argv) => ({
   entry: {
     popup: path.join(__dirname, "src", "js", "popup.js"),
     popupcss: path.join(__dirname, "src", "scss", "popup.scss"),
+    background: path.join(__dirname, "src", "js", "background.js"),
   },
   module: {
     rules: [
@@ -107,9 +108,16 @@ module.exports = (env, argv) => ({
       filename: "[name].css"
     }),
     new HtmlWebpackPlugin({
+      theme: 'light',
       template: path.join(__dirname, "src", "html", "popup.html"),
-      filename: "popup.html",
+      filename: "popup-light.html",
       chunks: ["popup", "popupcss"]
-    })
+    }),
+    new HtmlWebpackPlugin({
+      theme: 'dark',
+      template: path.join(__dirname, "src", "html", "popup.html"),
+      filename: "popup-dark.html",
+      chunks: ["popup", "popupcss"]
+    }),
   ]
 });
