@@ -42,7 +42,7 @@ module.exports = (env, argv) => ({
             ],
             plugins: [
               ['@babel/plugin-transform-runtime'],
-              [ "babel-plugin-styled-components", {
+              ["babel-plugin-styled-components", {
                 "ssr": false,
                 "displayName": argv.mode === "development"
               }],
@@ -89,7 +89,7 @@ module.exports = (env, argv) => ({
       {
         from: path.join(__dirname, "manifest.json"),
         to: path.join(__dirname, "build"),
-        transform: function(content) {
+        transform: function (content) {
           return Buffer.from(
             JSON.stringify({
               description: process.env.npm_package_description,
@@ -98,6 +98,12 @@ module.exports = (env, argv) => ({
             })
           );
         }
+      }
+    ]),
+    new CopyWebpackPlugin([
+      {
+        from: path.join(__dirname, "src", "img"),
+        to: path.join(__dirname, "build", "images")
       }
     ]),
     new webpack.EnvironmentPlugin({

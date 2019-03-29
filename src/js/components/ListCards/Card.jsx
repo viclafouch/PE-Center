@@ -12,6 +12,16 @@ function truncateAndReplace(str = '', maxLength = 130) {
   return text
 }
 
+const StyledAvatar = styled(Avatar)`
+  && {
+    box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    img {
+      width: 20px;
+      height: auto;
+    }
+  }
+`
+
 const Description = styled(Typography)`
   && {
     display: -webkit-box;
@@ -33,7 +43,7 @@ function CardItem({ title, description }) {
   return (
     <ListItem alignItems="flex-start">
       <ListItemAvatar>
-        <Avatar alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/1.jpg" />
+        <StyledAvatar alt={title} sizes="24" src="/images/youtube-64.png" />
       </ListItemAvatar>
       <ListItemText
         primary={
