@@ -1,24 +1,33 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import SearchCards from '@containers/SearchCards'
 import Footer from '@components/Footer/Footer'
 import { getBrowserStorage } from '@utils/browser'
+import Settings from '@containers/Settings'
+import { CSSTransition } from 'react-transition-group'
+import Header from '@components/Header/Header'
+import CssBaseline from '@material-ui/core/CssBaseline'
 import { PopupStore } from './stores/PopupContext'
 
-class Popup extends Component {
-  render() {
-    const { storage } = this.props
-    return (
-      <React.Fragment>
-        <PopupStore initialState={storage}>
-          <>
+function Popup({ storage }) {
+  const [isSettingsDisplayed, setIsSettingsDisplayed] = useState(false)
+  return (
+    <React.Fragment>
+      <PopupStore initialState={storage}>
+        <>
+          <Header />
+          <main>
             <SearchCards />
-            <Footer />
-          </>
-        </PopupStore>
-      </React.Fragment>
-    )
-  }
+          </main>
+          <Footer onClickSettings={() => setIsSettingsDisplayed(true)} />
+          <CSSTransition in={isSettingsDisplayed} timeout={300} classNames="from-top" unmountOnExit>
+            <Settings active={isSettingsDisplayed} />
+          </CSSTransition>
+        </>
+      </PopupStore>
+      <CssBaseline />
+    </React.Fragment>
+  )
 }
 
 window.onload = async () => {

@@ -10,6 +10,16 @@ const reducer = (state, action) => {
         ...state,
         theme: action.newTheme
       }
+    case 'setLoading':
+      return {
+        ...state,
+        isLoading: action.isLoading
+      }
+    case 'setCards':
+      return {
+        ...state,
+        cards: action.cards
+      }
 
     default:
       return state
@@ -17,7 +27,11 @@ const reducer = (state, action) => {
 }
 
 export function PopupStore({ children, initialState }) {
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const [state, dispatch] = useReducer(reducer, {
+    ...initialState,
+    cards: [],
+    isLoading: false
+  })
   const DomTheme = useRef(document.documentElement.getAttribute('data-theme'))
   const { theme } = state
 

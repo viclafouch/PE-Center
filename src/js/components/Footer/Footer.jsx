@@ -1,45 +1,35 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
+import Paper from '@material-ui/core/Paper'
+import Tabs from '@material-ui/core/Tabs'
+import Tab from '@material-ui/core/Tab'
+import PhoneIcon from '@material-ui/icons/Phone'
+import FavoriteIcon from '@material-ui/icons/Favorite'
+import PersonPinIcon from '@material-ui/icons/PersonPin'
 import styled from 'styled-components'
-import { PopupContext } from '@/js/stores/PopupContext'
 
-const Container = styled.header`
-  width: 100%;
-  margin-top: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-`
-const SettingIcon = styled.div`
-  margin-left: 10px;
-  cursor: pointer;
-  &:hover {
-    opacity: 0.88;
+const StyledPaper = styled(Paper)`
+  && {
+    border-radius: 0;
   }
 `
 
-export class Footer extends Component {
-  static contextType = PopupContext
-
-  render() {
-    const [{ theme }, dispatch] = this.context
-    return (
-      <Container>
-        <SettingIcon
-          onClick={() =>
-            dispatch({
-              type: 'changeTheme',
-              newTheme: theme === 'dark' ? 'light' : 'dark'
-            })
-          }
-        >
-          <i className={`material-icons md-18 ${theme === 'dark' ? 'md-light' : 'md-dark'}`}>brightness_5</i>
-        </SettingIcon>
-        <SettingIcon>
-          <i className={`material-icons md-18 ${theme === 'dark' ? 'md-light' : 'md-dark'}`}>settings</i>
-        </SettingIcon>
-      </Container>
-    )
-  }
+function Footer() {
+  const [value, setValue] = useState(0)
+  return (
+    <StyledPaper square>
+      <Tabs
+        value={value}
+        onChange={(event, val) => setValue(val)}
+        variant="fullWidth"
+        indicatorColor="secondary"
+        textColor="secondary"
+      >
+        <Tab icon={<PhoneIcon />} />
+        <Tab icon={<FavoriteIcon />} />
+        <Tab icon={<PersonPinIcon />} />
+      </Tabs>
+    </StyledPaper>
+  )
 }
 
 export default Footer

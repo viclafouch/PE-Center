@@ -1,12 +1,9 @@
 import React from 'react'
+import List from '@material-ui/core/List'
 import styled from 'styled-components'
 import CardItem from './Card'
 
-const List = styled.ul`
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
+const StyledList = styled(List)`
   width: 100%;
 `
 
@@ -14,9 +11,7 @@ function ListCards({ cards }) {
   return (
     <List>
       {cards.map(card => (
-        <li key={card.uuid}>
-          <CardItem {...card} id={card.uuid} />
-        </li>
+        <CardItem key={card.uuid} {...card} id={card.uuid} />
       ))}
     </List>
   )
