@@ -6,8 +6,10 @@ import MenuIcon from '@material-ui/icons/Menu'
 import SearchIcon from '@material-ui/icons/Search'
 import styled from 'styled-components'
 import { useDebounce } from '@shared/hooks/useDebounce'
-import { PopupContext } from '@/js/stores/PopupContext'
 import { searchCards } from '@shared/api/Card.api'
+import { DefaultContext } from '@/js/stores/DefaultContext'
+import { SET_SEARCHING, SET_CARDS } from '@/js/stores/reducer/constants'
+import { wait } from '@utils/utils'
 
 const StyledPaper = styled(Paper)`
   && {
@@ -30,29 +32,18 @@ const StyledInput = styled(InputBase)`
 function Header() {
   const [searchTerm, setSearchTerm] = useState('')
   const debouncedSearchTerm = useDebounce(searchTerm, 500)
-  const dispatch = useContext(PopupContext)[1]
+  const [, dispatch] = useContext(DefaultContext)
 
   useEffect(() => {
     if (debouncedSearchTerm) {
-      dispatch({
-        type: 'setLoading',
-        isLoading: true
-      })
-      searchCards().then(({ result }) => {
-        dispatch({
-          type: 'setLoading',
-          isLoading: false
-        })
-        dispatch({
-          type: 'setCards',
-          cards: result
-        })
+      dispatch({ type: SET_SEARCHING, isSearching: true })
+      searchCards().then(async ({ result }) => {
+        await wait()
+        dispatch({ type: SET_SEARCHING, isSearching: false })
+        dispatch({ type: SET_CARDS, cards: result })
       })
     } else {
-      dispatch({
-        type: 'setCards',
-        cards: []
-      })
+      dispatch({ type: SET_CARDS, cards: [] })
     }
   }, [debouncedSearchTerm, dispatch])
 

@@ -5,7 +5,8 @@ export const browser = browser || chrome // eslint-disable-line no-use-before-de
  */
 export const storageDefault = {
   sync: {
-    theme: 'light'
+    theme: 'light',
+    productsSelected: []
   }
 }
 

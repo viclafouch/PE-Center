@@ -9,11 +9,11 @@ const StyledList = styled(List)`
 
 function ListCards({ cards }) {
   return (
-    <List>
+    <StyledList>
       {cards.map(card => (
         <CardItem key={card.uuid} {...card} id={card.uuid} />
       ))}
-    </List>
+    </StyledList>
   )
 }
 

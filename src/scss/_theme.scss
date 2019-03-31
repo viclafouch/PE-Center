@@ -1,19 +1,19 @@
-html[data-theme="dark"] {
+html[data-theme='dark'] {
   --primary-text-color: #f0f0f0;
   --primary-background-color: #202124;
 }
 
-html[data-theme="light"] {
+html[data-theme='light'] {
   --primary-text-color: #111111;
   --primary-background-color: #fafafa;
 }
 
 .color-theme-in-transition,
-.color-theme-in-transition *,
+.color-theme-in-transition *:not([data-switch-theme]),
 .color-theme-in-transition *:before,
 .color-theme-in-transition *:after {
-  transition-property: color, fill, border-color, border-bottom-color,
-    border-top-color, border-left-color, border-right-color, background-color !important;
+  transition-property: color, fill, border-color, border-bottom-color, border-top-color, border-left-color, border-right-color,
+    background-color !important;
   transition-delay: 0s !important;
   transition-duration: 750ms !important;
   transition-timing-function: linear !important;

@@ -1,6 +1,10 @@
 @import 'reset';
 @import 'theme';
 
+html {
+  font-size: 13px;
+}
+
 body {
   width: 300px;
   &,
