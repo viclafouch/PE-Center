@@ -11,25 +11,13 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Switch from '@material-ui/core/Switch'
 import FormGroup from '@material-ui/core/FormGroup'
 import { getAllProducts } from '@shared/api/Product.api'
-import { useSettings } from '../../stores/SettingsContext'
-import { SWITCH_THEME } from '../../stores/reducer/constants'
+import useTheme from '@shared/hooks/useTheme'
+import { useSettings } from '@/js/stores/SettingsContext'
+import { SELECT_PRODUCTS } from '@/js/stores/reducer/constants'
 
 const Form = styled.form`
   padding: 12px 15px;
 `
-
-const useTheme = () => {
-  const [{ theme }, dispatch] = useSettings()
-
-  const setTheme = value => {
-    dispatch({
-      type: SWITCH_THEME,
-      theme: value === true ? 'dark' : 'light'
-    })
-  }
-
-  return [theme, setTheme]
-}
 
 const MenuProps = {
   PaperProps: {
@@ -40,15 +28,14 @@ const MenuProps = {
 }
 
 function Settings() {
-  const [productsSelected, setProductsSelected] = useState([])
+  const [{ productsSelected }, dispatch] = useSettings()
   const [theme, setTheme] = useTheme()
   const [products, setProducts] = useState([])
 
   useEffect(() => {
     ;(async () => {
       const response = await getAllProducts()
-      const productsMaped = response.result.map(e => e.name)
-      setProducts(productsMaped)
+      setProducts(response.result)
     })()
   }, [])
 
@@ -59,16 +46,21 @@ function Settings() {
           <InputLabel htmlFor="select-multiple-checkbox">Products</InputLabel>
           <Select
             multiple
-            value={productsSelected}
-            onChange={e => setProductsSelected(e.target.value)}
+            value={productsSelected.map(e => e.id)}
+            onChange={({ target }) => {
+              dispatch({
+                type: SELECT_PRODUCTS,
+                productsSelected: target.value.map(e => products.find(p => p.id === e))
+              })
+            }}
             input={<Input id="select-multiple-checkbox" />}
-            renderValue={selected => selected.join(', ')}
+            renderValue={() => productsSelected.map(e => e.name).join(', ')}
             MenuProps={MenuProps}
           >
             {products.map(product => (
-              <MenuItem key={product} value={product} disableGutters component="li" style={{ padding: `4px 0` }}>
-                <Checkbox />
-                <ListItemText primary={product} />
+              <MenuItem key={product.id} value={product.id} disableGutters component="li" style={{ padding: `4px 0` }}>
+                <Checkbox checked={productsSelected.some(e => e.id === product.id)} />
+                <ListItemText primary={product.name} />
               </MenuItem>
             ))}
           </Select>

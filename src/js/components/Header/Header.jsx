@@ -10,6 +10,7 @@ import { searchCards } from '@shared/api/Card.api'
 import { DefaultContext } from '@/js/stores/DefaultContext'
 import { SET_SEARCHING, SET_CARDS } from '@/js/stores/reducer/constants'
 import { wait } from '@utils/utils'
+import { useSettings } from '@/js/stores/SettingsContext'
 
 const StyledPaper = styled(Paper)`
   && {
@@ -29,15 +30,22 @@ const StyledInput = styled(InputBase)`
   }
 `
 
-function Header() {
+function Header(props) {
+  const { setTab } = props
   const [searchTerm, setSearchTerm] = useState('')
   const debouncedSearchTerm = useDebounce(searchTerm, 500)
   const [, dispatch] = useContext(DefaultContext)
+  const [{ productsSelected }] = useSettings()
+
+  useEffect(() => {
+    if (debouncedSearchTerm) setTab(0)
+  }, [debouncedSearchTerm, setTab])
 
   useEffect(() => {
     if (debouncedSearchTerm) {
+      const productsId = productsSelected.map(e => e.id)
       dispatch({ type: SET_SEARCHING, isSearching: true })
-      searchCards().then(async ({ result }) => {
+      searchCards({ productsId }).then(async ({ result }) => {
         await wait()
         dispatch({ type: SET_SEARCHING, isSearching: false })
         dispatch({ type: SET_CARDS, cards: result })
@@ -45,7 +53,7 @@ function Header() {
     } else {
       dispatch({ type: SET_CARDS, cards: [] })
     }
-  }, [debouncedSearchTerm, dispatch])
+  }, [debouncedSearchTerm, dispatch, productsSelected])
 
   return (
     <StyledPaper elevation={1} style={{ zIndex: 99 }}>

@@ -24,7 +24,7 @@ function Popup() {
         isSearching: false
       }}
     >
-      <Header />
+      <Header tab={tab} setTab={setTab} />
       <MainPopupContainer ref={swiper} currentTab={tab} />
       <Footer tab={tab} setTab={setTab} />
       <CssBaseline />
