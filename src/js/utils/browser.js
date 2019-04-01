@@ -50,3 +50,13 @@ export const sendMessageToBackground = (type, items) =>
       reject(error)
     }
   })
+
+export const openLink = (url, newTab = true) => {
+  if (browser.tabs) {
+    chrome.tabs.create({ active: newTab, url, pinned: false })
+    return true
+  }
+  const win = window.open(url, newTab ? '_blank' : false)
+  win.focus()
+  return true
+}

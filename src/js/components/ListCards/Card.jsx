@@ -12,6 +12,13 @@ function truncateAndReplace(str = '', maxLength = 130) {
   return text
 }
 
+const StyledListItem = styled(ListItem)`
+  &&:hover {
+    opacity: 0.875;
+    cursor: pointer;
+  }
+`
+
 const StyledAvatar = styled(Avatar)`
   && {
     box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
@@ -34,14 +41,22 @@ const Description = styled(Typography)`
 `
 const Title = styled(Typography)`
   && {
-    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 13px;
     line-height: 1.1em;
   }
 `
 
-function CardItem({ title, description }) {
+function CardItem({ title, description, url, onSelect }) {
+  const onClick = e => {
+    e.preventDefault()
+    return onSelect({ title, description, url })
+  }
+
   return (
-    <ListItem alignItems="flex-start">
+    <StyledListItem alignItems="flex-start" button onClick={onClick}>
       <ListItemAvatar>
         <StyledAvatar alt={title} sizes="24" src="/images/youtube-64.png" />
       </ListItemAvatar>
@@ -57,7 +72,7 @@ function CardItem({ title, description }) {
           </Description>
         }
       />
-    </ListItem>
+    </StyledListItem>
   )
 }
 

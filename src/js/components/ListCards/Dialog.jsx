@@ -1,0 +1,83 @@
+import React, { Component } from 'react'
+import Avatar from '@material-ui/core/Avatar'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemAvatar from '@material-ui/core/ListItemAvatar'
+import ListItemText from '@material-ui/core/ListItemText'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import Dialog from '@material-ui/core/Dialog'
+import AddIcon from '@material-ui/icons/Add'
+import Typography from '@material-ui/core/Typography'
+import styled from 'styled-components'
+import { copy, TAILWIND_TYPE, HOS_TYPE } from '@utils/utils'
+import { openLink } from '@utils/browser'
+
+const Title = styled(Typography)`
+  && {
+    font-size: 14px;
+  }
+`
+
+const StyledAvatar = styled(Avatar)`
+  && {
+    width: 30px;
+    height: 30px;
+    img {
+      width: 20px;
+      height: auto;
+    }
+  }
+`
+
+class SimpleDialog extends Component {
+  copyLink(type) {
+    const { cardSelected, close } = this.props
+    if (copy(cardSelected.title, cardSelected.url, type)) close()
+  }
+
+  redirectionLink() {
+    const { cardSelected, close } = this.props
+    if (openLink(cardSelected.url, true)) close()
+  }
+
+  render() {
+    const { open, cardSelected, close, afterExist } = this.props
+    return (
+      <Dialog onClose={close} aria-labelledby="simple-dialog-title" open={open} onExited={afterExist}>
+        <DialogTitle disableTypography style={{ padding: '16px 16px 10px' }}>
+          <Title>{cardSelected.title}</Title>
+        </DialogTitle>
+        <div>
+          <List>
+            <ListItem button onClick={() => this.copyLink(HOS_TYPE)}>
+              <ListItemAvatar>
+                <StyledAvatar src="/images/Twitter.svg">
+                  <AddIcon />
+                </StyledAvatar>
+              </ListItemAvatar>
+              <ListItemText primary="Copy (HOS)" />
+            </ListItem>
+            <ListItem button onClick={() => this.copyLink(TAILWIND_TYPE)}>
+              <ListItemAvatar>
+                <StyledAvatar src="/images/google-g.svg">
+                  <AddIcon />
+                </StyledAvatar>
+              </ListItemAvatar>
+              <ListItemText primary="Copy (Tailwind)" />
+            </ListItem>
+            <ListItem button onClick={() => this.redirectionLink()}>
+              <ListItemAvatar>
+                <StyledAvatar src="/images/youtube-64.png">
+                  <AddIcon />
+                </StyledAvatar>
+              </ListItemAvatar>
+              <ListItemText primary="Learn more" />
+            </ListItem>
+          </List>
+        </div>
+      </Dialog>
+    )
+  }
+}
+
+export default SimpleDialog

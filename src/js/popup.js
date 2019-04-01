@@ -10,7 +10,7 @@ import { DefaultProvider } from './stores/DefaultContext'
 
 function Popup() {
   const swiper = useRef(null)
-  const [tab, setTab] = useState(2)
+  const [tab, setTab] = useState(0)
 
   useLayoutEffect(() => {
     const transform = `translate(-${tab * 100}%, 0px)`

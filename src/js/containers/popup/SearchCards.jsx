@@ -8,7 +8,7 @@ const Loader = styled.div`
   display: inline-block;
   width: 100%;
   text-align: center;
-  margin-top: 10px;
+  margin-top: 16px;
 `
 
 export class SearchCards extends Component {
