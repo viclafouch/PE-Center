@@ -6,11 +6,9 @@ import MenuIcon from '@material-ui/icons/Menu'
 import SearchIcon from '@material-ui/icons/Search'
 import styled from 'styled-components'
 import { useDebounce } from '@shared/hooks/useDebounce'
-import { searchCards } from '@shared/api/Card.api'
 import { DefaultContext } from '@/js/stores/DefaultContext'
-import { SET_SEARCHING, SET_CARDS } from '@/js/stores/reducer/constants'
-import { wait } from '@utils/utils'
-import { useSettings } from '@/js/stores/SettingsContext'
+import { REMOVE_CARDS } from '@/js/stores/reducer/constants'
+import useSearchParams from '@shared/hooks/useSearchParams'
 
 const StyledPaper = styled(Paper)`
   && {
@@ -35,25 +33,13 @@ function Header(props) {
   const [searchTerm, setSearchTerm] = useState('')
   const debouncedSearchTerm = useDebounce(searchTerm, 500)
   const [, dispatch] = useContext(DefaultContext)
-  const [{ productsSelected }] = useSettings()
+  const [, { setSearch }] = useSearchParams()
 
   useEffect(() => {
     if (debouncedSearchTerm) setTab(0)
-  }, [debouncedSearchTerm, setTab])
-
-  useEffect(() => {
-    if (debouncedSearchTerm) {
-      const productsId = productsSelected.map(e => e.id)
-      dispatch({ type: SET_SEARCHING, isSearching: true })
-      searchCards({ productsId }).then(async ({ result }) => {
-        await wait()
-        dispatch({ type: SET_SEARCHING, isSearching: false })
-        dispatch({ type: SET_CARDS, cards: result })
-      })
-    } else {
-      dispatch({ type: SET_CARDS, cards: [] })
-    }
-  }, [debouncedSearchTerm, dispatch, productsSelected])
+    setSearch(debouncedSearchTerm)
+    return () => dispatch({ type: REMOVE_CARDS })
+  }, [debouncedSearchTerm, dispatch, setSearch, setTab])
 
   return (
     <StyledPaper elevation={1} style={{ zIndex: 99 }}>

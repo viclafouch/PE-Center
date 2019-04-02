@@ -1,4 +1,6 @@
 export const SWITCH_THEME = 'SWITCH_THEME'
-export const SET_SEARCHING = 'SET_SEARCHING'
 export const SET_CARDS = 'SET_CARDS'
 export const SELECT_PRODUCTS = 'SELECT_PRODUCTS'
+export const SET_PAGE = 'SET_PAGE'
+export const REMOVE_CARDS = 'REMOVE_CARDS'
+export const SET_SEARCH_VALUE = 'SET_SEARCH_VALUE'

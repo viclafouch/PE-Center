@@ -21,7 +21,10 @@ function Popup() {
     <DefaultProvider
       initialState={{
         cards: [],
-        isSearching: false
+        searchParams: {
+          value: '',
+          page: 1
+        }
       }}
     >
       <Header tab={tab} setTab={setTab} />

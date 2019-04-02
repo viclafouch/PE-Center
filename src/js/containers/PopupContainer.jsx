@@ -4,6 +4,22 @@ import Settings from './popup/Settings'
 import SearchCards from './popup/SearchCards'
 import RssFeeds from './popup/RssFeed'
 
+export const IllusTab = styled.div`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 30px;
+
+  img {
+    margin-bottom: 12px;
+    height: 130px;
+  }
+`
+
 const SwipeableViews = styled.div`
   flex-direction: row;
   transition: transform 0.35s cubic-bezier(0.15, 0.3, 0.25, 1) 0s;
