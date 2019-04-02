@@ -5,7 +5,9 @@ import { getBrowserStorage } from '@utils/browser'
 import Header from '@components/Header/Header'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import MainPopupContainer from '@containers/PopupContainer'
-import { SettingsProvider } from './stores/SettingsContext'
+import { MuiThemeProvider } from '@material-ui/core/styles'
+import setTheme from '@shared/theme/theme'
+import { SettingsProvider, SettingsContext } from './stores/SettingsContext'
 import { DefaultProvider } from './stores/DefaultContext'
 
 function Popup() {
@@ -27,9 +29,15 @@ function Popup() {
         }
       }}
     >
-      <Header tab={tab} setTab={setTab} />
-      <MainPopupContainer ref={swiper} currentTab={tab} />
-      <Footer tab={tab} setTab={setTab} />
+      <SettingsContext.Consumer>
+        {([{ theme }]) => (
+          <MuiThemeProvider theme={setTheme(theme)}>
+            <Header tab={tab} setTab={setTab} />
+            <MainPopupContainer ref={swiper} currentTab={tab} />
+            <Footer tab={tab} setTab={setTab} />
+          </MuiThemeProvider>
+        )}
+      </SettingsContext.Consumer>
       <CssBaseline />
     </DefaultProvider>
   )

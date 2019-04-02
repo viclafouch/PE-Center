@@ -16,11 +16,8 @@ export function SettingsProvider({ children, initialState }) {
   useEffect(() => {
     if (DomTheme.current !== theme) {
       DomTheme.current = theme
-      document.documentElement.classList.add('color-theme-in-transition')
       document.documentElement.setAttribute('data-theme', theme)
       sendMessageToBackground('changeTheme', { theme })
-      const handler = setTimeout(() => document.documentElement.classList.remove('color-theme-in-transition'), 750)
-      return () => clearTimeout(handler)
     }
   }, [theme])
 
