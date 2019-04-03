@@ -21,6 +21,7 @@ const StyledListItem = styled(ListItem)`
 
 const StyledAvatar = styled(Avatar)`
   && {
+    border: 1px solid rgba(255, 255, 255, 0.75);
     box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
     img {
       width: 20px;

@@ -48,7 +48,7 @@ function Header(props) {
       <IconButton aria-label={t('menu')}>
         <MenuIcon />
       </IconButton>
-      <StyledInput placeholder={t('searchHelp')} onChange={e => setSearchTerm(e.target.value)} />
+      <StyledInput autoFocus placeholder={t('searchHelp')} onChange={e => setSearchTerm(e.target.value)} />
       <IconButton style={{ padding: 6 }} aria-label={t('menu')}>
         <SearchIcon />
       </IconButton>

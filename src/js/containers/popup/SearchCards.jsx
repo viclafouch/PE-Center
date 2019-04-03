@@ -64,7 +64,7 @@ export function SearchCards() {
 
   let content = (
     <IllusTab>
-      <img src="/images/undraw_product_tour_foyt.svg" alt="RSS Feed" />
+      <img src="/images/undraw_search_2dfv.svg" alt="RSS Feed" style={{ width: 160 }} />
       <Typography component="h1" variant="h6">
         Search your help article
       </Typography>
