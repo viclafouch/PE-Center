@@ -1,0 +1,15 @@
+{
+  "translation": {
+    "products": "Products",
+    "darkMode": "Dark mode",
+    "search": "Search",
+    "menu": "Menu",
+    "searchHelp": "Search help",
+    "chooseProduct": "Please, select at least 1 product.",
+    "noResult": "No results",
+    "viewMore": "View more",
+    "copyHOS": "Copy (HOS)",
+    "copyTailwind": "Copy (Tailwind)",
+    "learnMore": "Learn more"
+  }
+}

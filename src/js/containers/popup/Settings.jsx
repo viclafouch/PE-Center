@@ -13,7 +13,9 @@ import FormGroup from '@material-ui/core/FormGroup'
 import { getAllProducts } from '@shared/api/Product.api'
 import useTheme from '@shared/hooks/useTheme'
 import { useSettings } from '@/js/stores/SettingsContext'
-import { SELECT_PRODUCTS } from '@/js/stores/reducer/constants'
+import { SELECT_PRODUCTS, SWITCH_LANGUAGE } from '@/js/stores/reducer/constants'
+import { useTranslation } from 'react-i18next'
+import { languages } from '@utils/browser'
 
 const Form = styled.form`
   padding: 12px 15px;
@@ -28,7 +30,8 @@ const MenuProps = {
 }
 
 function Settings() {
-  const [{ productsSelected }, dispatch] = useSettings()
+  const { t } = useTranslation()
+  const [{ productsSelected, lang }, dispatch] = useSettings()
   const [theme, setTheme] = useTheme()
   const [products, setProducts] = useState([])
 
@@ -43,7 +46,7 @@ function Settings() {
     <div className="main-content">
       <Form>
         <FormControl fullWidth margin="dense" required>
-          <InputLabel htmlFor="select-multiple-checkbox">Products</InputLabel>
+          <InputLabel htmlFor="select-products">{t('products')}</InputLabel>
           <Select
             multiple
             value={productsSelected.map(e => e.id)}
@@ -53,7 +56,7 @@ function Settings() {
                 productsSelected: target.value.map(e => products.find(p => p.id === e))
               })
             }}
-            input={<Input id="select-multiple-checkbox" />}
+            input={<Input id="select-products" />}
             renderValue={() => productsSelected.map(e => e.name).join(', ')}
             MenuProps={MenuProps}
           >
@@ -69,9 +72,30 @@ function Settings() {
           <FormControlLabel
             data-switch-theme
             control={<Switch checked={theme === 'dark'} onChange={e => setTheme(e.target.checked)} value="darkMode" />}
-            label="Dark mode"
+            label={t('darkMode')}
           />
         </FormGroup>
+        <FormControl fullWidth margin="dense" required>
+          <InputLabel htmlFor="select-lang">Language</InputLabel>
+          <Select
+            value={lang}
+            onChange={({ target }) => {
+              dispatch({
+                type: SWITCH_LANGUAGE,
+                lang: target.value
+              })
+            }}
+            input={<Input id="select-lang" />}
+            renderValue={() => languages[lang]}
+            MenuProps={MenuProps}
+          >
+            {Object.keys(languages).map(langKey => (
+              <MenuItem key={langKey} value={langKey} component="li">
+                {languages[langKey]}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </Form>
     </div>
   )

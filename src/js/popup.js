@@ -9,6 +9,7 @@ import { MuiThemeProvider } from '@material-ui/core/styles'
 import setTheme from '@shared/theme/theme'
 import { SettingsProvider, SettingsContext } from './stores/SettingsContext'
 import { DefaultProvider } from './stores/DefaultContext'
+import i18n from '../../i18n/i18n'
 
 function Popup() {
   const swiper = useRef(null)
@@ -50,6 +51,9 @@ window.onload = async () => {
       sync: browserStorages[1] || {},
       local: browserStorages[0] || {}
     }
+
+    await i18n(storages.sync.lang)
+
     ReactDOM.render(
       <SettingsProvider initialState={storages.sync}>
         <Popup />

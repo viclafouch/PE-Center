@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button'
 import { useSettings } from '@/js/stores/SettingsContext'
 import Typography from '@material-ui/core/Typography'
 import { IllusTab } from '@containers/PopupContainer'
+import { useTranslation } from 'react-i18next'
 
 const Loader = styled.div`
   display: inline-block;
@@ -31,6 +32,7 @@ const ViewMore = styled.div`
 `
 
 export function SearchCards() {
+  const { t } = useTranslation()
   const [isSearching, setIsSearching] = useState(false)
   const [isEndOfList, setIsEndOfList] = useState(true)
   const [{ cards }, dispatch] = useContext(DefaultContext)
@@ -75,13 +77,13 @@ export function SearchCards() {
   if (!productsSelected.length) {
     content = (
       <Warning>
-        <Typography component="p">Please, choose a product</Typography>
+        <Typography component="p">{t('chooseProduct')}</Typography>
       </Warning>
     )
   } else if (value.trim() !== '' && !isSearching) {
     content = (
       <Warning>
-        <Typography component="h1">No results</Typography>
+        <Typography component="h1">{t('noResult')}</Typography>
       </Warning>
     )
   }
@@ -99,7 +101,7 @@ export function SearchCards() {
       {!isSearching && !isEndOfList && value && (
         <ViewMore>
           <Button size="small" onClick={() => setPage(page + 1)}>
-            View more
+            {t('viewMore')}
           </Button>
         </ViewMore>
       )}

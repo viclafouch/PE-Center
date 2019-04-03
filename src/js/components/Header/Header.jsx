@@ -9,6 +9,7 @@ import { useDebounce } from '@shared/hooks/useDebounce'
 import { DefaultContext } from '@/js/stores/DefaultContext'
 import { REMOVE_CARDS } from '@/js/stores/reducer/constants'
 import useSearchParams from '@shared/hooks/useSearchParams'
+import { useTranslation } from 'react-i18next'
 
 const StyledPaper = styled(Paper)`
   && {
@@ -29,6 +30,7 @@ const StyledInput = styled(InputBase)`
 `
 
 function Header(props) {
+  const { t } = useTranslation()
   const { setTab } = props
   const [searchTerm, setSearchTerm] = useState('')
   const debouncedSearchTerm = useDebounce(searchTerm, 500)
@@ -43,11 +45,11 @@ function Header(props) {
 
   return (
     <StyledPaper elevation={1} style={{ zIndex: 99 }}>
-      <IconButton aria-label="Menu">
+      <IconButton aria-label={t('menu')}>
         <MenuIcon />
       </IconButton>
-      <StyledInput placeholder="Rechercher une aide" onChange={e => setSearchTerm(e.target.value)} />
-      <IconButton style={{ padding: 6 }} aria-label="Search">
+      <StyledInput placeholder={t('searchHelp')} onChange={e => setSearchTerm(e.target.value)} />
+      <IconButton style={{ padding: 6 }} aria-label={t('menu')}>
         <SearchIcon />
       </IconButton>
     </StyledPaper>

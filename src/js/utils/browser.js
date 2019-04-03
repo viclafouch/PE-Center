@@ -1,12 +1,21 @@
 export const browser = browser || chrome // eslint-disable-line no-use-before-define
 
+export const languages = {
+  fr: 'Francais',
+  en: 'English'
+}
+
+const getDefaultLang = (availableLangs, defaultLang = 'en') =>
+  (navigator.languages || [navigator.userLanguage]).map(l => l.substr(0, 2)).find(lang => lang in availableLangs) || defaultLang
+
 /**
  * Default storage
  */
 export const storageDefault = {
   sync: {
     theme: 'light',
-    productsSelected: []
+    productsSelected: [],
+    lang: getDefaultLang(languages, 'en')
   }
 }
 

@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography'
 import styled from 'styled-components'
 import { copy, TAILWIND_TYPE, HOS_TYPE } from '@utils/utils'
 import { openLink } from '@utils/browser'
+import { withTranslation } from 'react-i18next'
 
 const Title = styled(Typography)`
   && {
@@ -41,7 +42,7 @@ class SimpleDialog extends Component {
   }
 
   render() {
-    const { open, cardSelected, close, afterExist } = this.props
+    const { open, cardSelected, close, afterExist, t } = this.props
     return (
       <Dialog onClose={close} aria-labelledby="simple-dialog-title" open={open} onExited={afterExist}>
         <DialogTitle disableTypography style={{ padding: '16px 16px 10px' }}>
@@ -55,7 +56,7 @@ class SimpleDialog extends Component {
                   <AddIcon />
                 </StyledAvatar>
               </ListItemAvatar>
-              <ListItemText primary="Copy (HOS)" />
+              <ListItemText primary={t('copyHOS')} />
             </ListItem>
             <ListItem button onClick={() => this.copyLink(TAILWIND_TYPE)}>
               <ListItemAvatar>
@@ -63,7 +64,7 @@ class SimpleDialog extends Component {
                   <AddIcon />
                 </StyledAvatar>
               </ListItemAvatar>
-              <ListItemText primary="Copy (Tailwind)" />
+              <ListItemText primary={t('copyTailwind')} />
             </ListItem>
             <ListItem button onClick={() => this.redirectionLink()}>
               <ListItemAvatar>
@@ -71,7 +72,7 @@ class SimpleDialog extends Component {
                   <AddIcon />
                 </StyledAvatar>
               </ListItemAvatar>
-              <ListItemText primary="Learn more" />
+              <ListItemText primary={t('learnMore')} />
             </ListItem>
           </List>
         </div>
@@ -80,4 +81,4 @@ class SimpleDialog extends Component {
   }
 }
 
-export default SimpleDialog
+export default withTranslation()(SimpleDialog)
