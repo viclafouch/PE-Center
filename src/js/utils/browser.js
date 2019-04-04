@@ -3,7 +3,9 @@ export const browser = browser || chrome // eslint-disable-line no-use-before-de
 export const languages = {
   fr: 'Francais',
   en: 'English',
-  de: 'Deutsch'
+  de: 'Deutsch',
+  pt: 'Português (Brasil)',
+  es: 'Español'
 }
 
 const getDefaultLang = (availableLangs, defaultLang = 'en') =>

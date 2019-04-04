@@ -1,0 +1,15 @@
+{
+  "translation": {
+    "products": "Produtos",
+    "darkMode": "Modo Escuro",
+    "search": "Pesquisar",
+    "menu": "Menu",
+    "searchHelp": "Procurar na Central de Ajuda",
+    "chooseProduct": "Por favor, selecione pelo menos 1 produto.",
+    "noResult": "Sem resultados",
+    "viewMore": "Ver mais",
+    "copyHOS": "Copiar (HOS)",
+    "copyTailwind": "Copiar (Tailwind)",
+    "learnMore": "Saiba mais"
+  }
+}
