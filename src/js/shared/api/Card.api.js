@@ -6,6 +6,7 @@ export const searchCards = (params = {}) =>
     body: JSON.stringify({
       search: params.search,
       page: params.page,
-      productsId: params.productsId
+      productsId: params.productsId,
+      lang: params.lang
     })
   })

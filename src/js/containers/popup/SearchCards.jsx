@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState, useRef } from 'react'
 import styled from 'styled-components'
 import ListCards from '@components/ListCards/ListCards'
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -37,15 +37,16 @@ export function SearchCards() {
   const [isEndOfList, setIsEndOfList] = useState(true)
   const [{ cards }, dispatch] = useContext(DefaultContext)
   const [{ page, value }, { setPage }] = useSearchParams()
-  const [{ productsSelected }] = useSettings()
+  const [{ productsSelected, lang }] = useSettings()
+  const currentLang = useRef(lang)
 
   const fetchCards = useCallback(
-    async ({ numPage, products, searchValue }) => {
+    async ({ numPage, products, searchValue, language }) => {
       const productsId = products.map(e => e.id)
       try {
         setIsSearching(true)
         await wait()
-        const response = await searchCards({ productsId, page: numPage, search: searchValue })
+        const response = await searchCards({ productsId, page: numPage, search: searchValue, lang: language })
         setIsEndOfList(numPage >= response.pages)
         dispatch({ type: SET_CARDS, cards: response.result })
       } catch (error) {
@@ -59,8 +60,13 @@ export function SearchCards() {
 
   useEffect(() => {
     if (!productsSelected.length) dispatch({ type: REMOVE_CARDS })
-    else if (value) fetchCards({ numPage: page, products: productsSelected, searchValue: value })
-  }, [dispatch, fetchCards, page, productsSelected, value])
+    else if (value) fetchCards({ numPage: page, products: productsSelected, searchValue: value, language: lang })
+    /* If user switch lang, reset cards before fetching */
+    if (lang !== currentLang.current) {
+      currentLang.current = lang
+      return dispatch({ type: REMOVE_CARDS })
+    }
+  }, [dispatch, fetchCards, lang, page, productsSelected, value])
 
   let content = (
     <IllusTab>
