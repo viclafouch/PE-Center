@@ -12,18 +12,11 @@ import { DefaultProvider } from './stores/DefaultContext'
 import i18n from '../../i18n/i18n'
 
 function Popup() {
-  const swiper = useRef(null)
-  const [tab, setTab] = useState(0)
-
-  useLayoutEffect(() => {
-    const transform = `translate(-${tab * 100}%, 0px)`
-    swiper.current.style.transform = transform
-  }, [tab])
-
   return (
     <DefaultProvider
       initialState={{
         cards: [],
+        currentTab: 0,
         searchParams: {
           value: '',
           page: 1
@@ -33,9 +26,9 @@ function Popup() {
       <SettingsContext.Consumer>
         {([{ theme }]) => (
           <MuiThemeProvider theme={setTheme(theme)}>
-            <Header tab={tab} setTab={setTab} />
-            <MainPopupContainer ref={swiper} currentTab={tab} />
-            <Footer tab={tab} setTab={setTab} />
+            <Header />
+            <MainPopupContainer />
+            <Footer />
           </MuiThemeProvider>
         )}
       </SettingsContext.Consumer>

@@ -7,7 +7,7 @@ import SearchIcon from '@material-ui/icons/Search'
 import styled from 'styled-components'
 import { useDebounce } from '@shared/hooks/useDebounce'
 import { DefaultContext } from '@/js/stores/DefaultContext'
-import { REMOVE_CARDS } from '@/js/stores/reducer/constants'
+import { REMOVE_CARDS, CHANGE_TAB } from '@/js/stores/reducer/constants'
 import useSearchParams from '@shared/hooks/useSearchParams'
 import { useTranslation } from 'react-i18next'
 
@@ -29,19 +29,18 @@ const StyledInput = styled(InputBase)`
   }
 `
 
-function Header(props) {
+function Header() {
   const { t } = useTranslation()
-  const { setTab } = props
   const [searchTerm, setSearchTerm] = useState('')
   const debouncedSearchTerm = useDebounce(searchTerm, 500)
   const [, dispatch] = useContext(DefaultContext)
   const [, { setSearch }] = useSearchParams()
 
   useEffect(() => {
-    if (debouncedSearchTerm) setTab(0)
+    if (debouncedSearchTerm) dispatch({ type: CHANGE_TAB, currentTab: 0 })
     setSearch(debouncedSearchTerm)
     return () => dispatch({ type: REMOVE_CARDS })
-  }, [debouncedSearchTerm, dispatch, setSearch, setTab])
+  }, [debouncedSearchTerm, dispatch, setSearch])
 
   return (
     <StyledPaper elevation={1} style={{ zIndex: 99 }}>

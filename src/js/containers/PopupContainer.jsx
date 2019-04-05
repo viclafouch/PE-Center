@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useContext, useRef, useLayoutEffect } from 'react'
 import styled from 'styled-components'
 import Settings from './popup/Settings'
 import SearchCards from './popup/SearchCards'
 import RssFeeds from './popup/RssFeed'
+import { DefaultContext } from '../stores/DefaultContext'
 
 export const IllusTab = styled.div`
   height: 100%;
@@ -34,10 +35,18 @@ const SwipeableViews = styled.div`
   }
 `
 
-function MainPopupContainer({ currentTab, forwardRef }) {
+function MainPopupContainer() {
+  const swiper = useRef(null)
+  const [{ currentTab }] = useContext(DefaultContext)
+
+  useLayoutEffect(() => {
+    const transform = `translate(-${currentTab * 100}%, 0px)`
+    swiper.current.style.transform = transform
+  }, [currentTab])
+
   return (
     <main>
-      <SwipeableViews ref={forwardRef}>
+      <SwipeableViews ref={swiper}>
         <div data-swipeable aria-hidden={currentTab !== 0}>
           <SearchCards />
         </div>
@@ -52,6 +61,4 @@ function MainPopupContainer({ currentTab, forwardRef }) {
   )
 }
 
-export default React.forwardRef(function MainForwarded(props, ref) {
-  return <MainPopupContainer {...props} forwardRef={ref} />
-})
+export default MainPopupContainer
