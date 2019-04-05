@@ -50,10 +50,10 @@ const Title = styled(Typography)`
   }
 `
 
-function CardItem({ title, description, url, onSelect }) {
+function CardItem({ title, description, url, lang, onSelect }) {
   const onClick = e => {
     e.preventDefault()
-    return onSelect({ title, description, url })
+    return onSelect({ title, description, url, lang })
   }
 
   return (

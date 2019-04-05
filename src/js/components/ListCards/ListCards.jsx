@@ -10,7 +10,7 @@ const StyledList = styled(List)`
 
 function ListCards({ cards }) {
   const [isOpenDialog, setIsOpenDialog] = useState(false)
-  const [cardSelected, setCardSelected] = useState({ title: '', description: '', url: '' })
+  const [cardSelected, setCardSelected] = useState({ title: '', description: '', url: '', lang: '' })
 
   const displayDialog = card => {
     setCardSelected(card)

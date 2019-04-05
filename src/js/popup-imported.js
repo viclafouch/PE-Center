@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useRef } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
 import Footer from '@components/Footer/Footer'
 import { getBrowserStorage } from '@utils/browser'

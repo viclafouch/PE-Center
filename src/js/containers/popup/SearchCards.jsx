@@ -44,6 +44,7 @@ export function SearchCards() {
     async ({ numPage, products, searchValue, language }) => {
       const productsId = products.map(e => e.id)
       try {
+        setIsEndOfList(false)
         setIsSearching(true)
         await wait()
         const response = await searchCards({ productsId, page: numPage, search: searchValue, lang: language })
@@ -86,7 +87,7 @@ export function SearchCards() {
         <Typography component="p">{t('chooseProduct')}</Typography>
       </Warning>
     )
-  } else if (value.trim() !== '' && !isSearching) {
+  } else if (value.trim() !== '' && !isSearching && isEndOfList) {
     content = (
       <Warning>
         <Typography component="h1">{t('noResult')}</Typography>

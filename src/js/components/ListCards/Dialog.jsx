@@ -38,7 +38,9 @@ class SimpleDialog extends Component {
 
   redirectionLink() {
     const { cardSelected, close } = this.props
-    if (openLink(cardSelected.url, true)) close()
+    const url = new URL(cardSelected.url)
+    url.searchParams.set('hl', cardSelected.lang)
+    if (openLink(url.toString(), true)) close()
   }
 
   render() {
