@@ -114,7 +114,7 @@ export function SearchCards() {
         </Loader>
       )}
 
-      {!isSearching && !isEndOfList && value && (
+      {!isSearching && !isEndOfList && value && cards.length > 0 && (
         <ViewMore>
           <Button size="small" onClick={() => setPage(page + 1)}>
             {t('viewMore')}
