@@ -46,7 +46,8 @@ module.exports = (env, argv) => ({
                 "ssr": false,
                 "displayName": argv.mode === "development"
               }],
-              ["@babel/plugin-proposal-class-properties", { loose: true }]
+              ["@babel/plugin-proposal-class-properties", { loose: true }],
+              ["@babel/plugin-syntax-dynamic-import"]
             ]
           }
         },
