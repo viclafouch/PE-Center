@@ -19,7 +19,7 @@ export default lang =>
     resources,
     lng: lang,
     fallbackLng: 'en',
-    debug: true,
+    debug: false,
     interpolation: {
       escapeValue: false
     },

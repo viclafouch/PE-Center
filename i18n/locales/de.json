@@ -10,6 +10,9 @@
     "viewMore": "Mehr ansehen",
     "copyHOS": "Kopiere (HOS)",
     "copyTailwind": "Kopiere (Tailwind)",
-    "learnMore": "Mehr darüber erfahren"
+    "learnMore": "Mehr darüber erfahren",
+    "error": {
+      "unknown": "Etwas ist schief gelaufen."
+    }
   }
 }

@@ -10,6 +10,9 @@
     "viewMore": "View more",
     "copyHOS": "Copy (HOS)",
     "copyTailwind": "Copy (Tailwind)",
-    "learnMore": "Learn more"
+    "learnMore": "Learn more",
+    "error": {
+      "unknown": "Something went wrong."
+    }
   }
 }

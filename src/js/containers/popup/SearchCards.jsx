@@ -12,6 +12,7 @@ import { useSettings } from '@/js/stores/SettingsContext'
 import Typography from '@material-ui/core/Typography'
 import { IllusTab } from '@containers/PopupContainer'
 import { useTranslation } from 'react-i18next'
+import { useSnackbar } from 'notistack'
 
 const Loader = styled.div`
   display: inline-block;
@@ -34,6 +35,7 @@ const ViewMore = styled.div`
 export function SearchCards() {
   const { t } = useTranslation()
   const [isSearching, setIsSearching] = useState(false)
+  const { enqueueSnackbar } = useSnackbar()
   const [isEndOfList, setIsEndOfList] = useState(true)
   const [{ cards }, dispatch] = useContext(DefaultContext)
   const [{ page, value }, { setPage }] = useSearchParams()
@@ -51,12 +53,19 @@ export function SearchCards() {
         setIsEndOfList(numPage >= response.pages)
         dispatch({ type: SET_CARDS, cards: response.result })
       } catch (error) {
-        console.log(error)
+        console.warn(error)
+        enqueueSnackbar(t('error.unknown'), {
+          variant: 'warning',
+          anchorOrigin: {
+            vertical: 'bottom',
+            horizontal: 'center'
+          }
+        })
       } finally {
         setIsSearching(false)
       }
     },
-    [dispatch]
+    [dispatch, enqueueSnackbar, t]
   )
 
   useEffect(() => {

@@ -7,6 +7,7 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import MainPopupContainer from '@containers/PopupContainer'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import setTheme from '@shared/theme/theme'
+import { SnackbarProvider } from 'notistack'
 import { SettingsProvider, SettingsContext } from './stores/SettingsContext'
 import { DefaultProvider } from './stores/DefaultContext'
 import i18n from '../../i18n/i18n'
@@ -23,15 +24,17 @@ function Popup() {
         }
       }}
     >
-      <SettingsContext.Consumer>
-        {([{ theme }]) => (
-          <MuiThemeProvider theme={setTheme(theme)}>
-            <Header />
-            <MainPopupContainer />
-            <Footer />
-          </MuiThemeProvider>
-        )}
-      </SettingsContext.Consumer>
+      <SnackbarProvider maxSnack={1} dense preventDuplicate>
+        <SettingsContext.Consumer>
+          {([{ theme }]) => (
+            <MuiThemeProvider theme={setTheme(theme)}>
+              <Header />
+              <MainPopupContainer />
+              <Footer />
+            </MuiThemeProvider>
+          )}
+        </SettingsContext.Consumer>
+      </SnackbarProvider>
       <CssBaseline />
     </DefaultProvider>
   )
