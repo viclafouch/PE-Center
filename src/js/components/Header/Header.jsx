@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect, useRef } from 'react'
 import Paper from '@material-ui/core/Paper'
 import InputBase from '@material-ui/core/InputBase'
 import IconButton from '@material-ui/core/IconButton'
@@ -30,11 +30,17 @@ const StyledInput = styled(InputBase)`
 `
 
 function Header() {
+  const input = useRef()
   const { t } = useTranslation()
   const [searchTerm, setSearchTerm] = useState('')
   const debouncedSearchTerm = useDebounce(searchTerm, 500)
-  const [, dispatch] = useContext(DefaultContext)
+  const [{ currentTab }, dispatch] = useContext(DefaultContext)
   const [, { setSearch }] = useSearchParams()
+
+  const handleClickSearch = () => {
+    if (currentTab !== 0) dispatch({ type: CHANGE_TAB, currentTab: 0 })
+    input.current.focus()
+  }
 
   useEffect(() => {
     if (debouncedSearchTerm) dispatch({ type: CHANGE_TAB, currentTab: 0 })
@@ -47,8 +53,8 @@ function Header() {
       <IconButton aria-label={t('menu')}>
         <MenuIcon />
       </IconButton>
-      <StyledInput autoFocus placeholder={t('searchHelp')} onChange={e => setSearchTerm(e.target.value)} />
-      <IconButton style={{ padding: 6 }} aria-label={t('menu')}>
+      <StyledInput inputRef={input} autoFocus placeholder={t('searchHelp')} onChange={e => setSearchTerm(e.target.value)} />
+      <IconButton style={{ padding: 6 }} aria-label={t('menu')} onClick={handleClickSearch}>
         <SearchIcon />
       </IconButton>
     </StyledPaper>
