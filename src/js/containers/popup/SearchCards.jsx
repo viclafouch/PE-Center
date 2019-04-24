@@ -59,7 +59,8 @@ export function SearchCards() {
           anchorOrigin: {
             vertical: 'bottom',
             horizontal: 'center'
-          }
+          },
+          autoHideDuration: 2000
         })
       } finally {
         setIsSearching(false)
@@ -106,7 +107,7 @@ export function SearchCards() {
 
   return (
     <div className="main-content" style={{ paddingTop: !cards.length && isSearching ? 16 : 0 }}>
-      {productsSelected.length && !!cards.length && <ListCards cards={cards} />}
+      {productsSelected.length && !!cards.length && <ListCards cards={cards} enqueueSnackbar={enqueueSnackbar} />}
       {!isSearching && !cards.length && content}
       {isSearching && (
         <Loader>

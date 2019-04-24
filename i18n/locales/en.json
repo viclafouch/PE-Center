@@ -11,6 +11,7 @@
     "copyHOS": "Copy (HOS)",
     "copyTailwind": "Copy (Tailwind)",
     "learnMore": "Learn more",
+    "successCopy": "Copied to the clipboard",
     "error": {
       "unknown": "Something went wrong."
     }

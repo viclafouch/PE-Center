@@ -12,6 +12,7 @@ import styled from 'styled-components'
 import { copy, TAILWIND_TYPE, HOS_TYPE } from '@utils/utils'
 import { openLink } from '@utils/browser'
 import { withTranslation } from 'react-i18next'
+import { withSnackbar } from 'notistack'
 
 const Title = styled(Typography)`
   && {
@@ -32,8 +33,18 @@ const StyledAvatar = styled(Avatar)`
 
 class SimpleDialog extends Component {
   copyLink(type) {
-    const { cardSelected, close } = this.props
-    if (copy(cardSelected.title, cardSelected.url, type)) close()
+    const { cardSelected, close, enqueueSnackbar, t } = this.props
+    if (copy(cardSelected.title, cardSelected.url, type)) {
+      enqueueSnackbar(t('successCopy'), {
+        variant: 'success',
+        anchorOrigin: {
+          vertical: 'bottom',
+          horizontal: 'center'
+        },
+        autoHideDuration: 2000
+      })
+      close()
+    }
   }
 
   redirectionLink() {

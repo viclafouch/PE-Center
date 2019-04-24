@@ -19,6 +19,9 @@ export const storageDefault = {
     theme: 'light',
     productsSelected: [],
     lang: getDefaultLang(languages, 'en')
+  },
+  local: {
+    products: []
   }
 }
 

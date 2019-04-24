@@ -15,7 +15,7 @@ import useTheme from '@shared/hooks/useTheme'
 import { useSettings } from '@/js/stores/SettingsContext'
 import { SELECT_PRODUCTS, SWITCH_LANGUAGE } from '@/js/stores/reducer/constants'
 import { useTranslation } from 'react-i18next'
-import { languages } from '@utils/browser'
+import { languages, getBrowserStorage, setBrowserStorage } from '@utils/browser'
 
 const Form = styled.form`
   padding: 12px 15px;
@@ -37,8 +37,17 @@ function Settings() {
 
   useEffect(() => {
     ;(async () => {
-      const response = await getAllProducts()
-      setProducts(response.result)
+      const localStorage = await getBrowserStorage('local')
+      setProducts(localStorage.products)
+      try {
+        const response = await getAllProducts()
+        if (response.count > 0 && localStorage.products.length === response.count) return
+        setBrowserStorage('local', { products: response.result })
+      } catch (error) {
+        if (!localStorage.products.length) {
+          console.log('nooo products')
+        }
+      }
     })()
   }, [])
 

@@ -8,7 +8,7 @@ const StyledList = styled(List)`
   width: 100%;
 `
 
-function ListCards({ cards }) {
+function ListCards({ cards, enqueueSnackbar }) {
   const [isOpenDialog, setIsOpenDialog] = useState(false)
   const [cardSelected, setCardSelected] = useState({ title: '', description: '', url: '', lang: '' })
 
@@ -29,6 +29,7 @@ function ListCards({ cards }) {
         ))}
       </StyledList>
       <SimpleDialog
+        enqueueSnackbar={enqueueSnackbar}
         open={isOpenDialog}
         cardSelected={cardSelected}
         afterExist={() => resetDialog()}
