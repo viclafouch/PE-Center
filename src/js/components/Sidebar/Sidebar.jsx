@@ -8,7 +8,8 @@ import Checkbox from '@material-ui/core/Checkbox'
 import { DefaultContext } from '@/js/stores/DefaultContext'
 import Divider from '@material-ui/core/Divider'
 import IconButton from '@material-ui/core/IconButton'
-import { TOGGLE_SIDEBAR, SELECT_PRODUCTS } from '@/js/stores/reducer/constants'
+import Icon from '@material-ui/core/Icon'
+import { TOGGLE_SIDEBAR, SELECT_PRODUCTS, CHANGE_TAB } from '@/js/stores/reducer/constants'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import { SettingsContext } from '@/js/stores/SettingsContext'
@@ -65,6 +66,19 @@ function Sidebar() {
             />
           ))}
         </FormGroup>
+        {productsSelected.length === 0 && (
+          <Icon
+            fontSize="large"
+            color="action"
+            onClick={() => {
+              dispatchDefault({ type: CHANGE_TAB, currentTab: 2 })
+              closeSidebar()
+            }}
+            style={{ margin: '0 auto', cursor: 'pointer' }}
+          >
+            add_circle
+          </Icon>
+        )}
       </Drawer>
     </ClickAwayListener>
   )

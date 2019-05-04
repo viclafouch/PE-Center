@@ -70,8 +70,12 @@ export function SearchCards() {
   )
 
   useEffect(() => {
-    if (!productsSelected.length) dispatch({ type: REMOVE_CARDS })
-    else if (value) fetchCards({ numPage: page, products: productsSelected, searchValue: value, language: lang })
+    if (!productsSelected.length) {
+      dispatch({ type: REMOVE_CARDS })
+      dispatch({ type: SET_SEARCHING_STATUS, isSearching: false })
+      return
+    }
+    if (value) fetchCards({ numPage: page, products: productsSelected, searchValue: value, language: lang })
     /* If user switch lang, reset cards before fetching */
     if (lang !== currentLang.current) {
       currentLang.current = lang

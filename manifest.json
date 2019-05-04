@@ -3,7 +3,7 @@
   "short_name": "PE Center",
   "manifest_version": 2,
   "author": "Victor de la Fouchardiere",
-  "permissions": ["http://localhost/*", "storage", "tabs", "http://crawler.victor-de-la-fouchardiere.fr:3000/*"],
+  "permissions": ["http://localhost/*", "storage", "http://crawler.victor-de-la-fouchardiere.fr:3000/*"],
   "browser_action": {
     "default_popup": "popup-light.html",
     "default_title": "PE Center",
@@ -16,6 +16,15 @@
   },
   "background": {
     "scripts": ["background.bundle.js"]
+  },
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Alt+T",
+        "windows": "Alt+T",
+        "mac": "Alt+T"
+      }
+    }
   },
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }
