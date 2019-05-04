@@ -10,7 +10,7 @@ const StyledList = styled(List)`
 
 function ListCards({ cards, enqueueSnackbar }) {
   const [isOpenDialog, setIsOpenDialog] = useState(false)
-  const [cardSelected, setCardSelected] = useState({ title: '', description: '', url: '', lang: '' })
+  const [cardSelected, setCardSelected] = useState({ title: '', description: '', url: '', lang: '', getIcon: '' })
 
   const displayDialog = card => {
     setCardSelected(card)
@@ -18,7 +18,7 @@ function ListCards({ cards, enqueueSnackbar }) {
   }
 
   const resetDialog = () => {
-    setCardSelected({ title: '', description: '', url: '' })
+    setCardSelected({ title: '', description: '', url: '', getIcon: '' })
   }
 
   return (

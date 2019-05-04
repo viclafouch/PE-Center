@@ -1,4 +1,4 @@
-const apiUrl = new URL('http://localhost:3000')
+const apiUrl = new URL('http://crawler.victor-de-la-fouchardiere.fr:3000')
 
 export const fetchCrawler = (url, params) => {
   if (typeof url === 'string' && url.startsWith('/')) {

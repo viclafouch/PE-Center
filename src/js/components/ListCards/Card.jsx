@@ -50,16 +50,18 @@ const Title = styled(Typography)`
   }
 `
 
-function CardItem({ title, description, url, lang, onSelect }) {
+function CardItem({ title, description, url, lang, Product, onSelect }) {
+  const getIcon = `${Product.name.toLowerCase()}-64.png`
+
   const onClick = e => {
     e.preventDefault()
-    return onSelect({ title, description, url, lang })
+    return onSelect({ title, description, url, lang, Product, getIcon })
   }
 
   return (
     <StyledListItem alignItems="flex-start" button onClick={onClick}>
       <ListItemAvatar>
-        <StyledAvatar alt={title} sizes="24" src="/images/youtube-64.png" />
+        <StyledAvatar alt={title} sizes="24" src={`/images/products/${getIcon}`} />
       </ListItemAvatar>
       <ListItemText
         primary={

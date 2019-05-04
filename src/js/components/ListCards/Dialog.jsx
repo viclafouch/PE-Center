@@ -12,7 +12,6 @@ import styled from 'styled-components'
 import { copy, TAILWIND_TYPE, HOS_TYPE } from '@utils/utils'
 import { openLink } from '@utils/browser'
 import { withTranslation } from 'react-i18next'
-import { withSnackbar } from 'notistack'
 
 const Title = styled(Typography)`
   && {
@@ -81,7 +80,7 @@ class SimpleDialog extends Component {
             </ListItem>
             <ListItem button onClick={() => this.redirectionLink()}>
               <ListItemAvatar>
-                <StyledAvatar src="/images/youtube-64.png">
+                <StyledAvatar src={`/images/products/${cardSelected.getIcon}`}>
                   <AddIcon />
                 </StyledAvatar>
               </ListItemAvatar>
