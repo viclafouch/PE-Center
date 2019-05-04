@@ -105,7 +105,7 @@ export function SearchCards() {
   } else if (value.trim() === '') {
     content = (
       <IllusTab>
-        <img src="/images/undraw_search_2dfv.svg" alt="RSS Feed" style={{ width: 160 }} />
+        <img src="/images/undraw_file_searching_duff.svg" alt="RSS Feed" style={{ width: 160 }} />
         <Typography component="h1" variant="h6">
           Search your help article
         </Typography>

@@ -12,6 +12,7 @@
     "copyTailwind": "Copiar (Tailwind)",
     "learnMore": "Más información",
     "successCopy": "Copied to the clipboard",
+    "filteredProducts": "Productos filtrados",
     "error": {
       "unknown": "Algo salió mal."
     }

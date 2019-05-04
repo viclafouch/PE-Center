@@ -1,4 +1,4 @@
-# TC's Center (v3.0.0)
+# PE's Center (v3.0.0)
 
 ### Made with ❤️ for PE !
 

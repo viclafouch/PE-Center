@@ -107,6 +107,12 @@ module.exports = (env, argv) => ({
         to: path.join(__dirname, "build", "images")
       }
     ]),
+    new CopyWebpackPlugin([
+      {
+        from: path.join(__dirname, "icons"),
+        to: path.join(__dirname, "build", "icons")
+      }
+    ]),
     new webpack.EnvironmentPlugin({
       "homepage_url": process.env.npm_package_homepage
     }),

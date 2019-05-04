@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import Drawer from '@material-ui/core/Drawer'
 import FormGroup from '@material-ui/core/FormGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Avatar from '@material-ui/core/Avatar'
+import Typography from '@material-ui/core/Typography'
 import styled from 'styled-components'
 import Checkbox from '@material-ui/core/Checkbox'
 import { DefaultContext } from '@/js/stores/DefaultContext'
@@ -12,6 +12,7 @@ import { TOGGLE_SIDEBAR, SELECT_PRODUCTS } from '@/js/stores/reducer/constants'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import { SettingsContext } from '@/js/stores/SettingsContext'
+import { useTranslation } from 'react-i18next'
 
 const ToolbarClosed = styled.div`
   display: flex;
@@ -21,6 +22,7 @@ const ToolbarClosed = styled.div`
 `
 
 function Sidebar() {
+  const { t } = useTranslation()
   const [{ isOpenSidebar }, dispatchDefault] = useContext(DefaultContext)
   const [{ productsSelected }, dispatchSettings] = useContext(SettingsContext)
 
@@ -50,6 +52,9 @@ function Sidebar() {
           </IconButton>
         </ToolbarClosed>
         <Divider />
+        <Typography component="p" variant="body2" style={{ padding: 10 }}>
+          {t('filteredProducts')}
+        </Typography>
         <FormGroup>
           {productsSelected.map(product => (
             <FormControlLabel

@@ -12,6 +12,7 @@
     "copyTailwind": "Copier (Tailwind)",
     "learnMore": "En savoir plus",
     "successCopy": "Copié dans le presse-papiers",
+    "filteredProducts": "Produits filtrés",
     "error": {
       "unknown": "Une erreur est survenue."
     }
