@@ -23,6 +23,9 @@ export default lang =>
     interpolation: {
       escapeValue: false
     },
+    react: {
+      bindI18n: false
+    },
     order: [],
     caches: [],
     htmlTag: document.documentElement

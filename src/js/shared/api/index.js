@@ -1,4 +1,6 @@
-const apiUrl = new URL('http://crawler.victor-de-la-fouchardiere.fr:3000')
+import { isDev } from '@utils/utils'
+
+const apiUrl = new URL(isDev ? 'http://localhost:3000' : 'http://crawler.victor-de-la-fouchardiere.fr:3000')
 
 export const fetchCrawler = (url, params) => {
   if (typeof url === 'string' && url.startsWith('/')) {

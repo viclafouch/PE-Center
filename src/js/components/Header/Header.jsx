@@ -7,7 +7,7 @@ import SearchIcon from '@material-ui/icons/Search'
 import styled from 'styled-components'
 import { useDebounce } from '@shared/hooks/useDebounce'
 import { DefaultContext } from '@/js/stores/DefaultContext'
-import { REMOVE_CARDS, CHANGE_TAB } from '@/js/stores/reducer/constants'
+import { REMOVE_CARDS, CHANGE_TAB, TOGGLE_SIDEBAR, SET_SEARCHING_STATUS } from '@/js/stores/reducer/constants'
 import useSearchParams from '@shared/hooks/useSearchParams'
 import { useTranslation } from 'react-i18next'
 
@@ -42,15 +42,24 @@ function Header() {
     input.current.focus()
   }
 
+  const openSidebar = () =>
+    dispatch({
+      type: TOGGLE_SIDEBAR,
+      isOpenSidebar: true
+    })
+
   useEffect(() => {
-    if (debouncedSearchTerm) dispatch({ type: CHANGE_TAB, currentTab: 0 })
+    if (debouncedSearchTerm) {
+      dispatch({ type: CHANGE_TAB, currentTab: 0 })
+      dispatch({ type: SET_SEARCHING_STATUS, isSearching: true })
+    }
     setSearch(debouncedSearchTerm)
     return () => dispatch({ type: REMOVE_CARDS })
   }, [debouncedSearchTerm, dispatch, setSearch])
 
   return (
     <StyledPaper elevation={1} style={{ zIndex: 99 }}>
-      <IconButton aria-label={t('menu')}>
+      <IconButton aria-label={t('menu')} onClick={openSidebar}>
         <MenuIcon />
       </IconButton>
       <StyledInput inputRef={input} autoFocus placeholder={t('searchHelp')} onChange={e => setSearchTerm(e.target.value)} />

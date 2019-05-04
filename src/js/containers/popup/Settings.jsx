@@ -62,7 +62,14 @@ function Settings() {
             onChange={({ target }) => {
               dispatch({
                 type: SELECT_PRODUCTS,
-                productsSelected: target.value.map(e => products.find(p => p.id === e))
+                productsSelected: target.value.map(id => {
+                  if (productsSelected.some(p => p.id === id)) {
+                    return productsSelected.find(p => p.id === id)
+                  }
+                  const product = products.find(p => p.id === id)
+                  product.visible = true
+                  return product
+                })
               })
             }}
             input={<Input id="select-products" />}

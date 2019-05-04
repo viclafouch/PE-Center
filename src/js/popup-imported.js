@@ -18,6 +18,8 @@ function Popup() {
       initialState={{
         cards: [],
         currentTab: 0,
+        isOpenSidebar: false,
+        isSearching: false,
         searchParams: {
           value: '',
           page: 1

@@ -1,5 +1,6 @@
 import React, { useContext, useRef, useLayoutEffect } from 'react'
 import styled from 'styled-components'
+import Sidebar from '@components/Sidebar/Sidebar'
 import Settings from './popup/Settings'
 import SearchCards from './popup/SearchCards'
 import RssFeeds from './popup/RssFeed'
@@ -46,6 +47,7 @@ function MainPopupContainer() {
 
   return (
     <main>
+      <Sidebar />
       <SwipeableViews ref={swiper}>
         <div data-swipeable aria-hidden={currentTab !== 0}>
           <SearchCards />
