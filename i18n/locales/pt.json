@@ -14,6 +14,9 @@
     "successCopy": "Copiado para a área de transferência",
     "filteredProducts": "Produtos filtrados",
     "searchIntro": "Search Center, onde você encontrará tutoriais sobre o uso de diferentes produtos do Google (YouTube, Gmail, etc ...).",
+    "searchTitle": "Pesquise o seu artigo de ajuda",
+    "feedIntro": "Esteja ciente das novas dúvidas dos usuários sobre os produtos do Google e responda a elas rapidamente.",
+    "feedTitle": "RSS feed está a chegar...",
     "error": {
       "unknown": "Algo deu errado."
     }

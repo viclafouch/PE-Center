@@ -14,6 +14,9 @@
     "successCopy": "Copied to the clipboard",
     "filteredProducts": "Gefilterte Produkte",
     "searchIntro": "Suchcenter, in dem Sie Anleitungen zur Verwendung verschiedener Google-Produkte (YouTube, Google Mail usw.) finden.",
+    "searchTitle": "Durchsuchen Sie Ihren Hilfeartikel",
+    "feedIntro": "Informieren Sie sich über neue Nutzerfragen zu Google-Produkten und reagieren Sie schnell auf diese!",
+    "feedTitle": "Der RSS-Feed kommt...",
     "error": {
       "unknown": "Etwas ist schief gelaufen."
     }

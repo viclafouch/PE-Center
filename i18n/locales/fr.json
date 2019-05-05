@@ -14,6 +14,9 @@
     "successCopy": "Copié dans le presse-papiers",
     "filteredProducts": "Produits filtrés",
     "searchIntro": "Centre de recherche où vous trouverez les didacticiels sur l'utilisation de différents produits de Google (YouTube, Gmail, etc...).",
+    "searchTitle": "Recherchez votre article d'aide",
+    "feedIntro": "Soyez au courant des nouvelles questions des utilisateurs à propos des produits Google et répondez-y très rapidement !",
+    "feedTitle": "Flux RSS arrive...",
     "error": {
       "unknown": "Une erreur est survenue."
     }

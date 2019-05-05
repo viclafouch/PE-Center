@@ -111,7 +111,7 @@ export function SearchCards() {
       <IllusTab>
         <img src="/images/undraw_file_searching_duff.svg" alt="RSS Feed" style={{ width: 160 }} />
         <Typography component="h1" variant="h6">
-          Search your help article
+          {t('searchTitle')}
         </Typography>
         <Typography component="p" variant="body2" style={{ lineHeight: 1.1, fontWeight: 'normal' }}>
           {t('searchIntro')}

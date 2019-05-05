@@ -14,7 +14,7 @@ export const IllusTab = styled.div`
   align-items: center;
   flex-direction: column;
   text-align: center;
-  padding: 30px;
+  padding: 24px;
 
   img {
     margin-bottom: 12px;

@@ -14,6 +14,9 @@
     "successCopy": "Copied to the clipboard",
     "filteredProducts": "Filtered products",
     "searchIntro": "Search Center where you will find tutorials on the use of different Google products (YouTube, Gmail, etc ...).",
+    "searchTitle": "Search your help article",
+    "feedIntro": "Stay informed about new questions from users about Google products and answer them very quickly!",
+    "feedTitle": "RSS feed is coming...",
     "error": {
       "unknown": "Something went wrong."
     }
