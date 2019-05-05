@@ -9,6 +9,11 @@
     "default_title": "PE Center",
     "default_icon": "icons/icon_16.png"
   },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "pecenter@victor-de-la-fouchardiere.fr"
+    }
+  },
   "icons": {
     "16": "icons/icon_16.png",
     "48": "icons/icon_48.png",

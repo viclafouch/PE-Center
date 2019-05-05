@@ -36,6 +36,9 @@ const Description = styled(Typography)`
     font-size: 11px;
     margin-top: 3px;
     overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 16px; /* fallback */
+    max-height: 32px;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
   }

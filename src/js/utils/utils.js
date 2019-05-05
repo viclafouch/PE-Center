@@ -8,20 +8,29 @@ export const HOS_TYPE = 'HOS_TYPE'
 export const TAILWIND_TYPE = 'TAILWIND_TYPE'
 
 export const copy = (string, url, type) => {
+  let success = null
   const storage = document.createElement('div')
-  storage.setAttribute('contentEditable', true)
-  const core = document.createElement('a')
-  core.textContent = type === HOS_TYPE ? url : string
-  core.setAttribute('href', url)
-  storage.appendChild(core)
+  const anchor = document.createElement('a')
+  anchor.textContent = type === HOS_TYPE ? url : string
+  anchor.setAttribute('href', url)
+  storage.appendChild(anchor)
   storage.style.position = 'fixed'
-  const container = document.createElement('div')
-  container.id = 'storageCopy'
-  container.appendChild(storage)
-  document.documentElement.appendChild(container)
-  storage.focus()
-  document.execCommand('SelectAll')
-  document.execCommand('Copy', false, null)
-  container.parentNode.removeChild(container)
-  return true
+  const b = document.body
+  b.appendChild(storage)
+  if (b.createTextRange) {
+    const range = b.createTextRange()
+    range.moveToElementText(storage)
+    range.select()
+    success = document.execCommand('copy')
+  } else {
+    const range = document.createRange()
+    const g = window.getSelection
+    range.selectNodeContents(storage)
+    g().removeAllRanges()
+    g().addRange(range)
+    success = document.execCommand('copy')
+    g().removeAllRanges()
+  }
+  storage.remove()
+  return success
 }

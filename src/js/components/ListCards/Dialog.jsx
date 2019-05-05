@@ -43,6 +43,15 @@ class SimpleDialog extends Component {
         autoHideDuration: 2000
       })
       close()
+    } else {
+      enqueueSnackbar(t('error.unknown'), {
+        variant: 'error',
+        anchorOrigin: {
+          vertical: 'bottom',
+          horizontal: 'center'
+        },
+        autoHideDuration: 2000
+      })
     }
   }
 
