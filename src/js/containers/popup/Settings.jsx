@@ -15,10 +15,19 @@ import useTheme from '@shared/hooks/useTheme'
 import { useSettings } from '@/js/stores/SettingsContext'
 import { SELECT_PRODUCTS, SWITCH_LANGUAGE } from '@/js/stores/reducer/constants'
 import { useTranslation } from 'react-i18next'
-import { languages, getBrowserStorage, setBrowserStorage } from '@utils/browser'
+import { languages, getBrowserStorage, setBrowserStorage, openLink } from '@utils/browser'
+import Typography from '@material-ui/core/Typography'
 
 const Form = styled.form`
   padding: 12px 15px;
+`
+const Footer = styled.footer`
+  padding: 12px 15px;
+  text-align: center;
+
+  a {
+    color: inherit;
+  }
 `
 
 const MenuProps = {
@@ -43,6 +52,7 @@ function Settings() {
         const response = await getAllProducts()
         if (response.count > 0 && localStorage.products.length === response.count) return
         setBrowserStorage('local', { products: response.result })
+        setProducts(response.result)
       } catch (error) {
         if (!localStorage.products.length) {
           console.log('nooo products')
@@ -113,6 +123,21 @@ function Settings() {
           </Select>
         </FormControl>
       </Form>
+      <Footer>
+        <Typography component="p" variant="body2" style={{ padding: 10 }}>
+          Coded by{' '}
+          <a href="https://twitter.com/TrustedSheriff" onClick={() => openLink('https://twitter.com/TrustedSheriff', true)}>
+            Victor de la Fouchardiere
+          </a>{' '}
+          <br />{' '}
+          <a
+            href="https://github.com/viclafouch/TCs-Center"
+            onClick={() => openLink('https://github.com/viclafouch/TCs-Center', true)}
+          >
+            Open source project
+          </a>
+        </Typography>
+      </Footer>
     </div>
   )
 }

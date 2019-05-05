@@ -114,7 +114,7 @@ export function SearchCards() {
           Search your help article
         </Typography>
         <Typography component="p" variant="body2" style={{ lineHeight: 1.1, fontWeight: 'normal' }}>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur unde suscipit, quam beatae.
+          {t('searchIntro')}
         </Typography>
       </IllusTab>
     )
