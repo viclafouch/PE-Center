@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState, useRef } from 'react'
+import React, { useContext, useEffect, useState, useRef } from 'react'
 import styled from 'styled-components'
 import ListCards from '@components/ListCards/ListCards'
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -41,51 +41,61 @@ export function SearchCards() {
   const [{ productsSelected, lang }] = useSettings()
   const currentLang = useRef(lang)
   const productsVisible = useRef(productsSelected.filter(e => e.visible).length)
-
-  const fetchCards = useCallback(
-    async ({ numPage, products, searchValue, language }) => {
-      const productsId = products.filter(e => e.visible).map(e => e.id)
-      try {
-        setIsEndOfList(false)
-        dispatch({ type: SET_SEARCHING_STATUS, isSearching: true })
-        await wait()
-        const response = await searchCards({ productsId, page: numPage, search: searchValue, lang: language })
-        setIsEndOfList(numPage >= response.pages)
-        dispatch({ type: SET_CARDS, cards: response.result })
-      } catch (error) {
-        console.warn(error)
-        enqueueSnackbar(t('error.unknown'), {
-          variant: 'warning',
-          anchorOrigin: {
-            vertical: 'bottom',
-            horizontal: 'center'
-          },
-          autoHideDuration: 2000
-        })
-      } finally {
-        dispatch({ type: SET_SEARCHING_STATUS, isSearching: false })
-      }
-    },
-    [dispatch, enqueueSnackbar, t]
-  )
+  const isSubscribed = useRef(false)
 
   useEffect(() => {
+    const controller = new AbortController()
     if (!productsSelected.length) {
       dispatch({ type: REMOVE_CARDS })
-      dispatch({ type: SET_SEARCHING_STATUS, isSearching: false })
       return
-    }
-    if (value) fetchCards({ numPage: page, products: productsSelected, searchValue: value, language: lang })
-    /* If user switch lang, reset cards before fetching */
-    if (lang !== currentLang.current) {
-      currentLang.current = lang
-      return dispatch({ type: REMOVE_CARDS })
     }
     if (productsVisible.current !== productsSelected.filter(e => e.visible).length) {
       productsVisible.current = productsSelected.filter(e => e.visible).length
-      return dispatch({ type: REMOVE_CARDS })
+      dispatch({ type: REMOVE_CARDS })
+    } else if (lang !== currentLang.current) {
+      currentLang.current = lang
+      dispatch({ type: REMOVE_CARDS })
     }
-  }, [dispatch, lang, productsSelected, value, fetchCards, page])
+    if (value) {
+      const loadCards = async () => {
+        const productsId = productsSelected.filter(e => e.visible).map(e => e.id)
+        try {
+          isSubscribed.current = true
+          setIsEndOfList(false)
+          dispatch({ type: SET_SEARCHING_STATUS, isSearching: true })
+          await wait(500)
+          if (!isSubscribed.current) return
+          const response = await searchCards({ productsId, page, search: value, lang }, controller.signal)
+          if (!isSubscribed.current) return
+          setIsEndOfList(page >= response.pages)
+          dispatch({ type: SET_CARDS, cards: response.result })
+        } catch (error) {
+          if (error.name === 'AbortError') {
+            console.log('FetchCancel: caught abort')
+          } else {
+            console.warn(error)
+            enqueueSnackbar(t('error.unknown'), {
+              variant: 'warning',
+              anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'center'
+              },
+              autoHideDuration: 2000
+            })
+          }
+        } finally {
+          dispatch({ type: SET_SEARCHING_STATUS, isSearching: false })
+        }
+      }
+
+      loadCards()
+    }
+
+    return () => {
+      controller.abort()
+      isSubscribed.current = false
+    }
+  }, [dispatch, lang, productsSelected, value, page, enqueueSnackbar, t])
 
   let content = null
   if (isSearching) {
