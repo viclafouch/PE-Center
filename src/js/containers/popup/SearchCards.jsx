@@ -36,6 +36,7 @@ export function SearchCards() {
   const { t } = useTranslation()
   const { enqueueSnackbar } = useSnackbar()
   const [isEndOfList, setIsEndOfList] = useState(true)
+  const [isError, setIsError] = useState(false)
   const [{ cards, isSearching }, dispatch] = useContext(DefaultContext)
   const [{ page, value }, { setPage }] = useSearchParams()
   const [{ productsSelected, lang }] = useSettings()
@@ -60,6 +61,7 @@ export function SearchCards() {
       const loadCards = async () => {
         const productsId = productsSelected.filter(e => e.visible).map(e => e.id)
         try {
+          setIsError(false)
           isSubscribed.current = true
           setIsEndOfList(false)
           dispatch({ type: SET_SEARCHING_STATUS, isSearching: true })
@@ -74,6 +76,7 @@ export function SearchCards() {
             console.log('FetchCancel: caught abort')
           } else {
             console.warn(error)
+            setIsError(true)
             enqueueSnackbar(t('error.unknown'), {
               variant: 'warning',
               anchorOrigin: {
@@ -116,7 +119,7 @@ export function SearchCards() {
         <Typography component="h1">{t('noResult')}</Typography>
       </Warning>
     )
-  } else if (value.trim() === '') {
+  } else if (value.trim() === '' || isError) {
     content = (
       <IllusTab>
         <img src="/images/undraw_file_searching_duff.svg" alt="RSS Feed" style={{ width: 160 }} />
