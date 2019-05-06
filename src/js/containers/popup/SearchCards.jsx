@@ -48,6 +48,7 @@ export function SearchCards() {
     const controller = new AbortController()
     if (!productsSelected.length) {
       dispatch({ type: REMOVE_CARDS })
+      dispatch({ type: SET_SEARCHING_STATUS, isSearching: false })
       return
     }
     if (productsVisible.current !== productsSelected.filter(e => e.visible).length) {
