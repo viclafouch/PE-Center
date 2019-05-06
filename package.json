@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/viclafouch/TCs-Center.git"
+    "url": "git+https://github.com/viclafouch/PEs-Center.git"
   },
   "author": "Victor de la Fouchardiere",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/viclafouch/TCs-Center/issues"
+    "url": "https://github.com/viclafouch/PEs-Center/issues"
   },
-  "homepage": "https://github.com/viclafouch/TCs-Center#readme",
+  "homepage": "https://github.com/viclafouch/PEs-Center#readme",
   "dependencies": {
     "@babel/runtime": "^7.4.4",
     "@material-ui/core": "^3.9.3",

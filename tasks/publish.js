@@ -5,7 +5,7 @@ const emoji = require('node-emoji')
 const colors = require('colors')
 
 const directoryName = 'dist'
-const fileName = `TC-Center-${+new Date()}.zip`
+const fileName = `PE-Center-${+new Date()}.zip`
 const zip = new AdmZip()
 
 const messageOk = `${emoji.get('package')}  Zip file ready to be published on ${colors.blue.underline(
