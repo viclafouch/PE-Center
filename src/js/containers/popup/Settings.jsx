@@ -126,13 +126,22 @@ function Settings() {
       <Footer>
         <Typography component="p" variant="body2" style={{ padding: 10 }}>
           Coded by{' '}
-          <a href="https://twitter.com/TrustedSheriff" onClick={() => openLink('https://twitter.com/TrustedSheriff', true)}>
+          <a
+            href="https://twitter.com/TrustedSheriff"
+            onClick={e => {
+              e.preventDefault()
+              openLink('https://twitter.com/TrustedSheriff', true)
+            }}
+          >
             Victor de la Fouchardiere
           </a>{' '}
           <br />{' '}
           <a
             href="https://github.com/viclafouch/TCs-Center"
-            onClick={() => openLink('https://github.com/viclafouch/TCs-Center', true)}
+            onClick={e => {
+              e.preventDefault()
+              openLink('https://github.com/viclafouch/TCs-Center', true)
+            }}
           >
             Open source project
           </a>
