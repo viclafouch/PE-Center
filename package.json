@@ -3,8 +3,10 @@
   "version": "3.0.0",
   "description": "📌 A browser extension which allow to find and copy any tips about the Google Help Center",
   "scripts": {
-    "dev": "webpack -d --progress --hide-modules --display-error-details",
-    "build": "webpack -p --progress --hide-modules --display-error-details",
+    "start": "npm run dev:chrome",
+    "dev:chrome": "TARGET=chrome webpack -d --progress --hide-modules --display-error-details",
+    "dev:firefox": "TARGET=firefox webpack -d --progress --hide-modules --display-error-details",
+    "build": "TARGET=firefox webpack -p --progress --hide-modules && TARGET=chrome webpack -p --progress --hide-modules",
     "publish": "node tasks/publish.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"

@@ -6,6 +6,14 @@ const FixStyleOnlyEntriesPlugin = require("webpack-fix-style-only-entries");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
 
+if (!process.env.TARGET) {
+  throw Error("Please specify env var TARGET, 'chrome' or 'firefox'.")
+} else if (!(process.env.TARGET === 'chrome' || process.env.TARGET === 'firefox')) {
+  throw Error("TARGET can only be 'chrome' or 'firefox'.")
+} else {
+  console.info(`\x1b[1;32mBuilding for target ${process.env.TARGET}...\x1b[m`)
+}
+
 module.exports = (env, argv) => ({
   mode: argv.mode,
   cache: false,
@@ -77,7 +85,7 @@ module.exports = (env, argv) => ({
     }
   },
   output: {
-    path: path.join(__dirname, "build"),
+    path: path.join(__dirname, "build", process.env.TARGET),
     filename: "[name].bundle.js"
   },
   plugins: [
@@ -89,13 +97,17 @@ module.exports = (env, argv) => ({
     new CopyWebpackPlugin([
       {
         from: path.join(__dirname, "manifest.json"),
-        to: path.join(__dirname, "build"),
+        to: path.join(__dirname, "build", process.env.TARGET),
         transform: function (content) {
+          const manifestContent = JSON.parse(content.toString())
+          if (process.env.TARGET === 'chrome') {
+            delete manifestContent["browser_specific_settings"];
+          }
           return Buffer.from(
             JSON.stringify({
               description: process.env.npm_package_description,
               version: process.env.npm_package_version,
-              ...JSON.parse(content.toString())
+              ...manifestContent
             })
           );
         }
@@ -104,13 +116,13 @@ module.exports = (env, argv) => ({
     new CopyWebpackPlugin([
       {
         from: path.join(__dirname, "src", "img"),
-        to: path.join(__dirname, "build", "images")
+        to: path.join(__dirname, "build", process.env.TARGET, "images")
       }
     ]),
     new CopyWebpackPlugin([
       {
         from: path.join(__dirname, "icons"),
-        to: path.join(__dirname, "build", "icons")
+        to: path.join(__dirname, "build", process.env.TARGET, "icons")
       }
     ]),
     new webpack.EnvironmentPlugin({
