@@ -135,7 +135,7 @@ export function SearchCards() {
   }
 
   return (
-    <div className="main-content" style={{ paddingTop: !cards.length && isSearching ? 16 : 0 }}>
+    <div className="main-content scrollBarOnHover" style={{ paddingTop: !cards.length && isSearching ? 16 : 0 }}>
       {productsSelected.length && !!cards.length && <ListCards cards={cards} enqueueSnackbar={enqueueSnackbar} />}
       {content}
       {!isSearching && !isEndOfList && value && cards.length > 0 && (

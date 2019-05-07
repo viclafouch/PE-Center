@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 export function RssFeed() {
   const { t } = useTranslation()
   return (
-    <div className="main-content">
+    <div className="main-content scrollBarOnHover">
       <IllusTab>
         <img src="/images/undraw_Outer_space_drqu.svg" alt="RSS Feed" />
         <Typography component="h1" variant="h6">

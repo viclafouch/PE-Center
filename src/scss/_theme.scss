@@ -1,9 +1,11 @@
 html[data-theme='dark'] {
   --primary-text-color: #f0f0f0;
   --primary-background-color: #202124;
+  --scrollbar-color: rgba(255, 255, 255, 0.5);
 }
 
 html[data-theme='light'] {
   --primary-text-color: #111111;
   --primary-background-color: #fafafa;
+  --scrollbar-color: rgba(0, 0, 0, 0.5);
 }
