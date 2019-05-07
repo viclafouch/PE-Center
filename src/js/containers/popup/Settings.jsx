@@ -137,10 +137,10 @@ function Settings() {
           </a>{' '}
           <br />{' '}
           <a
-            href="https://github.com/viclafouch/TCs-Center"
+            href="https://github.com/viclafouch/PE-Center"
             onClick={e => {
               e.preventDefault()
-              openLink('https://github.com/viclafouch/TCs-Center', true)
+              openLink('https://github.com/viclafouch/PE-Center', true)
             }}
           >
             Open source project
