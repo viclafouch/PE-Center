@@ -25,13 +25,13 @@ PE's Center is an extension which allows you to search and access help articles 
 2. Install the npm dependencies `npm install`
 3. Build the inject script: `npm run build`
 
-* on **Mozilla Firefox** : 
+Only on **Mozilla Firefox** : 
 
 4. Navigate to `about:debugging`
 5. Choose "Load Temporary Add-on..."
 6. In the dialog, open the file `build/firefox/manifest.json`
 
-* on **Google Chrome** : 
+Only on **Google Chrome** : 
 
 4. Navigate to `chrome://extensions` and enable Developer Mode.
 5. Choose "Load unpacked extension"
