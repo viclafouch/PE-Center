@@ -1,6 +1,6 @@
 {
   "translation": {
-    "products": "Produkten",
+    "products": "Produkte",
     "darkMode": "dunkles Design",
     "search": "Suche nach",
     "menu": "Menü",
@@ -11,7 +11,7 @@
     "copyHOS": "Kopiere (HOS)",
     "copyTailwind": "Kopiere (Tailwind)",
     "learnMore": "Mehr darüber erfahren",
-    "successCopy": "Copied to the clipboard",
+    "successCopy": "zum Clipboard kopiert",
     "filteredProducts": "Gefilterte Produkte",
     "searchIntro": "Suchcenter, in dem Sie Anleitungen zur Verwendung verschiedener Google-Produkte (YouTube, Google Mail usw.) finden.",
     "searchTitle": "Durchsuchen Sie Ihren Hilfeartikel",
