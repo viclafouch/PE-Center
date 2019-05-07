@@ -62,7 +62,7 @@ function Settings() {
   }, [])
 
   return (
-    <div className="main-content">
+    <div className="main-content scrollBarOnHover">
       <Form>
         <FormControl fullWidth margin="dense" required>
           <InputLabel htmlFor="select-products">{t('products')}</InputLabel>
