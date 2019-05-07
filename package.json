@@ -1,5 +1,5 @@
 {
-  "name": "pes-center",
+  "name": "pe-center",
   "version": "3.0.0",
   "description": "📌 A browser extension which allow to find and copy any tips about the Google Help Center",
   "scripts": {
@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/viclafouch/PEs-Center.git"
+    "url": "git+https://github.com/viclafouch/PE-Center.git"
   },
   "author": "Victor de la Fouchardiere",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/viclafouch/PEs-Center/issues"
+    "url": "https://github.com/viclafouch/PE-Center/issues"
   },
-  "homepage": "https://github.com/viclafouch/PEs-Center#readme",
+  "homepage": "https://github.com/viclafouch/PE-Center#readme",
   "dependencies": {
     "@babel/runtime": "^7.4.4",
     "@material-ui/core": "^3.9.3",

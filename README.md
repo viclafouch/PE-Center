@@ -9,8 +9,8 @@
 
 PE's Center is an extension which allows you to search and access help articles of official Google products. It's also an easy way to copy links of Google products and share them on different platforms.. (Google forum, Twitter, ...).
 
-- [PE Center on Firefox](https://chrome.google.com/webstore/detail/tcs-center/hanknpkmjbfhcalmipokkfplndkohgdm?authuser=1)
-- [PE Center on Google Chrome](https://chrome.google.com/webstore/detail/tcs-center/hanknpkmjbfhcalmipokkfplndkohgdm?authuser=1)
+- [PE Center on Firefox](https://chrome.google.com/webstore/detail/tc-center/hanknpkmjbfhcalmipokkfplndkohgdm?authuser=1)
+- [PE Center on Google Chrome](https://chrome.google.com/webstore/detail/tc-center/hanknpkmjbfhcalmipokkfplndkohgdm?authuser=1)
 
 ### What I use:
 
@@ -25,13 +25,13 @@ PE's Center is an extension which allows you to search and access help articles 
 2. Install the npm dependencies `npm install`
 3. Build the inject script: `npm run build`
 
-Only on **Mozilla Firefox** : 
+Only on **Mozilla Firefox** :
 
 4. Navigate to `about:debugging`
 5. Choose "Load Temporary Add-on..."
 6. In the dialog, open the file `build/firefox/manifest.json`
 
-Only on **Google Chrome** : 
+Only on **Google Chrome** :
 
 4. Navigate to `chrome://extensions` and enable Developer Mode.
 5. Choose "Load unpacked extension"

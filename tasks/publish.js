@@ -1,3 +1,5 @@
+//#NODE 11//
+
 const fs = require('fs')
 const path = require('path')
 const AdmZip = require('adm-zip')
@@ -9,7 +11,7 @@ const directoryName = 'dist'
 const fileName = `PE-Center-${+new Date()}`
 
 const messageOk = `${emoji.get('package')}  Zip file ready to be published on ${colors.blue.underline(
-    'https://chrome.google.com/u/1/webstore/devconsole && '
+    'https://chrome.google.com/u/1/webstore/devconsole && https://addons.mozilla.org/fr/developers/addons'
 )} !`
 const messageNotOk = `${emoji.get('rotating_light')}  ${colors.red('An error occured while zipping files !')} ${emoji.get('rotating_light')}`
 
@@ -26,15 +28,19 @@ async function removeFiles(directory) {
     })
 }
 
+
+
 (async () => {
   try {
+    if (!fs.mkdirSync(pathDir)) {
+      await new Promise(resolve => fs.mkdir(pathDir, resolve))
+    }
     await removeFiles(directoryName)
     for (const browser of browsers) {
       const zip = new AdmZip()
       if (!fs.existsSync(path.resolve('build', browser))) {
         throw new Error(`Build directory or ${browser} directory does not exist, please run 'npm build'.`)
       }
-      fs.existsSync(pathDir) || fs.mkdirSync(pathDir)
       zip.addLocalFolder(`./build/${browser}/`, '')
       zip.writeZip(path.resolve(directoryName, `${fileName}-${browser}.zip`))
     }
