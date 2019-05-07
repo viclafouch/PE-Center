@@ -21,8 +21,6 @@ PE's Center is an extension which allows you to search and access help articles 
 
 ### Installing from source
 
-* on **Google Chrome** : 
-
 1. Clone the repository: `git clone https://github.com/viclafouch/PE-Center.git`
 2. Install the npm dependencies `npm install`
 3. Build the inject script: `npm run build`
