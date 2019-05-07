@@ -4,7 +4,7 @@ import ListCards from '@components/ListCards/ListCards'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { DefaultContext } from '@/js/stores/DefaultContext'
 import { SET_CARDS, REMOVE_CARDS, SET_SEARCHING_STATUS } from '@/js/stores/reducer/constants'
-import { wait } from '@utils/utils'
+import { wait, debug } from '@utils/utils'
 import { searchCards } from '@shared/api/Card.api'
 import useSearchParams from '@shared/hooks/useSearchParams'
 import Button from '@material-ui/core/Button'
@@ -74,7 +74,7 @@ export function SearchCards() {
           dispatch({ type: SET_CARDS, cards: response.result })
         } catch (error) {
           if (error.name === 'AbortError') {
-            console.log('FetchCancel: caught abort')
+            debug('Fetch abort')
           } else {
             console.warn(error)
             setIsError(true)
