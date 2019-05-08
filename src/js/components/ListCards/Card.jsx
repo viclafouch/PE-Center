@@ -5,6 +5,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import Avatar from '@material-ui/core/Avatar'
 import styled from 'styled-components'
 import Typography from '@material-ui/core/Typography'
+import Tooltip from '@material-ui/core/Tooltip'
 
 function truncateAndReplace(str = '', maxLength = 130) {
   let text = str.replace(/&nbsp;/gi, ' ')
@@ -62,23 +63,25 @@ function CardItem({ title, description, url, lang, Product, onSelect }) {
   }
 
   return (
-    <StyledListItem alignItems="flex-start" button onClick={onClick}>
-      <ListItemAvatar>
-        <StyledAvatar alt={title} sizes="24" src={`/images/products/${getIcon}`} />
-      </ListItemAvatar>
-      <ListItemText
-        primary={
-          <Title gutterBottom variant="subtitle1">
-            {title}
-          </Title>
-        }
-        secondary={
-          <Description component="span" color="textPrimary">
-            {truncateAndReplace(description)}
-          </Description>
-        }
-      />
-    </StyledListItem>
+    <Tooltip title={title} enterDelay={800} leaveDelay={200} placement="left">
+      <StyledListItem alignItems="flex-start" button onClick={onClick}>
+        <ListItemAvatar>
+          <StyledAvatar alt={title} sizes="24" src={`/images/products/${getIcon}`} />
+        </ListItemAvatar>
+        <ListItemText
+          primary={
+            <Title gutterBottom variant="subtitle1">
+              {title}
+            </Title>
+          }
+          secondary={
+            <Description component="span" color="textPrimary">
+              {truncateAndReplace(description)}
+            </Description>
+          }
+        />
+      </StyledListItem>
+    </Tooltip>
   )
 }
 
