@@ -108,11 +108,12 @@ export function SearchCards() {
         <CircularProgress size={20} />
       </Loader>
     )
-  } else if (!productsSelected.length) {
+  } else if (productsSelected.length === 0) {
     content = (
-      <Warning>
+      <IllusTab>
+        <img src="/images/undraw_superhero_kguv.svg" alt="Choose product" style={{ width: 160 }} />
         <Typography component="p">{t('chooseProduct')}</Typography>
-      </Warning>
+      </IllusTab>
     )
   } else if (value.trim() !== '' && isEndOfList && cards.length === 0) {
     content = (
@@ -136,7 +137,7 @@ export function SearchCards() {
 
   return (
     <div className="main-content scrollBarOnHover" style={{ paddingTop: !cards.length && isSearching ? 16 : 0 }}>
-      {productsSelected.length && !!cards.length && <ListCards cards={cards} enqueueSnackbar={enqueueSnackbar} />}
+      {productsSelected.length > 0 && !!cards.length && <ListCards cards={cards} enqueueSnackbar={enqueueSnackbar} />}
       {content}
       {!isSearching && !isEndOfList && value && cards.length > 0 && (
         <ViewMore>

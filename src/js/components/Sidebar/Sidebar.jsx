@@ -24,6 +24,7 @@ const ToolbarClosed = styled.div`
 
 const SidebarBody = styled.div`
   min-width: 160px;
+  text-align: center;
 `
 
 function Sidebar() {
