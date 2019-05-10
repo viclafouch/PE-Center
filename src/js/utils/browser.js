@@ -1,7 +1,7 @@
 export const browser = browser || chrome // eslint-disable-line no-use-before-define
 
 export const languages = {
-  fr: 'Francais',
+  fr: 'Français',
   en: 'English',
   de: 'Deutsch',
   pt: 'Português (Brasil)',
