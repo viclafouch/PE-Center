@@ -32,7 +32,7 @@ async function removeFiles(directory) {
 
 (async () => {
   try {
-    if (!fs.mkdirSync(pathDir)) {
+    if (!fs.existsSync(pathDir)) {
       await new Promise(resolve => fs.mkdir(pathDir, resolve))
     }
     await removeFiles(directoryName)
