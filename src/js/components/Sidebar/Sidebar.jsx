@@ -22,6 +22,10 @@ const ToolbarClosed = styled.div`
   height: 52px;
 `
 
+const SidebarBody = styled.div`
+  min-width: 160px;
+`
+
 function Sidebar() {
   const { t } = useTranslation()
   const [{ isOpenSidebar }, dispatchDefault] = useContext(DefaultContext)
@@ -56,29 +60,31 @@ function Sidebar() {
         <Typography component="p" variant="body2" style={{ padding: 10 }}>
           {t('filteredProducts')}
         </Typography>
-        <FormGroup>
-          {productsSelected.map(product => (
-            <FormControlLabel
-              style={{ padding: '0 10px' }}
-              key={product.id}
-              control={<Checkbox checked={product.visible} onChange={() => handleFilter(product.id)} />}
-              label={product.name}
-            />
-          ))}
-        </FormGroup>
-        {productsSelected.length === 0 && (
-          <Icon
-            fontSize="large"
-            color="action"
-            onClick={() => {
-              dispatchDefault({ type: CHANGE_TAB, currentTab: 2 })
-              closeSidebar()
-            }}
-            style={{ margin: '0 auto', cursor: 'pointer' }}
-          >
-            add_circle
-          </Icon>
-        )}
+        <SidebarBody>
+          <FormGroup>
+            {productsSelected.map(product => (
+              <FormControlLabel
+                style={{ padding: '0 10px' }}
+                key={product.id}
+                control={<Checkbox checked={product.visible} onChange={() => handleFilter(product.id)} />}
+                label={product.name}
+              />
+            ))}
+          </FormGroup>
+          {productsSelected.length === 0 && (
+            <Icon
+              fontSize="large"
+              color="action"
+              onClick={() => {
+                dispatchDefault({ type: CHANGE_TAB, currentTab: 2 })
+                closeSidebar()
+              }}
+              style={{ margin: '0 auto', cursor: 'pointer' }}
+            >
+              add_circle
+            </Icon>
+          )}
+        </SidebarBody>
       </Drawer>
     </ClickAwayListener>
   )
