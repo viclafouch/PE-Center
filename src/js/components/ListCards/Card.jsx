@@ -55,7 +55,10 @@ const Title = styled(Typography)`
 `
 
 function CardItem({ title, description, url, lang, Product, onSelect }) {
-  const getIcon = `${Product.name.toLowerCase()}-64.png`
+  const getIcon = `${Product.name
+    .toLowerCase()
+    .split(' ')
+    .join('-')}-64.png`
 
   const onClick = e => {
     e.preventDefault()

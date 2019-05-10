@@ -25,7 +25,7 @@ function ListCards({ cards, enqueueSnackbar }) {
     <>
       <StyledList>
         {cards.map(card => (
-          <CardItem key={card.uuid} {...card} id={card.uuid} onSelect={displayDialog} />
+          <CardItem key={`${card.Product.id}-${card.uuid}`} {...card} id={card.uuid} onSelect={displayDialog} />
         ))}
       </StyledList>
       <SimpleDialog
