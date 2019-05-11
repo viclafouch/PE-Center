@@ -77,6 +77,7 @@ module.exports = (env, argv) => ({
     alias: {
       "@components": path.resolve(__dirname, "./src/js/components"),
       "@containers": path.resolve(__dirname, "./src/js/containers"),
+      "@styled": path.resolve(__dirname, "./src/js/styled"),
       "@stores": path.resolve(__dirname, "./src/js/store"),
       "@shared": path.resolve(__dirname, "./src/js/shared"),
       "@utils": path.resolve(__dirname, "./src/js/utils"),
