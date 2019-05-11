@@ -101,7 +101,10 @@ module.exports = (env, argv) => ({
         transform: function (content) {
           const manifestContent = JSON.parse(content.toString())
           if (process.env.TARGET === 'chrome') {
-            delete manifestContent["browser_specific_settings"];
+            delete manifestContent["browser_specific_settings"]
+          }
+          if (argv.mode !== "production") {
+            manifestContent["permissions"].push('http://localhost:3000/*')
           }
           return Buffer.from(
             JSON.stringify({
