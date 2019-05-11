@@ -10,7 +10,7 @@ import useSearchParams from '@shared/hooks/useSearchParams'
 import Button from '@material-ui/core/Button'
 import { useSettings } from '@/js/stores/SettingsContext'
 import Typography from '@material-ui/core/Typography'
-import { IllusTab } from '@containers/PopupContainer'
+import { Intro } from '@styled'
 import { useTranslation } from 'react-i18next'
 import { useSnackbar } from 'notistack'
 
@@ -71,7 +71,17 @@ export function SearchCards() {
           const response = await searchCards({ productsId, page, search: value, lang }, controller.signal)
           if (!isSubscribed.current) return
           setIsEndOfList(page >= response.pages)
-          dispatch({ type: SET_CARDS, cards: response.result })
+          const result = response.result.map(c => {
+            c.Product = {
+              ...c.Product,
+              icon: `${c.Product.name
+                .toLowerCase()
+                .split(' ')
+                .join('-')}-64.png`
+            }
+            return c
+          })
+          dispatch({ type: SET_CARDS, cards: result })
         } catch (error) {
           if (error.name === 'AbortError') {
             debug('Fetch abort')
@@ -110,10 +120,10 @@ export function SearchCards() {
     )
   } else if (productsSelected.length === 0) {
     content = (
-      <IllusTab>
+      <Intro>
         <img src="/images/undraw_superhero_kguv.svg" alt="Choose product" style={{ width: 160 }} />
         <Typography component="p">{t('chooseProduct')}</Typography>
-      </IllusTab>
+      </Intro>
     )
   } else if (value.trim() !== '' && isEndOfList && cards.length === 0) {
     content = (
@@ -123,7 +133,7 @@ export function SearchCards() {
     )
   } else if (value.trim() === '' || isError) {
     content = (
-      <IllusTab>
+      <Intro>
         <img src="/images/undraw_file_searching_duff.svg" alt="RSS Feed" style={{ width: 160 }} />
         <Typography component="h1" variant="h6">
           {t('searchTitle')}
@@ -131,7 +141,7 @@ export function SearchCards() {
         <Typography component="p" variant="body2" style={{ lineHeight: 1.1, fontWeight: 'normal' }}>
           {t('searchIntro')}
         </Typography>
-      </IllusTab>
+      </Intro>
     )
   }
 

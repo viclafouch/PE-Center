@@ -21,7 +21,8 @@ export const storageDefault = {
     lang: getDefaultLang(languages, 'en')
   },
   local: {
-    products: []
+    products: [],
+    threadsUuidReaded: []
   }
 }
 
@@ -71,6 +72,7 @@ export const openLink = (url, newTab = true) => {
     chrome.tabs.create({ active: newTab, url, pinned: false })
     return true
   }
+
   const win = window.open(url, newTab ? '_blank' : false)
   win.focus()
   return true

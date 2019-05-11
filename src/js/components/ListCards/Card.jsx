@@ -6,12 +6,8 @@ import Avatar from '@material-ui/core/Avatar'
 import styled from 'styled-components'
 import Typography from '@material-ui/core/Typography'
 import Tooltip from '@material-ui/core/Tooltip'
-
-function truncateAndReplace(str = '', maxLength = 130) {
-  let text = str.replace(/&nbsp;/gi, ' ')
-  if (text.length > maxLength) text = `${text.slice(0, maxLength)}...`
-  return text
-}
+import { Description } from '@styled'
+import { truncateAndReplace } from '@utils/utils'
 
 const StyledListItem = styled(ListItem)`
   &&:hover {
@@ -31,19 +27,6 @@ const StyledAvatar = styled(Avatar)`
   }
 `
 
-const Description = styled(Typography)`
-  && {
-    display: -webkit-box;
-    font-size: 11px;
-    margin-top: 3px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 16px; /* fallback */
-    max-height: 32px;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-  }
-`
 const Title = styled(Typography)`
   && {
     overflow: hidden;

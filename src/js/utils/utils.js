@@ -34,3 +34,27 @@ export const copy = (string, url, type) => {
   storage.remove()
   return success
 }
+
+export function truncateAndReplace(str = '', maxLength = 130) {
+  let text = str.replace(/&nbsp;/gi, ' ')
+  if (text.length > maxLength) text = `${text.slice(0, maxLength)}...`
+  return text
+}
+
+export const colors = [
+  'rgb(147, 52, 230)',
+  'rgb(24, 128, 56)',
+  'rgb(192, 202, 51)',
+  'rgb(128, 134, 138)',
+  'rgb(252, 201, 52)',
+  'rgb(244, 81, 30)',
+  'rgb(242, 153, 0)',
+  'rgb(216, 27, 96)',
+  'rgb(179, 157, 219)',
+  'rgb(63, 81, 181)',
+  'rgb(3, 155, 229)',
+  'rgb(121, 85, 72)',
+  'rgb(51, 182, 121)'
+]
+
+export const getRandomColor = () => colors[Math.floor(Math.random() * colors.length)]

@@ -50,9 +50,16 @@ function Settings() {
       setProducts(localStorage.products)
       try {
         const response = await getAllProducts()
-        if (response.count > 0 && localStorage.products.length === response.count) return
-        setBrowserStorage('local', { products: response.result })
-        setProducts(response.result)
+        const result = response.result.map(e => ({
+          ...e,
+          icon: `${e.name
+            .toLowerCase()
+            .split(' ')
+            .join('-')}-64.png`
+        }))
+        if (JSON.stringify(localStorage.products) === JSON.stringify(result)) return
+        setBrowserStorage('local', { products: result })
+        setProducts(result)
       } catch (error) {
         if (!localStorage.products.length) {
           console.log('nooo products')
