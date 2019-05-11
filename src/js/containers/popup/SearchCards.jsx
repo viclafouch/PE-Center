@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useRef } from 'react'
+import React, { useContext, useEffect, useState, useRef, memo } from 'react'
 import styled from 'styled-components'
 import ListCards from '@components/ListCards/ListCards'
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -160,4 +160,4 @@ export function SearchCards() {
   )
 }
 
-export default SearchCards
+export default memo(SearchCards)
