@@ -58,7 +58,7 @@ function ListThreads({ threads, theme }) {
   return (
     <StyledList background={theme.palette.background}>
       {threads.map(item => (
-        <li key={`product-${item.product.id}-${item.lang}`}>
+        <li key={`product-${item.product.id}-${item.lang}`} style={{ display: item.product.visible ? 'block' : 'none' }}>
           <ul>
             <TitleProduct>
               <div>

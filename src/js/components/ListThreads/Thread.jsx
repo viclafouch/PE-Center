@@ -1,4 +1,4 @@
-import React, { memo, useContext } from 'react'
+import React, { memo, useState, useCallback } from 'react'
 import { getRandomColor, truncateAndReplace } from '@utils/utils'
 import { Description } from '@styled'
 import styled from 'styled-components'
@@ -7,8 +7,7 @@ import Icon from '@material-ui/core/Icon'
 import ListItemText from '@material-ui/core/ListItemText'
 import Typography from '@material-ui/core/Typography'
 import ListItem from '@material-ui/core/ListItem'
-import { SettingsContext } from '@/js/stores/SettingsContext'
-import { PUSH_THREAD_READED } from '@/js/stores/reducer/constants'
+import { getBrowserStorage, setBrowserStorage, openLink } from '@utils/browser'
 
 const StyledListItem = styled(ListItem)`
   &&:hover {
@@ -45,9 +44,26 @@ const UserAvatar = styled(Avatar)`
 `
 
 export function Thread({ uuid, readed, title, description, url }) {
+  const [isRead, setIsRead] = useState(readed)
+  const [avatarColor] = useState(() => getRandomColor())
+
+  const handleSelect = useCallback(async () => {
+    if (isRead) return
+    try {
+      setIsRead(true)
+      const { threadsUuidReaded } = await getBrowserStorage('local')
+      threadsUuidReaded.push(uuid)
+      await setBrowserStorage('local', { threadsUuidReaded })
+    } catch (error) {
+      console.error(error)
+    } finally {
+      openLink(url)
+    }
+  }, [isRead, uuid, url])
+
   return (
-    <StyledListItem alignItems="center" data-readed={readed === true}>
-      <UserAvatar style={{ backgroundColor: getRandomColor() }}>
+    <StyledListItem alignItems="center" data-readed={isRead === true} onClick={handleSelect}>
+      <UserAvatar style={{ backgroundColor: avatarColor }}>
         <Icon fontSize="small" color="action">
           person
         </Icon>

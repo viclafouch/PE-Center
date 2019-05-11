@@ -11,13 +11,7 @@ export function SettingsProvider({ children, initialState }) {
   const { i18n } = useTranslation()
 
   useEffect(() => {
-    for (const type of ['local', 'sync']) {
-      const storage = {}
-      Object.keys(state).forEach(key => {
-        if (key in storageDefault[type]) storage[key] = state[key]
-      })
-      setBrowserStorage(type, { ...storage })
-    }
+    setBrowserStorage('sync', { ...state })
   }, [state])
 
   const DomTheme = useRef(document.documentElement.getAttribute('data-theme'))

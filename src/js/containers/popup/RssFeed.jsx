@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography'
 import { Intro } from '@styled'
 import { useTranslation } from 'react-i18next'
 import ListThreads from '@components/ListThreads/ListThreads'
+import { getBrowserStorage, setBrowserStorage } from '@utils/browser'
 
 const MainList = styled.div`
   position: relative;
@@ -23,25 +24,39 @@ export function RssFeed() {
     const controller = new AbortController()
     const loadThreads = async () => {
       try {
-        const response = await getThreads(
-          { productsId: productsSelected.filter(p => p.visible).map(p => p.id), lang },
-          controller.signal
-        )
-        const { result } = response
+        const { threadsUuidReaded } = await getBrowserStorage('local')
+        const response = await getThreads({ productsId: productsSelected.map(p => p.id), lang }, controller.signal)
+        let { result } = response
+        result = result.map(item => ({
+          ...item,
+          threads: item.threads.map(thread => ({
+            ...thread,
+            readed: threadsUuidReaded.includes(thread.uuid)
+          }))
+        }))
+
         setThreads(
-          result.map(e => {
-            e.product.icon = `${e.product.name
+          result.map(item => {
+            item.product.visible = productsSelected
+              .filter(product => product.visible)
+              .some(product => product.id === item.product.id)
+            item.product.icon = `${item.product.name
               .toLowerCase()
               .split(' ')
               .join('-')}-64.png`
-            return e
+            return item
           })
         )
+
+        const currentThreadReaded = result.map(e => e.threads.filter(y => y.readed)).flat()
+        const newThreadsRead = threadsUuidReaded.filter(uuid => currentThreadReaded.some(e => e.uuid === uuid))
+
+        setBrowserStorage('local', { threadsUuidReaded: newThreadsRead })
       } catch (error) {
         console.log(error)
       }
     }
-    if (productsSelected.filter(p => p.visible).length > 0 && lang) {
+    if (productsSelected.length > 0 && lang) {
       loadThreads()
     }
     return () => {

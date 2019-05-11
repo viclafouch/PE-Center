@@ -53,7 +53,7 @@ export default async () => {
     await i18n(storages.sync.lang)
 
     ReactDOM.render(
-      <SettingsProvider initialState={Object.assign({}, storages.sync, storages.local)}>
+      <SettingsProvider initialState={storages.sync}>
         <Popup />
       </SettingsProvider>,
       document.getElementById('popup')
