@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState, useRef, memo } from 'react'
 import styled from 'styled-components'
 import ListCards from '@components/ListCards/ListCards'
-import CircularProgress from '@material-ui/core/CircularProgress'
 import { DefaultContext } from '@/js/stores/DefaultContext'
 import { SET_CARDS, REMOVE_CARDS, SET_SEARCHING_STATUS } from '@/js/stores/reducer/constants'
 import { wait, debug } from '@utils/utils'
@@ -13,13 +12,7 @@ import Typography from '@material-ui/core/Typography'
 import { Intro } from '@styled'
 import { useTranslation } from 'react-i18next'
 import { useSnackbar } from 'notistack'
-
-const Loader = styled.div`
-  display: inline-block;
-  width: 100%;
-  text-align: center;
-  margin-bottom: 10px;
-`
+import Loader from '@components/Loader/Loader'
 
 const Warning = styled.div`
   padding: 13px 15px;
@@ -113,11 +106,7 @@ export function SearchCards() {
 
   let content = null
   if (isSearching) {
-    content = (
-      <Loader>
-        <CircularProgress size={20} />
-      </Loader>
-    )
+    content = <Loader />
   } else if (productsSelected.length === 0) {
     content = (
       <Intro>
