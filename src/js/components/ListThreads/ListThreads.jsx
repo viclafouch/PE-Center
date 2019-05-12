@@ -16,7 +16,7 @@ const StyledList = styled(List)`
     padding: 0;
   }
 
-  ul > li:first-child {
+  .list-by-product > div:first-child {
     background-color: ${props => props.background.default};
   }
 `
@@ -56,11 +56,11 @@ const AvatarProduct = styled(Avatar)`
 
 function ListThreads({ threads, theme }) {
   return (
-    <StyledList background={theme.palette.background}>
+    <StyledList background={theme.palette.background} dense>
       {threads.map(item => (
         <li key={`product-${item.product.id}-${item.lang}`} style={{ display: item.product.visible ? 'block' : 'none' }}>
-          <ul>
-            <TitleProduct>
+          <div className="list-by-product">
+            <TitleProduct component="div">
               <div>
                 <div>
                   <AvatarProduct alt={item.product.name} src={`/images/products/${item.product.icon}`} />
@@ -77,7 +77,7 @@ function ListThreads({ threads, theme }) {
             {item.threads.map(thread => (
               <ThreadItem {...thread} key={`thread-${thread.uuid}`} />
             ))}
-          </ul>
+          </div>
         </li>
       ))}
     </StyledList>

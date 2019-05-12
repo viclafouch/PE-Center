@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import List from '@material-ui/core/List'
 import styled from 'styled-components'
-import CardItem from './Card'
+import Card from './Card'
 import SimpleDialog from './Dialog'
 
 const StyledList = styled(List)`
@@ -23,9 +23,9 @@ function ListCards({ cards, enqueueSnackbar }) {
 
   return (
     <>
-      <StyledList>
+      <StyledList component="div" dense>
         {cards.map(card => (
-          <CardItem key={`${card.Product.id}-${card.uuid}`} {...card} id={card.uuid} onSelect={displayDialog} />
+          <Card key={`${card.Product.id}-${card.uuid}`} card={card} onSelect={displayDialog} />
         ))}
       </StyledList>
       <SimpleDialog

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import Typography from '@material-ui/core/Typography'
 
-export const Description = styled(Typography)`
+export const RowDescription = styled(Typography)`
   && {
     display: -webkit-box;
     font-size: 11px;
@@ -14,6 +14,17 @@ export const Description = styled(Typography)`
     -webkit-line-clamp: 2;
   }
 `
+
+export const RowTitle = styled(Typography)`
+  && {
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+    display: inline-block;
+  }
+`
+
 export const Intro = styled.div`
   height: 100%;
   width: 100%;
