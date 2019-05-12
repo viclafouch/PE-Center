@@ -7,7 +7,7 @@ import { withStyles } from '@material-ui/core/styles'
 import Avatar from '@material-ui/core/Avatar'
 import ListSubheader from '@material-ui/core/ListSubheader'
 import { useTranslation } from 'react-i18next'
-import ThreadItem from './Thread'
+import Thread from './Thread'
 
 const StyledList = styled(List)`
   width: 100%;
@@ -78,7 +78,7 @@ function ListThreads({ threads, theme }) {
               <Divider />
             </TitleProduct>
             {item.threads.map(thread => (
-              <ThreadItem {...thread} key={`thread-${thread.uuid}`} />
+              <Thread {...thread} key={`thread-${thread.uuid}`} />
             ))}
           </div>
         </li>

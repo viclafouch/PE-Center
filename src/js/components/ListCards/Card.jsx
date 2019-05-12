@@ -16,10 +16,7 @@ function Card({ card, onSelect }) {
     .split(' ')
     .join('-')}-64.png`
 
-  const handleSelect = e => {
-    e.preventDefault()
-    return onSelect({ ...card, getIcon })
-  }
+  const handleSelect = () => onSelect({ ...card, getIcon })
 
   return (
     <Tooltip title={card.title} enterDelay={800} leaveDelay={200} placement="left">
