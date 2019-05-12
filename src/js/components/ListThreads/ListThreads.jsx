@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 import Avatar from '@material-ui/core/Avatar'
 import ListSubheader from '@material-ui/core/ListSubheader'
+import { useTranslation } from 'react-i18next'
 import ThreadItem from './Thread'
 
 const StyledList = styled(List)`
@@ -55,6 +56,8 @@ const AvatarProduct = styled(Avatar)`
 `
 
 function ListThreads({ threads, theme }) {
+  const { t } = useTranslation()
+
   return (
     <StyledList background={theme.palette.background} dense>
       {threads.map(item => (
@@ -69,7 +72,7 @@ function ListThreads({ threads, theme }) {
                   </Typography>
                 </div>
                 <div>
-                  <Typography component="span">24h/No reply</Typography>
+                  <Typography component="span">{t('subheaderThread')}</Typography>
                 </div>
               </div>
               <Divider />

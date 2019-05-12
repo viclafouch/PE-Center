@@ -17,6 +17,11 @@
     "searchTitle": "Buscar en el artículo de ayuda",
     "feedIntro": "¡Esté atento a las preguntas de los nuevos usuarios sobre los productos de Google y responda a ellos muy rápidamente!",
     "feedTitle": "El canal de RSS está llegando...",
+    "limitThread": "Puestos/Producto máx",
+    "permissionsRequired": "Debe tener las autorizaciones necesarias.",
+    "language": "Idioma",
+    "subheaderThread": "24h/Sin respuesta",
+    "openIn": "Abrir hilos en:",
     "error": {
       "unknown": "Algo salió mal."
     }

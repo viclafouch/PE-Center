@@ -17,6 +17,11 @@
     "searchTitle": "Pesquise o seu artigo de ajuda",
     "feedIntro": "Esteja ciente das novas dúvidas dos usuários sobre os produtos do Google e responda a elas rapidamente.",
     "feedTitle": "RSS feed está a chegar...",
+    "limitThread": "Posts/Produto máx",
+    "permissionsRequired": "É necessário ter as autorizações necessárias.",
+    "language": "Idioma",
+    "openIn": "Tópicos abertos em:",
+    "subheaderThread": "24h/Não responde",
     "error": {
       "unknown": "Algo deu errado."
     }

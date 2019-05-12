@@ -17,6 +17,11 @@
     "searchTitle": "Recherchez votre article d'aide",
     "feedIntro": "Soyez au courant des nouvelles questions des utilisateurs à propos des produits Google et répondez-y très rapidement !",
     "feedTitle": "Flux RSS arrive...",
+    "limitThread": "Posts/Produit max",
+    "permissionsRequired": "Vous devez disposer des autorisations nécessaires.",
+    "language": "Langue",
+    "openIn": "Ouvrir les fils de discussion dans :",
+    "subheaderThread": "24h/Aucune réponse",
     "error": {
       "unknown": "Une erreur est survenue."
     }

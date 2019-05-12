@@ -112,7 +112,7 @@ function Settings() {
           />
         </FormGroup>
         <FormControl fullWidth margin="dense" required>
-          <InputLabel htmlFor="select-lang">Language</InputLabel>
+          <InputLabel htmlFor="select-lang">{t('language')}</InputLabel>
           <Select
             value={lang}
             onChange={({ target }) => {
@@ -133,7 +133,7 @@ function Settings() {
           </Select>
         </FormControl>
         <FormControl fullWidth margin="dense" required>
-          <InputLabel htmlFor="select-lang">Thread/Product max</InputLabel>
+          <InputLabel htmlFor="select-max-thread">{t('limitThread')}</InputLabel>
           <Select
             value={maxThreadsPerProduct}
             onChange={({ target }) => {
@@ -154,7 +154,7 @@ function Settings() {
           </Select>
         </FormControl>
         <FormControl fullWidth margin="dense" required>
-          <InputLabel htmlFor="select-lang">Open threads in :</InputLabel>
+          <InputLabel htmlFor="select-open-in">{t('openIn')}</InputLabel>
           <Select
             value={openLinkIn}
             onChange={({ target }) => {
@@ -163,7 +163,7 @@ function Settings() {
                 openLinkIn: target.value
               })
               if (target.value === 'console') {
-                enqueueSnackbar('You must have the required permissions.', {
+                enqueueSnackbar(t('permissionsRequired'), {
                   variant: 'info',
                   anchorOrigin: {
                     vertical: 'bottom',
@@ -173,7 +173,7 @@ function Settings() {
                 })
               }
             }}
-            input={<Input id="select-max-thread" />}
+            input={<Input id="select-open-in" />}
             renderValue={() => jsUcfirst(openLinkIn)}
             MenuProps={MenuProps}
           >
