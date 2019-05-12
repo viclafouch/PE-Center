@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useRef, memo } from 'react'
+import React, { useContext, useEffect, useState, useRef } from 'react'
 import styled from 'styled-components'
 import ListCards from '@components/ListCards/ListCards'
 import { DefaultContext } from '@/js/stores/DefaultContext'
@@ -149,4 +149,4 @@ export function SearchCards() {
   )
 }
 
-export default memo(SearchCards)
+export default SearchCards

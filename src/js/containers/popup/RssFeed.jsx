@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import styled from 'styled-components'
 import { useSettings } from '@/js/stores/SettingsContext'
 import { getThreads } from '@shared/api/Thread.api'
@@ -135,4 +135,4 @@ export function RssFeed() {
   )
 }
 
-export default memo(RssFeed)
+export default RssFeed
