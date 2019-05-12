@@ -13,9 +13,9 @@ import FormGroup from '@material-ui/core/FormGroup'
 import { getAllProducts } from '@shared/api/Product.api'
 import useTheme from '@shared/hooks/useTheme'
 import { useSettings } from '@/js/stores/SettingsContext'
-import { SELECT_PRODUCTS, SWITCH_LANGUAGE } from '@/js/stores/reducer/constants'
+import { SELECT_PRODUCTS, SWITCH_LANGUAGE, SET_MAX_THREADS } from '@/js/stores/reducer/constants'
 import { useTranslation } from 'react-i18next'
-import { languages, getBrowserStorage, setBrowserStorage, openLink } from '@utils/browser'
+import { languages, getBrowserStorage, setBrowserStorage, openLink, maxThreads } from '@utils/browser'
 import Typography from '@material-ui/core/Typography'
 
 const Form = styled.form`
@@ -40,7 +40,7 @@ const MenuProps = {
 
 function Settings() {
   const { t } = useTranslation()
-  const [{ productsSelected, lang }, dispatch] = useSettings()
+  const [{ productsSelected, lang, maxThreadsPerProduct }, dispatch] = useSettings()
   const [theme, setTheme] = useTheme()
   const [products, setProducts] = useState([])
 
@@ -129,6 +129,27 @@ function Settings() {
             ))}
           </Select>
         </FormControl>
+        <FormControl fullWidth margin="dense" required>
+          <InputLabel htmlFor="select-lang">Thread/Product max</InputLabel>
+          <Select
+            value={maxThreadsPerProduct}
+            onChange={({ target }) => {
+              dispatch({
+                type: SET_MAX_THREADS,
+                maxThreadsPerProduct: target.value
+              })
+            }}
+            input={<Input id="select-max-thread" />}
+            renderValue={() => maxThreadsPerProduct}
+            MenuProps={MenuProps}
+          >
+            {maxThreads.map(maxNumber => (
+              <MenuItem key={maxNumber} value={maxNumber} component="li">
+                {maxNumber}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </Form>
       <Footer>
         <Typography component="p" variant="body2" style={{ padding: 10 }}>
@@ -141,8 +162,8 @@ function Settings() {
             }}
           >
             Victor de la Fouchardiere
-          </a>{' '}
-          <br />{' '}
+          </a>
+          <br />
           <a
             href="https://github.com/viclafouch/PE-Center"
             onClick={e => {

@@ -8,6 +8,8 @@ export const languages = {
   es: 'Español'
 }
 
+export const maxThreads = [8, 15, 30]
+
 const getDefaultLang = (availableLangs, defaultLang = 'en') =>
   (navigator.languages || [navigator.userLanguage]).map(l => l.substr(0, 2)).find(lang => lang in availableLangs) || defaultLang
 
@@ -17,6 +19,7 @@ const getDefaultLang = (availableLangs, defaultLang = 'en') =>
 export const storageDefault = {
   sync: {
     theme: 'light',
+    maxThreadsPerProduct: 8,
     productsSelected: [],
     lang: getDefaultLang(languages, 'en')
   },

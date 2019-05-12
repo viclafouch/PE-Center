@@ -25,7 +25,7 @@ export function RssFeed() {
   const [isLoading, setIsLoading] = useState(true)
   const [isError, setIsError] = useState(false)
   const { enqueueSnackbar } = useSnackbar()
-  const [{ productsSelected, lang }] = useSettings()
+  const [{ productsSelected, lang, maxThreadsPerProduct }] = useSettings()
 
   const fetchThreads = useCallback(
     ({ controller = {} }) => {
@@ -34,7 +34,10 @@ export function RssFeed() {
           setIsLoading(true)
           setIsError(false)
           const { threadsUuidReaded } = await getBrowserStorage('local')
-          const response = await getThreads({ productsId: productsSelected.map(p => p.id), lang }, controller.signal)
+          const response = await getThreads(
+            { productsId: productsSelected.map(p => p.id), lang, maxThreadsPerProduct },
+            controller.signal
+          )
           const { result } = response
           setThreads(
             result.map(item => {
@@ -82,7 +85,7 @@ export function RssFeed() {
         setIsLoading(false)
       }
     },
-    [enqueueSnackbar, lang, productsSelected, t]
+    [enqueueSnackbar, lang, maxThreadsPerProduct, productsSelected, t]
   )
 
   useEffect(() => {
