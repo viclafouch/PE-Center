@@ -58,3 +58,5 @@ export const colors = [
 ]
 
 export const getRandomColor = () => colors[Math.floor(Math.random() * colors.length)]
+
+export const jsUcfirst = string => string.charAt(0).toUpperCase() + string.slice(1)

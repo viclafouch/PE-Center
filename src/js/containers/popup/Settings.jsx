@@ -17,6 +17,8 @@ import { SELECT_PRODUCTS, SWITCH_LANGUAGE, SET_MAX_THREADS, SET_OPEN_LINK_IN } f
 import { useTranslation } from 'react-i18next'
 import { languages, getBrowserStorage, setBrowserStorage, openLink, maxThreads } from '@utils/browser'
 import Typography from '@material-ui/core/Typography'
+import { useSnackbar } from 'notistack'
+import { jsUcfirst } from '@utils/utils'
 
 const Form = styled.form`
   padding: 12px 15px;
@@ -43,6 +45,7 @@ function Settings() {
   const [{ productsSelected, lang, maxThreadsPerProduct, openLinkIn }, dispatch] = useSettings()
   const [theme, setTheme] = useTheme()
   const [products, setProducts] = useState([])
+  const { enqueueSnackbar } = useSnackbar()
 
   useEffect(() => {
     ;(async () => {
@@ -159,14 +162,24 @@ function Settings() {
                 type: SET_OPEN_LINK_IN,
                 openLinkIn: target.value
               })
+              if (target.value === 'console') {
+                enqueueSnackbar('You must have the required permissions.', {
+                  variant: 'info',
+                  anchorOrigin: {
+                    vertical: 'bottom',
+                    horizontal: 'center'
+                  },
+                  autoHideDuration: 2000
+                })
+              }
             }}
             input={<Input id="select-max-thread" />}
-            renderValue={() => openLinkIn}
+            renderValue={() => jsUcfirst(openLinkIn)}
             MenuProps={MenuProps}
           >
             {['console', 'public'].map(openIn => (
               <MenuItem key={openIn} value={openIn} component="li">
-                {openIn}
+                {jsUcfirst(openIn)}
               </MenuItem>
             ))}
           </Select>
