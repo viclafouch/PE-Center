@@ -21,6 +21,7 @@ export const storageDefault = {
     theme: 'light',
     maxThreadsPerProduct: 8,
     productsSelected: [],
+    openLinkIn: 'public',
     lang: getDefaultLang(languages, 'en')
   },
   local: {

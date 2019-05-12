@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, memo } from 'react'
 import { truncateAndReplace, getRandomColor } from '@utils/utils'
 import { RowDescription } from '@styled'
 import styled from 'styled-components'
@@ -35,7 +35,7 @@ const ProductAvatar = styled(Avatar)`
 function Row({ item = {}, type = 'card', srcAvatar, ...restProps }) {
   const [avatarColor] = useState(() => getRandomColor())
   return (
-    <ListItem alignItems="center" onClick={restProps.onClick} component="article">
+    <ListItem alignItems="center" onClick={() => restProps.onClick && restProps.onClick()} component="article">
       {type === 'thread' && (
         <UserAvatar style={{ backgroundColor: avatarColor }}>
           <Icon fontSize="small" color="action">
@@ -64,4 +64,4 @@ function Row({ item = {}, type = 'card', srcAvatar, ...restProps }) {
   )
 }
 
-export default Row
+export default memo(Row)

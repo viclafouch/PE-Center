@@ -1,7 +1,8 @@
-import React, { memo, useState, useCallback } from 'react'
+import React, { memo, useState, useCallback, useContext } from 'react'
 import styled from 'styled-components'
 import { getBrowserStorage, setBrowserStorage, openLink } from '@utils/browser'
 import Row from '@components/Row/Row'
+import { SettingsContext } from '@/js/stores/SettingsContext'
 
 const Readed = styled.div`
   opacity: ${props => (props.readed ? '0.475!important' : 1)};
@@ -16,6 +17,7 @@ const Readed = styled.div`
 
 export function Thread(thread) {
   const [isRead, setIsRead] = useState(thread.readed)
+  const [{ openLinkIn }] = useContext(SettingsContext)
 
   const handleSelect = useCallback(async () => {
     if (isRead) return
@@ -27,9 +29,9 @@ export function Thread(thread) {
     } catch (error) {
       console.error(error)
     } finally {
-      openLink(thread.url)
+      openLink(openLinkIn === 'public' ? thread.publicUrl : thread.consoleUrl)
     }
-  }, [isRead, thread.url, thread.uuid])
+  }, [isRead, openLinkIn, thread.consoleUrl, thread.publicUrl, thread.uuid])
 
   return (
     <Readed readed={isRead}>

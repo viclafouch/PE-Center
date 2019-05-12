@@ -38,9 +38,10 @@ export function RssFeed() {
             { productsId: productsSelected.map(p => p.id), lang, maxThreadsPerProduct },
             controller.signal
           )
+
           const { result } = response
-          setThreads(
-            result.map(item => {
+          setThreads([
+            ...result.map(item => {
               item.threads = item.threads.map(thread => ({
                 ...thread,
                 readed: threadsUuidReaded.includes(thread.uuid)
@@ -54,7 +55,7 @@ export function RssFeed() {
                 .join('-')}-64.png`
               return item
             })
-          )
+          ])
 
           const currentThreadReaded = result.map(e => e.threads.filter(y => y.readed)).flat()
           const newThreadsRead = threadsUuidReaded.filter(uuid => currentThreadReaded.some(e => e.uuid === uuid))

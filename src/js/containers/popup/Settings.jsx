@@ -13,7 +13,7 @@ import FormGroup from '@material-ui/core/FormGroup'
 import { getAllProducts } from '@shared/api/Product.api'
 import useTheme from '@shared/hooks/useTheme'
 import { useSettings } from '@/js/stores/SettingsContext'
-import { SELECT_PRODUCTS, SWITCH_LANGUAGE, SET_MAX_THREADS } from '@/js/stores/reducer/constants'
+import { SELECT_PRODUCTS, SWITCH_LANGUAGE, SET_MAX_THREADS, SET_OPEN_LINK_IN } from '@/js/stores/reducer/constants'
 import { useTranslation } from 'react-i18next'
 import { languages, getBrowserStorage, setBrowserStorage, openLink, maxThreads } from '@utils/browser'
 import Typography from '@material-ui/core/Typography'
@@ -40,7 +40,7 @@ const MenuProps = {
 
 function Settings() {
   const { t } = useTranslation()
-  const [{ productsSelected, lang, maxThreadsPerProduct }, dispatch] = useSettings()
+  const [{ productsSelected, lang, maxThreadsPerProduct, openLinkIn }, dispatch] = useSettings()
   const [theme, setTheme] = useTheme()
   const [products, setProducts] = useState([])
 
@@ -146,6 +146,27 @@ function Settings() {
             {maxThreads.map(maxNumber => (
               <MenuItem key={maxNumber} value={maxNumber} component="li">
                 {maxNumber}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl fullWidth margin="dense" required>
+          <InputLabel htmlFor="select-lang">Open threads in :</InputLabel>
+          <Select
+            value={openLinkIn}
+            onChange={({ target }) => {
+              dispatch({
+                type: SET_OPEN_LINK_IN,
+                openLinkIn: target.value
+              })
+            }}
+            input={<Input id="select-max-thread" />}
+            renderValue={() => openLinkIn}
+            MenuProps={MenuProps}
+          >
+            {['console', 'public'].map(openIn => (
+              <MenuItem key={openIn} value={openIn} component="li">
+                {openIn}
               </MenuItem>
             ))}
           </Select>
