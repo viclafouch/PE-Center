@@ -106,7 +106,7 @@ export function RssFeed() {
       <Intro>
         <img src="/images/undraw_Outer_space_drqu.svg" alt="RSS Feed" />
         <Typography component="h1" variant="h6">
-          {t('feedTitle')}
+          {!isError ? t('feedTitle') : t('error.unknown')}
         </Typography>
         {!isError && (
           <Typography component="p" variant="body2" style={{ lineHeight: 1.1, fontWeight: 'normal' }}>
@@ -114,8 +114,8 @@ export function RssFeed() {
           </Typography>
         )}
         {isError && (
-          <Button size="small" onClick={() => fetchThreads({ controller: {} })}>
-            {t('viewMore')}
+          <Button style={{ marginTop: 5 }} size="small" color="primary" onClick={() => fetchThreads({ controller: {} })}>
+            {t('retry')}
           </Button>
         )}
       </Intro>

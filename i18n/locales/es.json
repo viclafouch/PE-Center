@@ -22,6 +22,7 @@
     "language": "Idioma",
     "subheaderThread": "24h/Sin respuesta",
     "openIn": "Abrir hilos en:",
+    "retry": "Inténtalo de nuevo",
     "error": {
       "unknown": "Algo salió mal."
     }

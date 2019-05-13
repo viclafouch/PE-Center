@@ -22,6 +22,7 @@
     "language": "Language",
     "openIn": "Open threads in:",
     "subheaderThread": "24h/No reply",
+    "retry": "Retry",
     "error": {
       "unknown": "Something went wrong."
     }

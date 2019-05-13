@@ -22,6 +22,7 @@
     "language": "Idioma",
     "openIn": "Tópicos abertos em:",
     "subheaderThread": "24h/Não responde",
+    "retry": "Tente novamente",
     "error": {
       "unknown": "Algo deu errado."
     }
