@@ -29,7 +29,7 @@ export function Thread(thread) {
     } catch (error) {
       console.error(error)
     } finally {
-      openLink(openLinkIn === 'public' ? thread.publicUrl : thread.consoleUrl)
+      openLink(openLinkIn === 'public' ? thread.publicUrl : thread.consoleUrl, false)
     }
   }, [isRead, openLinkIn, thread.consoleUrl, thread.publicUrl, thread.uuid])
 

@@ -169,7 +169,7 @@ function Settings() {
                     vertical: 'bottom',
                     horizontal: 'center'
                   },
-                  autoHideDuration: 2000
+                  autoHideDuration: 4000
                 })
               }
             }}
