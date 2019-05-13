@@ -11,7 +11,7 @@ const Readed = styled.div`
     cursor: pointer;
   }
   .title-thread.title-thread {
-    font-weight: ${props => (props.readed ? '500' : '400')};
+    font-weight: ${props => (props.readed ? '400' : '500')};
   }
 `
 
