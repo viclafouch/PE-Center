@@ -7,7 +7,7 @@ export const SettingsContext = createContext(storageDefault.sync)
 
 export function SettingsProvider({ children, initialState }) {
   const [state, dispatch] = useReducer(SettingsReducer, { ...initialState })
-  const { theme, lang } = state
+  const { theme, lang, productsSelected, maxThreadsPerProduct, openLinkIn } = state
   const { i18n } = useTranslation()
 
   useEffect(() => {
@@ -23,11 +23,25 @@ export function SettingsProvider({ children, initialState }) {
     }
   }, [theme])
 
+  const value = React.useMemo(
+    () => [
+      {
+        theme,
+        maxThreadsPerProduct,
+        productsSelected,
+        lang,
+        openLinkIn
+      },
+      dispatch
+    ],
+    [lang, maxThreadsPerProduct, openLinkIn, productsSelected, theme]
+  )
+
   useEffect(() => {
     i18n.changeLanguage(lang)
   }, [i18n, lang])
 
-  return <SettingsContext.Provider value={[state, dispatch]}>{children}</SettingsContext.Provider>
+  return <SettingsContext.Provider value={value}>{children}</SettingsContext.Provider>
 }
 
 export const useSettings = () => useContext(SettingsContext)
