@@ -12,6 +12,22 @@ PE's Center is an extension which allows you to search and access help articles 
 - [PE Center on Firefox](https://chrome.google.com/webstore/detail/tc-center/hanknpkmjbfhcalmipokkfplndkohgdm?authuser=1)
 - [PE Center on Google Chrome](https://chrome.google.com/webstore/detail/tc-center/hanknpkmjbfhcalmipokkfplndkohgdm?authuser=1)
 
+#### Langs supported :
+- Français
+- English
+- Deutsch
+- Português (Brasil)
+- Español
+
+#### Products supported :
+- YouTube
+- Google Search
+- Google Photos
+- Google AdSense
+- Google Maps
+- Gmail
+- Google Chrome
+
 ### What I use:
 
 - [ReactJS](https://github.com/facebook/react) - Framework JS.
