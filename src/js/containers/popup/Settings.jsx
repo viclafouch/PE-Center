@@ -65,7 +65,7 @@ function Settings() {
         setProducts(result)
       } catch (error) {
         if (!localStorage.products.length) {
-          console.log('nooo products')
+          console.error("Don't have any product in storage")
         }
       }
     })()
