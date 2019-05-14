@@ -20,12 +20,13 @@ export function Thread(thread) {
   const [{ openLinkIn }] = useContext(SettingsContext)
 
   const handleSelect = useCallback(async () => {
-    if (isRead) return
     try {
-      setIsRead(true)
-      const { threadsUuidReaded } = await getBrowserStorage('local')
-      threadsUuidReaded.push(thread.uuid)
-      await setBrowserStorage('local', { threadsUuidReaded })
+      if (!isRead) {
+        setIsRead(true)
+        const { threadsUuidReaded } = await getBrowserStorage('local')
+        threadsUuidReaded.push(thread.uuid)
+        await setBrowserStorage('local', { threadsUuidReaded })
+      }
     } catch (error) {
       console.error(error)
     } finally {
