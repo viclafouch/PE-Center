@@ -35,6 +35,8 @@ PE's Center is an extension which allows you to search and access help articles 
 - [Styled-components](https://github.com/styled-components/styled-components) - CSS in JS.
 - [React-i18next](https://github.com/i18next/react-i18next) - Internationalization for React.
 
+At least but not last, this extension uses an API specially developed for this project, called [GSC (Google Support  Crawler)](https://github.com/viclafouch/google-support-crawler).
+
 ### Installing from source
 
 1. Clone the repository: `git clone https://github.com/viclafouch/PE-Center.git`
