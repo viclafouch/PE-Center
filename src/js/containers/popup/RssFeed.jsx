@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import styled from 'styled-components'
 import { useSettings } from '@/js/stores/SettingsContext'
 import { getThreads } from '@shared/api/Thread.api'
 import Typography from '@material-ui/core/Typography'
@@ -11,13 +10,6 @@ import { useSnackbar } from 'notistack'
 import Loader from '@components/Loader/Loader'
 import Button from '@material-ui/core/Button'
 import { debug } from '@utils/utils'
-
-const MainList = styled.div`
-  position: relative;
-  overflow-y: auto;
-  overflow-x: hidden;
-  height: 100%;
-`
 
 export function RssFeed() {
   const { t } = useTranslation()
@@ -121,15 +113,11 @@ export function RssFeed() {
       </Intro>
     )
   } else {
-    content = (
-      <MainList>
-        <ListThreads threads={threads} />
-      </MainList>
-    )
+    content = <ListThreads threads={threads} />
   }
 
   return (
-    <div className="main-content" style={{ paddingTop: isLoading ? 16 : 0 }}>
+    <div className="main-content scrollBarOnHover" style={{ paddingTop: isLoading ? 16 : 0 }}>
       {content}
     </div>
   )
