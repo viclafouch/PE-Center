@@ -26,6 +26,7 @@ const Form = styled.form`
 const Footer = styled.footer`
   padding: 12px 15px;
   text-align: center;
+  opacity: 0.6;
 
   a {
     color: inherit;
