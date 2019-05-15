@@ -8,6 +8,8 @@ import MainPopupContainer from '@containers/PopupContainer'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import setTheme from '@shared/theme/theme'
 import { SnackbarProvider } from 'notistack'
+import FatalError from '@components/FatalError/FatalError'
+import ErrorBoundary from '@components/ErrorBoundary/ErrorBoundary'
 import { SettingsProvider, SettingsContext } from './stores/SettingsContext'
 import { DefaultProvider } from './stores/DefaultContext'
 import i18n from '../../i18n/i18n'
@@ -53,12 +55,15 @@ export default async () => {
     await i18n(storages.sync.lang)
 
     ReactDOM.render(
-      <SettingsProvider initialState={storages.sync}>
-        <Popup />
-      </SettingsProvider>,
+      <ErrorBoundary>
+        <SettingsProvider initialState={storages.sync}>
+          <Popup />
+        </SettingsProvider>
+      </ErrorBoundary>,
       document.getElementById('popup')
     )
   } catch (error) {
-    console.warn(error)
+    console.error(`Catch before render the app : ${error.message}`)
+    ReactDOM.render(<FatalError />, document.getElementById('popup'))
   }
 }
