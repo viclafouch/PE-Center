@@ -33,7 +33,7 @@ const ProductAvatar = styled(Avatar)`
 `
 
 function Row({ item = {}, type = 'card', srcAvatar, ...restProps }) {
-  const [avatarColor] = useState(() => getRandomColor())
+  const [avatarColor] = useState(() => getRandomColor(item.title))
   return (
     <ListItem alignItems="center" onClick={() => restProps.onClick && restProps.onClick()} component="article">
       {type === 'thread' && (

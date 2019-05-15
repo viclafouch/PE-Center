@@ -57,6 +57,11 @@ export const colors = [
   'rgb(51, 182, 121)'
 ]
 
-export const getRandomColor = () => colors[Math.floor(Math.random() * colors.length)]
+export const getRandomColor = string =>
+  colors[
+    Array.from(string)
+      .map(c => c.charCodeAt(0))
+      .reduce((a, b) => a + b, 0) % colors.length
+  ]
 
 export const jsUcfirst = string => string.charAt(0).toUpperCase() + string.slice(1)
