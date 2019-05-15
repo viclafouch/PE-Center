@@ -108,12 +108,11 @@ module.exports = (env, argv) => ({
             manifestContent["permissions"].push('http://localhost:3000/*')
           }
           return Buffer.from(
-            JSON.stringify({
+            JSON.stringify(Object.assign({}, manifestContent,{
               description: process.env.npm_package_description,
-              version: process.env.npm_package_version,
-              ...manifestContent
-            })
-          );
+              version: process.env.npm_package_version
+            }))
+          )
         }
       }
     ]),
