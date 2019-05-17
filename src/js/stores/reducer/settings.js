@@ -1,9 +1,16 @@
 import { debug } from '@utils/utils'
-import { SWITCH_THEME, SELECT_PRODUCTS, SWITCH_LANGUAGE, SET_MAX_THREADS, SET_OPEN_LINK_IN } from './constants'
+import {
+  SWITCH_THEME,
+  SELECT_PRODUCTS,
+  SWITCH_LANGUAGE,
+  SET_MAX_THREADS,
+  SET_OPEN_LINK_IN,
+  TOGGLE_NOTIFICATIONS
+} from './constants'
 
 const SettingsReducer = (previousState, action) => {
   debug(`TCL: SettingsReducer -> type : ${action.type}`)
-  const { productsSelected, theme, lang, maxThreadsPerProduct, openLinkIn, type } = action
+  const { productsSelected, theme, lang, maxThreadsPerProduct, openLinkIn, displayNotifications, type } = action
   switch (type) {
     case SWITCH_THEME:
       debug(`TCL: SettingsReducer -> ${JSON.stringify({ theme })}`)
@@ -30,10 +37,16 @@ const SettingsReducer = (previousState, action) => {
         maxThreadsPerProduct
       }
     case SET_OPEN_LINK_IN:
-      debug(`TCL: SettingsReducer -> Set openLink in ${openLinkIn}`)
+      debug(`TCL: SettingsReducer -> Set openLink to ${openLinkIn}`)
       return {
         ...previousState,
         openLinkIn
+      }
+    case TOGGLE_NOTIFICATIONS:
+      debug(`TCL: SettingsReducer -> Set displayNotifications to ${displayNotifications}`)
+      return {
+        ...previousState,
+        displayNotifications
       }
     default:
       return previousState

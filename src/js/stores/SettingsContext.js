@@ -7,7 +7,7 @@ export const SettingsContext = createContext(storageDefault.sync)
 
 export function SettingsProvider({ children, initialState }) {
   const [state, dispatch] = useReducer(SettingsReducer, { ...initialState })
-  const { theme, lang, productsSelected, maxThreadsPerProduct, openLinkIn } = state
+  const { theme, lang, productsSelected, maxThreadsPerProduct, openLinkIn, displayNotifications } = state
   const { i18n } = useTranslation()
 
   useEffect(() => {
@@ -30,11 +30,12 @@ export function SettingsProvider({ children, initialState }) {
         maxThreadsPerProduct,
         productsSelected,
         lang,
-        openLinkIn
+        openLinkIn,
+        displayNotifications
       },
       dispatch
     ],
-    [lang, maxThreadsPerProduct, openLinkIn, productsSelected, theme]
+    [displayNotifications, lang, maxThreadsPerProduct, openLinkIn, productsSelected, theme]
   )
 
   useEffect(() => {

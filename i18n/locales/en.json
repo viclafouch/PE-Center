@@ -23,6 +23,7 @@
     "openIn": "Open threads in:",
     "subheaderThread": "24h/No reply",
     "retry": "Retry",
+    "notifications": "Notifications",
     "error": {
       "unknown": "Something went wrong."
     }

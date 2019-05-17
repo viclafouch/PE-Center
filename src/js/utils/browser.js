@@ -22,11 +22,13 @@ export const storageDefault = {
     maxThreadsPerProduct: 8,
     productsSelected: [],
     openLinkIn: 'public',
-    lang: getDefaultLang(languages, 'en')
+    lang: getDefaultLang(languages, 'en'),
+    displayNotifications: false
   },
   local: {
     products: [],
-    threadsUuidReaded: []
+    threadsUuidReaded: [],
+    threads: []
   }
 }
 
@@ -56,12 +58,12 @@ export const setBrowserStorage = (type, items) =>
     if (!browser.runtime.lastError) {
       browser.storage[type].set(items, result => resolve(result))
     } else {
-      const error = new Error(`Error for setting items to the ${type} storage`)
+      const error = new Error(`Error while setting items to the ${type} storage`)
       reject(error)
     }
   })
 
-export const sendMessageToBackground = (type, items) =>
+export const sendMessageToBackground = (type, items = {}) =>
   new Promise((resolve, reject) => {
     if (!browser.runtime.lastError) {
       browser.runtime.sendMessage({ type, ...items }, response => resolve(response))

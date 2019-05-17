@@ -13,7 +13,13 @@ import FormGroup from '@material-ui/core/FormGroup'
 import { getAllProducts } from '@shared/api/Product.api'
 import useTheme from '@shared/hooks/useTheme'
 import { useSettings } from '@/js/stores/SettingsContext'
-import { SELECT_PRODUCTS, SWITCH_LANGUAGE, SET_MAX_THREADS, SET_OPEN_LINK_IN } from '@/js/stores/reducer/constants'
+import {
+  SELECT_PRODUCTS,
+  SWITCH_LANGUAGE,
+  SET_MAX_THREADS,
+  SET_OPEN_LINK_IN,
+  TOGGLE_NOTIFICATIONS
+} from '@/js/stores/reducer/constants'
 import { useTranslation } from 'react-i18next'
 import { languages, getBrowserStorage, setBrowserStorage, openLink, maxThreads } from '@utils/browser'
 import Typography from '@material-ui/core/Typography'
@@ -24,7 +30,6 @@ const Form = styled.form`
   padding: 12px 15px;
 `
 const Footer = styled.footer`
-  padding: 12px 15px;
   text-align: center;
   opacity: 0.6;
 
@@ -43,7 +48,7 @@ const MenuProps = {
 
 function Settings() {
   const { t } = useTranslation()
-  const [{ productsSelected, lang, maxThreadsPerProduct, openLinkIn }, dispatch] = useSettings()
+  const [{ productsSelected, lang, maxThreadsPerProduct, openLinkIn, displayNotifications }, dispatch] = useSettings()
   const [theme, setTheme] = useTheme()
   const [products, setProducts] = useState([])
   const { enqueueSnackbar } = useSnackbar()
@@ -110,6 +115,24 @@ function Settings() {
             data-switch-theme
             control={<Switch checked={theme === 'dark'} onChange={e => setTheme(e.target.checked)} value="darkMode" />}
             label={t('darkMode')}
+          />
+        </FormGroup>
+        <FormGroup>
+          <FormControlLabel
+            data-switch-notifications
+            control={
+              <Switch
+                checked={displayNotifications}
+                onChange={e =>
+                  dispatch({
+                    type: TOGGLE_NOTIFICATIONS,
+                    displayNotifications: e.target.checked
+                  })
+                }
+                value="notifications"
+              />
+            }
+            label={t('notifications')}
           />
         </FormGroup>
         <FormControl fullWidth margin="dense" required>
@@ -187,7 +210,7 @@ function Settings() {
         </FormControl>
       </Form>
       <Footer>
-        <Typography component="p" variant="body2" style={{ padding: 10 }}>
+        <Typography component="p" variant="body2" style={{ padding: '0 10px' }}>
           Coded by{' '}
           <a
             href="https://twitter.com/TrustedSheriff"

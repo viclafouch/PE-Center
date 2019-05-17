@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography'
 import { Intro } from '@styled'
 import { useTranslation } from 'react-i18next'
 import ListThreads from '@components/ListThreads/ListThreads'
-import { getBrowserStorage, setBrowserStorage } from '@utils/browser'
+import { getBrowserStorage, setBrowserStorage, sendMessageToBackground } from '@utils/browser'
 import { useSnackbar } from 'notistack'
 import Loader from '@components/Loader/Loader'
 import Button from '@material-ui/core/Button'
@@ -32,7 +32,7 @@ export function RssFeed() {
           )
 
           const { result } = response
-          setThreads([
+          const allThreadsWithProducts = [
             ...result.map(item => {
               item.threads = item.threads.map(thread => ({
                 ...thread,
@@ -47,12 +47,14 @@ export function RssFeed() {
                 .join('-')}-64.png`
               return item
             })
-          ])
-
-          const currentThreadReaded = result.map(e => e.threads.filter(y => y.readed)).flat()
+          ]
+          setThreads(allThreadsWithProducts)
+          const allThreads = response.result.flatMap(e => e.threads)
+          await sendMessageToBackground('reloadNotifs')
+          const currentThreadReaded = result.flatMap(e => e.threads.filter(y => y.readed))
           const newThreadsRead = threadsUuidReaded.filter(uuid => currentThreadReaded.some(e => e.uuid === uuid))
 
-          setBrowserStorage('local', { threadsUuidReaded: newThreadsRead })
+          setBrowserStorage('local', { threadsUuidReaded: newThreadsRead, threads: allThreads })
         } catch (error) {
           if (error.name === 'AbortError') {
             debug('Fetch abort')

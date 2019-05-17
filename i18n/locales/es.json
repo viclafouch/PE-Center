@@ -23,6 +23,7 @@
     "subheaderThread": "24h/Sin respuesta",
     "openIn": "Abrir hilos en:",
     "retry": "Inténtalo de nuevo",
+    "notifications": "Notificaciones",
     "error": {
       "unknown": "Algo salió mal."
     }
