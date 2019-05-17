@@ -42,6 +42,7 @@ export const getBrowserStorage = type =>
     if (!browser.runtime.lastError) {
       browser.storage[type].get(storageDefault[type], items => resolve(items))
     } else {
+      console.error(browser.runtime.lastError.message)
       const error = new Error(`Error when loading ${type} storage`)
       reject(error)
     }
@@ -58,6 +59,7 @@ export const setBrowserStorage = (type, items) =>
     if (!browser.runtime.lastError) {
       browser.storage[type].set(items, result => resolve(result))
     } else {
+      console.error(browser.runtime.lastError.message)
       const error = new Error(`Error while setting items to the ${type} storage`)
       reject(error)
     }
@@ -68,6 +70,7 @@ export const sendMessageToBackground = (type, items = {}) =>
     if (!browser.runtime.lastError) {
       browser.runtime.sendMessage({ type, ...items }, response => resolve(response))
     } else {
+      console.error(browser.runtime.lastError.message)
       const error = new Error(`Error when sending message ${type}`)
       reject(error)
     }

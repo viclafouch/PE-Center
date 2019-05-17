@@ -1,5 +1,6 @@
 import { browser, getBrowserStorage, setBrowserStorage, openLink } from '@utils/browser'
 import { getThreads } from '@shared/api/Thread.api'
+import { debug } from '@utils/utils'
 
 const periodThreadsInMinutes = 5
 const delayThreadsInMinutes = 1
@@ -15,6 +16,7 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
     sendResponse(true)
   }
   if (request.type === 'reloadNotifs') {
+    debug('Clear current alarm and create a new one')
     createAlarm('threads', {
       delayInMinutes: delayThreadsInMinutes,
       periodInMinutes: periodThreadsInMinutes
@@ -29,6 +31,7 @@ async function onOpenBrowser() {
     delayInMinutes: delayThreadsInMinutes,
     periodInMinutes: periodThreadsInMinutes
   })
+  debug('New alarm started')
 }
 
 async function getNewThreads() {
@@ -59,6 +62,7 @@ async function getNewThreads() {
 
 async function handleAlarm(alarmInfo) {
   if (alarmInfo.name === 'threads') {
+    debug('Alarm `threads` is ringing !')
     try {
       const {
         nbNewThreads,
@@ -89,8 +93,10 @@ async function handleAlarm(alarmInfo) {
             requireInteraction: false
           },
           () => {
+            debug('New Notification !')
             browser.notifications.onClicked.addListener(id => {
               if (id === notifId) {
+                debug('Notifications opened')
                 browser.notifications.clear(id, async () => {
                   if (!threadsUuidReaded.includes(lastThread.uuid)) {
                     try {
