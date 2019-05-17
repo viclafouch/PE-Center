@@ -31,7 +31,8 @@ async function onOpenBrowser() {
     delayInMinutes: delayThreadsInMinutes,
     periodInMinutes: periodThreadsInMinutes
   })
-  debug('New alarm started')
+  const { theme } = await getBrowserStorage('sync')
+  browser.browserAction.setPopup({ popup: `popup-${theme}.html` })
 }
 
 async function getNewThreads() {
