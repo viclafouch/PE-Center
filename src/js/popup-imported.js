@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Footer from '@components/Footer/Footer'
-import { getBrowserStorage } from '@utils/browser'
+import { getBrowserStorage, browser } from '@utils/browser'
 import Header from '@components/Header/Header'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import MainPopupContainer from '@containers/PopupContainer'
@@ -46,6 +46,9 @@ function Popup() {
 
 export default async () => {
   try {
+    browser.browserAction.setBadgeText({
+      text: ''
+    })
     const browserStorages = await Promise.all([getBrowserStorage('local'), getBrowserStorage('sync')])
     const storages = {
       sync: browserStorages[1] || {},
