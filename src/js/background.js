@@ -112,8 +112,7 @@ async function handleAlarm(alarmInfo) {
             iconUrl: browser.runtime.getURL(`/images/products/${lastThreadProduct.icon}`),
             message: `${lastThread.description.substring(0, 35)}...`,
             isClickable: true,
-            contextMessage: link.toString(),
-            requireInteraction: false
+            contextMessage: link.toString()
           },
           () => {
             debug('New Notification !')
