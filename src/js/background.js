@@ -139,7 +139,7 @@ async function handleAlarm(alarmInfo) {
         )
       }
     } catch (error) {
-      console.error(error)
+      console.warn(error)
     }
   }
 }
