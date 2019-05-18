@@ -1,8 +1,8 @@
-import { browser, getBrowserStorage, setBrowserStorage, openLink } from '@utils/browser'
+import { browser, getBrowserStorage, setBrowserStorage, openLink, getBadgeText } from '@utils/browser'
 import { getThreads } from '@shared/api/Thread.api'
 import { debug } from '@utils/utils'
 
-const periodThreadsInMinutes = 5
+const periodThreadsInMinutes = 2
 const delayThreadsInMinutes = 1
 
 async function createAlarm(name, options) {
@@ -38,14 +38,19 @@ async function onOpenBrowser() {
 async function getNewThreads() {
   const { threads, threadsUuidReaded } = await getBrowserStorage('local')
   const { productsSelected, maxThreadsPerProduct, lang, displayNotifications, openLinkIn } = await getBrowserStorage('sync')
+  const productsVisible = productsSelected.filter(e => e.visible)
+  if (productsVisible.length === 0) {
+    await browser.alarms.clear('threads')
+    throw new Error('No products visible availble')
+  }
   const response = await getThreads({
-    productsId: productsSelected.filter(e => e.visible).map(p => p.id),
+    productsId: productsVisible.map(p => p.id),
     lang,
     maxThreadsPerProduct
   })
 
   const allThreads = response.result.flatMap(e => e.threads)
-  const newThreads = allThreads.filter(e => !threads.some(t => t.id === e.id))
+  const newThreads = allThreads.filter(e => !threads.some(t => t.uuid === e.uuid))
   await setBrowserStorage('local', { threads: allThreads })
 
   const lastThread = newThreads.length > 0 ? newThreads[0] : null
@@ -57,7 +62,8 @@ async function getNewThreads() {
     openLinkIn,
     lastThreadProduct,
     lastThread,
-    threadsUuidReaded
+    threadsUuidReaded,
+    maxTotalThreads: productsVisible.length * maxThreadsPerProduct
   }
 }
 
@@ -71,11 +77,21 @@ async function handleAlarm(alarmInfo) {
         displayNotifications,
         openLinkIn,
         lastThreadProduct,
-        threadsUuidReaded
+        threadsUuidReaded,
+        maxTotalThreads
       } = await getNewThreads()
+
+      const currentBadgeText = await getBadgeText()
+      const previousNbNewThreads =
+        currentBadgeText === `${maxTotalThreads}+` ? maxTotalThreads : JSON.parse(currentBadgeText || 0)
+      let totalNewThreads = nbNewThreads + previousNbNewThreads
+      totalNewThreads = totalNewThreads > maxTotalThreads ? `${maxTotalThreads}+` : totalNewThreads
+      totalNewThreads = totalNewThreads !== 0 ? totalNewThreads.toString() : ''
+
       browser.browserAction.setBadgeText({
-        text: nbNewThreads ? JSON.stringify(nbNewThreads) : ''
+        text: totalNewThreads
       })
+
       if (displayNotifications && lastThread) {
         const notifId = `_${Math.random()
           .toString(36)

@@ -76,6 +76,8 @@ export const sendMessageToBackground = (type, items = {}) =>
     }
   })
 
+export const getBadgeText = () => new Promise(resolve => browser.browserAction.getBadgeText({}, text => resolve(text)))
+
 export const openLink = (url, newTab = true) => {
   if (browser.tabs) {
     chrome.tabs.create({ active: newTab, url, pinned: false })
