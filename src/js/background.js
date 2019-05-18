@@ -54,8 +54,14 @@ async function getNewThreads() {
   await setBrowserStorage('local', { threads: allThreads })
 
   const lastThread = newThreads.length > 0 ? newThreads[0] : null
-  const lastThreadProduct = lastThread ? productsSelected.find(p => p.id === lastThread.ProductId) : null
-
+  let lastThreadProduct
+  if (lastThread) {
+    lastThreadProduct = productsSelected.find(p => p.id === lastThread.ProductId)
+    lastThreadProduct.icon = `${lastThreadProduct.name
+      .toLowerCase()
+      .split(' ')
+      .join('-')}-150.png`
+  }
   return {
     nbNewThreads: newThreads.length,
     displayNotifications,
