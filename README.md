@@ -12,6 +12,8 @@ PE's Center is an extension which allows users to search, access and copy the he
 - [PE Center on Firefox](https://chrome.google.com/webstore/detail/tc-center/hanknpkmjbfhcalmipokkfplndkohgdm?authuser=1)
 - [PE Center on Google Chrome](https://chrome.google.com/webstore/detail/tc-center/hanknpkmjbfhcalmipokkfplndkohgdm?authuser=1)
 
+[![PE VIDEO](https://github.com/viclafouch/PE-Center/blob/master/screenshot-video.png)](https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)
+
 #### Langs supported :
 - Français
 - English
