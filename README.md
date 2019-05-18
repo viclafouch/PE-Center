@@ -7,7 +7,7 @@
 
 # PE Center (v3.0.0)
 
-PE's Center is an extension which allows users to search, access and copy the help articles of the official Google products (YouTube, Google Chrome, ...). This web extension also allows to retrieve the latest posts created on the official Google's forums.
+PE Center is an extension which allows users to search, access and copy the help articles of the official Google products (YouTube, Google Chrome, ...). This web extension also allows to retrieve the latest posts created on the official Google's forums.
 
 - [PE Center on Firefox](https://chrome.google.com/webstore/detail/tc-center/hanknpkmjbfhcalmipokkfplndkohgdm?authuser=1)
 - [PE Center on Google Chrome](https://chrome.google.com/webstore/detail/tc-center/hanknpkmjbfhcalmipokkfplndkohgdm?authuser=1)
