@@ -29,6 +29,8 @@ PE Center is an extension which allows users to search, access and copy the help
 - Google Maps
 - Gmail
 - Google Chrome
+- Google Calendar
+- Google Account
 
 ### What I use:
 
