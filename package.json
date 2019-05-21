@@ -1,6 +1,6 @@
 {
   "name": "pe-center",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "PE Center is an extension which allows users to search, access and copy the help articles of the official Google products (YouTube, Google Chrome, ...). This web extension also allows to retrieve the latest posts created on the official Google's forums.",
   "scripts": {
     "start": "npm run dev:chrome",
