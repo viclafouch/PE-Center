@@ -5,7 +5,7 @@
   </a>
 </div>
 
-# PE Center (v3.0.2)
+# PE Center (v3.0.3)
 
 PE Center is an extension which allows users to search, access and copy the help articles of the official Google products (YouTube, Google Chrome, ...). This web extension also allows to retrieve the latest posts created on the official Google's forums.
 
@@ -15,6 +15,7 @@ PE Center is an extension which allows users to search, access and copy the help
 [![PE VIDEO](https://github.com/viclafouch/PE-Center/blob/master/screenshot-video.png)](https://www.youtube.com/watch?v=BDYCFtLuT1M)
 
 #### Langs supported :
+
 - Français
 - English
 - Deutsch
@@ -22,6 +23,7 @@ PE Center is an extension which allows users to search, access and copy the help
 - Español
 
 #### Products supported :
+
 - YouTube
 - Google Search
 - Google Photos
@@ -32,6 +34,7 @@ PE Center is an extension which allows users to search, access and copy the help
 - Google Calendar
 - Google Account
 - Google Play
+- Google My Business
 
 ### What I use:
 
@@ -40,7 +43,7 @@ PE Center is an extension which allows users to search, access and copy the help
 - [Styled-components](https://github.com/styled-components/styled-components) - CSS in JS.
 - [React-i18next](https://github.com/i18next/react-i18next) - Internationalization for React.
 
-At least but not last, this extension uses an API specially developed for this project, called [GSC (Google Support  Crawler)](https://github.com/viclafouch/google-support-crawler).
+At least but not last, this extension uses an API specially developed for this project, called [GSC (Google Support Crawler)](https://github.com/viclafouch/google-support-crawler).
 
 ### Installing from source
 
