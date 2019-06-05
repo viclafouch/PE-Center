@@ -1,12 +1,6 @@
-export const browser = browser || chrome // eslint-disable-line no-use-before-define
+import { languages } from '../../../i18n/i18n'
 
-export const languages = {
-  fr: 'Français',
-  en: 'English',
-  de: 'Deutsch',
-  pt: 'Português (Brasil)',
-  es: 'Español'
-}
+export const browser = browser || chrome // eslint-disable-line no-use-before-define
 
 export const maxThreads = [8, 15, 30]
 

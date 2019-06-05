@@ -21,10 +21,11 @@ import {
   TOGGLE_NOTIFICATIONS
 } from '@/js/stores/reducer/constants'
 import { useTranslation } from 'react-i18next'
-import { languages, getBrowserStorage, setBrowserStorage, openLink, maxThreads } from '@utils/browser'
+import { getBrowserStorage, setBrowserStorage, openLink, maxThreads } from '@utils/browser'
 import Typography from '@material-ui/core/Typography'
 import { useSnackbar } from 'notistack'
 import { jsUcfirst } from '@utils/utils'
+import { languages } from '../../../../i18n/i18n'
 
 const Form = styled.form`
   padding: 12px 15px;
