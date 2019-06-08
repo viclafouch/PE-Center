@@ -3,7 +3,7 @@ import { initReactI18next } from 'react-i18next'
 import en from './locales/en.json'
 import fr from './locales/fr.json'
 import de from './locales/de.json'
-import pt from './locales/pt.json'
+import ptBR from './locales/pt-BR.json'
 import es from './locales/es.json'
 import ru from './locales/ru.json'
 import uk from './locales/uk.json'
@@ -12,7 +12,7 @@ export const languages = {
   fr: 'Français',
   en: 'English',
   de: 'Deutsch',
-  pt: 'Português (Brasil)',
+  'pt-BR': 'Português (Brasil)',
   es: 'Español',
   ru: 'Pусский‎',
   uk: 'Yкраїнська‎'
@@ -22,7 +22,7 @@ const resources = {
   en,
   fr,
   de,
-  pt,
+  'pt-BR': ptBR,
   es,
   ru,
   uk
