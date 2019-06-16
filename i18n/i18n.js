@@ -7,6 +7,7 @@ import ptBR from './locales/pt-BR.json'
 import es from './locales/es.json'
 import ru from './locales/ru.json'
 import uk from './locales/uk.json'
+import id from './locales/id.json'
 
 export const languages = {
   fr: 'Français',
@@ -15,7 +16,8 @@ export const languages = {
   'pt-BR': 'Português (Brasil)',
   es: 'Español',
   ru: 'Pусский‎',
-  uk: 'Yкраїнська‎'
+  uk: 'Yкраїнська‎',
+  id: 'Indonesia'
 }
 
 const resources = {
@@ -25,7 +27,8 @@ const resources = {
   'pt-BR': ptBR,
   es,
   ru,
-  uk
+  uk,
+  id
 }
 
 export default lang =>
