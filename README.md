@@ -23,6 +23,7 @@ PE Center is an extension which allows users to search, access and copy the help
 - Español
 - Pусский
 - Yкраїнська
+- Indonesia
 
 #### Products supported :
 
