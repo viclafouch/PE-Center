@@ -45,6 +45,8 @@ PE Center is an extension which allows users to search, access and copy the help
 - Docs Editor
 - Course Kit
 - Google Drive
+- Pixel Phone
+- Search Console
 
 ### What I use:
 
