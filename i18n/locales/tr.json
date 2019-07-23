@@ -1,0 +1,31 @@
+{
+  "translation": {
+    "products": "Ürünler",
+    "darkMode": "Karanlık mod",
+    "search": "Arama",
+    "menu": "Menü",
+    "searchHelp": "Google Yardımı Bul",
+    "chooseProduct": "Lütfen en az 1 ürün seçin.",
+    "noResult": "Sonuç yok",
+    "viewMore": "Daha fazla görüntüle",
+    "copyHOS": "Kopyala (HOS)",
+    "copyTailwind": "Kopyala (Tailwind)",
+    "learnMore": "Daha fazla bilgi edinin",
+    "successCopy": "Panoya kopyalandı",
+    "filteredProducts": "Filtrelenmiş ürünler",
+    "searchIntro": "Farklı Google ürünlerinin (Haritalar, Gmail vb.) kullanımıyla ilgili öğreticiler bulabileceğiniz Arama Merkezi.",
+    "searchTitle": "Yardım makalenizi arayın",
+    "feedIntro": "Google ürünleri hakkında kullanıcılardan gelen yeni sorulardan haberdar olun ve hızlı bir şekilde yanıtlayın!",
+    "feedTitle": "RSS akışı geliyor ...",
+    "limitThread": "Gönderiler / Ürün maks.",
+    "permissionsRequired": "Gerekli yetkilere sahip olmalısınız.",
+    "language": "Dil",
+    "openIn": "Konuları Aç:",
+    "subheaderThread": "24 saat / Cevapsız",
+    "retry": "Yeniden dene",
+    "notifications": "Bildirimler",
+    "error": {
+      "unknown": "Bir şeyler ters gitti."
+    }
+  }
+}
