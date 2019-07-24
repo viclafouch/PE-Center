@@ -5,15 +5,15 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Typography from '@material-ui/core/Typography'
 import styled from 'styled-components'
 import Checkbox from '@material-ui/core/Checkbox'
-import { DefaultContext } from '@/js/stores/DefaultContext'
 import Divider from '@material-ui/core/Divider'
 import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
-import { TOGGLE_SIDEBAR, SELECT_PRODUCTS, CHANGE_TAB } from '@/js/stores/reducer/constants'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
-import { SettingsContext } from '@/js/stores/SettingsContext'
 import { useTranslation } from 'react-i18next'
+import { SettingsContext } from '@/js/stores/SettingsContext'
+import { TOGGLE_SIDEBAR, SELECT_PRODUCTS, CHANGE_TAB } from '@/js/stores/reducer/constants'
+import { DefaultContext } from '@/js/stores/DefaultContext'
 
 const ToolbarClosed = styled.div`
   display: flex;

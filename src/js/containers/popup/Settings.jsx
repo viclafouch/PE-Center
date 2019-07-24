@@ -12,7 +12,11 @@ import Switch from '@material-ui/core/Switch'
 import FormGroup from '@material-ui/core/FormGroup'
 import { getAllProducts } from '@shared/api/Product.api'
 import useTheme from '@shared/hooks/useTheme'
-import { useSettings } from '@/js/stores/SettingsContext'
+import { useTranslation } from 'react-i18next'
+import { getBrowserStorage, setBrowserStorage, openLink, maxThreads } from '@utils/browser'
+import Typography from '@material-ui/core/Typography'
+import { useSnackbar } from 'notistack'
+import { jsUcfirst } from '@utils/utils'
 import {
   SELECT_PRODUCTS,
   SWITCH_LANGUAGE,
@@ -20,11 +24,7 @@ import {
   SET_OPEN_LINK_IN,
   TOGGLE_NOTIFICATIONS
 } from '@/js/stores/reducer/constants'
-import { useTranslation } from 'react-i18next'
-import { getBrowserStorage, setBrowserStorage, openLink, maxThreads } from '@utils/browser'
-import Typography from '@material-ui/core/Typography'
-import { useSnackbar } from 'notistack'
-import { jsUcfirst } from '@utils/utils'
+import { useSettings } from '@/js/stores/SettingsContext'
 import { languages } from '../../../../i18n/i18n'
 
 const Form = styled.form`

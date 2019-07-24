@@ -6,10 +6,10 @@ import MenuIcon from '@material-ui/icons/Menu'
 import SearchIcon from '@material-ui/icons/Search'
 import styled from 'styled-components'
 import { useDebounce } from '@shared/hooks/useDebounce'
-import { DefaultContext } from '@/js/stores/DefaultContext'
-import { REMOVE_CARDS, CHANGE_TAB, TOGGLE_SIDEBAR, SET_SEARCHING_STATUS } from '@/js/stores/reducer/constants'
 import useSearchParams from '@shared/hooks/useSearchParams'
 import { useTranslation } from 'react-i18next'
+import { DefaultContext } from '@/js/stores/DefaultContext'
+import { REMOVE_CARDS, CHANGE_TAB, TOGGLE_SIDEBAR, SET_SEARCHING_STATUS } from '@/js/stores/reducer/constants'
 
 const StyledPaper = styled(Paper)`
   && {

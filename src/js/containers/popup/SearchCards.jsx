@@ -1,18 +1,18 @@
 import React, { useContext, useEffect, useState, useRef } from 'react'
 import styled from 'styled-components'
 import ListCards from '@components/ListCards/ListCards'
-import { DefaultContext } from '@/js/stores/DefaultContext'
-import { SET_CARDS, REMOVE_CARDS, SET_SEARCHING_STATUS } from '@/js/stores/reducer/constants'
 import { wait, debug } from '@utils/utils'
 import { searchCards } from '@shared/api/Card.api'
 import useSearchParams from '@shared/hooks/useSearchParams'
 import Button from '@material-ui/core/Button'
-import { useSettings } from '@/js/stores/SettingsContext'
 import Typography from '@material-ui/core/Typography'
-import { Intro } from '@styled'
 import { useTranslation } from 'react-i18next'
 import { useSnackbar } from 'notistack'
 import Loader from '@components/Loader/Loader'
+import { Intro } from '@styled'
+import { useSettings } from '@/js/stores/SettingsContext'
+import { SET_CARDS, REMOVE_CARDS, SET_SEARCHING_STATUS } from '@/js/stores/reducer/constants'
+import { DefaultContext } from '@/js/stores/DefaultContext'
 
 const Warning = styled.div`
   padding: 13px 15px;

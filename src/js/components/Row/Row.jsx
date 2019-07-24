@@ -1,12 +1,12 @@
 import React, { useState, memo } from 'react'
 import { truncateAndReplace, getRandomColor } from '@utils/utils'
-import { RowDescription } from '@styled'
 import styled from 'styled-components'
 import Avatar from '@material-ui/core/Avatar'
 import Icon from '@material-ui/core/Icon'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItem from '@material-ui/core/ListItem'
 import { RowTitle } from '@styled/index'
+import { RowDescription } from '@styled'
 
 const UserAvatar = styled(Avatar)`
   && {

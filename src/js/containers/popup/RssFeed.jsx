@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { useSettings } from '@/js/stores/SettingsContext'
 import { getThreads } from '@shared/api/Thread.api'
 import Typography from '@material-ui/core/Typography'
-import { Intro } from '@styled'
 import { useTranslation } from 'react-i18next'
 import ListThreads from '@components/ListThreads/ListThreads'
 import { getBrowserStorage, setBrowserStorage, sendMessageToBackground } from '@utils/browser'
@@ -10,6 +8,8 @@ import { useSnackbar } from 'notistack'
 import Loader from '@components/Loader/Loader'
 import Button from '@material-ui/core/Button'
 import { debug } from '@utils/utils'
+import { Intro } from '@styled'
+import { useSettings } from '@/js/stores/SettingsContext'
 
 export function RssFeed() {
   const { t } = useTranslation()
