@@ -24,6 +24,9 @@
    "subheaderThread": "24 години/без відповіді",
    "retry": "Спробувати ще раз",
    "notifications": "Сповіщення",
+   "launchPage": "Початкова сторінка",
+   "newPostsPage": "Нові повідомлення",
+   "searchHelpPage": "Пошук довідки",
    "error": {
      "unknown": "Халепа! Щось зламалося."
    }

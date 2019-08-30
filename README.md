@@ -5,7 +5,7 @@
   </a>
 </div>
 
-# PE Center (v3.0.12)
+# PE Center (v3.0.13)
 
 PE Center is an extension which allows users to search, access and copy the help articles of the official Google products (YouTube, Google Chrome, ...). This web extension also allows to retrieve the latest posts created on the official Google's forums.
 

@@ -24,6 +24,9 @@
     "openIn": "Abrir hilos en:",
     "retry": "Inténtalo de nuevo",
     "notifications": "Notificaciones",
+    "launchPage": "Página de inicio",
+    "newPostsPage": "Nuevos mensajes",
+    "searchHelpPage": "Buscar ayuda",
     "error": {
       "unknown": "Algo salió mal."
     }

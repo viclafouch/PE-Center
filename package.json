@@ -1,6 +1,6 @@
 {
   "name": "pe-center",
-  "version": "3.0.12",
+  "version": "3.0.13",
   "description": "A web extension which allows to find and copy any tips about the Google Help Center.",
   "scripts": {
     "start": "npm run dev:chrome",
@@ -34,7 +34,7 @@
     "@babel/runtime": "^7.5.5",
     "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^3.0.2",
-    "i18next": "^17.0.12",
+    "i18next": "^17.0.13",
     "notistack": "^0.8.9",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
@@ -49,7 +49,7 @@
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
     "adm-zip": "^0.4.13",
-    "babel-eslint": "^10.0.2",
+    "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
     "babel-plugin-styled-components": "^1.10.6",
     "clean-webpack-plugin": "^3.0.0",
@@ -57,7 +57,7 @@
     "copy-webpack-plugin": "^5.0.4",
     "cross-env": "^5.2.0",
     "css-loader": "^3.2.0",
-    "eslint": "^6.2.1",
+    "eslint": "^6.3.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.1.0",
     "eslint-config-wesbos": "0.0.19",
@@ -72,9 +72,9 @@
     "node-emoji": "^1.10.0",
     "node-sass": "^4.12.0",
     "prettier": "^1.18.2",
-    "sass-loader": "^7.3.1",
-    "webpack": "^4.39.2",
+    "sass-loader": "^8.0.0",
+    "webpack": "^4.39.3",
     "webpack-cli": "^3.3.7",
-    "webpack-fix-style-only-entries": "^0.3.0"
+    "webpack-fix-style-only-entries": "^0.3.1"
   }
 }

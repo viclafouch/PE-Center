@@ -24,6 +24,9 @@
     "subheaderThread": "24h/No reply",
     "retry": "Retry",
     "notifications": "Notifications",
+    "launchPage": "Start Page",
+    "newPostsPage": "New Posts",
+    "searchHelpPage": "Search Help",
     "error": {
       "unknown": "Something went wrong."
     }

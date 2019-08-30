@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -17,15 +17,18 @@ import { getBrowserStorage, setBrowserStorage, openLink, maxThreads } from '@uti
 import Typography from '@material-ui/core/Typography'
 import { useSnackbar } from 'notistack'
 import { jsUcfirst } from '@utils/utils'
+import { PRODUCTS_PAGE, POSTS_PAGE } from '@shared/constant'
 import {
   SELECT_PRODUCTS,
   SWITCH_LANGUAGE,
   SET_MAX_THREADS,
   SET_OPEN_LINK_IN,
-  TOGGLE_NOTIFICATIONS
+  TOGGLE_NOTIFICATIONS,
+  SWITCH_START_PAGE
 } from '@/js/stores/reducer/constants'
 import { useSettings } from '@/js/stores/SettingsContext'
 import { languages } from '../../../../i18n/i18n'
+import { DefaultContext } from '@/js/stores/DefaultContext'
 
 const Form = styled.form`
   padding: 12px 15px;
@@ -33,6 +36,7 @@ const Form = styled.form`
 const Footer = styled.footer`
   text-align: center;
   opacity: 0.6;
+  padding-bottom: 17px;
 
   a {
     color: inherit;
@@ -50,6 +54,7 @@ const MenuProps = {
 function Settings() {
   const { t } = useTranslation()
   const [{ productsSelected, lang, maxThreadsPerProduct, openLinkIn, displayNotifications }, dispatch] = useSettings()
+  const [{ startPage }, defaultDispatch] = useContext(DefaultContext)
   const [theme, setTheme] = useTheme()
   const [products, setProducts] = useState([])
   const { enqueueSnackbar } = useSnackbar()
@@ -205,6 +210,27 @@ function Settings() {
             {['console', 'public'].map(openIn => (
               <MenuItem key={openIn} value={openIn} component="li">
                 {jsUcfirst(openIn)}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <FormControl fullWidth margin="dense" required>
+          <InputLabel htmlFor="select-start-page">{t('launchPage')}</InputLabel>
+          <Select
+            value={startPage}
+            onChange={({ target }) => {
+              defaultDispatch({
+                type: SWITCH_START_PAGE,
+                startPage: target.value
+              })
+            }}
+            input={<Input id="select-start-page" />}
+            renderValue={() => (startPage === 0 ? t('searchHelpPage') : t('newPostsPage'))}
+            MenuProps={MenuProps}
+          >
+            {[PRODUCTS_PAGE, POSTS_PAGE].map(page => (
+              <MenuItem key={page} value={page === PRODUCTS_PAGE ? 0 : 1} component="li">
+                {page === PRODUCTS_PAGE ? t('searchHelpPage') : t('newPostsPage')}
               </MenuItem>
             ))}
           </Select>

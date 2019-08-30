@@ -24,6 +24,9 @@
     "subheaderThread": "24 часа/без ответа",
     "retry": "Попробовать снова",
     "notifications": "Уведомления",
+    "launchPage": "Начальная страница",
+    "newPostsPage": "Новые сообщения",
+    "searchHelpPage": "Поиск помощи",
     "error": {
       "unknown": "Что-то пошло не так."
     }

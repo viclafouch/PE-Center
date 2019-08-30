@@ -24,6 +24,9 @@
     "subheaderThread": "24j/Tidak ada balasan",
     "retry": "Coba lagi",
     "notifications": "Pemeberitahuan",
+    "launchPage": "Halaman awal",
+    "newPostsPage": "Posting baru",
+    "searchHelpPage": "Cari bantuan",
     "error": {
       "unknown": "Ada yang salah."
     }

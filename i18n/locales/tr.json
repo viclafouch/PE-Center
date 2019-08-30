@@ -24,6 +24,9 @@
     "subheaderThread": "24 saat / Cevapsız",
     "retry": "Yeniden dene",
     "notifications": "Bildirimler",
+    "launchPage": "Başlangıç sayfası",
+    "newPostsPage": "Yeni mesajlar",
+    "searchHelpPage": "Arama yardımı",
     "error": {
       "unknown": "Bir şeyler ters gitti."
     }

@@ -6,12 +6,13 @@ import {
   SET_SEARCH_VALUE,
   CHANGE_TAB,
   TOGGLE_SIDEBAR,
-  SET_SEARCHING_STATUS
+  SET_SEARCHING_STATUS,
+  SWITCH_START_PAGE
 } from './constants'
 
 const DefaultReducer = (state, action) => {
   debug(`TCL: DefaultReducer -> type : ${action.type}`)
-  const { cards, searchValue, page, currentTab, type, isOpenSidebar, isSearching } = action
+  const { cards, searchValue, page, currentTab, type, isOpenSidebar, isSearching, startPage } = action
   switch (type) {
     case SET_CARDS:
       debug(`TCL: DefaultReducer -> set ${cards.length} card(s)`)
@@ -64,6 +65,12 @@ const DefaultReducer = (state, action) => {
       return {
         ...state,
         isOpenSidebar
+      }
+    case SWITCH_START_PAGE:
+      debug(`TCL: DefaultReducer -> toggle start page to ${startPage}`)
+      return {
+        ...state,
+        startPage
       }
 
     default:

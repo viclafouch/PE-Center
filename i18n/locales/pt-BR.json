@@ -24,6 +24,9 @@
     "subheaderThread": "24h/Não responde",
     "retry": "Tente novamente",
     "notifications": "Notificações",
+    "launchPage": "Página Inicial",
+    "newPostsPage": "Novas mensagens",
+    "searchHelpPage": "Procurar ajuda",
     "error": {
       "unknown": "Algo deu errado."
     }

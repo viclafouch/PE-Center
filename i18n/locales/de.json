@@ -24,6 +24,9 @@
     "subheaderThread": "24h/Nicht beantwortet",
     "retry": "Erneut probieren",
     "notifications": "Benachrichtigungen",
+    "launchPage": "Startseite",
+    "newPostsPage": "Neue Beiträge",
+    "searchHelpPage": "Suchhilfe",
     "error": {
       "unknown": "Etwas ist schief gelaufen."
     }

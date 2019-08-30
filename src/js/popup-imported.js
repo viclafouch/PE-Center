@@ -14,14 +14,15 @@ import { SettingsProvider, SettingsContext } from './stores/SettingsContext'
 import { DefaultProvider } from './stores/DefaultContext'
 import i18n from '../../i18n/i18n'
 
-function Popup() {
+function Popup({ startPage }) {
   return (
     <DefaultProvider
       initialState={{
         cards: [],
-        currentTab: 0,
+        currentTab: startPage,
         isOpenSidebar: false,
         isSearching: false,
+        startPage,
         searchParams: {
           value: '',
           page: 1
@@ -60,7 +61,7 @@ export default async () => {
     ReactDOM.render(
       <ErrorBoundary>
         <SettingsProvider initialState={storages.sync}>
-          <Popup />
+          <Popup startPage={storages.local.startPage} />
         </SettingsProvider>
       </ErrorBoundary>,
       document.getElementById('popup')
