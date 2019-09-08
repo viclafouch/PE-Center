@@ -26,12 +26,10 @@ export function RssFeed() {
           setIsLoading(true)
           setIsError(false)
           const { threadsUuidReaded } = await getBrowserStorage('local')
-          const response = await getThreads(
+          const { result } = await getThreads(
             { productsId: productsSelected.map(p => p.id), lang, maxThreadsPerProduct },
             controller.signal
           )
-
-          const { result } = response
           const allThreadsWithProducts = [
             ...result.map(item => {
               item.threads = item.threads.map(thread => ({
@@ -49,7 +47,7 @@ export function RssFeed() {
             })
           ]
           setThreads(allThreadsWithProducts)
-          const allThreads = response.result.flatMap(e => e.threads)
+          const allThreads = result.flatMap(e => e.threads)
           await sendMessageToBackground('reloadNotifs')
           const currentThreadReaded = result.flatMap(e => e.threads.filter(y => y.readed))
           const newThreadsRead = threadsUuidReaded.filter(uuid => currentThreadReaded.some(e => e.uuid === uuid))
@@ -74,11 +72,8 @@ export function RssFeed() {
           setIsLoading(false)
         }
       }
-      if (productsSelected.length > 0 && lang) {
-        fetching()
-      } else {
-        setIsLoading(false)
-      }
+      if (productsSelected.length > 0 && lang) fetching()
+      else setIsLoading(false)
     },
     [enqueueSnackbar, lang, maxThreadsPerProduct, productsSelected, t]
   )
@@ -86,9 +81,7 @@ export function RssFeed() {
   useEffect(() => {
     const controller = new AbortController()
     fetchThreads({ controller })
-    return () => {
-      controller.abort()
-    }
+    return () => controller.abort()
   }, [fetchThreads])
 
   let content = null

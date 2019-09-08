@@ -33,10 +33,11 @@ import { DefaultContext } from '@/js/stores/DefaultContext'
 const Form = styled.form`
   padding: 12px 15px;
 `
+
 const Footer = styled.footer`
   text-align: center;
   opacity: 0.6;
-  padding-bottom: 17px;
+  padding: 0 10px 17px 10px;
 
   a {
     color: inherit;
@@ -237,7 +238,7 @@ function Settings() {
         </FormControl>
       </Form>
       <Footer>
-        <Typography component="p" variant="body2" style={{ padding: '0 10px' }}>
+        <Typography component="p" variant="body2">
           Coded by{' '}
           <a
             href="https://twitter.com/TrustedSheriff"

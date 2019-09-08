@@ -1,4 +1,3 @@
-import { PRODUCTS_PAGE } from '@shared/constant'
 import { languages } from '../../../i18n/i18n'
 
 export const browser = browser || chrome // eslint-disable-line no-use-before-define
