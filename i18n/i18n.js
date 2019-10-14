@@ -21,7 +21,7 @@ export const languages = {
   uk: 'Yкраїнська‎',
   id: 'Indonesia',
   tr: 'Türkçe‎',
-  pl: 'Polski',
+  pl: 'Polski'
 }
 
 const resources = {
