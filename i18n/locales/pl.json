@@ -1,0 +1,34 @@
+{
+  "translation": {
+    "products": "Produkty",
+    "darkMode": "Tryb ciemny",
+    "search": "Szukaj",
+    "menu": "Menu",
+    "searchHelp": "Szukaj w pomocy Google",
+    "chooseProduct": "Wybierz przynajmniej 1 produkt.",
+    "noResult": "Brak wyników",
+    "viewMore": "Zobacz więcej",
+    "copyHOS": "Kopiuj (HOS)",
+    "copyTailwind": "Kopiuj (Tailwind)",
+    "learnMore": "Dowiedz się więcej",
+    "successCopy": "Skopiowano do schowka",
+    "filteredProducts": "Wybrane produkty",
+    "searchIntro": "Centrum wyszukiwania, w którym znajdziesz samouczki na temat korzystania z różnych produktów Google (YouTube, Gmail, itd ...).",
+    "searchTitle": "Przeszukaj artykuły pomocy",
+    "feedIntro": "Bądź na bieżąco z nowymi pytaniami użytkowników na temat produktów Google i odpowiedz na nie bardzo szybko!",
+    "feedTitle": "Nadchodzi kanał RSS...",
+    "limitThread": "Posty/Produkt maks.",
+    "permissionsRequired": "Musisz mieć wymagane uprawnienia.",
+    "language": "Język",
+    "openIn": "Otwórz posty w:",
+    "subheaderThread": "24h/Bez odpowiedzi",
+    "retry": "Spróbuj ponownie",
+    "notifications": "Powiadomienia",
+    "launchPage": "Strona startowa",
+    "newPostsPage": "Nowe posty",
+    "searchHelpPage": "Szukanie pomocy",
+    "error": {
+      "unknown": "Coś poszło nie tak."
+    }
+  }
+}
