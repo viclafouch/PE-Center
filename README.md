@@ -71,7 +71,7 @@ At least but not last, this extension uses an API specially developed for this p
 
 Only on **Mozilla Firefox** :
 
-4. Navigate to `about:debugging`
+4. Navigate to `about:debugging#/runtime/this-firefox`
 5. Choose "Load Temporary Add-on..."
 6. In the dialog, open the file `build/firefox/manifest.json`
 
