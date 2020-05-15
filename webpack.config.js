@@ -22,7 +22,7 @@ module.exports = (env, argv) => ({
     aggregateTimeout: 2000,
     ignored: ["node_modules"]
   },
-  devtool: argv.mode === "production" ? "source-map" : "cheap-module-eval-source-map",
+  devtool: argv.mode === "production" ? false : "cheap-module-eval-source-map",
   optimization: {
     minimize: argv.mode === "production",
     nodeEnv: argv.mode

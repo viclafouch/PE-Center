@@ -1,12 +1,12 @@
 {
   "name": "pe-center",
-  "version": "3.0.15",
+  "version": "3.0.18",
   "description": "A web extension which allows to find and copy any tips about the Google Help Center.",
   "scripts": {
     "start": "npm run dev:chrome",
-    "dev:chrome": "cross-env TARGET=chrome webpack -d --progress --hide-modules --display-error-details",
-    "dev:firefox": "cross-env TARGET=firefox webpack -d --progress --hide-modules --display-error-details",
-    "build": "cross-env TARGET=firefox webpack -p --progress --hide-modules && cross-env TARGET=chrome webpack -p --progress --hide-modules",
+    "dev:chrome": "cross-env TARGET=chrome webpack -d",
+    "dev:firefox": "cross-env TARGET=firefox webpack -d",
+    "build": "cross-env TARGET=firefox webpack -p && cross-env TARGET=chrome webpack -p",
     "publish": "node tasks/publish.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
