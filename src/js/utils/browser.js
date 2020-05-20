@@ -5,7 +5,8 @@ export const browser = browser || chrome // eslint-disable-line no-use-before-de
 export const maxThreads = [8, 15, 30]
 
 const getDefaultLang = (availableLangs, defaultLang = 'en') =>
-  (navigator.languages || [navigator.userLanguage]).map(l => l.substr(0, 2)).find(lang => lang in availableLangs) || defaultLang
+  (navigator.languages || [navigator.userLanguage]).map((l) => l.substr(0, 2)).find((lang) => lang in availableLangs) ||
+  defaultLang
 
 /**
  * Default storage
@@ -17,25 +18,25 @@ export const storageDefault = {
     productsSelected: [],
     openLinkIn: 'public',
     lang: getDefaultLang(languages, 'en'),
-    displayNotifications: false
+    displayNotifications: false,
   },
   local: {
     products: [],
     threadsUuidReaded: [],
     threads: [],
-    startPage: 0
-  }
+    startPage: 0,
+  },
 }
 
 /**
  * Get specitif storage from browser
  * @param {string} type - local or sync
  */
-export const getBrowserStorage = type =>
+export const getBrowserStorage = (type) =>
   new Promise((resolve, reject) => {
     if (!['sync', 'local'].includes(type)) throw new Error()
     if (!browser.runtime.lastError) {
-      browser.storage[type].get(storageDefault[type], items => resolve(items))
+      browser.storage[type].get(storageDefault[type], (items) => resolve(items))
     } else {
       console.error(browser.runtime.lastError.message)
       const error = new Error(`Error when loading ${type} storage`)
@@ -52,7 +53,7 @@ export const setBrowserStorage = (type, items) =>
   new Promise((resolve, reject) => {
     if (!['sync', 'local'].includes(type)) throw new Error()
     if (!browser.runtime.lastError) {
-      browser.storage[type].set(items, result => resolve(result))
+      browser.storage[type].set(items, (result) => resolve(result))
     } else {
       console.error(browser.runtime.lastError.message)
       const error = new Error(`Error while setting items to the ${type} storage`)
@@ -63,7 +64,7 @@ export const setBrowserStorage = (type, items) =>
 export const sendMessageToBackground = (type, items = {}) =>
   new Promise((resolve, reject) => {
     if (!browser.runtime.lastError) {
-      browser.runtime.sendMessage({ type, ...items }, response => resolve(response))
+      browser.runtime.sendMessage({ type, ...items }, (response) => resolve(response))
     } else {
       console.error(browser.runtime.lastError.message)
       const error = new Error(`Error when sending message ${type}`)
@@ -71,7 +72,7 @@ export const sendMessageToBackground = (type, items = {}) =>
     }
   })
 
-export const getBadgeText = () => new Promise(resolve => browser.browserAction.getBadgeText({}, text => resolve(text)))
+export const getBadgeText = () => new Promise((resolve) => browser.browserAction.getBadgeText({}, (text) => resolve(text)))
 
 export const openLink = (url, newTab = true) => {
   if (browser.tabs) {

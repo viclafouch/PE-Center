@@ -105,6 +105,7 @@ module.exports = (env, argv) => ({
             delete manifestContent["browser_specific_settings"]
           }
           if (argv.mode !== "production") {
+            manifestContent['content_security_policy'] = "script-src 'self' 'unsafe-eval'; object-src 'self'"
             manifestContent["permissions"].push('http://localhost:3000/*')
           }
           return Buffer.from(

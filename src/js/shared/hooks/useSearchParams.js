@@ -6,20 +6,20 @@ const useSearchParams = () => {
   const [{ searchParams }, dispatch] = useContext(DefaultContext)
 
   const setPage = useCallback(
-    page => {
+    (page) => {
       dispatch({
         type: SET_PAGE,
-        page
+        page,
       })
     },
     [dispatch]
   )
 
   const setSearch = useCallback(
-    val => {
+    (val) => {
       dispatch({
         type: SET_SEARCH_VALUE,
-        searchValue: val
+        searchValue: val,
       })
     },
     [dispatch]

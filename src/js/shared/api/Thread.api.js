@@ -7,6 +7,6 @@ export const getThreads = (params = {}, signal) =>
     body: JSON.stringify({
       productsId: params.productsId,
       lang: params.lang,
-      limit: params.maxThreadsPerProduct
-    })
+      limit: params.maxThreadsPerProduct,
+    }),
   })

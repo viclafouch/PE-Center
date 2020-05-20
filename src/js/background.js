@@ -19,7 +19,7 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
     debug('Clear current alarm and create a new one')
     createAlarm('threads', {
       delayInMinutes: delayThreadsInMinutes,
-      periodInMinutes: periodThreadsInMinutes
+      periodInMinutes: periodThreadsInMinutes,
     })
     sendResponse(true)
   }
@@ -29,7 +29,7 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
 async function onOpenBrowser() {
   await createAlarm('threads', {
     delayInMinutes: delayThreadsInMinutes,
-    periodInMinutes: periodThreadsInMinutes
+    periodInMinutes: periodThreadsInMinutes,
   })
   const { theme } = await getBrowserStorage('sync')
   browser.browserAction.setPopup({ popup: `popup-${theme}.html` })
@@ -38,29 +38,26 @@ async function onOpenBrowser() {
 async function getNewThreads() {
   const { threads, threadsUuidReaded } = await getBrowserStorage('local')
   const { productsSelected, maxThreadsPerProduct, lang, displayNotifications, openLinkIn } = await getBrowserStorage('sync')
-  const productsVisible = productsSelected.filter(e => e.visible)
+  const productsVisible = productsSelected.filter((e) => e.visible)
   if (productsVisible.length === 0) {
     await browser.alarms.clear('threads')
     throw new Error('No products visible availble')
   }
   const response = await getThreads({
-    productsId: productsVisible.map(p => p.id),
+    productsId: productsVisible.map((p) => p.id),
     lang,
-    maxThreadsPerProduct
+    maxThreadsPerProduct,
   })
 
-  const allThreads = response.result.flatMap(e => e.threads)
-  const newThreads = allThreads.filter(e => !threads.some(t => t.uuid === e.uuid))
+  const allThreads = response.result.flatMap((e) => e.threads)
+  const newThreads = allThreads.filter((e) => !threads.some((t) => t.uuid === e.uuid))
   await setBrowserStorage('local', { threads: allThreads })
 
   const lastThread = newThreads.length > 0 ? newThreads[0] : null
   let lastThreadProduct
   if (lastThread) {
-    lastThreadProduct = productsSelected.find(p => p.id === lastThread.ProductId)
-    lastThreadProduct.icon = `${lastThreadProduct.name
-      .toLowerCase()
-      .split(' ')
-      .join('-')}-150.png`
+    lastThreadProduct = productsSelected.find((p) => p.id === lastThread.ProductId)
+    lastThreadProduct.icon = `${lastThreadProduct.name.toLowerCase().split(' ').join('-')}-150.png`
   }
   return {
     nbNewThreads: newThreads.length,
@@ -69,7 +66,7 @@ async function getNewThreads() {
     lastThreadProduct,
     lastThread,
     threadsUuidReaded,
-    maxTotalThreads: productsVisible.length * maxThreadsPerProduct
+    maxTotalThreads: productsVisible.length * maxThreadsPerProduct,
   }
 }
 
@@ -84,7 +81,7 @@ async function handleAlarm(alarmInfo) {
         openLinkIn,
         lastThreadProduct,
         threadsUuidReaded,
-        maxTotalThreads
+        maxTotalThreads,
       } = await getNewThreads()
 
       const currentBadgeText = await getBadgeText()
@@ -95,13 +92,11 @@ async function handleAlarm(alarmInfo) {
       totalNewThreads = totalNewThreads !== 0 ? totalNewThreads.toString() : ''
 
       browser.browserAction.setBadgeText({
-        text: totalNewThreads
+        text: totalNewThreads,
       })
 
       if (displayNotifications && lastThread) {
-        const notifId = `_${Math.random()
-          .toString(36)
-          .substr(2, 9)}`
+        const notifId = `_${Math.random().toString(36).substr(2, 9)}`
         const link = openLinkIn === 'console' ? lastThread.consoleUrl : lastThread.publicUrl
 
         browser.notifications.create(
@@ -112,11 +107,11 @@ async function handleAlarm(alarmInfo) {
             iconUrl: browser.runtime.getURL(`/images/products/${lastThreadProduct.icon}`),
             message: `${lastThread.description.substring(0, 35)}...`,
             isClickable: true,
-            contextMessage: link.toString()
+            contextMessage: link.toString(),
           },
           () => {
             debug('New Notification !')
-            browser.notifications.onClicked.addListener(id => {
+            browser.notifications.onClicked.addListener((id) => {
               if (id === notifId) {
                 debug('Notifications opened')
                 browser.notifications.clear(id, async () => {
@@ -130,7 +125,7 @@ async function handleAlarm(alarmInfo) {
                   }
                   openLink(link, true)
                   browser.browserAction.setBadgeText({
-                    text: nbNewThreads - 1 ? JSON.stringify(nbNewThreads - 1) : ''
+                    text: nbNewThreads - 1 ? JSON.stringify(nbNewThreads - 1) : '',
                   })
                 })
               }

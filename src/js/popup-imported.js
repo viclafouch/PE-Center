@@ -25,8 +25,8 @@ function Popup({ startPage }) {
         startPage,
         searchParams: {
           value: '',
-          page: 1
-        }
+          page: 1,
+        },
       }}
     >
       <SnackbarProvider maxSnack={1} dense preventDuplicate>
@@ -48,12 +48,12 @@ function Popup({ startPage }) {
 export default async () => {
   try {
     browser.browserAction.setBadgeText({
-      text: ''
+      text: '',
     })
     const browserStorages = await Promise.all([getBrowserStorage('local'), getBrowserStorage('sync')])
     const storages = {
       sync: browserStorages[1] || {},
-      local: browserStorages[0] || {}
+      local: browserStorages[0] || {},
     }
 
     await i18n(storages.sync.lang)

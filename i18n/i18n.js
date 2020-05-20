@@ -10,6 +10,7 @@ import uk from './locales/uk.json'
 import id from './locales/id.json'
 import tr from './locales/tr.json'
 import pl from './locales/pl.json'
+import ja from './locales/ja.json'
 
 export const languages = {
   fr: 'Français',
@@ -21,7 +22,8 @@ export const languages = {
   uk: 'Yкраїнська‎',
   id: 'Indonesia',
   tr: 'Türkçe‎',
-  pl: 'Polski'
+  pl: 'Polski',
+  ja: '日本語‎',
 }
 
 const resources = {
@@ -34,22 +36,23 @@ const resources = {
   uk,
   id,
   tr,
-  pl
+  pl,
+  ja,
 }
 
-export default lang =>
+export default (lang) =>
   i18n.use(initReactI18next).init({
     resources,
     lng: lang,
     fallbackLng: 'en',
     debug: false,
     interpolation: {
-      escapeValue: false
+      escapeValue: false,
     },
     react: {
-      bindI18n: false
+      bindI18n: false,
     },
     order: [],
     caches: [],
-    htmlTag: document.documentElement
+    htmlTag: document.documentElement,
   })

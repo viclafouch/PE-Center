@@ -8,6 +8,6 @@ export const searchCards = (params = {}, signal) =>
       search: params.search,
       page: params.page,
       productsId: params.productsId,
-      lang: params.lang
-    })
+      lang: params.lang,
+    }),
   })

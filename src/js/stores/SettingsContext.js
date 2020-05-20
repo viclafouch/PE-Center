@@ -31,9 +31,9 @@ export function SettingsProvider({ children, initialState }) {
         productsSelected,
         lang,
         openLinkIn,
-        displayNotifications
+        displayNotifications,
       },
-      dispatch
+      dispatch,
     ],
     [displayNotifications, lang, maxThreadsPerProduct, openLinkIn, productsSelected, theme]
   )
