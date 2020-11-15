@@ -1,19 +1,5 @@
 {
   "extends": ["@viclafouch/eslint-config-viclafouch"],
-  "rules": {
-    "prettier/prettier": [
-      "error",
-      {
-        "tabWidth": 2,
-        "printWidth": 130,
-        "semi": false,
-        "singleQuote": true
-      }
-    ],
-    "react/prop-types": 0,
-    "import/no-unresolved": 0,
-    "import/no-named-as-default": 0
-  },
   "globals": {
     "chrome": true,
     "browser": true
