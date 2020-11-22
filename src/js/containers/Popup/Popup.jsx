@@ -1,6 +1,7 @@
 import React, { useContext, useLayoutEffect, useRef } from 'react'
 
 import { SwipeableViews } from './popup.styled'
+import AnswersView from './Views/Answers/Answers'
 
 import { DefaultContext } from '@/js/stores/Default'
 
@@ -16,13 +17,13 @@ function Popup() {
   return (
     <main>
       <SwipeableViews ref={swiperRef}>
-        <div data-swipeable aria-hidden={false}>
+        <div data-swipeable aria-hidden={state.currentView !== 0}>
+          <AnswersView />
+        </div>
+        <div data-swipeable aria-hidden={state.currentView !== 1}>
           <div>{state.currentView}</div>
         </div>
-        <div data-swipeable aria-hidden={false}>
-          <div>{state.currentView}</div>
-        </div>
-        <div data-swipeable aria-hidden={false}>
+        <div data-swipeable aria-hidden={state.currentView !== 2}>
           <div>{state.currentView}</div>
         </div>
       </SwipeableViews>

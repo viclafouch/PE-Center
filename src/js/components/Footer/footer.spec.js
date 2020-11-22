@@ -5,14 +5,10 @@ import Footer from './Footer'
 
 import { DefaultProvider } from '@/js/stores/Default'
 
-describe('Footer', () => {
+describe('<Footer />', () => {
   test('renders Footer component', () => {
     render(
-      <DefaultProvider
-        initialState={{
-          currentView: 0
-        }}
-      >
+      <DefaultProvider>
         <Footer />
       </DefaultProvider>
     )

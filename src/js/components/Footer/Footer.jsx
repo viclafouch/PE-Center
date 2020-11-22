@@ -4,16 +4,15 @@ import Tabs from '@material-ui/core/Tabs'
 import AssignmentIcon from '@material-ui/icons/Assignment'
 import RssFeedIcon from '@material-ui/icons/RssFeed'
 import SettingsIcon from '@material-ui/icons/Settings'
+import { SET_CURRENT_VIEW } from '@stores/constants/index'
+import { DefaultContext } from '@stores/Default'
 
-import { SET_CURRENT_VIEW } from '../../stores/constants'
 import { StyledPaper } from './footer.styled'
 
-import { DefaultContext } from '@/js/stores/Default'
-
-function a11yProps(index) {
+function a11yProps(index, ariaLabel) {
   return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`
+    id: `tab-${index}`,
+    'arial-label': ariaLabel
   }
 }
 
@@ -39,9 +38,9 @@ function Footer() {
         onChange={handleChangeTab}
         aria-label="scrollable force tabs example"
       >
-        <Tab icon={<AssignmentIcon />} {...a11yProps(0)} />
-        <Tab icon={<RssFeedIcon />} {...a11yProps(0)} />
-        <Tab icon={<SettingsIcon />} {...a11yProps(0)} />
+        <Tab icon={<AssignmentIcon />} {...a11yProps(0, 'Tab 1')} />
+        <Tab icon={<RssFeedIcon />} {...a11yProps(1, 'Tab 2')} />
+        <Tab icon={<SettingsIcon />} {...a11yProps(2, 'Tab 3')} />
       </Tabs>
     </StyledPaper>
   )

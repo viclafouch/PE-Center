@@ -61,7 +61,8 @@
   },
   "jest": {
     "moduleNameMapper": {
-      "@/(.*)$": "<rootDir>/src/$1"
+      "@/(.*)$": "<rootDir>/src/$1",
+      "@stores/(.*)$": "<rootDir>/src/js/stores/$1"
     }
   },
   "dependencies": {
