@@ -10,9 +10,11 @@ if (!process.env.TARGET) {
   console.info(`\x1b[1;32mBuilding for target ${process.env.TARGET}...\x1b[m`)
 }
 
+const outputPath = path.join(__dirname, 'dist', process.env.TARGET)
+
 module.exports = (env, argv) => {
   const IS_DEV = argv.mode === 'development'
-  return {
+  const config = {
     entry: {
       main: path.resolve(__dirname, './src/js/index.js')
     },
@@ -23,27 +25,32 @@ module.exports = (env, argv) => {
           test: /\.(js|jsx)$/,
           exclude: /node_modules/,
           use: ['babel-loader']
+        },
+        {
+          test: /\.s[ac]ss$/i,
+          use: ['style-loader', 'css-loader', 'sass-loader']
         }
       ]
     },
     output: {
-      path: path.resolve(__dirname, 'dist'),
-      filename: 'bundle.js'
+      path: outputPath,
+      filename: '[name].bundle.js'
     },
-    devtool: IS_DEV ? 'eval-cheap-module-source-map' : 'none',
+    resolve: {
+      extensions: ['.js', '.jsx'],
+      alias: {
+        '@components': path.resolve(__dirname, './src/js/components'),
+        '@containers': path.resolve(__dirname, './src/js/containers'),
+        '@styled': path.resolve(__dirname, './src/js/styled'),
+        '@stores': path.resolve(__dirname, './src/js/store'),
+        '@shared': path.resolve(__dirname, './src/js/shared'),
+        '@utils': path.resolve(__dirname, './src/js/utils'),
+        '@img': path.resolve(__dirname, './src/img'),
+        '@': path.resolve(__dirname, './src')
+      }
+    },
     plugins: [
-      IS_DEV
-        ? new CopyWebpackPlugin({
-            patterns: [
-              {
-                from: path.join(__dirname, 'utils', 'chrome-hot-reload.js'),
-                to: path.join(__dirname, 'dist')
-              }
-            ]
-          })
-        : null,
       new webpack.ProgressPlugin(),
-      new CleanWebpackPlugin(),
       new HtmlWebpackPlugin({
         title: 'webpack Boilerplate',
         template: path.resolve(__dirname, './src/html/popup.html'),
@@ -53,7 +60,7 @@ module.exports = (env, argv) => {
         patterns: [
           {
             from: path.join(__dirname, 'manifest.json'),
-            to: path.join(__dirname, 'dist'),
+            to: outputPath,
             force: true,
             transform: function (content) {
               const manifestContent = JSON.parse(content.toString())
@@ -66,16 +73,32 @@ module.exports = (env, argv) => {
                 manifestContent['permissions'].push('http://localhost:3000/*')
               }
               return Buffer.from(
-                JSON.stringify({
-                  description: process.env.npm_package_description,
-                  version: process.env.npm_package_version,
-                  ...manifestContent
-                })
+                JSON.stringify(
+                  {
+                    description: process.env.npm_package_description,
+                    version: process.env.npm_package_version,
+                    ...manifestContent
+                  },
+                  null,
+                  4
+                )
               )
             }
+          },
+          {
+            from: path.join(__dirname, 'icons'),
+            to: path.join(outputPath, 'icons')
           }
         ]
       })
     ]
   }
+
+  if (IS_DEV) {
+    config.devtool = 'cheap-module-source-map'
+  } else {
+    config.plugins.push(new CleanWebpackPlugin())
+  }
+
+  return config
 }

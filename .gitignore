@@ -2,4 +2,5 @@ node_modules/
 build/
 dist/
 .vscode
+.DS_Store
 npm-debug.log

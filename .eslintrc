@@ -3,5 +3,8 @@
   "globals": {
     "chrome": true,
     "browser": true
+  },
+  "env": {
+    "jest": true
   }
 }

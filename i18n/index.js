@@ -1,16 +1,17 @@
-import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
-import en from './locales/en.json'
-import fr from './locales/fr.json'
+import i18n from 'i18next'
+
 import de from './locales/de.json'
-import ptBR from './locales/pt-BR.json'
+import en from './locales/en.json'
 import es from './locales/es.json'
-import ru from './locales/ru.json'
-import uk from './locales/uk.json'
+import fr from './locales/fr.json'
 import id from './locales/id.json'
-import tr from './locales/tr.json'
-import pl from './locales/pl.json'
 import ja from './locales/ja.json'
+import pl from './locales/pl.json'
+import ptBR from './locales/pt-BR.json'
+import ru from './locales/ru.json'
+import tr from './locales/tr.json'
+import uk from './locales/uk.json'
 
 export const languages = {
   fr: 'Français',
@@ -23,7 +24,7 @@ export const languages = {
   id: 'Indonesia',
   tr: 'Türkçe‎',
   pl: 'Polski',
-  ja: '日本語‎',
+  ja: '日本語‎'
 }
 
 const resources = {
@@ -37,22 +38,30 @@ const resources = {
   id,
   tr,
   pl,
-  ja,
+  ja
 }
 
-export default (lang) =>
-  i18n.use(initReactI18next).init({
+const languageDetector = {
+  type: 'languageDetector',
+  async: true,
+  detect: callback => {
+    setTimeout(() => {
+      callback('fr')
+    }, 200)
+  },
+  init: () => {},
+  cacheUserLanguage: () => {}
+}
+
+i18n
+  .use(languageDetector)
+  .use(initReactI18next)
+  .init({
     resources,
-    lng: lang,
     fallbackLng: 'en',
-    debug: false,
     interpolation: {
-      escapeValue: false,
-    },
-    react: {
-      bindI18n: false,
-    },
-    order: [],
-    caches: [],
-    htmlTag: document.documentElement,
+      escapeValue: false
+    }
   })
+
+export default i18n
