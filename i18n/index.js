@@ -1,4 +1,5 @@
 import { initReactI18next } from 'react-i18next'
+import { DEFAULT_LANGUAGE, FALLBACK_LANGUAGE } from '@shared/constants'
 import i18n from 'i18next'
 
 import de from './locales/de.json'
@@ -43,8 +44,8 @@ const resources = {
 
 i18n.use(initReactI18next).init({
   resources,
-  lng: 'en',
-  fallbackLng: 'en',
+  lng: DEFAULT_LANGUAGE,
+  fallbackLng: FALLBACK_LANGUAGE,
   interpolation: {
     escapeValue: false
   }

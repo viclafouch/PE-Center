@@ -2,42 +2,59 @@ import React from 'react'
 import Footer from '@components/Footer/Footer'
 import Header from '@components/Header/Header'
 import Popup from '@containers/Popup/Popup'
-import blue from '@material-ui/core/colors/blue'
-import pink from '@material-ui/core/colors/pink'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
+import { MuiThemeProvider } from '@material-ui/core/styles'
+import muiThemes from '@shared/themes'
+import { DefaultProvider } from '@stores/Default'
+import {
+  SettingsContext,
+  SettingsProvider,
+  store as settingsStore
+} from '@stores/Settings'
 import { ThemeProvider } from 'styled-components'
 
-import { DefaultProvider } from './stores/Default'
-import { SettingsProvider } from './stores/Settings'
-
-const theme = createMuiTheme({
-  palette: {
-    primary: blue,
-    secondary: pink,
-    type: 'dark'
-  }
-})
-
-function App() {
+function App(props) {
   return (
-    <MuiThemeProvider theme={theme}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <DefaultProvider
-          initialState={{
-            currentView: 0
-          }}
-        >
-          <SettingsProvider>
-            <Header />
-            <Popup />
-            <Footer />
-          </SettingsProvider>
-        </DefaultProvider>
-      </ThemeProvider>
-    </MuiThemeProvider>
+    <SettingsProvider initialState={props.settingsInitialStore}>
+      <DefaultProvider
+        initialState={{
+          currentView: 0
+        }}
+      >
+        <SettingsContext.Consumer>
+          {([settings]) => (
+            <MuiThemeProvider theme={muiThemes[settings.theme]}>
+              <ThemeProvider theme={muiThemes[settings.theme]}>
+                <CssBaseline />
+                <Header />
+                <Popup />
+                <Footer />
+              </ThemeProvider>
+            </MuiThemeProvider>
+          )}
+        </SettingsContext.Consumer>
+      </DefaultProvider>
+    </SettingsProvider>
   )
+}
+
+App.propTypes = {
+  settingsInitialStore: function (props, propName, componentName) {
+    if (!Object.keys(props[propName]).every(key => key in settingsStore)) {
+      console.error({
+        props: props[propName],
+        settingsStore: settingsStore
+      })
+      return new Error(
+        'Invalid prop `' +
+          propName +
+          '` supplied to' +
+          ' `' +
+          componentName +
+          '`. Validation failed.'
+      )
+    }
+  }
 }
 
 export default App

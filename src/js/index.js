@@ -1,15 +1,28 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { setBadgeText } from '@utils/browser'
+import { DEFAULT_THEME } from '@shared/constants'
+import { getBrowserStorage, setBadgeText } from '@utils/browser'
 
 import App from './App'
 
 import '../../i18n'
 import '../scss/popup.scss'
 
-function start() {
+async function start() {
   setBadgeText('')
-  ReactDOM.render(<App />, document.getElementById('popup'))
+
+  const settingsStorage = await getBrowserStorage('sync', [
+    {
+      key: 'theme',
+      default: DEFAULT_THEME
+    }
+  ])
+
+  console.log(settingsStorage)
+  ReactDOM.render(
+    <App settingsInitialStore={settingsStorage} />,
+    document.getElementById('popup')
+  )
 }
 
 start()
