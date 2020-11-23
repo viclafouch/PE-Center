@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { setBadgeText } from '@utils'
+import { setBadgeText } from '@utils/browser'
 
 import App from './App'
 

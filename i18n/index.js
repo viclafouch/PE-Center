@@ -41,27 +41,13 @@ const resources = {
   ja
 }
 
-const languageDetector = {
-  type: 'languageDetector',
-  async: true,
-  detect: callback => {
-    setTimeout(() => {
-      callback('fr')
-    }, 200)
-  },
-  init: () => {},
-  cacheUserLanguage: () => {}
-}
-
-i18n
-  .use(languageDetector)
-  .use(initReactI18next)
-  .init({
-    resources,
-    fallbackLng: 'en',
-    interpolation: {
-      escapeValue: false
-    }
-  })
+i18n.use(initReactI18next).init({
+  resources,
+  lng: 'en',
+  fallbackLng: 'en',
+  interpolation: {
+    escapeValue: false
+  }
+})
 
 export default i18n

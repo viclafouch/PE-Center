@@ -88,6 +88,10 @@ module.exports = (env, argv) => {
           {
             from: path.join(__dirname, 'icons'),
             to: path.join(outputPath, 'icons')
+          },
+          {
+            from: path.join(__dirname, 'src', 'img'),
+            to: path.join(outputPath, 'images')
           }
         ]
       })

@@ -2,6 +2,8 @@ import React, { useContext, useLayoutEffect, useRef } from 'react'
 
 import { SwipeableViews } from './popup.styled'
 import AnswersView from './Views/Answers/Answers'
+import SettingsView from './Views/Settings/Settings'
+import ThreadsView from './Views/Threads/Threads'
 
 import { DefaultContext } from '@/js/stores/Default'
 
@@ -21,10 +23,10 @@ function Popup() {
           <AnswersView />
         </div>
         <div data-swipeable aria-hidden={state.currentView !== 1}>
-          <div>{state.currentView}</div>
+          <ThreadsView />
         </div>
         <div data-swipeable aria-hidden={state.currentView !== 2}>
-          <div>{state.currentView}</div>
+          <SettingsView />
         </div>
       </SwipeableViews>
     </main>
