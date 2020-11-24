@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { getBrowserStorage, setBadgeText } from '@utils/browser'
 
 import App from './App'
+import { store as defaultStore } from './stores/Default'
 import { store as settingsStore } from './stores/Settings'
 
 import './i18n'
@@ -13,7 +14,12 @@ const defaultSettingsItems = Object.keys(settingsStore).map(key => ({
   defaultValue: settingsStore[key]
 }))
 
-const defaultAppItems = []
+const defaultAppItems = [
+  {
+    key: 'enableNotifications',
+    defaultValue: defaultStore.enableNotifications
+  }
+]
 
 async function start() {
   setBadgeText('')

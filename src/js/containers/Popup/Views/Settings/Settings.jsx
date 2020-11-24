@@ -27,8 +27,10 @@ import {
   SET_LIMIT_PER_PRODUCT,
   SET_OPEN_LINK_ANSWER_IN,
   SET_START_VIEW,
+  TOGGLE_NOTIFICATIONS,
   TOGGLE_THEME
 } from '@/js/stores/constants/index'
+import { DefaultContext } from '@/js/stores/Default'
 import { SettingsContext } from '@/js/stores/Settings'
 
 const MenuPropsMaxHeightLang = {
@@ -41,11 +43,18 @@ const MenuPropsMaxHeightLang = {
 
 function Settings() {
   const [settings, settingsDispatch] = useContext(SettingsContext)
+  const [defaultState, defaultDispatch] = useContext(DefaultContext)
   const { t } = useTranslation()
 
   const handleSwitchTheme = () => {
     settingsDispatch({
       type: TOGGLE_THEME
+    })
+  }
+
+  const handleSwitchNotifications = () => {
+    defaultDispatch({
+      type: TOGGLE_NOTIFICATIONS
     })
   }
 
@@ -81,7 +90,13 @@ function Settings() {
         <FormControl fullWidth required>
           <FormGroup>
             <FormControlLabel
-              control={<Switch value="notifications" />}
+              control={
+                <Switch
+                  checked={defaultState.enableNotifications}
+                  onChange={handleSwitchNotifications}
+                  value="notifications"
+                />
+              }
               label={t('notifications')}
             />
           </FormGroup>
