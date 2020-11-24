@@ -6,7 +6,8 @@ import reducer from './reducer/default.reducer'
 
 export const store = {
   currentView: DEFAULT_START_VIEW,
-  enableNotifications: false
+  enableNotifications: false,
+  products: []
 }
 
 export const DefaultContext = createContext()

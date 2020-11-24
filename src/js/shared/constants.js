@@ -1,4 +1,5 @@
 export const DARK_THEME = 'dark'
+export const IS_DEV = process.env.NODE_ENV === 'development'
 export const LIGHT_THEME = 'light'
 export const DEFAULT_THEME = DARK_THEME
 export const DEFAULT_LANGUAGE = 'en'

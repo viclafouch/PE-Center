@@ -1,4 +1,5 @@
-import React, { useContext, useLayoutEffect, useRef } from 'react'
+import React, { useContext, useEffect, useLayoutEffect, useRef } from 'react'
+import { getAllProducts } from '@shared/api'
 import { ANSWERS_VIEW, SETTINGS_VIEW, THREADS_VIEW } from '@shared/constants'
 
 import { SwipeableViews } from './popup.styled'
@@ -6,10 +7,11 @@ import AnswersView from './Views/Answers/Answers'
 import SettingsView from './Views/Settings/Settings'
 import ThreadsView from './Views/Threads/Threads'
 
+import { SET_PRODUCTS } from '@/js/stores/constants/index'
 import { DefaultContext } from '@/js/stores/Default'
 
 function Popup() {
-  const [state] = useContext(DefaultContext)
+  const [state, dispatch] = useContext(DefaultContext)
   const swiperRef = useRef()
 
   useLayoutEffect(() => {
@@ -19,6 +21,24 @@ function Popup() {
     const transform = `translate(-${transformPercent}%, 0px)`
     swiperRef.current.style.transform = transform
   }, [state.currentView])
+
+  useEffect(() => {
+    const init = async () => {
+      try {
+        const { products } = await getAllProducts()
+        console.log(products)
+        dispatch({
+          type: SET_PRODUCTS,
+          payload: {
+            products
+          }
+        })
+      } catch (error) {
+        console.log(error) // TODO
+      }
+    }
+    init()
+  }, [dispatch])
 
   return (
     <main>

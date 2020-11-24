@@ -1,10 +1,12 @@
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
+import Checkbox from '@material-ui/core/Checkbox'
 import FormControl from '@material-ui/core/FormControl'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormGroup from '@material-ui/core/FormGroup'
 import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
+import ListItemText from '@material-ui/core/ListItemText'
 import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
 import Switch from '@material-ui/core/Switch'
@@ -19,13 +21,14 @@ import {
 import { handleAnchor } from '@utils/browser'
 
 import { View } from '../views.styled'
-import { MyProfil } from './settings.styled'
+import { FormStyled, MyProfil } from './settings.styled'
 
 import { languages } from '@/js/i18n'
 import {
   SET_LANG,
   SET_LIMIT_PER_PRODUCT,
   SET_OPEN_LINK_ANSWER_IN,
+  SET_PRODUCTS_ID_SELECTED,
   SET_START_VIEW,
   TOGGLE_NOTIFICATIONS,
   TOGGLE_THEME
@@ -33,13 +36,13 @@ import {
 import { DefaultContext } from '@/js/stores/Default'
 import { SettingsContext } from '@/js/stores/Settings'
 
-const MenuPropsMaxHeightLang = {
+const MenuPropsMaxHeightLang = (rows = 3) => ({
   PaperProps: {
     style: {
-      maxHeight: 150
+      maxHeight: rows * 50
     }
   }
-}
+})
 
 function Settings() {
   const [settings, settingsDispatch] = useContext(SettingsContext)
@@ -67,10 +70,40 @@ function Settings() {
 
   return (
     <View>
-      <form noValidate id="settings-form">
+      <FormStyled noValidate id="settings-form">
         <FormControl fullWidth required>
-          <InputLabel id="demo-mutiple-chip-label">{t('products')}</InputLabel>
-          <Select multiple></Select>
+          <InputLabel id="products-selected">{t('products')}</InputLabel>
+          <Select
+            MenuProps={MenuPropsMaxHeightLang(6)}
+            multiple
+            value={settings.productsIdSelected}
+            renderValue={() =>
+              settings.productsIdSelected
+                .map(id => defaultState.products.find(p => p.id === id)?.name)
+                .join(', ')
+            }
+            onChange={event =>
+              handleChangeSettings(SET_PRODUCTS_ID_SELECTED, {
+                productsIdSelected: event.target.value
+              })
+            }
+          >
+            {defaultState.products.map(product => (
+              <MenuItem
+                key={product.id}
+                value={product.id}
+                disableGutters
+                component="li"
+              >
+                <Checkbox
+                  checked={settings.productsIdSelected.some(
+                    id => id === product.id
+                  )}
+                />
+                <ListItemText primary={product.name} />
+              </MenuItem>
+            ))}
+          </Select>
         </FormControl>
         <FormControl fullWidth required margin="dense">
           <FormGroup>
@@ -104,7 +137,7 @@ function Settings() {
         <FormControl fullWidth required margin="dense">
           <InputLabel htmlFor="lang">{t('language')}</InputLabel>
           <Select
-            MenuProps={MenuPropsMaxHeightLang}
+            MenuProps={MenuPropsMaxHeightLang(3)}
             value={settings.lang}
             onChange={event =>
               handleChangeSettings(SET_LANG, { lang: event.target.value })
@@ -182,7 +215,7 @@ function Settings() {
             </MenuItem>
           </Select>
         </FormControl>
-      </form>
+      </FormStyled>
       <MyProfil>
         <Typography component="p" variant="body2">
           Coded by{' '}

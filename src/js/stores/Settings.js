@@ -20,7 +20,8 @@ export const store = {
   lang: DEFAULT_LANGUAGE,
   startView: DEFAULT_START_VIEW,
   limitThreadsPerProduct: 10,
-  openLinkAnswerIn: DEFAULT_ANSWER_LINK
+  openLinkAnswerIn: DEFAULT_ANSWER_LINK,
+  productsIdSelected: []
 }
 
 export const SettingsContext = createContext()

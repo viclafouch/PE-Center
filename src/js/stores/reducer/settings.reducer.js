@@ -5,9 +5,10 @@ import {
   SET_LANG,
   SET_LIMIT_PER_PRODUCT,
   SET_OPEN_LINK_ANSWER_IN,
+  SET_PRODUCTS_ID_SELECTED,
   SET_START_VIEW,
   TOGGLE_THEME
-} from '../constants/index'
+} from '../constants'
 
 export default produce((draft, action) => {
   switch (action.type) {
@@ -26,6 +27,9 @@ export default produce((draft, action) => {
       break
     case SET_OPEN_LINK_ANSWER_IN:
       draft.openLinkAnswerIn = action.payload.openLinkAnswerIn
+      break
+    case SET_PRODUCTS_ID_SELECTED:
+      draft.productsIdSelected = action.payload.productsIdSelected
       break
   }
 })
