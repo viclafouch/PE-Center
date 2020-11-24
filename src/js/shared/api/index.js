@@ -4,10 +4,9 @@ const API_URL = IS_DEV
   ? 'https://pe-crawler.herokuapp.com'
   : 'https://pe-crawler.herokuapp.com'
 
-export const request = (pathname, params) => {
-  const url = new URL(API_URL)
-  url.pathname = pathname
-  return fetch(url.toString(), {
+const request = (path = '/', params = {}) => {
+  const url = API_URL + path
+  return fetch(url, {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json'
@@ -16,4 +15,7 @@ export const request = (pathname, params) => {
   }).then(res => (res.ok ? res.json() : Promise.reject(res)))
 }
 
-export const getAllProducts = () => request('/products')
+export const getAllProducts = params => request('/products', params)
+
+export const getThreads = ({ productCode, lang }, params) =>
+  request(`/threads/${productCode}?hl=${lang}`, params)

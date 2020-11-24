@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useLayoutEffect, useRef } from 'react'
-import { getAllProducts } from '@shared/api'
+import * as api from '@shared/api'
 import { ANSWERS_VIEW, SETTINGS_VIEW, THREADS_VIEW } from '@shared/constants'
 
 import { SwipeableViews } from './popup.styled'
@@ -25,8 +25,7 @@ function Popup() {
   useEffect(() => {
     const init = async () => {
       try {
-        const { products } = await getAllProducts()
-        console.log(products)
+        const { products } = await api.getAllProducts()
         dispatch({
           type: SET_PRODUCTS,
           payload: {
