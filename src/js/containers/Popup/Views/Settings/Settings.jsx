@@ -3,19 +3,24 @@ import { useTranslation } from 'react-i18next'
 import FormControl from '@material-ui/core/FormControl'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormGroup from '@material-ui/core/FormGroup'
+import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
 import Switch from '@material-ui/core/Switch'
 import Typography from '@material-ui/core/Typography'
-import { DARK_THEME } from '@shared/constants'
+import { ANSWERS_VIEW, DARK_THEME, THREADS_VIEW } from '@shared/constants'
 import { handleAnchor } from '@utils/browser'
 
 import { View } from '../views.styled'
 import { MyProfil } from './settings.styled'
 
 import { languages } from '@/js/i18n'
-import { SET_LANG, TOGGLE_THEME } from '@/js/stores/constants/index'
+import {
+  SET_LANG,
+  SET_START_VIEW,
+  TOGGLE_THEME
+} from '@/js/stores/constants/index'
 import { SettingsContext } from '@/js/stores/Settings'
 
 const MenuPropsMaxHeightLang = {
@@ -29,7 +34,6 @@ const MenuPropsMaxHeightLang = {
 function Settings() {
   const [settings, settingsDispatch] = useContext(SettingsContext)
 
-  console.log(settings)
   const { t } = useTranslation()
 
   const handleSwitchTheme = () => {
@@ -38,12 +42,10 @@ function Settings() {
     })
   }
 
-  const handleSelectLang = event => {
+  const handleChangeSettings = (type, payload) => {
     settingsDispatch({
-      type: SET_LANG,
-      payload: {
-        lang: event.target.value
-      }
+      type,
+      payload
     })
   }
 
@@ -82,7 +84,9 @@ function Settings() {
           <Select
             MenuProps={MenuPropsMaxHeightLang}
             value={settings.lang}
-            onChange={handleSelectLang}
+            onChange={event =>
+              handleChangeSettings(SET_LANG, { lang: event.target.value })
+            }
           >
             {Object.keys(languages).map(langKey => (
               <MenuItem key={langKey} value={langKey} component="li">
@@ -99,9 +103,29 @@ function Settings() {
           <InputLabel htmlFor="open-in">{t('openIn')}</InputLabel>
           <Select></Select>
         </FormControl>
-        <FormControl fullWidth required>
+        <FormControl fullWidth required margin="dense">
           <InputLabel htmlFor="start-page">{t('launchPage')}</InputLabel>
-          <Select></Select>
+          <Select
+            value={settings.startView}
+            input={<Input id="start-page" />}
+            onChange={event =>
+              handleChangeSettings(SET_START_VIEW, {
+                startView: event.target.value
+              })
+            }
+            renderValue={() =>
+              settings.startView === ANSWERS_VIEW
+                ? t('searchHelpPage')
+                : t('newPostsPage')
+            }
+          >
+            <MenuItem key={ANSWERS_VIEW} value={ANSWERS_VIEW} component="li">
+              {t('searchHelpPage')}
+            </MenuItem>
+            <MenuItem key={THREADS_VIEW} value={THREADS_VIEW} component="li">
+              {t('newPostsPage')}
+            </MenuItem>
+          </Select>
         </FormControl>
       </form>
       <MyProfil>

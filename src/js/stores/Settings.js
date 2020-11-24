@@ -5,13 +5,19 @@ import React, {
   useReducer
 } from 'react'
 import { useTranslation } from 'react-i18next'
+import {
+  DARK_THEME,
+  DEFAULT_LANGUAGE,
+  DEFAULT_START_VIEW
+} from '@shared/constants'
 import { setBrowserStorage } from '@utils/browser'
 
 import reducer from './reducer/settings.reducer'
 
 export const store = {
-  theme: 'dark',
-  lang: 'en'
+  theme: DARK_THEME,
+  lang: DEFAULT_LANGUAGE,
+  startView: DEFAULT_START_VIEW
 }
 
 export const SettingsContext = createContext()

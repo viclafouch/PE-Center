@@ -3,3 +3,7 @@ export const LIGHT_THEME = 'light'
 export const DEFAULT_THEME = DARK_THEME
 export const DEFAULT_LANGUAGE = 'en'
 export const FALLBACK_LANGUAGE = 'en'
+export const ANSWERS_VIEW = 'ANSWERS_VIEW'
+export const THREADS_VIEW = 'THREADS_VIEW'
+export const SETTINGS_VIEW = 'SETTINGS_VIEW'
+export const DEFAULT_START_VIEW = ANSWERS_VIEW

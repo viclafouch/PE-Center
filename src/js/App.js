@@ -6,21 +6,13 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import muiThemes from '@shared/themes'
 import { DefaultProvider } from '@stores/Default'
-import {
-  SettingsContext,
-  SettingsProvider,
-  store as settingsStore
-} from '@stores/Settings'
+import { SettingsContext, SettingsProvider } from '@stores/Settings'
 import { ThemeProvider } from 'styled-components'
 
 function App(props) {
   return (
     <SettingsProvider initialState={props.settingsInitialStore}>
-      <DefaultProvider
-        initialState={{
-          currentView: 0
-        }}
-      >
+      <DefaultProvider initialState={props.defaultInitialStore}>
         <SettingsContext.Consumer>
           {([settings]) => (
             <MuiThemeProvider theme={muiThemes[settings.theme]}>
@@ -38,23 +30,6 @@ function App(props) {
   )
 }
 
-App.propTypes = {
-  settingsInitialStore: function (props, propName, componentName) {
-    if (!Object.keys(props[propName]).every(key => key in settingsStore)) {
-      console.error({
-        props: props[propName],
-        settingsStore: settingsStore
-      })
-      return new Error(
-        'Invalid prop `' +
-          propName +
-          '` supplied to' +
-          ' `' +
-          componentName +
-          '`. Validation failed.'
-      )
-    }
-  }
-}
+App.propTypes = {}
 
 export default App

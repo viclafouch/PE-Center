@@ -1,4 +1,5 @@
 import React, { useContext, useLayoutEffect, useRef } from 'react'
+import { ANSWERS_VIEW, SETTINGS_VIEW, THREADS_VIEW } from '@shared/constants'
 
 import { SwipeableViews } from './popup.styled'
 import AnswersView from './Views/Answers/Answers'
@@ -12,20 +13,23 @@ function Popup() {
   const swiperRef = useRef()
 
   useLayoutEffect(() => {
-    const transform = `translate(-${state.currentView * 100}%, 0px)`
+    let transformPercent = 0
+    if (state.currentView === THREADS_VIEW) transformPercent = 100
+    else if (state.currentView === SETTINGS_VIEW) transformPercent = 200
+    const transform = `translate(-${transformPercent}%, 0px)`
     swiperRef.current.style.transform = transform
   }, [state.currentView])
 
   return (
     <main>
       <SwipeableViews ref={swiperRef}>
-        <div data-swipeable aria-hidden={state.currentView !== 0}>
+        <div data-swipeable aria-hidden={state.currentView !== ANSWERS_VIEW}>
           <AnswersView />
         </div>
-        <div data-swipeable aria-hidden={state.currentView !== 1}>
+        <div data-swipeable aria-hidden={state.currentView !== THREADS_VIEW}>
           <ThreadsView />
         </div>
-        <div data-swipeable aria-hidden={state.currentView !== 2}>
+        <div data-swipeable aria-hidden={state.currentView !== SETTINGS_VIEW}>
           <SettingsView />
         </div>
       </SwipeableViews>
