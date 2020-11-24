@@ -1,11 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { DEFAULT_THEME } from '@shared/constants'
+import { DEFAULT_LANGUAGE, DEFAULT_THEME } from '@shared/constants'
 import { getBrowserStorage, setBadgeText } from '@utils/browser'
 
 import App from './App'
 
-import '../../i18n'
+import './i18n'
 import '../scss/popup.scss'
 
 async function start() {
@@ -15,6 +15,10 @@ async function start() {
     {
       key: 'theme',
       default: DEFAULT_THEME
+    },
+    {
+      key: 'lang',
+      default: DEFAULT_LANGUAGE
     }
   ])
 

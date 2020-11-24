@@ -4,6 +4,7 @@ import FormControl from '@material-ui/core/FormControl'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormGroup from '@material-ui/core/FormGroup'
 import InputLabel from '@material-ui/core/InputLabel'
+import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
 import Switch from '@material-ui/core/Switch'
 import Typography from '@material-ui/core/Typography'
@@ -13,16 +14,36 @@ import { handleAnchor } from '@utils/browser'
 import { View } from '../views.styled'
 import { MyProfil } from './settings.styled'
 
-import { TOGGLE_THEME } from '@/js/stores/constants/index'
+import { languages } from '@/js/i18n'
+import { SET_LANG, TOGGLE_THEME } from '@/js/stores/constants/index'
 import { SettingsContext } from '@/js/stores/Settings'
+
+const MenuPropsMaxHeightLang = {
+  PaperProps: {
+    style: {
+      maxHeight: 150
+    }
+  }
+}
 
 function Settings() {
   const [settings, settingsDispatch] = useContext(SettingsContext)
+
+  console.log(settings)
   const { t } = useTranslation()
 
   const handleSwitchTheme = () => {
     settingsDispatch({
       type: TOGGLE_THEME
+    })
+  }
+
+  const handleSelectLang = event => {
+    settingsDispatch({
+      type: SET_LANG,
+      payload: {
+        lang: event.target.value
+      }
     })
   }
 
@@ -56,9 +77,19 @@ function Settings() {
             />
           </FormGroup>
         </FormControl>
-        <FormControl fullWidth required>
+        <FormControl fullWidth required margin="dense">
           <InputLabel htmlFor="lang">{t('language')}</InputLabel>
-          <Select></Select>
+          <Select
+            MenuProps={MenuPropsMaxHeightLang}
+            value={settings.lang}
+            onChange={handleSelectLang}
+          >
+            {Object.keys(languages).map(langKey => (
+              <MenuItem key={langKey} value={langKey} component="li">
+                {languages[langKey]}
+              </MenuItem>
+            ))}
+          </Select>
         </FormControl>
         <FormControl fullWidth required>
           <InputLabel htmlFor="max-threads">{t('limitThread')}</InputLabel>

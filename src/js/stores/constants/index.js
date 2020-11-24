@@ -3,3 +3,4 @@ export const SET_CURRENT_VIEW = 'SET_CURRENT_VIEW'
 
 /* SETTINGS REDUCER */
 export const TOGGLE_THEME = 'TOGGLE_THEME'
+export const SET_LANG = 'SET_LANG'
