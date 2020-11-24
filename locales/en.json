@@ -27,6 +27,7 @@
     "launchPage": "Start Page",
     "newPostsPage": "New Posts",
     "searchHelpPage": "Search Help",
+    "communityConsole": "Community Console",
     "error": {
       "unknown": "Something went wrong."
     }

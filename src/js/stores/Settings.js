@@ -7,6 +7,7 @@ import React, {
 import { useTranslation } from 'react-i18next'
 import {
   DARK_THEME,
+  DEFAULT_ANSWER_LINK,
   DEFAULT_LANGUAGE,
   DEFAULT_START_VIEW
 } from '@shared/constants'
@@ -17,7 +18,9 @@ import reducer from './reducer/settings.reducer'
 export const store = {
   theme: DARK_THEME,
   lang: DEFAULT_LANGUAGE,
-  startView: DEFAULT_START_VIEW
+  startView: DEFAULT_START_VIEW,
+  limitThreadsPerProduct: 10,
+  openLinkAnswerIn: DEFAULT_ANSWER_LINK
 }
 
 export const SettingsContext = createContext()

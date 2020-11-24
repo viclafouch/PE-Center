@@ -27,6 +27,7 @@
     "launchPage": "Начальная страница",
     "newPostsPage": "Новые сообщения",
     "searchHelpPage": "Поиск помощи",
+    "communityConsole": "Community Console",
     "error": {
       "unknown": "Что-то пошло не так."
     }

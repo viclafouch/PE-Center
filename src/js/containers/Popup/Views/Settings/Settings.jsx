@@ -9,7 +9,13 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
 import Switch from '@material-ui/core/Switch'
 import Typography from '@material-ui/core/Typography'
-import { ANSWERS_VIEW, DARK_THEME, THREADS_VIEW } from '@shared/constants'
+import {
+  ANSWERS_VIEW,
+  DARK_THEME,
+  PRIVATE_ANSWER_LINK,
+  PUBLIC_ANSWER_LINK,
+  THREADS_VIEW
+} from '@shared/constants'
 import { handleAnchor } from '@utils/browser'
 
 import { View } from '../views.styled'
@@ -18,6 +24,8 @@ import { MyProfil } from './settings.styled'
 import { languages } from '@/js/i18n'
 import {
   SET_LANG,
+  SET_LIMIT_PER_PRODUCT,
+  SET_OPEN_LINK_ANSWER_IN,
   SET_START_VIEW,
   TOGGLE_THEME
 } from '@/js/stores/constants/index'
@@ -33,7 +41,6 @@ const MenuPropsMaxHeightLang = {
 
 function Settings() {
   const [settings, settingsDispatch] = useContext(SettingsContext)
-
   const { t } = useTranslation()
 
   const handleSwitchTheme = () => {
@@ -95,13 +102,46 @@ function Settings() {
             ))}
           </Select>
         </FormControl>
-        <FormControl fullWidth required>
-          <InputLabel htmlFor="max-threads">{t('limitThread')}</InputLabel>
-          <Select></Select>
+        <FormControl fullWidth required margin="dense">
+          <InputLabel htmlFor="limit-threads">{t('limitThread')}</InputLabel>
+          <Select
+            value={settings.limitThreadsPerProduct}
+            onChange={event =>
+              handleChangeSettings(SET_LIMIT_PER_PRODUCT, {
+                limitThreadsPerProduct: parseInt(event.target.value, 10)
+              })
+            }
+            input={<Input id="limit-threads" />}
+          >
+            <MenuItem value={10} component="li">
+              10
+            </MenuItem>
+            <MenuItem value={25} component="li">
+              25
+            </MenuItem>
+            <MenuItem value={50} component="li">
+              50
+            </MenuItem>
+          </Select>
         </FormControl>
-        <FormControl fullWidth required>
+        <FormControl fullWidth required margin="dense">
           <InputLabel htmlFor="open-in">{t('openIn')}</InputLabel>
-          <Select></Select>
+          <Select
+            value={settings.openLinkAnswerIn}
+            onChange={event =>
+              handleChangeSettings(SET_OPEN_LINK_ANSWER_IN, {
+                openLinkAnswerIn: event.target.value
+              })
+            }
+            input={<Input id="open-in" />}
+          >
+            <MenuItem value={PUBLIC_ANSWER_LINK} component="li">
+              PUBLIC_ANSWER_LINK
+            </MenuItem>
+            <MenuItem value={PRIVATE_ANSWER_LINK} component="li">
+              {t('communityConsole')}
+            </MenuItem>
+          </Select>
         </FormControl>
         <FormControl fullWidth required margin="dense">
           <InputLabel htmlFor="start-page">{t('launchPage')}</InputLabel>
@@ -119,10 +159,10 @@ function Settings() {
                 : t('newPostsPage')
             }
           >
-            <MenuItem key={ANSWERS_VIEW} value={ANSWERS_VIEW} component="li">
+            <MenuItem value={ANSWERS_VIEW} component="li">
               {t('searchHelpPage')}
             </MenuItem>
-            <MenuItem key={THREADS_VIEW} value={THREADS_VIEW} component="li">
+            <MenuItem value={THREADS_VIEW} component="li">
               {t('newPostsPage')}
             </MenuItem>
           </Select>
