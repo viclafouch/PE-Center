@@ -1,3 +1,4 @@
+import Box from '@material-ui/core/Box'
 import Container from '@material-ui/core/Container'
 import styled from 'styled-components'
 
@@ -24,4 +25,11 @@ const Intro = styled.div`
   }
 `
 
-export { View, Intro }
+const ViewBoxLoading = styled(Box)`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: ${props => props.theme.spacing(1)}px;
+`
+
+export { View, Intro, ViewBoxLoading }

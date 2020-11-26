@@ -1,11 +1,12 @@
 import React, { useCallback, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import ProductThreadsList from '@components/ProductThreadsList/ProductThreadsList'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import Typography from '@material-ui/core/Typography'
 import { getThreadUrl } from '@utils'
 import { openLink } from '@utils/browser'
 
-import { Intro, View } from '../views.styled'
+import { Intro, View, ViewBoxLoading } from '../views.styled'
 import { ThreadsList, ThreadsListItem } from './threads.styled'
 
 import { DefaultContext } from '@/js/stores/Default'
@@ -54,6 +55,10 @@ function Threads() {
             )
           })}
         </ThreadsList>
+      ) : settings.productsIdSelected.length > 0 ? (
+        <ViewBoxLoading>
+          <CircularProgress size={20} />
+        </ViewBoxLoading>
       ) : (
         <Intro>
           <img
