@@ -14,8 +14,8 @@ import Typography from '@material-ui/core/Typography'
 import {
   ANSWERS_VIEW,
   DARK_THEME,
-  PRIVATE_ANSWER_LINK,
-  PUBLIC_ANSWER_LINK,
+  PRIVATE_THREAD_LINK,
+  PUBLIC_THREAD_LINK,
   THREADS_VIEW
 } from '@shared/constants'
 import { handleAnchor } from '@utils/browser'
@@ -175,18 +175,18 @@ function Settings() {
         <FormControl fullWidth required margin="dense">
           <InputLabel htmlFor="open-in">{t('openIn')}</InputLabel>
           <Select
-            value={settings.openLinkAnswerIn}
+            value={settings.openThreadLinkIn}
             onChange={event =>
               handleChangeSettings(SET_OPEN_LINK_ANSWER_IN, {
-                openLinkAnswerIn: event.target.value
+                openThreadLinkIn: event.target.value
               })
             }
             input={<Input id="open-in" />}
           >
-            <MenuItem value={PUBLIC_ANSWER_LINK} component="li">
-              PUBLIC_ANSWER_LINK
+            <MenuItem value={PUBLIC_THREAD_LINK} component="li">
+              PUBLIC_THREAD_LINK
             </MenuItem>
-            <MenuItem value={PRIVATE_ANSWER_LINK} component="li">
+            <MenuItem value={PRIVATE_THREAD_LINK} component="li">
               {t('communityConsole')}
             </MenuItem>
           </Select>

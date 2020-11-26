@@ -26,7 +26,7 @@ export default produce((draft, action) => {
       draft.limitThreadsPerProduct = action.payload.limitThreadsPerProduct
       break
     case SET_OPEN_LINK_ANSWER_IN:
-      draft.openLinkAnswerIn = action.payload.openLinkAnswerIn
+      draft.openThreadLinkIn = action.payload.openThreadLinkIn
       break
     case SET_PRODUCTS_ID_SELECTED:
       draft.productsIdSelected = action.payload.productsIdSelected

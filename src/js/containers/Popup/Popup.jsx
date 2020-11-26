@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useLayoutEffect, useRef } from 'react'
+import React, { useContext, useEffect, useMemo } from 'react'
 import * as api from '@shared/api'
 import { ANSWERS_VIEW, SETTINGS_VIEW, THREADS_VIEW } from '@shared/constants'
 
@@ -12,14 +12,12 @@ import { DefaultContext } from '@/js/stores/Default'
 
 function Popup() {
   const [state, dispatch] = useContext(DefaultContext)
-  const swiperRef = useRef()
 
-  useLayoutEffect(() => {
+  const transform = useMemo(() => {
     let transformPercent = 0
     if (state.currentView === THREADS_VIEW) transformPercent = 100
     else if (state.currentView === SETTINGS_VIEW) transformPercent = 200
-    const transform = `translate(-${transformPercent}%, 0px)`
-    swiperRef.current.style.transform = transform
+    return `translate(-${transformPercent}%, 0px)`
   }, [state.currentView])
 
   useEffect(() => {
@@ -41,7 +39,7 @@ function Popup() {
 
   return (
     <main>
-      <SwipeableViews ref={swiperRef}>
+      <SwipeableViews style={{ transform }}>
         <div data-swipeable aria-hidden={state.currentView !== ANSWERS_VIEW}>
           <AnswersView />
         </div>

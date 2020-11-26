@@ -1,7 +1,9 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useCallback, useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import ProductThreadsList from '@components/ProductThreadsList/ProductThreadsList'
 import Typography from '@material-ui/core/Typography'
+import { getThreadUrl } from '@utils'
+import { openLink } from '@utils/browser'
 
 import { Intro, View } from '../views.styled'
 import { ThreadsList, ThreadsListItem } from './threads.styled'
@@ -22,6 +24,20 @@ function Threads() {
     [defaultState.products, settings.productsIdSelected]
   )
 
+  const handleClickThread = useCallback(
+    (thread, product) => event => {
+      event.preventDefault()
+      const url = getThreadUrl({
+        threadUuid: thread.uuid,
+        communityId: product.communityId,
+        productCode: product.code,
+        openIn: settings.openThreadLinkIn
+      })
+      openLink(url, '_blank')
+    },
+    [settings]
+  )
+
   return (
     <View className="hide-scrollbar" style={{ padding: 0 }}>
       {products.length > 0 ? (
@@ -29,7 +45,11 @@ function Threads() {
           {products.map(product => {
             return (
               <ThreadsListItem key={product.id}>
-                <ProductThreadsList product={product} lang={settings.lang} />
+                <ProductThreadsList
+                  onClick={handleClickThread}
+                  product={product}
+                  lang={settings.lang}
+                />
               </ThreadsListItem>
             )
           })}

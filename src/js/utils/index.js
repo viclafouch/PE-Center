@@ -1,8 +1,31 @@
+import { PUBLIC_THREAD_LINK } from '@shared/constants'
+
 export const truncateAndReplace = (str = '', maxLength = 130) => {
   let text = str.replace(/&nbsp;/gi, ' ')
   if (text.length > maxLength) text = `${text.slice(0, maxLength)}...`
   return text
 }
+
+export const getThreadUrl = ({
+  openIn,
+  threadUuid,
+  communityId,
+  productCode
+}) => {
+  let url = ''
+  if (openIn === PUBLIC_THREAD_LINK) {
+    url = `https://support.google.com/${productCode}/thread/${threadUuid}`
+  } else {
+    url = `https://support.google.com/s/community/forum/${communityId}/thread/${threadUuid}`
+  }
+  return url
+}
+
+export const getProductLogoByName = (productName, size = 64) =>
+  `/images/products/${productName
+    .toLowerCase()
+    .split(' ')
+    .join('-')}-${size}.png`
 
 export const colors = [
   'rgb(147, 52, 230)',

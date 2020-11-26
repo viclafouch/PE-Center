@@ -14,6 +14,8 @@ const ThreadsList = styled(List)`
     background-color: ${props => props.theme.palette.background.paper};
     position: relative;
     overflow: auto;
+    padding-top: 0;
+    padding-bottom: 0;
   }
 `
 
