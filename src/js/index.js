@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom'
 import { getBrowserStorage, setBadgeText } from '@utils/browser'
 
 import App from './App'
+import initI18n from './i18n'
 import { store as defaultStore } from './stores/Default'
 import { store as settingsStore } from './stores/Settings'
 
-import './i18n'
 import '../scss/popup.scss'
 
 const defaultSettingsItems = Object.keys(settingsStore).map(key => ({
@@ -26,6 +26,8 @@ async function start() {
 
   const settingsStorage = await getBrowserStorage('sync', defaultSettingsItems)
   const defaultStorage = await getBrowserStorage('local', defaultAppItems)
+
+  initI18n(settingsStorage.lang)
 
   ReactDOM.render(
     <App

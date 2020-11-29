@@ -34,7 +34,9 @@ function ProductThreadsList({ product, lang, onClick }) {
           lastUpdate: last_update
         })
       } catch (error) {
-        console.log(error) // TODO
+        if (error.name !== 'AbortError') {
+          console.error(error)
+        }
       } finally {
         setIsLoading(false)
       }

@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import Footer from '@components/Footer/Footer'
 import Header from '@components/Header/Header'
 import * as api from '@shared/api'
 import { ANSWERS_VIEW, SETTINGS_VIEW, THREADS_VIEW } from '@shared/constants'
+import { useSnackbar } from 'notistack'
 import PropTypes from 'prop-types'
 
 import { PopupStyled, SwipeableViews } from './popup.styled'
@@ -14,6 +16,8 @@ import { SET_PRODUCTS } from '@/js/stores/constants/index'
 import { DefaultContext } from '@/js/stores/Default'
 
 function Popup({ initalCurrentView }) {
+  const { enqueueSnackbar } = useSnackbar()
+  const { t } = useTranslation()
   const [state, dispatch] = useContext(DefaultContext)
   const [currentView, setCurrentView] = useState(initalCurrentView)
 
@@ -35,11 +39,16 @@ function Popup({ initalCurrentView }) {
           }
         })
       } catch (error) {
-        console.log(error) // TODO
+        if (error.name !== 'AbortError') {
+          console.error(error)
+          enqueueSnackbar(t('error.unknown'), {
+            variant: 'error'
+          })
+        }
       }
     }
     init()
-  }, [dispatch])
+  }, [dispatch, enqueueSnackbar, t])
 
   return (
     <PopupStyled>

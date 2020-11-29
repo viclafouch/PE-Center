@@ -1,5 +1,5 @@
 import { initReactI18next } from 'react-i18next'
-import { DEFAULT_LANGUAGE, FALLBACK_LANGUAGE } from '@shared/constants'
+import { FALLBACK_LANGUAGE } from '@shared/constants'
 import i18n from 'i18next'
 
 import de from '../../../locales/de.json'
@@ -42,13 +42,14 @@ const resources = {
   ja
 }
 
-i18n.use(initReactI18next).init({
-  resources,
-  lng: DEFAULT_LANGUAGE,
-  fallbackLng: FALLBACK_LANGUAGE,
-  interpolation: {
-    escapeValue: false
-  }
-})
+const initI18n = lang =>
+  i18n.use(initReactI18next).init({
+    resources,
+    lng: lang,
+    fallbackLng: FALLBACK_LANGUAGE,
+    interpolation: {
+      escapeValue: false
+    }
+  })
 
-export default i18n
+export default initI18n

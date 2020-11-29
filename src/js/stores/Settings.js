@@ -39,7 +39,9 @@ export function SettingsProvider({ children, initialState = {} }) {
   }, [state.theme])
 
   useEffect(() => {
-    i18n.changeLanguage(state.lang)
+    if (state.lang !== i18n.language) {
+      i18n.changeLanguage(state.lang)
+    }
   }, [i18n, state.lang])
 
   return (

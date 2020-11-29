@@ -6,6 +6,7 @@ import muiThemes from '@shared/themes'
 import { AnswersProvider } from '@stores/Answers'
 import { DefaultProvider } from '@stores/Default'
 import { SettingsContext, SettingsProvider } from '@stores/Settings'
+import { SnackbarProvider } from 'notistack'
 import { ThemeProvider } from 'styled-components'
 
 function App(props) {
@@ -17,10 +18,18 @@ function App(props) {
             {([settings]) => (
               <MuiThemeProvider theme={muiThemes[settings.theme]}>
                 <ThemeProvider theme={muiThemes[settings.theme]}>
-                  <CssBaseline />
-                  <Popup
-                    initalCurrentView={props.settingsInitialStore.startView}
-                  />
+                  <SnackbarProvider
+                    maxSnack={1}
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'center'
+                    }}
+                  >
+                    <CssBaseline />
+                    <Popup
+                      initalCurrentView={props.settingsInitialStore.startView}
+                    />
+                  </SnackbarProvider>
                 </ThemeProvider>
               </MuiThemeProvider>
             )}

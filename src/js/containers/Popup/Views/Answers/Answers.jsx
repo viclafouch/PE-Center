@@ -12,12 +12,14 @@ import { RESET_ANSWERS, SET_ANSWERS, SET_IS_SEARCHING } from '@stores/constants'
 import { DefaultContext } from '@stores/Default'
 import { SettingsContext } from '@stores/Settings'
 import { getProductLogoByName } from '@utils'
+import { useSnackbar } from 'notistack'
 import { useDebouncedCallback } from 'use-debounce'
 
 import { Intro, View, ViewBoxLoading } from '../views.styled'
 import { BlockBottom, NoResultBox } from './answers.styled'
 
 function AnswersView() {
+  const { enqueueSnackbar } = useSnackbar()
   const { t } = useTranslation()
   const [defaultState] = useContext(DefaultContext)
   const [answersState, answersDispatch] = useContext(AnswersContext)
@@ -47,7 +49,12 @@ function AnswersView() {
         }
       })
     } catch (error) {
-      console.log(error) // TODO
+      if (error.name !== 'AbortError') {
+        console.error(error)
+        enqueueSnackbar(t('error.unknown'), {
+          variant: 'error'
+        })
+      }
     } finally {
       answersDispatch({
         type: SET_IS_SEARCHING,

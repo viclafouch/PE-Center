@@ -75,7 +75,6 @@ function Threads() {
           </Typography>
         </Intro>
       )}
-      <div></div>
     </View>
   )
 }
