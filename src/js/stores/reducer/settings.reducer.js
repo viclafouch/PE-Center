@@ -11,10 +11,10 @@ import {
 } from '../constants'
 
 export default produce((draft, action) => {
+  const currentState = original(draft)
   switch (action.type) {
     case TOGGLE_THEME:
-      draft.theme =
-        original(draft).theme === DARK_THEME ? LIGHT_THEME : DARK_THEME
+      draft.theme = currentState.theme === DARK_THEME ? LIGHT_THEME : DARK_THEME
       break
     case SET_LANG:
       draft.lang = action.payload.lang

@@ -40,7 +40,7 @@ function Threads() {
   )
 
   return (
-    <View className="hide-scrollbar" style={{ padding: 0 }}>
+    <View className="hide-scrollbar">
       {products.length > 0 ? (
         <ThreadsList subheader={<li />}>
           {products.map(product => {

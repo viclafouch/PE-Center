@@ -9,6 +9,7 @@ const PaperStyled = styled(Paper)`
     align-items: center;
     width: 100%;
     border-radius: 0;
+    z-index: 99;
   }
 `
 

@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import Icon from '@material-ui/core/Icon'
-import ListItem from '@material-ui/core/ListItem'
+import MuiListItem from '@material-ui/core/ListItem'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import ListItemText from '@material-ui/core/ListItemText'
-import { getRandomColor } from '@utils'
-import { truncateAndReplace } from '@utils/index'
+import { getRandomColor, truncateAndReplace } from '@utils'
 
 import {
   Description,
@@ -13,11 +12,11 @@ import {
   UserAvatar
 } from './list-item.styled'
 
-function Row({ title, img, description, ...restProps }) {
+function ListItem({ title, img, description, ...restProps }) {
   const [avatarColor] = useState(() => getRandomColor(title))
 
   return (
-    <ListItem alignItems="center" {...restProps}>
+    <MuiListItem alignItems="center" {...restProps}>
       <ListItemAvatar>
         {img ? (
           <ProductAvatar src={img} alt={title} />
@@ -41,8 +40,8 @@ function Row({ title, img, description, ...restProps }) {
           </Description>
         }
       />
-    </ListItem>
+    </MuiListItem>
   )
 }
 
-export default Row
+export default ListItem

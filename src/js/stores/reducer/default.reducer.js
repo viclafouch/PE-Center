@@ -7,12 +7,13 @@ import {
 } from '../constants'
 
 export default produce((draft, action) => {
+  const currentState = original(draft)
   switch (action.type) {
     case SET_CURRENT_VIEW:
       draft.currentView = action.payload.currentView
       break
     case TOGGLE_NOTIFICATIONS:
-      draft.enableNotifications = !original(draft).enableNotifications
+      draft.enableNotifications = !currentState.enableNotifications
       break
     case SET_PRODUCTS:
       draft.products = action.payload.products

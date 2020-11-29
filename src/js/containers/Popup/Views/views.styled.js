@@ -8,6 +8,7 @@ const View = styled(Container)`
   position: relative;
 
   && {
+    padding: 0;
     display: flex;
     flex-direction: column;
   }
@@ -23,11 +24,16 @@ const Intro = styled.div`
     text-align: center;
     justify-content: center;
   }
+
+  img {
+    margin-bottom: ${props => props.theme.spacing(1)}px;
+  }
 `
 
 const ViewBoxLoading = styled(Box)`
   display: flex;
   justify-content: center;
+  text-align: center;
   width: 100%;
   margin-top: ${props => props.theme.spacing(1)}px;
 `

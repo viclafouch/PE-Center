@@ -6,5 +6,8 @@
   },
   "env": {
     "jest": true
+  },
+  "rules": {
+    "jsx-a11y/no-autofocus": 0
   }
 }

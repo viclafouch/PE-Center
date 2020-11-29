@@ -19,3 +19,18 @@ export const getAllProducts = params => request('/products', params)
 
 export const getThreads = ({ productCode, lang }, params) =>
   request(`/threads/${productCode}?hl=${lang}`, params)
+
+export const searchAnswers = (
+  { productsId, lang, page, search },
+  params = {}
+) =>
+  request(`/answers`, {
+    method: 'POST',
+    body: JSON.stringify({
+      hl: lang,
+      page: page,
+      search: search,
+      products_id: productsId
+    }),
+    ...params
+  })

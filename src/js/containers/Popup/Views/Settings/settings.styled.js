@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const FormStyled = styled.form`
-  padding: ${props => props.theme.spacing(1, 0)};
+  padding: ${props => props.theme.spacing(1, 2)};
 `
 
 const MyProfil = styled.div`
