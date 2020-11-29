@@ -4,7 +4,7 @@ import Box from '@material-ui/core/Box'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import * as api from '@shared/api'
-import { getProductLogoByName } from '@utils/index'
+import { getProductLogoByName } from '@utils'
 import PropTypes from 'prop-types'
 
 import {

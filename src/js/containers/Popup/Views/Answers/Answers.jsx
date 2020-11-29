@@ -1,5 +1,6 @@
-import React, { useContext, useEffect, useRef } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import AnswerDialog from '@components/AnswerDialog/AnswerDialog'
 import ListItem from '@components/ListItem/ListItem'
 import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -23,6 +24,7 @@ function AnswersView() {
   const [settings] = useContext(SettingsContext)
   const { searchValue, isSearching, answers, page, hasNextPage } = answersState
   const { productsIdSelected, lang } = settings
+  const [answerSelected, setAnswerSelected] = useState(null)
   const controller = useRef(null)
 
   const fetchAnswers = useDebouncedCallback(async params => {
@@ -97,61 +99,61 @@ function AnswersView() {
     }
   }, [answersDispatch, fetchAnswers, lang, searchValue, productsIdSelected])
 
+  const getProductLogo = answer => {
+    const product = defaultState.products.find(p => p.id === answer.ProductId)
+    return getProductLogoByName(product.name)
+  }
+
   const hasAnswers = answers.length > 0
   const showNoResult = !isSearching && !hasAnswers && searchValue
   const showLoadMore = !isSearching && hasNextPage && hasAnswers
 
+  let content
   if (productsIdSelected.length === 0) {
-    return (
-      <View className="hide-scrollbar">
-        <Intro>
-          <img
-            src="/images/super-hero.svg"
-            alt="Choose product"
-            width="160"
-            height="130"
-          />
-          <Typography component="h1" variant="h6">
-            Aucun produit séléctionné
-          </Typography>
-          <Typography component="p" variant="body2">
-            {t('chooseProduct')}
-          </Typography>
-        </Intro>
-      </View>
+    content = (
+      <Intro>
+        <img
+          src="/images/super-hero.svg"
+          alt="Choose product"
+          width="160"
+          height="130"
+        />
+        <Typography component="h1" variant="h6">
+          Aucun produit séléctionné
+        </Typography>
+        <Typography component="p" variant="body2">
+          {t('chooseProduct')}
+        </Typography>
+      </Intro>
     )
   } else if (!searchValue && !isSearching) {
-    return (
-      <View className="hide-scrollbar">
-        <Intro>
-          <img
-            src="/images/search-files.svg"
-            alt="Search answers"
-            width="160"
-            height="130"
-          />
-          <Typography component="h1" variant="h6">
-            {t('searchTitle')}
-          </Typography>
-          <Typography component="p" variant="body2">
-            {t('searchIntro')}
-          </Typography>
-        </Intro>
-      </View>
+    content = (
+      <Intro>
+        <img
+          src="/images/search-files.svg"
+          alt="Search answers"
+          width="160"
+          height="130"
+        />
+        <Typography component="h1" variant="h6">
+          {t('searchTitle')}
+        </Typography>
+        <Typography component="p" variant="body2">
+          {t('searchIntro')}
+        </Typography>
+      </Intro>
     )
   } else if (showNoResult) {
-    return (
-      <View className="hide-scrollbar">
-        <NoResultBox>
-          <Typography component="p" variant="body2">
-            {t('noResult')}
-          </Typography>
-        </NoResultBox>
-      </View>
+    content = (
+      <NoResultBox>
+        <Typography component="p" variant="body2">
+          {t('noResult')}
+        </Typography>
+      </NoResultBox>
     )
   } else {
-    return (
-      <View className="hide-scrollbar">
+    content = (
+      <>
         {hasAnswers && (
           <List>
             {answers.map(answer => {
@@ -166,6 +168,7 @@ function AnswersView() {
                   key={answer.id}
                   description={answer.description}
                   title={answer.title}
+                  onClick={() => setAnswerSelected(answer)}
                 />
               )
             })}
@@ -182,9 +185,21 @@ function AnswersView() {
             </Button>
           </BlockBottom>
         ) : null}
-      </View>
+      </>
     )
   }
+
+  return (
+    <View className="hide-scrollbar">
+      {content}
+      <AnswerDialog
+        open={Boolean(answerSelected)}
+        title={answerSelected ? answerSelected.title : ''}
+        productLogo={answerSelected ? getProductLogo(answerSelected) : ''}
+        onClose={() => setAnswerSelected(null)}
+      />
+    </View>
+  )
 }
 
 AnswersView.propTypes = {}
