@@ -27,9 +27,12 @@
     "launchPage": "Page de démarrage",
     "newPostsPage": "Nouveaux messages",
     "searchHelpPage": "Recherche d'aides",
-    "communityConsole": "Community Console",
     "error": {
-      "unknown": "Une erreur est survenue."
+      "unknown": "Une erreur est survenue.",
+      "offline": {
+        "title": "Pas de connexion",
+        "description": "PE Center ne peut pas accéder à Internet. Vérifiez votre connexion."
+      }
     }
   }
 }

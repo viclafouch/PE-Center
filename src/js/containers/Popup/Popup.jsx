@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Footer from '@components/Footer/Footer'
 import Header from '@components/Header/Header'
+import Offline from '@components/Offline/Offline'
 import * as api from '@shared/api'
 import { ANSWERS_VIEW, SETTINGS_VIEW, THREADS_VIEW } from '@shared/constants'
 import { useSnackbar } from 'notistack'
@@ -12,6 +13,7 @@ import AnswersView from './Views/Answers/Answers'
 import SettingsView from './Views/Settings/Settings'
 import ThreadsView from './Views/Threads/Threads'
 
+import useNetwork from '@/js/hooks/use-network'
 import { SET_PRODUCTS } from '@/js/stores/constants/index'
 import { DefaultContext } from '@/js/stores/Default'
 
@@ -20,6 +22,15 @@ function Popup({ initalCurrentView }) {
   const { t } = useTranslation()
   const [state, dispatch] = useContext(DefaultContext)
   const [currentView, setCurrentView] = useState(initalCurrentView)
+  const [isOnline] = useNetwork()
+
+  useEffect(() => {
+    if (!isOnline) {
+      enqueueSnackbar(t('error.offline.title'), {
+        variant: 'error'
+      })
+    }
+  }, [isOnline, enqueueSnackbar, t])
 
   const transform = useMemo(() => {
     let transformPercent = 0
@@ -47,26 +58,43 @@ function Popup({ initalCurrentView }) {
         }
       }
     }
-    init()
-  }, [dispatch, enqueueSnackbar, t])
+    if (isOnline) {
+      init()
+    }
+  }, [dispatch, enqueueSnackbar, t, isOnline])
 
   return (
     <PopupStyled>
-      <Header setCurrentView={setCurrentView} />
-      <main role="main">
-        <SwipeableViews style={{ transform }}>
-          <div data-swipeable aria-hidden={state.currentView !== ANSWERS_VIEW}>
-            <AnswersView />
-          </div>
-          <div data-swipeable aria-hidden={state.currentView !== THREADS_VIEW}>
-            <ThreadsView />
-          </div>
-          <div data-swipeable aria-hidden={state.currentView !== SETTINGS_VIEW}>
-            <SettingsView />
-          </div>
-        </SwipeableViews>
-      </main>
-      <Footer currentView={currentView} setCurrentView={setCurrentView} />
+      {isOnline ? (
+        <>
+          <Header setCurrentView={setCurrentView} />
+          <main role="main">
+            <SwipeableViews style={{ transform }}>
+              <div
+                data-swipeable
+                aria-hidden={state.currentView !== ANSWERS_VIEW}
+              >
+                <AnswersView />
+              </div>
+              <div
+                data-swipeable
+                aria-hidden={state.currentView !== THREADS_VIEW}
+              >
+                <ThreadsView />
+              </div>
+              <div
+                data-swipeable
+                aria-hidden={state.currentView !== SETTINGS_VIEW}
+              >
+                <SettingsView />
+              </div>
+            </SwipeableViews>
+          </main>
+          <Footer currentView={currentView} setCurrentView={setCurrentView} />
+        </>
+      ) : (
+        <Offline />
+      )}
     </PopupStyled>
   )
 }

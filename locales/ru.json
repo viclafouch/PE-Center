@@ -29,7 +29,11 @@
     "searchHelpPage": "Поиск помощи",
     "communityConsole": "Community Console",
     "error": {
-      "unknown": "Что-то пошло не так."
+      "unknown": "Что-то пошло не так.",
+      "offline": {
+        "title": "Нет связи",
+        "description": "PE Center не может подключиться к Интернету. Проверьте ваше соединение."
+      }
     }
   }
 }

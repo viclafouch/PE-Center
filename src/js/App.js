@@ -7,6 +7,7 @@ import { AnswersProvider } from '@stores/Answers'
 import { DefaultProvider } from '@stores/Default'
 import { SettingsContext, SettingsProvider } from '@stores/Settings'
 import { SnackbarProvider } from 'notistack'
+import PropTypes from 'prop-types'
 import { ThemeProvider } from 'styled-components'
 
 function App(props) {
@@ -40,6 +41,9 @@ function App(props) {
   )
 }
 
-App.propTypes = {}
+App.propTypes = {
+  settingsInitialStore: PropTypes.object.isRequired,
+  defaultInitialStore: PropTypes.object.isRequired
+}
 
 export default App

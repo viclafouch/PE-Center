@@ -29,7 +29,11 @@
     "searchHelpPage": "Suchhilfe",
     "communityConsole": "Community Console",
     "error": {
-      "unknown": "Etwas ist schief gelaufen."
+      "unknown": "Etwas ist schief gelaufen.",
+      "offline": {
+        "title": "Keine verbindung",
+        "description": "PE Center kann das Internet nicht erreichen. Überprüfen Sie Ihre Verbindung."
+      }
     }
   }
 }

@@ -29,7 +29,11 @@
     "searchHelpPage": "Szukanie pomocy",
     "communityConsole": "Community Console",
     "error": {
-      "unknown": "Coś poszło nie tak."
+      "unknown": "Coś poszło nie tak.",
+      "offline": {
+        "title": "Brak połączenia",
+        "description": "PE Center nie może połączyć się z Internetem. Sprawdź połączenie."
+      }
     }
   }
 }

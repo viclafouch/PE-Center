@@ -29,7 +29,11 @@
    "searchHelpPage": "Пошук довідки",
    "communityConsole": "Community Console",
    "error": {
-     "unknown": "Халепа! Щось зламалося."
+     "unknown": "Халепа! Щось зламалося.",
+     "offline": {
+      "title": "Немає з'єднання",
+      "description": "PE Center не може отримати доступ до Інтернету. Перевірте з’єднання."
+    }
    }
  }
 }

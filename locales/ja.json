@@ -29,7 +29,11 @@
     "searchHelpPage": "ヘルプ検索",
     "communityConsole": "Community Console",
     "error": {
-      "unknown": "問題が発生しました。"
+      "unknown": "問題が発生しました。",
+      "offline": {
+        "title": "接続なし",
+        "description": "PE Centerがインターネットに接続できない。接続を確認してください。"
+      }
     }
   }
 }

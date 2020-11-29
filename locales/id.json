@@ -29,7 +29,11 @@
     "searchHelpPage": "Cari bantuan",
     "communityConsole": "Community Console",
     "error": {
-      "unknown": "Ada yang salah."
+      "unknown": "Ada yang salah.",
+      "offline": {
+        "title": "Nessun collegamento",
+        "description": "PE Center non può raggiungere internet. Controlla la tua connessione."
+      }
     }
   }
 }

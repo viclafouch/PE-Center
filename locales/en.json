@@ -29,7 +29,11 @@
     "searchHelpPage": "Search Help",
     "communityConsole": "Community Console",
     "error": {
-      "unknown": "Something went wrong."
+      "unknown": "Something went wrong.",
+      "offline": {
+        "title": "No connection",
+        "description": "PE Center can't reach the internet. Check your connection."
+      }
     }
   }
 }

@@ -29,7 +29,11 @@
     "searchHelpPage": "Arama yardımı",
     "communityConsole": "Community Console",
     "error": {
-      "unknown": "Bir şeyler ters gitti."
+      "unknown": "Bir şeyler ters gitti.",
+      "offline": {
+        "title": "Bağlantı yok",
+        "description": "PE Center internete bağlanamıyor. Bağlantınızı kontrol edin."
+      }
     }
   }
 }

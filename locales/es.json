@@ -29,7 +29,11 @@
     "searchHelpPage": "Buscar ayuda",
     "communityConsole": "Community Console",
     "error": {
-      "unknown": "Algo salió mal."
+      "unknown": "Algo salió mal.",
+      "offline": {
+        "title": "No hay conexión",
+        "description": "PE Center no puede acceder a Internet. Comprueba tu conexión."
+      }
     }
   }
 }
