@@ -4,8 +4,7 @@ import {
   RESET_ANSWERS,
   SET_ANSWERS,
   SET_IS_SEARCHING,
-  SET_SEARCH_VALUE,
-  SHOW_MORE
+  SET_SEARCH_VALUE
 } from '../constants'
 
 export default produce((draft, action) => {
@@ -13,10 +12,6 @@ export default produce((draft, action) => {
   switch (action.type) {
     case SET_IS_SEARCHING:
       draft.isSearching = action.payload.isSearching
-      break
-    case SHOW_MORE:
-      draft.page = currentState.page + 1
-      draft.isSearching = true
       break
     case RESET_ANSWERS:
       draft.answers = []
@@ -28,6 +23,7 @@ export default produce((draft, action) => {
       break
     case SET_ANSWERS:
       draft.answers = [...currentState.answers, ...action.payload.answers]
+      draft.page = action.payload.page
       draft.hasNextPage = action.payload.hasNextPage
       break
   }

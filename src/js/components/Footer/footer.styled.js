@@ -4,6 +4,7 @@ import styled from 'styled-components'
 const StyledPaper = styled(Paper)`
   && {
     border-radius: 0;
+    flex-shrink: 0;
   }
 `
 

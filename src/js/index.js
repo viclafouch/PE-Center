@@ -27,8 +27,6 @@ async function start() {
   const settingsStorage = await getBrowserStorage('sync', defaultSettingsItems)
   const defaultStorage = await getBrowserStorage('local', defaultAppItems)
 
-  defaultStorage.currentView = settingsStorage.startView
-
   ReactDOM.render(
     <App
       settingsInitialStore={settingsStorage}

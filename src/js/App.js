@@ -1,6 +1,4 @@
 import React from 'react'
-import Footer from '@components/Footer/Footer'
-import Header from '@components/Header/Header'
 import Popup from '@containers/Popup/Popup'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { MuiThemeProvider } from '@material-ui/core/styles'
@@ -20,9 +18,9 @@ function App(props) {
               <MuiThemeProvider theme={muiThemes[settings.theme]}>
                 <ThemeProvider theme={muiThemes[settings.theme]}>
                   <CssBaseline />
-                  <Header />
-                  <Popup />
-                  <Footer />
+                  <Popup
+                    initalCurrentView={props.settingsInitialStore.startView}
+                  />
                 </ThemeProvider>
               </MuiThemeProvider>
             )}

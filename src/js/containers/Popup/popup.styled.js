@@ -1,5 +1,11 @@
 import styled from 'styled-components'
 
+const PopupStyled = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+`
+
 const SwipeableViews = styled.div`
   display: flex;
   flex-direction: row;
@@ -12,4 +18,4 @@ const SwipeableViews = styled.div`
     flex-shrink: 0;
   }
 `
-export { SwipeableViews }
+export { PopupStyled, SwipeableViews }

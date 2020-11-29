@@ -35,7 +35,7 @@ const ViewBoxLoading = styled(Box)`
   justify-content: center;
   text-align: center;
   width: 100%;
-  margin-top: ${props => props.theme.spacing(1)}px;
+  margin: ${props => props.theme.spacing(1, 0)};
 `
 
 export { View, Intro, ViewBoxLoading }

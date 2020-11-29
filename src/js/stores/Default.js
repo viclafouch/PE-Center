@@ -1,11 +1,9 @@
 import React, { createContext, useEffect, useMemo, useReducer } from 'react'
-import { DEFAULT_START_VIEW } from '@shared/constants'
 import { setBrowserStorage } from '@utils/browser'
 
 import reducer from './reducer/default.reducer'
 
 export const store = {
-  currentView: DEFAULT_START_VIEW,
   enableNotifications: false,
   products: []
 }

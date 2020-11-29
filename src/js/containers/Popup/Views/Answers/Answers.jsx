@@ -5,14 +5,9 @@ import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import List from '@material-ui/core/List'
 import Typography from '@material-ui/core/Typography'
-import { searchAnswers } from '@shared/api'
+import * as api from '@shared/api'
 import { AnswersContext } from '@stores/Answers'
-import {
-  RESET_ANSWERS,
-  SET_ANSWERS,
-  SET_IS_SEARCHING,
-  SHOW_MORE
-} from '@stores/constants'
+import { RESET_ANSWERS, SET_ANSWERS, SET_IS_SEARCHING } from '@stores/constants'
 import { DefaultContext } from '@stores/Default'
 import { SettingsContext } from '@stores/Settings'
 import { getProductLogoByName } from '@utils'
@@ -32,7 +27,7 @@ function AnswersView() {
 
   const fetchAnswers = useDebouncedCallback(async params => {
     try {
-      const { answers, nb_pages } = await searchAnswers(
+      const { answers, nb_pages } = await api.searchAnswers(
         {
           productsId: params.productsIdSelected,
           search: params.search,
@@ -45,6 +40,7 @@ function AnswersView() {
         type: SET_ANSWERS,
         payload: {
           hasNextPage: params.page < nb_pages,
+          page: params.page,
           answers: answers
         }
       })
@@ -53,31 +49,38 @@ function AnswersView() {
     } finally {
       answersDispatch({
         type: SET_IS_SEARCHING,
-        payload: {
-          isSearching: false
-        }
+        payload: { isSearching: false }
       })
     }
   }, 1000)
 
   const handleShowMore = event => {
     event.preventDefault()
-    answersDispatch({ type: SHOW_MORE })
+    answersDispatch({
+      type: SET_IS_SEARCHING,
+      payload: { isSearching: true }
+    })
+    fetchAnswers.callback({
+      lang,
+      search: searchValue,
+      productsIdSelected,
+      page: page + 1
+    })
   }
 
   useEffect(() => {
     const hasProductsSelected = productsIdSelected.length > 0
     if (hasProductsSelected && searchValue) {
+      controller.current = new AbortController()
       answersDispatch({
         type: SET_IS_SEARCHING,
         payload: { isSearching: true }
       })
-      controller.current = new AbortController()
       fetchAnswers.callback({
         lang,
         search: searchValue,
         productsIdSelected,
-        page
+        page: 1
       })
     } else {
       answersDispatch({
@@ -88,18 +91,11 @@ function AnswersView() {
 
     return () => {
       answersDispatch({ type: RESET_ANSWERS })
-      if (!controller.current?.signal.aborted) {
+      if (controller.current?.signal.aborted === false) {
         controller.current.abort()
       }
     }
-  }, [
-    answersDispatch,
-    fetchAnswers,
-    lang,
-    searchValue,
-    productsIdSelected,
-    page
-  ])
+  }, [answersDispatch, fetchAnswers, lang, searchValue, productsIdSelected])
 
   const hasAnswers = answers.length > 0
   const showNoResult = !isSearching && !hasAnswers && searchValue

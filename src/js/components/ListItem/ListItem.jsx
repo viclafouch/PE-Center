@@ -4,6 +4,7 @@ import MuiListItem from '@material-ui/core/ListItem'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import ListItemText from '@material-ui/core/ListItemText'
 import { getRandomColor, truncateAndReplace } from '@utils'
+import PropTypes from 'prop-types'
 
 import {
   Description,
@@ -42,6 +43,18 @@ function ListItem({ title, img, description, ...restProps }) {
       />
     </MuiListItem>
   )
+}
+
+ListItem.propTypes = {
+  title: PropTypes.string,
+  description: PropTypes.string,
+  img: PropTypes.string
+}
+
+ListItem.defaultProps = {
+  title: '',
+  description: '',
+  img: ''
 }
 
 export default ListItem

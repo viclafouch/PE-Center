@@ -1,12 +1,11 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Tab from '@material-ui/core/Tab'
 import Tabs from '@material-ui/core/Tabs'
 import AssignmentIcon from '@material-ui/icons/Assignment'
 import RssFeedIcon from '@material-ui/icons/RssFeed'
 import SettingsIcon from '@material-ui/icons/Settings'
 import { ANSWERS_VIEW, SETTINGS_VIEW, THREADS_VIEW } from '@shared/constants'
-import { SET_CURRENT_VIEW } from '@stores/constants/index'
-import { DefaultContext } from '@stores/Default'
+import PropTypes from 'prop-types'
 
 import { StyledPaper } from './footer.styled'
 
@@ -17,18 +16,7 @@ function a11yProps(index, ariaLabel) {
   }
 }
 
-function Footer() {
-  const [{ currentView }, dispatch] = useContext(DefaultContext)
-
-  const handleChangeTab = (event, value) => {
-    dispatch({
-      type: SET_CURRENT_VIEW,
-      payload: {
-        currentView: value
-      }
-    })
-  }
-
+function Footer({ setCurrentView, currentView }) {
   return (
     <StyledPaper square>
       <Tabs
@@ -36,7 +24,7 @@ function Footer() {
         indicatorColor="secondary"
         textColor="secondary"
         value={currentView}
-        onChange={handleChangeTab}
+        onChange={(event, value) => setCurrentView(value)}
         aria-label="scrollable force tabs example"
       >
         <Tab
@@ -59,6 +47,10 @@ function Footer() {
   )
 }
 
-Footer.propTypes = {}
+Footer.propTypes = {
+  setCurrentView: PropTypes.func.isRequired,
+  currentView: PropTypes.oneOf([ANSWERS_VIEW, THREADS_VIEW, SETTINGS_VIEW])
+    .isRequired
+}
 
 export default Footer
