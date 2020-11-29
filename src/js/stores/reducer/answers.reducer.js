@@ -25,7 +25,6 @@ export default produce((draft, action) => {
       break
     case SET_SEARCH_VALUE:
       draft.searchValue = action.payload.searchValue
-      draft.isSearching = action.payload.isSearching
       break
     case SET_ANSWERS:
       draft.answers = [...currentState.answers, ...action.payload.answers]

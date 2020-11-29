@@ -6,7 +6,7 @@
     "paths": {
       "@components/*": ["src/js/components/*"],
       "@styled/*": ["src/js/styled/*"],
-      "@stores/*": ["src/js/store/*"],
+      "@stores/*": ["src/js/stores/*"],
       "@containers/*": ["src/js/containers/*"],
       "@shared/*": ["src/js/shared/*"],
       "@utils/*": ["src/js/utils/*"],

@@ -66,20 +66,30 @@ function AnswersView() {
   }
 
   useEffect(() => {
-    controller.current = new AbortController()
     const hasProductsSelected = productsIdSelected.length > 0
     if (hasProductsSelected && searchValue) {
-      answersDispatch({ type: RESET_ANSWERS })
+      answersDispatch({
+        type: SET_IS_SEARCHING,
+        payload: { isSearching: true }
+      })
+      controller.current = new AbortController()
       fetchAnswers.callback({
         lang,
         search: searchValue,
         productsIdSelected,
-        page: page
+        page
       })
-      return () => {
-        if (!controller.current?.signal.aborted) {
-          controller.current.abort()
-        }
+    } else {
+      answersDispatch({
+        type: SET_IS_SEARCHING,
+        payload: { isSearching: false }
+      })
+    }
+
+    return () => {
+      answersDispatch({ type: RESET_ANSWERS })
+      if (!controller.current?.signal.aborted) {
+        controller.current.abort()
       }
     }
   }, [
@@ -100,7 +110,7 @@ function AnswersView() {
       <View className="hide-scrollbar">
         <Intro>
           <img
-            src="/images/undraw_superhero_kguv.svg"
+            src="/images/super-hero.svg"
             alt="Choose product"
             width="160"
             height="130"
