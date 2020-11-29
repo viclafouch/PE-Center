@@ -26,8 +26,8 @@ function Threads() {
   )
 
   const handleClickThread = useCallback(
-    (thread, product) => event => {
-      event.preventDefault()
+    thread => {
+      const product = products.find(p => p.id === thread.ProductId)
       const url = getThreadUrl({
         threadUuid: thread.uuid,
         communityId: product.communityId,
@@ -36,7 +36,7 @@ function Threads() {
       })
       openLink(url, '_blank')
     },
-    [settings]
+    [settings, products]
   )
 
   return (

@@ -16,7 +16,7 @@ const View = styled(Container)`
 
 const Intro = styled.div`
   && {
-    padding: ${props => props.theme.spacing(1, 1)};
+    padding: ${props => props.theme.spacing(1, 2)};
     flex-grow: 1;
     display: flex;
     flex-direction: column;

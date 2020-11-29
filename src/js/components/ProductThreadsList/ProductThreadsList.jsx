@@ -61,7 +61,8 @@ function ProductThreadsList({ product, lang, onClick }) {
       {threads.items.map(item => (
         <ListItem
           button
-          onClick={onClick(item, product)}
+          onClick={onClick}
+          item={item}
           key={item.id}
           description={item.description}
           title={item.title}

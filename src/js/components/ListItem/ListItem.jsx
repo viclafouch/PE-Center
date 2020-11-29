@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { memo, useState } from 'react'
 import Icon from '@material-ui/core/Icon'
 import MuiListItem from '@material-ui/core/ListItem'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
@@ -13,11 +13,16 @@ import {
   UserAvatar
 } from './list-item.styled'
 
-function ListItem({ title, img, description, ...restProps }) {
+function ListItem({ title, img, description, item, onClick, ...restProps }) {
   const [avatarColor] = useState(() => getRandomColor(title))
 
+  const handleClick = event => {
+    event.preventDefault()
+    onClick(item)
+  }
+
   return (
-    <MuiListItem alignItems="center" {...restProps}>
+    <MuiListItem alignItems="center" onClick={handleClick} {...restProps}>
       <ListItemAvatar>
         {img ? (
           <ProductAvatar src={img} alt={title} />
@@ -57,4 +62,4 @@ ListItem.defaultProps = {
   img: ''
 }
 
-export default ListItem
+export default memo(ListItem)

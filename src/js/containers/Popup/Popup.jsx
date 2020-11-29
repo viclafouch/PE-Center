@@ -5,6 +5,8 @@ import Header from '@components/Header/Header'
 import Offline from '@components/Offline/Offline'
 import * as api from '@shared/api'
 import { ANSWERS_VIEW, SETTINGS_VIEW, THREADS_VIEW } from '@shared/constants'
+import { SET_PRODUCTS } from '@stores/constants'
+import { DefaultContext } from '@stores/Default'
 import { useSnackbar } from 'notistack'
 import PropTypes from 'prop-types'
 
@@ -14,8 +16,6 @@ import SettingsView from './Views/Settings/Settings'
 import ThreadsView from './Views/Threads/Threads'
 
 import useNetwork from '@/js/hooks/use-network'
-import { SET_PRODUCTS } from '@/js/stores/constants/index'
-import { DefaultContext } from '@/js/stores/Default'
 
 function Popup({ initalCurrentView }) {
   const { enqueueSnackbar } = useSnackbar()

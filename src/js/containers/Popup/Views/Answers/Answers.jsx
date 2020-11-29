@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import AnswerDialog from '@components/AnswerDialog/AnswerDialog'
 import ListItem from '@components/ListItem/ListItem'
@@ -111,6 +117,10 @@ function AnswersView() {
     return getProductLogoByName(product.name)
   }
 
+  const handleClickAnswer = useCallback(answer => {
+    setAnswerSelected(answer)
+  }, [])
+
   const hasAnswers = answers.length > 0
   const showNoResult = !isSearching && !hasAnswers && searchValue
   const showLoadMore = !isSearching && hasNextPage && hasAnswers
@@ -175,7 +185,8 @@ function AnswersView() {
                   key={answer.id}
                   description={answer.description}
                   title={answer.title}
-                  onClick={() => setAnswerSelected(answer)}
+                  onClick={handleClickAnswer}
+                  item={answer}
                 />
               )
             })}
