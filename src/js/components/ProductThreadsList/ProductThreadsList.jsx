@@ -4,6 +4,7 @@ import Box from '@material-ui/core/Box'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import * as api from '@shared/api'
+import { DefaultContext } from '@stores/Default'
 import { getProductLogoByName } from '@utils'
 import PropTypes from 'prop-types'
 
@@ -59,14 +60,21 @@ function ProductThreadsList({ product, lang, onClick }) {
         {isLoading && <CircularProgress size={15} />}
       </ListSubheaderStyled>
       {threads.items.map(item => (
-        <ListItem
-          button
-          onClick={onClick}
-          item={item}
-          key={item.id}
-          description={item.description}
-          title={item.title}
-        />
+        <DefaultContext.Consumer key={item.id}>
+          {([defaultState]) => {
+            const isViewed = defaultState.threadsIdViewed.includes(item.id)
+            return (
+              <ListItem
+                button
+                transparent={isViewed}
+                onClick={onClick}
+                item={item}
+                description={item.description}
+                title={item.title}
+              />
+            )
+          }}
+        </DefaultContext.Consumer>
       ))}
     </ListStyled>
   )

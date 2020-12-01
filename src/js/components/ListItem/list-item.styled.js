@@ -51,4 +51,10 @@ const ProductAvatar = styled(Avatar)`
   }
 `
 
-export { UserAvatar, ProductAvatar, Description, Title }
+const styles = {
+  root: {
+    opacity: props => (props.transparent ? '0.4' : '1')
+  }
+}
+
+export { UserAvatar, ProductAvatar, Description, Title, styles }

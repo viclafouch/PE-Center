@@ -3,17 +3,27 @@ import Icon from '@material-ui/core/Icon'
 import MuiListItem from '@material-ui/core/ListItem'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import ListItemText from '@material-ui/core/ListItemText'
+import { withStyles } from '@material-ui/core/styles'
 import { getRandomColor, truncateAndReplace } from '@utils'
 import PropTypes from 'prop-types'
 
 import {
   Description,
   ProductAvatar,
+  styles,
   Title,
   UserAvatar
 } from './list-item.styled'
 
-function ListItem({ title, img, description, item, onClick, ...restProps }) {
+function ListItem({
+  title,
+  img,
+  description,
+  item,
+  onClick,
+  transparent,
+  ...restProps
+}) {
   const [avatarColor] = useState(() => getRandomColor(title))
 
   const handleClick = event => {
@@ -22,7 +32,12 @@ function ListItem({ title, img, description, item, onClick, ...restProps }) {
   }
 
   return (
-    <MuiListItem alignItems="center" onClick={handleClick} {...restProps}>
+    <MuiListItem
+      alignItems="center"
+      data-transparent={transparent}
+      onClick={handleClick}
+      {...restProps}
+    >
       <ListItemAvatar>
         {img ? (
           <ProductAvatar src={img} alt={title} />
@@ -53,13 +68,15 @@ function ListItem({ title, img, description, item, onClick, ...restProps }) {
 ListItem.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
-  img: PropTypes.string
+  img: PropTypes.string,
+  transparent: PropTypes.bool
 }
 
 ListItem.defaultProps = {
   title: '',
   description: '',
-  img: ''
+  img: '',
+  transparent: false
 }
 
-export default memo(ListItem)
+export default memo(withStyles(styles)(ListItem))

@@ -1,6 +1,10 @@
 import { original, produce } from 'immer'
 
-import { SET_PRODUCTS, TOGGLE_NOTIFICATIONS } from '../constants'
+import {
+  ADD_THREAD_VIEWED,
+  SET_PRODUCTS,
+  TOGGLE_NOTIFICATIONS
+} from '../constants'
 
 export default produce((draft, action) => {
   const currentState = original(draft)
@@ -10,6 +14,11 @@ export default produce((draft, action) => {
       break
     case SET_PRODUCTS:
       draft.products = action.payload.products
+      break
+    case ADD_THREAD_VIEWED:
+      if (!currentState.threadsIdViewed.includes(action.payload.threadId)) {
+        draft.threadsIdViewed.push(action.payload.threadId)
+      }
       break
   }
 })

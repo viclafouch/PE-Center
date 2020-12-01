@@ -1,4 +1,5 @@
 export default {
   enableNotifications: false,
-  products: []
+  products: [],
+  threadsIdViewed: []
 }

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import ProductThreadsList from '@components/ProductThreadsList/ProductThreadsList'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Typography from '@material-ui/core/Typography'
+import { ADD_THREAD_VIEWED } from '@stores/constants'
 import { getThreadUrl } from '@utils'
 import { openLink } from '@utils/browser'
 
@@ -14,7 +15,7 @@ import { SettingsContext } from '@/js/stores/Settings'
 
 function Threads() {
   const { t } = useTranslation()
-  const [defaultState] = useContext(DefaultContext)
+  const [defaultState, defaultDispatch] = useContext(DefaultContext)
   const [settings] = useContext(SettingsContext)
 
   const products = useMemo(
@@ -34,9 +35,17 @@ function Threads() {
         productCode: product.code,
         openIn: settings.openThreadLinkIn
       })
-      openLink(url, '_blank')
+
+      defaultDispatch({
+        type: ADD_THREAD_VIEWED,
+        payload: {
+          threadId: thread.id
+        }
+      })
+
+      openLink(url)
     },
-    [settings, products]
+    [settings.openThreadLinkIn, products, defaultDispatch]
   )
 
   return (
