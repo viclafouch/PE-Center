@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html data-theme="<%= htmlWebpackPlugin.options.theme %>" data-popup="<%= htmlWebpackPlugin.options.theme %>">
   <head>
     <meta charset="utf-8" />
-    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" />
-    <title><%= htmlWebpackPlugin.options.title %></title>
+    <title>PE Center</title>
   </head>
   <body>
-    <div id="popup"></div>
+    <div id="popup">
+      <img class="image-blured" src="/images/blur-<%= htmlWebpackPlugin.options.theme %>.png" />
+    </div>
   </body>
 </html>
