@@ -5,24 +5,11 @@ import React, {
   useReducer
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  DARK_THEME,
-  DEFAULT_LANGUAGE,
-  DEFAULT_START_VIEW,
-  DEFAULT_THREAD_LINK
-} from '@shared/constants'
-import { setBrowserStorage } from '@utils/browser'
+import { SEND_THEME } from '@shared/constants'
+import { sendMessageToBackground, setBrowserStorage } from '@utils/browser'
 
+import store from './config/settings'
 import reducer from './reducer/settings.reducer'
-
-export const store = {
-  theme: DARK_THEME,
-  lang: DEFAULT_LANGUAGE,
-  startView: DEFAULT_START_VIEW,
-  limitThreadsPerProduct: 10,
-  openThreadLinkIn: DEFAULT_THREAD_LINK,
-  productsIdSelected: []
-}
 
 export const SettingsContext = createContext()
 
@@ -36,6 +23,7 @@ export function SettingsProvider({ children, initialState = {} }) {
 
   useLayoutEffect(() => {
     document.documentElement.setAttribute('data-theme', state.theme)
+    sendMessageToBackground(SEND_THEME, { theme: state.theme })
   }, [state.theme])
 
   useEffect(() => {

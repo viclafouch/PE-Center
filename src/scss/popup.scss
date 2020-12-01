@@ -1,40 +1,36 @@
 @import 'reset';
-@import 'theme';
 
 html {
   font-size: 13px;
+  &[data-theme='dark'] {
+    --scrollbar-color: rgba(255, 255, 255, 0.5);
+  }
+  &[data-theme='light'] {
+    --scrollbar-color: rgba(0, 0, 0, 0.5);
+  }
 }
 
 body {
-  overflow: hidden;
   width: 300px;
-  &,
-  #npm install sass-loader sass {
-    background-color: var(--primary-background-color);
-    color: var(--primary-text-color);
-  }
+  height: 480px;
 
   #popup {
     overflow: hidden;
-    height: 480px;
+    height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
+
+    .image-blured {
+      height: 100%;
+      width: 100%;
+    }
 
     main {
       flex: 1;
       overflow: hidden;
     }
   }
-}
-
-input,
-select,
-textarea {
-  border-width: 1px;
-  border-style: solid;
-  border: var(--input-border);
-  background-color: var(--input-background);
-  color: var(--input-text);
 }
 
 .hide-scrollbar {

@@ -16,7 +16,8 @@ module.exports = (env, argv) => {
   const IS_DEV = argv.mode === 'development'
   const config = {
     entry: {
-      main: path.resolve(__dirname, './src/js/index.js')
+      main: path.resolve(__dirname, './src/js/index.js'),
+      background: path.resolve(__dirname, './src/js/background.js')
     },
     watch: IS_DEV,
     module: {
@@ -52,9 +53,16 @@ module.exports = (env, argv) => {
     plugins: [
       new webpack.ProgressPlugin(),
       new HtmlWebpackPlugin({
-        title: 'webpack Boilerplate',
-        template: path.resolve(__dirname, './src/html/popup.html'),
-        filename: 'popup.html'
+        theme: 'light',
+        template: path.join(__dirname, 'src', 'html', 'popup.html'),
+        excludeChunks: ['background'],
+        filename: 'popup-light.html'
+      }),
+      new HtmlWebpackPlugin({
+        theme: 'dark',
+        template: path.join(__dirname, 'src', 'html', 'popup.html'),
+        excludeChunks: ['background'],
+        filename: 'popup-dark.html'
       }),
       new CopyWebpackPlugin({
         patterns: [

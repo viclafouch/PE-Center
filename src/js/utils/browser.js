@@ -2,12 +2,47 @@ export const browser_ = chrome || browser
 
 /**
  * Set a badge value to the extension icon
- * @param {string} text - The badge value
+ * @param {string} value - The badge value
  */
-export const setBadgeText = text =>
+export const setBadgeText = value =>
   browser_.browserAction.setBadgeText({
-    text: text ? text.toString() : ''
+    text: value.toString()
   })
+
+/**
+ * Get the badge value
+ */
+export const getBadgeText = () =>
+  new Promise(resolve => browser_.browserAction.getBadgeText({}, resolve))
+
+/**
+ * Clear all items of a storage type
+ */
+export const clearStorage = (type = 'local') =>
+  new Promise((resolve, reject) => {
+    if (!['sync', 'local'].includes(type)) {
+      reject('Sync or Local as type allowed')
+    } else {
+      browser_.storage[type].clear(resolve)
+    }
+  })
+
+/**
+ * Notify browser
+ * @param {string} notifId - The ID of the notification
+ * @param {object} notificationOptions - The NotificationOptions
+ */
+export const notifyBrowser = (notifId = '', notificationOptions) =>
+  new Promise(resolve =>
+    browser_.notifications.create(notifId, notificationOptions, resolve)
+  )
+
+/**
+ * Clear a notification
+ * @param {string} notifId - The ID of the notification
+ */
+export const clearNotification = notifId =>
+  new Promise(resolve => browser_.notifications.clear(notifId, resolve))
 
 /**
  * Handle the event of an anchor element to open a link
@@ -63,12 +98,11 @@ export const setBrowserStorage = (type, items = {}) =>
  * @param {string} type - The storage type ('local' or 'sync')
  * @param {Array<object>} defaultItems - The default items that will be merged into the new items
  */
-export const getBrowserStorage = (type, defaultItems = []) =>
+export const getBrowserStorage = (type, keys, defaultItems = []) =>
   new Promise((resolve, reject) => {
     if (!['sync', 'local'].includes(type)) {
       reject('Sync or Local as type allowed')
     } else if (!browser_.runtime.lastError) {
-      const keys = defaultItems.map(item => item.key)
       browser_.storage[type].get(keys, result => {
         for (const item of defaultItems) {
           if (result[item.key] === undefined) {
@@ -86,3 +120,33 @@ export const getBrowserStorage = (type, defaultItems = []) =>
       reject(`Error when loading ${type} storage`)
     }
   })
+
+/**
+ * Pass a message to background
+ * @param {string} type - Give a type for your message
+ * @param {object} payload - The payload you want to send
+ */
+export const sendMessageToBackground = (type, payload = {}) =>
+  new Promise((resolve, reject) => {
+    if (!browser_.runtime.lastError) {
+      browser_.runtime.sendMessage({ type, payload }, resolve)
+    } else {
+      console.error(browser.runtime.lastError.message)
+      const error = new Error(`Error when sending message ${type}`)
+      reject(error)
+    }
+  })
+
+/**
+ * Clears the alarm with the given name.
+ * @param {string} name - The name of the alarm to clear. Defaults to the empty string.
+ */
+export const clearAlarm = name =>
+  new Promise(resolve => browser_.alarms.clear(name, resolve))
+
+/**
+ * Creates an alarm
+ * @param {string} name - Optional name to identify this alarm. Defaults to the empty string.
+ * @param {object} infos - Optional name to identify this alarm. Defaults to the empty string.
+ */
+export const createAlarm = (name, infos) => browser_.alarms.create(name, infos)

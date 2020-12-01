@@ -4,8 +4,8 @@ import { getBrowserStorage, setBadgeText } from '@utils/browser'
 
 import App from './App'
 import initI18n from './i18n'
-import { store as defaultStore } from './stores/Default'
-import { store as settingsStore } from './stores/Settings'
+import defaultStore from './stores/config/default'
+import settingsStore from './stores/config/settings'
 
 import '../scss/popup.scss'
 
@@ -24,8 +24,12 @@ const defaultAppItems = [
 async function start() {
   setBadgeText('')
 
-  const settingsStorage = await getBrowserStorage('sync', defaultSettingsItems)
-  const defaultStorage = await getBrowserStorage('local', defaultAppItems)
+  const settingsStorage = await getBrowserStorage(
+    'sync',
+    null,
+    defaultSettingsItems
+  )
+  const defaultStorage = await getBrowserStorage('local', null, defaultAppItems)
 
   initI18n(settingsStorage.lang)
 

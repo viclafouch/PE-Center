@@ -1,12 +1,8 @@
 import React, { createContext, useEffect, useMemo, useReducer } from 'react'
 import { setBrowserStorage } from '@utils/browser'
 
+import store from './config/default'
 import reducer from './reducer/default.reducer'
-
-export const store = {
-  enableNotifications: false,
-  products: []
-}
 
 export const DefaultContext = createContext()
 
