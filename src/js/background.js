@@ -28,6 +28,10 @@ const defaultAppItems = [
   {
     key: 'currentThreads',
     defaultValue: []
+  },
+  {
+    key: 'threadsIdViewed',
+    defaultValue: []
   }
 ]
 
@@ -67,8 +71,20 @@ const notifyThread = async ({ thread, openThreadLinkIn, product }) => {
     clearNotification(notifId)
   }, 5000)
 
-  browser_.notifications.onClicked.addListener(notifId => {
+  browser_.notifications.onClicked.addListener(async notifId => {
     clearTimeout(timeout)
+
+    const defaultStorage = await getBrowserStorage(
+      'local',
+      null,
+      defaultAppItems
+    )
+
+    if (!defaultStorage.threadsIdViewed.includes(thread.id)) {
+      const threadsIdViewed = [...defaultStorage.threadsIdViewed, thread.id]
+      await setBrowserStorage('local', { threadsIdViewed })
+    }
+
     clearNotification(notifId)
     openLink(link, '_blank')
   })
