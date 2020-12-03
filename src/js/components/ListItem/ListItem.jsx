@@ -4,10 +4,15 @@ import MuiListItem from '@material-ui/core/ListItem'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import ListItemText from '@material-ui/core/ListItemText'
 import { withStyles } from '@material-ui/core/styles'
+import Tooltip from '@material-ui/core/Tooltip'
 import { getRandomColor, truncateAndReplace } from '@utils'
 import PropTypes from 'prop-types'
 
 import {
+  BadgeNonIssue,
+  BadgeValid,
+  BadgeViewed,
+  BoxBadges,
   Description,
   ProductAvatar,
   styles,
@@ -31,6 +36,9 @@ function ListItem({
     onClick(item)
   }
 
+  const hasBadges =
+    item.hasRecommendedAnswer || item.hasReply || item.isNonIssue
+
   return (
     <MuiListItem
       alignItems="center"
@@ -50,15 +58,37 @@ function ListItem({
         )}
       </ListItemAvatar>
       <ListItemText
+        disableTypography
         primary={
           <Title variant="subtitle1" color="textPrimary">
             {title}
           </Title>
         }
         secondary={
-          <Description component="span" color="textPrimary">
-            {truncateAndReplace(description)}
-          </Description>
+          <>
+            <Description component="span" color="textPrimary">
+              {truncateAndReplace(description)}
+            </Description>
+            {hasBadges && (
+              <BoxBadges>
+                {item.hasRecommendedAnswer && (
+                  <Tooltip title="TODO" enterDelay={500} placement="top">
+                    <BadgeValid fontSize="small" />
+                  </Tooltip>
+                )}
+                {item.hasReply && (
+                  <Tooltip title="TODO" enterDelay={500} placement="top">
+                    <BadgeViewed fontSize="small" />
+                  </Tooltip>
+                )}
+                {item.isNonIssue && (
+                  <Tooltip title="TODO" enterDelay={500} placement="top">
+                    <BadgeNonIssue fontSize="small" />
+                  </Tooltip>
+                )}
+              </BoxBadges>
+            )}
+          </>
         }
       />
     </MuiListItem>

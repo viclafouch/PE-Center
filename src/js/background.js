@@ -13,6 +13,7 @@ import {
   setBrowserStorage
 } from '@utils/browser'
 
+import defaultStore from './stores/config/default'
 import settingsStore from './stores/config/settings'
 
 const defaultSettingsItems = Object.keys(settingsStore).map(key => ({
@@ -23,7 +24,7 @@ const defaultSettingsItems = Object.keys(settingsStore).map(key => ({
 const defaultAppItems = [
   {
     key: 'enableNotifications',
-    defaultValue: true // TODO
+    defaultValue: defaultStore.enableNotifications
   },
   {
     key: 'currentThreads',
@@ -93,8 +94,6 @@ const notifyThread = async ({ thread, openThreadLinkIn, product }) => {
 async function start() {
   const settings = await getBrowserStorage('sync', null, defaultSettingsItems)
   const defaultStorage = await getBrowserStorage('local', null, defaultAppItems)
-
-  console.log({ settings, defaultStorage })
 
   const { enableNotifications, currentThreads } = defaultStorage
   const { productsIdSelected, lang, openThreadLinkIn } = settings
