@@ -82,7 +82,10 @@ const notifyThread = async ({ thread, openThreadLinkIn, product }) => {
     )
 
     if (!defaultStorage.threadsIdViewed.includes(thread.id)) {
-      const threadsIdViewed = [...defaultStorage.threadsIdViewed, thread.id]
+      const threadsIdViewed = [thread.id, ...defaultStorage.threadsIdViewed]
+      if (threadsIdViewed.length > 300) {
+        threadsIdViewed.length = 300
+      }
       await setBrowserStorage('local', { threadsIdViewed })
     }
 

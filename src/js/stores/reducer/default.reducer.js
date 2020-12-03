@@ -17,7 +17,10 @@ export default produce((draft, action) => {
       break
     case ADD_THREAD_VIEWED:
       if (!currentState.threadsIdViewed.includes(action.payload.threadId)) {
-        draft.threadsIdViewed.push(action.payload.threadId)
+        draft.threadsIdViewed.unshift(action.payload.threadId)
+        if (draft.threadsIdViewed.length > 300) {
+          draft.threadsIdViewed.length = 300
+        }
       }
       break
   }
