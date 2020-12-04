@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo } from 'react'
+import React, { useCallback, useContext, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import ProductThreadsList from '@components/ProductThreadsList/ProductThreadsList'
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -17,6 +17,7 @@ function Threads() {
   const { t } = useTranslation()
   const [defaultState, defaultDispatch] = useContext(DefaultContext)
   const [settings] = useContext(SettingsContext)
+  const listRef = useRef(null)
 
   const products = useMemo(
     () =>
@@ -48,16 +49,22 @@ function Threads() {
     [settings.openThreadLinkIn, products, defaultDispatch]
   )
 
+  const handleReload = useCallback(top => {
+    listRef.current.scrollTop = top
+  }, [])
+
   return (
     <View className="hide-scrollbar">
       {products.length > 0 ? (
-        <ThreadsList subheader={<li />}>
+        <ThreadsList subheader={<li />} ref={listRef}>
           {products.map(product => {
             return (
               <ThreadsListItem key={product.id}>
                 <ProductThreadsList
                   onClick={handleClickThread}
+                  onReload={handleReload}
                   product={product}
+                  limitThreadsPerProduct={settings.limitThreadsPerProduct}
                   lang={settings.lang}
                 />
               </ThreadsListItem>

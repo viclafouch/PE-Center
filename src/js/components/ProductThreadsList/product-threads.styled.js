@@ -1,4 +1,5 @@
 import Avatar from '@material-ui/core/Avatar'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import List from '@material-ui/core/List'
 import ListSubheader from '@material-ui/core/ListSubheader'
 import Typography from '@material-ui/core/Typography'
@@ -37,4 +38,14 @@ const ProductName = styled(Typography)`
   }
 `
 
-export { ListSubheaderStyled, ListStyled, AvatarProduct, ProductName }
+const LoadingThreads = styled(CircularProgress)`
+  margin-right: 4px;
+`
+
+export {
+  ListSubheaderStyled,
+  ListStyled,
+  AvatarProduct,
+  ProductName,
+  LoadingThreads
+}

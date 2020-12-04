@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import ListItem from '@components/ListItem/ListItem'
 import Box from '@material-ui/core/Box'
-import CircularProgress from '@material-ui/core/CircularProgress'
+import IconButton from '@material-ui/core/IconButton'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
+import CachedIcon from '@material-ui/icons/Cached'
 import * as api from '@shared/api'
 import { DefaultContext } from '@stores/Default'
 import { getProductLogoByName } from '@utils'
@@ -12,42 +13,62 @@ import {
   AvatarProduct,
   ListStyled,
   ListSubheaderStyled,
+  LoadingThreads,
   ProductName
 } from './product-threads.styled'
 
-function ProductThreadsList({ product, lang, onClick }) {
+function ProductThreadsList({
+  product,
+  lang,
+  limitThreadsPerProduct,
+  onClick,
+  onReload
+}) {
   const [isLoading, setIsLoading] = useState(true)
   const [threads, setThreads] = useState({
     items: [],
     lastUpdate: null
   })
+  const listRef = useRef()
+  const controller = useRef()
+
+  const init = useCallback(async () => {
+    try {
+      setIsLoading(true)
+      controller.current = new AbortController()
+      const { last_update, threads } = await api.getThreads(
+        { productCode: product.code, lang, limit: limitThreadsPerProduct },
+        { signal: controller.current.signal }
+      )
+      setThreads({
+        items: threads,
+        lastUpdate: last_update
+      })
+    } catch (error) {
+      if (error.name !== 'AbortError') {
+        console.error(error)
+      }
+    } finally {
+      setIsLoading(false)
+    }
+  }, [product, lang, limitThreadsPerProduct])
 
   useEffect(() => {
-    const abortController = new AbortController()
-    const init = async () => {
-      try {
-        const { last_update, threads } = await api.getThreads(
-          { productCode: product.code, lang },
-          { signal: abortController.signal }
-        )
-        setThreads({
-          items: threads,
-          lastUpdate: last_update
-        })
-      } catch (error) {
-        if (error.name !== 'AbortError') {
-          console.error(error)
-        }
-      } finally {
-        setIsLoading(false)
+    init()
+    return () => {
+      if (controller.current?.signal.aborted === false) {
+        controller.current.abort()
       }
     }
-    init()
-    return () => abortController.abort()
-  }, [product, lang])
+  }, [init])
+
+  const reload = async () => {
+    await init()
+    onReload(listRef.current.offsetTop)
+  }
 
   return (
-    <ListStyled>
+    <ListStyled id={product.code} ref={listRef}>
       <ListSubheaderStyled>
         <Box display="flex" alignItems="center">
           <ListItemAvatar>
@@ -57,7 +78,13 @@ function ProductThreadsList({ product, lang, onClick }) {
             {product.name}
           </ProductName>
         </Box>
-        {isLoading && <CircularProgress size={15} />}
+        {isLoading ? (
+          <LoadingThreads size={15} />
+        ) : (
+          <IconButton color="primary" size="small" onClick={reload}>
+            <CachedIcon />
+          </IconButton>
+        )}
       </ListSubheaderStyled>
       {threads.items.map(item => (
         <DefaultContext.Consumer key={item.id}>
@@ -83,6 +110,7 @@ function ProductThreadsList({ product, lang, onClick }) {
 ProductThreadsList.propTypes = {
   product: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
+  limitThreadsPerProduct: PropTypes.number.isRequired,
   onClick: PropTypes.func
 }
 

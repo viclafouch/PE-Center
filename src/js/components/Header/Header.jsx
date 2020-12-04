@@ -1,14 +1,13 @@
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import IconButton from '@material-ui/core/IconButton'
-import MenuIcon from '@material-ui/icons/Menu'
 import SearchIcon from '@material-ui/icons/Search'
 import { ANSWERS_VIEW } from '@shared/constants'
 import { AnswersContext } from '@stores/Answers'
 import { SET_SEARCH_VALUE } from '@stores/constants'
 import PropTypes from 'prop-types'
 
-import { InputBaseStyled, PaperStyled } from './header.styled'
+import { InputBaseStyled, LogoStyled, PaperStyled } from './header.styled'
 
 function Header({ setCurrentView }) {
   const { t } = useTranslation()
@@ -27,9 +26,7 @@ function Header({ setCurrentView }) {
 
   return (
     <PaperStyled elevation={1}>
-      <IconButton>
-        <MenuIcon />
-      </IconButton>
+      <LogoStyled src="/images/google-pe-program-logo.jpg" alt="PE Program" />
       <InputBaseStyled
         autoFocus
         placeholder={t('searchHelp')}

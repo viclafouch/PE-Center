@@ -17,8 +17,8 @@ const request = (path = '/', params = {}) => {
 
 export const getAllProducts = params => request('/products', params)
 
-export const getThreads = ({ productCode, lang }, params) =>
-  request(`/threads/${productCode}?hl=${lang}`, params)
+export const getThreads = ({ productCode, lang, limit }, params) =>
+  request(`/threads/${productCode}?hl=${lang}&limit=${limit}`, params)
 
 export const searchAnswers = (
   { productsId, lang, page, search },

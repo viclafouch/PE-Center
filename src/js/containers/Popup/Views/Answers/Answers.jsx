@@ -75,6 +75,7 @@ function AnswersView() {
       type: SET_IS_SEARCHING,
       payload: { isSearching: true }
     })
+    controller.current = new AbortController()
     fetchAnswers.callback({
       lang,
       search: searchValue,

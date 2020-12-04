@@ -19,6 +19,7 @@ import {
   THREADS_VIEW
 } from '@shared/constants'
 import { handleAnchor } from '@utils/browser'
+import { useSnackbar } from 'notistack'
 
 import { View } from '../views.styled'
 import { FormStyled, MyProfil } from './settings.styled'
@@ -32,7 +33,7 @@ import {
   SET_START_VIEW,
   TOGGLE_NOTIFICATIONS,
   TOGGLE_THEME
-} from '@/js/stores/constants/index'
+} from '@/js/stores/constants'
 import { DefaultContext } from '@/js/stores/Default'
 import { SettingsContext } from '@/js/stores/Settings'
 
@@ -45,6 +46,7 @@ const MenuPropsMaxHeightLang = (rows = 3) => ({
 })
 
 function Settings() {
+  const { enqueueSnackbar } = useSnackbar()
   const [settings, settingsDispatch] = useContext(SettingsContext)
   const [defaultState, defaultDispatch] = useContext(DefaultContext)
   const { t } = useTranslation()
@@ -66,6 +68,15 @@ function Settings() {
       type,
       payload
     })
+
+    if (type === SET_OPEN_LINK_ANSWER_IN) {
+      if (payload.openThreadLinkIn === PRIVATE_THREAD_LINK) {
+        enqueueSnackbar(t('permissionsRequired'), {
+          variant: 'info',
+          autoHideDuration: 2500
+        })
+      }
+    }
   }
 
   return (
@@ -78,9 +89,13 @@ function Settings() {
             multiple
             value={settings.productsIdSelected}
             renderValue={() =>
-              settings.productsIdSelected
-                .map(id => defaultState.products.find(p => p.id === id)?.name)
-                .join(', ')
+              defaultState.products.length > 0
+                ? settings.productsIdSelected
+                    .map(
+                      id => defaultState.products.find(p => p.id === id)?.name
+                    )
+                    .join(', ')
+                : null
             }
             onChange={event =>
               handleChangeSettings(SET_PRODUCTS_ID_SELECTED, {
