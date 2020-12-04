@@ -16,10 +16,10 @@ export default produce((draft, action) => {
       draft.products = action.payload.products
       break
     case ADD_THREAD_VIEWED:
-      if (!currentState.threadsIdViewed.includes(action.payload.threadId)) {
-        draft.threadsIdViewed.unshift(action.payload.threadId)
-        if (draft.threadsIdViewed.length > 300) {
-          draft.threadsIdViewed.length = 300
+      if (!currentState.threadsUuidViewed.includes(action.payload.threadUuid)) {
+        draft.threadsUuidViewed.unshift(action.payload.threadUuid)
+        if (draft.threadsUuidViewed.length > 300) {
+          draft.threadsUuidViewed.length = 300
         }
       }
       break

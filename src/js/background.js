@@ -12,6 +12,7 @@ import {
   setBadgeText,
   setBrowserStorage
 } from '@utils/browser'
+import { addThreadUuidViewed } from '@utils/index'
 
 import defaultStore from './stores/config/default'
 import settingsStore from './stores/config/settings'
@@ -31,7 +32,7 @@ const defaultAppItems = [
     defaultValue: []
   },
   {
-    key: 'threadsIdViewed',
+    key: 'threadsUuidViewed',
     defaultValue: []
   }
 ]
@@ -74,23 +75,11 @@ const notifyThread = async ({ thread, openThreadLinkIn, product }) => {
 
   browser_.notifications.onClicked.addListener(async notifId => {
     clearTimeout(timeout)
-
-    const defaultStorage = await getBrowserStorage(
-      'local',
-      null,
-      defaultAppItems
-    )
-
-    if (!defaultStorage.threadsIdViewed.includes(thread.id)) {
-      const threadsIdViewed = [thread.id, ...defaultStorage.threadsIdViewed]
-      if (threadsIdViewed.length > 300) {
-        threadsIdViewed.length = 300
-      }
-      await setBrowserStorage('local', { threadsIdViewed })
-    }
-
+    await addThreadUuidViewed(thread.uuid)
     clearNotification(notifId)
     openLink(link, '_blank')
+    const previousNbNewThreads = Number(await getBadgeText())
+    await setBadgeText(previousNbNewThreads - 1)
   })
 }
 
@@ -98,7 +87,11 @@ async function start() {
   const settings = await getBrowserStorage('sync', null, defaultSettingsItems)
   const defaultStorage = await getBrowserStorage('local', null, defaultAppItems)
 
-  const { enableNotifications, currentThreads } = defaultStorage
+  const {
+    enableNotifications,
+    currentThreads,
+    threadsUuidViewed
+  } = defaultStorage
   const { productsIdSelected, lang, openThreadLinkIn } = settings
 
   if (productsIdSelected.length === 0) {
@@ -120,9 +113,11 @@ async function start() {
     allThreads = allThreads.flatMap(t => t.threads)
 
     const newThreads = allThreads.filter(thread => {
-      return !currentThreads.some(currentThread => {
+      const hasNotBeenViewed = !threadsUuidViewed.includes(thread.uuid)
+      const isNewThread = !currentThreads.some(currentThread => {
         return currentThread.uuid === thread.uuid
       })
+      return isNewThread && hasNotBeenViewed
     })
 
     if (enableNotifications) {
@@ -138,9 +133,9 @@ async function start() {
     }
 
     await setBrowserStorage('local', { currentThreads: allThreads })
-    const previousNbNewThreads = Number(await getBadgeText())
+    const currentNewThreadsNoViewed = Number(await getBadgeText())
 
-    let total = previousNbNewThreads + newThreads.length
+    let total = currentNewThreadsNoViewed + newThreads.length
     if (total > 50) {
       total = '50+'
     }

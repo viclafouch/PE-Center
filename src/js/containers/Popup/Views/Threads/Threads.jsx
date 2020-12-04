@@ -40,7 +40,7 @@ function Threads() {
       defaultDispatch({
         type: ADD_THREAD_VIEWED,
         payload: {
-          threadId: thread.id
+          threadUuid: thread.uuid
         }
       })
 

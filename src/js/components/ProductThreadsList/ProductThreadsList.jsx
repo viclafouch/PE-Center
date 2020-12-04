@@ -89,7 +89,7 @@ function ProductThreadsList({
       {threads.items.map(item => (
         <DefaultContext.Consumer key={item.id}>
           {([defaultState]) => {
-            const isViewed = defaultState.threadsIdViewed.includes(item.id)
+            const isViewed = defaultState.threadsUuidViewed.includes(item.uuid)
             return (
               <ListItem
                 button

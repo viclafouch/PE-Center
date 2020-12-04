@@ -19,6 +19,12 @@
   "background": {
     "scripts": ["background.bundle.js"]
   },
+  "content_scripts": [
+    {
+      "matches": ["https://support.google.com/*"],
+      "js": ["support.bundle.js"]
+    }
+  ],
   "icons": {
     "16": "icons/icon_16.png",
     "48": "icons/icon_48.png",

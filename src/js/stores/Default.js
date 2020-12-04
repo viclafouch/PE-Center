@@ -12,9 +12,9 @@ export function DefaultProvider({ children, initialState = {} }) {
   const toLocalStorage = useMemo(
     () => ({
       enableNotifications: state.enableNotifications,
-      threadsIdViewed: state.threadsIdViewed
+      threadsUuidViewed: state.threadsUuidViewed
     }),
-    [state.enableNotifications, state.threadsIdViewed]
+    [state.enableNotifications, state.threadsUuidViewed]
   )
 
   useEffect(() => {

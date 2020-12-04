@@ -1,5 +1,7 @@
 import { PUBLIC_THREAD_LINK } from '@shared/constants'
 
+import { getBrowserStorage, setBrowserStorage } from './browser'
+
 export const truncateAndReplace = (str = '', maxLength = 130) => {
   let text = str.replace(/&nbsp;/gi, ' ')
   if (text.length > maxLength) text = `${text.slice(0, maxLength)}...`
@@ -49,3 +51,29 @@ export const getRandomColor = string =>
       .map(c => c.charCodeAt(0))
       .reduce((a, b) => a + b, 0) % colors.length
   ]
+
+export const addThreadUuidViewed = async uuid => {
+  try {
+    const { threadsUuidViewed } = await getBrowserStorage(
+      'local',
+      ['threadsUuidViewed'],
+      [
+        {
+          key: 'threadsUuidViewed',
+          defaultValue: []
+        }
+      ]
+    )
+    if (!threadsUuidViewed.includes(uuid)) {
+      const newThreadsUuidViewed = [uuid, ...threadsUuidViewed]
+      if (newThreadsUuidViewed.length > 500) {
+        newThreadsUuidViewed.length = 500
+      }
+      await setBrowserStorage('local', {
+        threadsUuidViewed: newThreadsUuidViewed
+      })
+    }
+  } catch (error) {
+    console.error(error)
+  }
+}

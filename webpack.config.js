@@ -17,7 +17,8 @@ module.exports = (env, argv) => {
   const config = {
     entry: {
       main: path.resolve(__dirname, './src/js/index.js'),
-      background: path.resolve(__dirname, './src/js/background.js')
+      background: path.resolve(__dirname, './src/js/background.js'),
+      support: path.resolve(__dirname, './src/js/support.content-script.js')
     },
     watch: IS_DEV,
     module: {
@@ -55,13 +56,13 @@ module.exports = (env, argv) => {
       new HtmlWebpackPlugin({
         theme: 'light',
         template: path.join(__dirname, 'src', 'html', 'popup.html'),
-        excludeChunks: ['background'],
+        excludeChunks: ['background', 'support'],
         filename: 'popup-light.html'
       }),
       new HtmlWebpackPlugin({
         theme: 'dark',
         template: path.join(__dirname, 'src', 'html', 'popup.html'),
-        excludeChunks: ['background'],
+        excludeChunks: ['background', 'support'],
         filename: 'popup-dark.html'
       }),
       new CopyWebpackPlugin({
