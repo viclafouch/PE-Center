@@ -7,6 +7,7 @@ import * as api from '@shared/api'
 import { ANSWERS_VIEW, SETTINGS_VIEW, THREADS_VIEW } from '@shared/constants'
 import { SET_PRODUCTS } from '@stores/constants'
 import { DefaultContext } from '@stores/Default'
+import { setBrowserStorage } from '@utils/browser'
 import { useSnackbar } from 'notistack'
 import PropTypes from 'prop-types'
 
@@ -43,6 +44,7 @@ function Popup({ initalCurrentView }) {
     const init = async () => {
       try {
         const { products } = await api.getAllProducts()
+        setBrowserStorage('local', { products })
         dispatch({
           type: SET_PRODUCTS,
           payload: {
@@ -58,10 +60,10 @@ function Popup({ initalCurrentView }) {
         }
       }
     }
-    if (isOnline) {
+    if (isOnline && state.products.length === 0) {
       init()
     }
-  }, [dispatch, enqueueSnackbar, t, isOnline])
+  }, [dispatch, enqueueSnackbar, t, isOnline, state.products.length])
 
   return (
     <PopupStyled>

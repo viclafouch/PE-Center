@@ -18,6 +18,10 @@ const defaultAppItems = [
   {
     key: 'enableNotifications',
     defaultValue: defaultStore.enableNotifications
+  },
+  {
+    key: 'products',
+    defaultValue: defaultStore.products
   }
 ]
 

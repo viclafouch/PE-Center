@@ -92,7 +92,12 @@ async function start() {
     currentThreads,
     threadsUuidViewed
   } = defaultStorage
-  const { productsIdSelected, lang, openThreadLinkIn } = settings
+  const {
+    productsIdSelected,
+    lang,
+    openThreadLinkIn,
+    limitThreadsPerProduct
+  } = settings
 
   if (productsIdSelected.length === 0) {
     return
@@ -105,7 +110,11 @@ async function start() {
 
     for (const id of productsIdSelected) {
       const product = products.find(p => p.id === id)
-      const promise = api.getThreads({ lang, productCode: product.code })
+      const promise = api.getThreads({
+        lang,
+        productCode: product.code,
+        limit: limitThreadsPerProduct
+      })
       threadsPromised.push(promise)
     }
 
@@ -146,15 +155,30 @@ async function start() {
   }
 }
 
+const saveProducts = async () => {
+  try {
+    const { products } = await api.getAllProducts()
+    setBrowserStorage('local', { products })
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 ;(async () => {
   createAlarm('threads', {
     delayInMinutes: 2,
     periodInMinutes: 1
   })
+  createAlarm('products', {
+    delayInMinutes: 10,
+    periodInMinutes: 10
+  })
 
   browser_.alarms.onAlarm.addListener(alarmInfo => {
     if (alarmInfo.name === 'threads') {
       start()
+    } else if (alarmInfo.name === 'products') {
+      saveProducts()
     }
   })
 
