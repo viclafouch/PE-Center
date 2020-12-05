@@ -1,51 +1,103 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import Box from '@material-ui/core/Box'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import ListItemText from '@material-ui/core/ListItemText'
-import Typography from '@material-ui/core/Typography'
-import AddIcon from '@material-ui/icons/Add'
+import FileCopyIcon from '@material-ui/icons/FileCopy'
+import OpenInNewIcon from '@material-ui/icons/OpenInNew'
+import StarsIcon from '@material-ui/icons/Stars'
+import { copyAsHyperlink, getAnswerUrl } from '@utils'
+import { openLink } from '@utils/browser'
+import { useSnackbar } from 'notistack'
 import PropTypes from 'prop-types'
 
-import { AvatarStyled } from './answer-dialog.styled'
+import {
+  AvatarStyled,
+  ProductLogoStyled,
+  TitleAnswerStyled
+} from './answer-dialog.styled'
 
-function AnswerDialog({ title, productLogo, ...restProps }) {
+function AnswerDialog({ answer, product, lang, onClose, ...restProps }) {
+  const { enqueueSnackbar } = useSnackbar()
   const { t } = useTranslation()
 
+  const url = useMemo(
+    () =>
+      getAnswerUrl({
+        type: answer.type,
+        lang: lang,
+        productCode: product.code,
+        answerUuid: answer.uuid
+      }),
+    [answer.uuid, answer.type, lang, product.code]
+  )
+
+  const handleOpenLink = () => {
+    openLink(url, '_blank')
+  }
+
+  const handleCopyLink = () => {
+    const hasCopied = copyAsHyperlink(answer.title, url)
+    if (hasCopied) {
+      enqueueSnackbar(t('successCopy'), {
+        variant: 'success',
+        anchorOrigin: {
+          vertical: 'bottom',
+          horizontal: 'center'
+        },
+        autoHideDuration: 2000
+      })
+      onClose()
+    } else {
+      enqueueSnackbar(t('error.unknown'), {
+        variant: 'error',
+        anchorOrigin: {
+          vertical: 'bottom',
+          horizontal: 'center'
+        },
+        autoHideDuration: 2000
+      })
+    }
+  }
+
   return (
-    <Dialog {...restProps}>
+    <Dialog {...restProps} onClose={onClose}>
       <DialogTitle disableTypography>
-        <Typography variant="body1" component="h3">
-          {title}
-        </Typography>
+        <Box display="flex" justifyContent="center">
+          <ProductLogoStyled src={product.logo} alt={answer.title} />
+        </Box>
+        <TitleAnswerStyled variant="h6" component="h3" align="center">
+          {answer.title}
+        </TitleAnswerStyled>
       </DialogTitle>
       <List>
-        <ListItem button>
+        <ListItem button onClick={handleOpenLink}>
           <ListItemAvatar>
-            <AvatarStyled src="/images/twitter-logo.svg">
-              <AddIcon />
+            <AvatarStyled>
+              <OpenInNewIcon fontSize="small" />
             </AvatarStyled>
           </ListItemAvatar>
-          <ListItemText primary={t('copyHOS')} />
+          <ListItemText primary={t('Ouvrir le lien')} />
+        </ListItem>
+        <ListItem button onClick={handleCopyLink}>
+          <ListItemAvatar>
+            <AvatarStyled>
+              <FileCopyIcon fontSize="small" />
+            </AvatarStyled>
+          </ListItemAvatar>
+          <ListItemText primary={'Copier le lien hypertexte'} />
         </ListItem>
         <ListItem button>
           <ListItemAvatar>
-            <AvatarStyled src="/images/google-logo.svg">
-              <AddIcon />
+            <AvatarStyled>
+              <StarsIcon fontSize="small" />
             </AvatarStyled>
           </ListItemAvatar>
-          <ListItemText primary={t('copyTailwind')} />
-        </ListItem>
-        <ListItem button>
-          <ListItemAvatar>
-            <AvatarStyled src={productLogo}>
-              <AddIcon />
-            </AvatarStyled>
-          </ListItemAvatar>
-          <ListItemText primary={t('learnMore')} />
+          <ListItemText primary={t('Ajouter à mes favoris')} />
         </ListItem>
       </List>
     </Dialog>
@@ -53,8 +105,14 @@ function AnswerDialog({ title, productLogo, ...restProps }) {
 }
 
 AnswerDialog.propTypes = {
-  title: PropTypes.string.isRequired,
-  productLogo: PropTypes.string.isRequired
+  answer: PropTypes.object,
+  product: PropTypes.object,
+  lang: PropTypes.string.isRequired
+}
+
+AnswerDialog.defaultProps = {
+  answer: {},
+  product: {}
 }
 
 export default AnswerDialog

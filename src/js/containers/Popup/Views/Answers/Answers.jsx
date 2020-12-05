@@ -2,6 +2,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   useState
 } from 'react'
@@ -32,7 +33,8 @@ function AnswersView() {
   const [settings] = useContext(SettingsContext)
   const { searchValue, isSearching, answers, page, hasNextPage } = answersState
   const { productsIdSelected, lang } = settings
-  const [answerSelected, setAnswerSelected] = useState(null)
+  const [answerSelected, setAnswerSelected] = useState({})
+  const [showAnswerDialog, setShowAnswerDialog] = useState(false)
   const controller = useRef(null)
 
   const fetchAnswers = useDebouncedCallback(async params => {
@@ -113,13 +115,18 @@ function AnswersView() {
     }
   }, [answersDispatch, fetchAnswers, lang, searchValue, productsIdSelected])
 
-  const getProductLogo = answer => {
-    const product = defaultState.products.find(p => p.id === answer.ProductId)
-    return getProductLogoByName(product.name)
-  }
+  const productSelected = useMemo(() => {
+    const product =
+      defaultState.products.find(p => p.id === answerSelected.ProductId) || {}
+    return {
+      ...product,
+      logo: product.name ? getProductLogoByName(product.name) : ''
+    }
+  }, [answerSelected, defaultState.products])
 
   const handleClickAnswer = useCallback(answer => {
     setAnswerSelected(answer)
+    setShowAnswerDialog(true)
   }, [])
 
   const hasAnswers = answers.length > 0
@@ -212,10 +219,12 @@ function AnswersView() {
     <View className="hide-scrollbar">
       {content}
       <AnswerDialog
-        open={Boolean(answerSelected)}
-        title={answerSelected ? answerSelected.title : ''}
-        productLogo={answerSelected ? getProductLogo(answerSelected) : ''}
-        onClose={() => setAnswerSelected(null)}
+        open={showAnswerDialog}
+        answer={answerSelected}
+        product={productSelected}
+        lang={settings.lang}
+        onExited={() => setAnswerSelected({})}
+        onClose={() => setShowAnswerDialog(false)}
       />
     </View>
   )
