@@ -2,6 +2,8 @@
   "compilerOptions": {
     "target": "esnext",
     "allowSyntheticDefaultImports": false,
+    "module": "es6",
+    "moduleResolution": "node",
     "baseUrl": "./",
     "paths": {
       "@components/*": ["src/js/components/*"],
