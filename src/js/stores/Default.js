@@ -1,12 +1,13 @@
 import React, { createContext, useEffect, useMemo, useReducer } from 'react'
 import { setBrowserStorage } from '@utils/browser'
+import PropTypes from 'prop-types'
 
 import store from './config/default'
 import reducer from './reducer/default.reducer'
 
-export const DefaultContext = createContext()
+const DefaultContext = createContext()
 
-export function DefaultProvider({ children, initialState = {} }) {
+function DefaultProvider({ children, initialState }) {
   const [state, dispatch] = useReducer(reducer, { ...store, ...initialState })
 
   const toLocalStorage = useMemo(
@@ -27,3 +28,17 @@ export function DefaultProvider({ children, initialState = {} }) {
     </DefaultContext.Provider>
   )
 }
+
+DefaultProvider.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+  ]).isRequired,
+  initialState: PropTypes.object
+}
+
+DefaultProvider.defaultProps = {
+  initialState: {}
+}
+
+export { DefaultProvider, DefaultContext }

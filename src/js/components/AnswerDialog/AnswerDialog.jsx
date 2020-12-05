@@ -100,7 +100,8 @@ function AnswerDialog({ answer, product, lang, onClose, ...restProps }) {
 AnswerDialog.propTypes = {
   answer: PropTypes.object,
   product: PropTypes.object,
-  lang: PropTypes.string.isRequired
+  lang: PropTypes.string.isRequired,
+  onClose: PropTypes.func
 }
 
 AnswerDialog.defaultProps = {

@@ -111,11 +111,13 @@ ProductThreadsList.propTypes = {
   product: PropTypes.object.isRequired,
   lang: PropTypes.string.isRequired,
   limitThreadsPerProduct: PropTypes.number.isRequired,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  onReload: PropTypes.func
 }
 
 ProductThreadsList.defaultProps = {
-  onClick: () => {}
+  onClick: () => {},
+  onReload: () => {}
 }
 
 export default ProductThreadsList

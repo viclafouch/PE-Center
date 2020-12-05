@@ -7,13 +7,14 @@ import React, {
 import { useTranslation } from 'react-i18next'
 import { SEND_THEME } from '@shared/constants'
 import { sendMessageToBackground, setBrowserStorage } from '@utils/browser'
+import PropTypes from 'prop-types'
 
 import store from './config/settings'
 import reducer from './reducer/settings.reducer'
 
-export const SettingsContext = createContext()
+const SettingsContext = createContext()
 
-export function SettingsProvider({ children, initialState = {} }) {
+function SettingsProvider({ children, initialState }) {
   const [state, dispatch] = useReducer(reducer, { ...store, ...initialState })
   const { i18n } = useTranslation()
 
@@ -38,3 +39,17 @@ export function SettingsProvider({ children, initialState = {} }) {
     </SettingsContext.Provider>
   )
 }
+
+SettingsProvider.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+  ]).isRequired,
+  initialState: PropTypes.object
+}
+
+SettingsProvider.defaultProps = {
+  initialState: {}
+}
+
+export { SettingsProvider, SettingsContext }

@@ -99,14 +99,18 @@ ListItem.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
   img: PropTypes.string,
-  transparent: PropTypes.bool
+  transparent: PropTypes.bool,
+  item: PropTypes.object,
+  onClick: PropTypes.func
 }
 
 ListItem.defaultProps = {
   title: '',
   description: '',
   img: '',
-  transparent: false
+  transparent: false,
+  item: {},
+  onClick: () => {}
 }
 
 export default memo(withStyles(styles)(ListItem))

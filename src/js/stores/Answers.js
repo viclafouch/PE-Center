@@ -1,4 +1,5 @@
 import React, { createContext, useReducer } from 'react'
+import PropTypes from 'prop-types'
 
 import reducer from './reducer/answers.reducer'
 
@@ -9,9 +10,9 @@ const store = {
   answers: []
 }
 
-export const AnswersContext = createContext()
+const AnswersContext = createContext()
 
-export function AnswersProvider({ children }) {
+function AnswersProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, store)
 
   return (
@@ -20,3 +21,12 @@ export function AnswersProvider({ children }) {
     </AnswersContext.Provider>
   )
 }
+
+AnswersProvider.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node
+  ]).isRequired
+}
+
+export { AnswersProvider, AnswersContext }
