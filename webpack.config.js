@@ -2,7 +2,11 @@ const path = require('path')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const webpack = require('webpack')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries')
+const HTMLInlineCSSWebpackPlugin = require('html-inline-css-webpack-plugin')
+  .default
 
 if (!process.env.TARGET) {
   throw new Error("Please specify env TARGET, 'chrome' or 'firefox'.")
@@ -18,19 +22,22 @@ module.exports = (env, argv) => {
     entry: {
       main: path.resolve(__dirname, './src/js/index.js'),
       background: path.resolve(__dirname, './src/js/background.js'),
-      support: path.resolve(__dirname, './src/js/support.content-script.js')
+      support: path.resolve(__dirname, './src/js/support.content-script.js'),
+      commoncss: path.resolve(__dirname, './src/scss/popup.scss')
     },
+    devtool: false,
     watch: IS_DEV,
     module: {
       rules: [
         {
           test: /\.(js|jsx)$/,
-          exclude: /node_modules/,
-          use: ['babel-loader']
+          use: ['babel-loader'],
+          exclude: /node_modules/
         },
         {
-          test: /\.s[ac]ss$/i,
-          use: ['style-loader', 'css-loader', 'sass-loader']
+          test: /\.(sa|sc|c)ss$/,
+          use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+          exclude: /node_modules/
         }
       ]
     },
@@ -39,7 +46,7 @@ module.exports = (env, argv) => {
       filename: '[name].bundle.js'
     },
     resolve: {
-      extensions: ['.js', '.jsx'],
+      extensions: ['.js', '.jsx', '.scss'],
       alias: {
         '@components': path.resolve(__dirname, './src/js/components'),
         '@containers': path.resolve(__dirname, './src/js/containers'),
@@ -53,6 +60,7 @@ module.exports = (env, argv) => {
     },
     plugins: [
       new webpack.ProgressPlugin(),
+      new FixStyleOnlyEntriesPlugin(),
       new HtmlWebpackPlugin({
         theme: 'light',
         template: path.join(__dirname, 'src', 'html', 'popup.html'),
@@ -65,6 +73,8 @@ module.exports = (env, argv) => {
         excludeChunks: ['background', 'support'],
         filename: 'popup-dark.html'
       }),
+      new HTMLInlineCSSWebpackPlugin(),
+      new MiniCssExtractPlugin(),
       new CopyWebpackPlugin({
         patterns: [
           {
@@ -107,9 +117,7 @@ module.exports = (env, argv) => {
     ]
   }
 
-  if (IS_DEV) {
-    config.devtool = 'cheap-module-source-map'
-  } else {
+  if (!IS_DEV) {
     config.plugins.push(new CleanWebpackPlugin())
   }
 

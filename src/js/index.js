@@ -7,8 +7,6 @@ import initI18n from './i18n'
 import defaultStore from './stores/config/default'
 import settingsStore from './stores/config/settings'
 
-import '../scss/popup.scss'
-
 const defaultSettingsItems = Object.keys(settingsStore).map(key => ({
   key,
   defaultValue: settingsStore[key]
