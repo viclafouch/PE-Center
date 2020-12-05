@@ -9,7 +9,6 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import ListItemText from '@material-ui/core/ListItemText'
 import FileCopyIcon from '@material-ui/icons/FileCopy'
 import OpenInNewIcon from '@material-ui/icons/OpenInNew'
-import StarsIcon from '@material-ui/icons/Stars'
 import { copyAsHyperlink, getAnswerUrl } from '@utils'
 import { openLink } from '@utils/browser'
 import { useSnackbar } from 'notistack'
@@ -41,26 +40,28 @@ function AnswerDialog({ answer, product, lang, onClose, ...restProps }) {
   }
 
   const handleCopyLink = () => {
-    const hasCopied = copyAsHyperlink(answer.title, url)
-    if (hasCopied) {
-      enqueueSnackbar(t('successCopy'), {
-        variant: 'success',
-        anchorOrigin: {
-          vertical: 'bottom',
-          horizontal: 'center'
-        },
-        autoHideDuration: 2000
-      })
-      onClose()
-    } else {
-      enqueueSnackbar(t('error.unknown'), {
-        variant: 'error',
-        anchorOrigin: {
-          vertical: 'bottom',
-          horizontal: 'center'
-        },
-        autoHideDuration: 2000
-      })
+    if (url) {
+      const hasCopied = copyAsHyperlink(answer.title, url)
+      if (hasCopied) {
+        enqueueSnackbar(t('successCopy'), {
+          variant: 'success',
+          anchorOrigin: {
+            vertical: 'bottom',
+            horizontal: 'center'
+          },
+          autoHideDuration: 2000
+        })
+        onClose()
+      } else {
+        enqueueSnackbar(t('error.unknown'), {
+          variant: 'error',
+          anchorOrigin: {
+            vertical: 'bottom',
+            horizontal: 'center'
+          },
+          autoHideDuration: 2000
+        })
+      }
     }
   }
 
@@ -90,14 +91,6 @@ function AnswerDialog({ answer, product, lang, onClose, ...restProps }) {
             </AvatarStyled>
           </ListItemAvatar>
           <ListItemText primary={'Copier le lien hypertexte'} />
-        </ListItem>
-        <ListItem button>
-          <ListItemAvatar>
-            <AvatarStyled>
-              <StarsIcon fontSize="small" />
-            </AvatarStyled>
-          </ListItemAvatar>
-          <ListItemText primary={t('Ajouter à mes favoris')} />
         </ListItem>
       </List>
     </Dialog>

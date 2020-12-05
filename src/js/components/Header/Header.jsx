@@ -34,10 +34,7 @@ function Header({ setCurrentView }) {
         value={answersState.searchValue}
         onChange={handleChange}
       />
-      <IconButton
-        aria-label={t('menu')}
-        onClick={() => setCurrentView(ANSWERS_VIEW)}
-      >
+      <IconButton onClick={() => setCurrentView(ANSWERS_VIEW)}>
         <SearchIcon />
       </IconButton>
     </PaperStyled>
