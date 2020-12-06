@@ -7,14 +7,19 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries')
 const HTMLInlineCSSWebpackPlugin = require('html-inline-css-webpack-plugin')
   .default
+const browsers = require('./browsers')
 
-if (!process.env.TARGET) {
-  throw new Error("Please specify env TARGET, 'chrome' or 'firefox'.")
+const currentBrowser = process.env.TARGET
+
+if (!browsers.includes(currentBrowser)) {
+  throw new Error(
+    `Please specify the TARGET environment. \n Possible values: ${browsers}`
+  )
 } else {
-  console.info(`\x1b[1;32mBuilding for target ${process.env.TARGET}...\x1b[m`)
+  console.info(`\x1b[1;32mBuilding for target ${currentBrowser}...\x1b[m`)
 }
 
-const outputPath = path.join(__dirname, 'dist', process.env.TARGET)
+const outputPath = path.join(__dirname, 'build', currentBrowser)
 
 module.exports = (env, argv) => {
   const IS_DEV = argv.mode === 'development'
@@ -61,6 +66,8 @@ module.exports = (env, argv) => {
     plugins: [
       new webpack.ProgressPlugin(),
       new FixStyleOnlyEntriesPlugin(),
+      new HTMLInlineCSSWebpackPlugin(),
+      new MiniCssExtractPlugin(),
       new HtmlWebpackPlugin({
         theme: 'light',
         template: path.join(__dirname, 'src', 'html', 'popup.html'),
@@ -73,8 +80,6 @@ module.exports = (env, argv) => {
         excludeChunks: ['background', 'support'],
         filename: 'popup-dark.html'
       }),
-      new HTMLInlineCSSWebpackPlugin(),
-      new MiniCssExtractPlugin(),
       new CopyWebpackPlugin({
         patterns: [
           {
@@ -83,7 +88,7 @@ module.exports = (env, argv) => {
             force: true,
             transform: function (content) {
               const manifestContent = JSON.parse(content.toString())
-              if (process.env.TARGET === 'chrome') {
+              if (currentBrowser === 'chrome') {
                 delete manifestContent['browser_specific_settings']
               }
               if (IS_DEV) {
