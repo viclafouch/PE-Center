@@ -12,6 +12,8 @@
     "searchTitle": "Artikel pencarian kamu",
     "feedIntro": "Tetap mendapat informasi tentang pertanyaan baru dari pengguna tentang produk Google dan menjawabnya dengan sangat cepat!",
     "feedTitle": "Umpan RSS sedang dimuat...",
+    "openHelpAnswer": "Buka bantuan online",
+    "openHypertextLink": "Salin hyperlink",
     "limitThread": "Maksimal Post/Produk",
     "permissionsRequired": "Kamu harus memiliki otorisasi yang dibutuhkan.",
     "language": "Bahasa",
@@ -25,8 +27,8 @@
     "error": {
       "unknown": "Ada yang salah.",
       "offline": {
-        "title": "Nessun collegamento",
-        "description": "PE Center non può raggiungere internet. Controlla la tua connessione."
+        "title": "Tidak ada koneksi",
+        "description": "PE Center tidak dapat mengakses Internet. Periksa koneksi Anda."
       }
     }
   }

@@ -15,17 +15,17 @@ import tr from '../../../locales/tr.json'
 import uk from '../../../locales/uk.json'
 
 export const languages = {
-  fr: 'Français',
-  en: 'English',
-  de: 'Deutsch',
-  'pt-BR': 'Português (Brasil)',
-  es: 'Español',
-  ru: 'Pусский‎',
-  uk: 'Yкраїнська‎',
-  id: 'Indonesia',
-  tr: 'Türkçe‎',
-  pl: 'Polski',
-  ja: '日本語‎'
+  fr: 'Français', // French
+  en: 'English', // English
+  de: 'Deutsch', // German
+  'pt-BR': 'Português (Brasil)', // Portuguese (Brasil)
+  es: 'Español', // Spanish
+  ru: 'Pусский‎', // Russian
+  uk: 'Yкраїнська‎', // Ukrainian
+  id: 'Indonesia', // Indonesia
+  tr: 'Türkçe‎', // Turkish
+  pl: 'Polski', // Polish
+  ja: '日本語‎' // Japanese
 }
 
 const resources = {

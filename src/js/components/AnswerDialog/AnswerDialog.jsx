@@ -82,7 +82,7 @@ function AnswerDialog({ answer, product, lang, onClose, ...restProps }) {
               <OpenInNewIcon fontSize="small" />
             </AvatarStyled>
           </ListItemAvatar>
-          <ListItemText primary={t('Ouvrir le lien')} />
+          <ListItemText primary={t('openHelpAnswer')} />
         </ListItem>
         <ListItem button onClick={handleCopyLink}>
           <ListItemAvatar>
@@ -90,7 +90,7 @@ function AnswerDialog({ answer, product, lang, onClose, ...restProps }) {
               <FileCopyIcon fontSize="small" />
             </AvatarStyled>
           </ListItemAvatar>
-          <ListItemText primary={'Copier le lien hypertexte'} />
+          <ListItemText primary={'openHypertextLink'} />
         </ListItem>
       </List>
     </Dialog>
