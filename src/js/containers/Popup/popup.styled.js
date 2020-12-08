@@ -18,4 +18,5 @@ const SwipeableViews = styled.div`
     flex-shrink: 0;
   }
 `
+
 export { PopupStyled, SwipeableViews }

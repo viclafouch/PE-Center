@@ -199,7 +199,7 @@ function Settings() {
             input={<Input id="open-in" />}
           >
             <MenuItem value={PUBLIC_THREAD_LINK} component="li">
-              PUBLIC_THREAD_LINK
+              {t('helpCenter')}
             </MenuItem>
             <MenuItem value={PRIVATE_THREAD_LINK} component="li">
               {t('communityConsole')}

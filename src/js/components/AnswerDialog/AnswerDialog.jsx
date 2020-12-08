@@ -90,7 +90,7 @@ function AnswerDialog({ answer, product, lang, onClose, ...restProps }) {
               <FileCopyIcon fontSize="small" />
             </AvatarStyled>
           </ListItemAvatar>
-          <ListItemText primary={'openHypertextLink'} />
+          <ListItemText primary={t('openHypertextLink')} />
         </ListItem>
       </List>
     </Dialog>
