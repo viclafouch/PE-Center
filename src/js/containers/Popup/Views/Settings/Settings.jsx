@@ -80,7 +80,7 @@ function Settings() {
   }
 
   return (
-    <View>
+    <View className="hide-scrollbar">
       <FormStyled noValidate id="settings-form">
         <FormControl fullWidth required>
           <InputLabel id="products-selected">{t('products')}</InputLabel>

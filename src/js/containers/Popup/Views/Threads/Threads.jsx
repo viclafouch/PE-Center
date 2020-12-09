@@ -54,9 +54,13 @@ function Threads() {
   }, [])
 
   return (
-    <View className="hide-scrollbar">
+    <View>
       {products.length > 0 ? (
-        <ThreadsList subheader={<li />} ref={listRef}>
+        <ThreadsList
+          className="hide-scrollbar"
+          subheader={<li />}
+          ref={listRef}
+        >
           {products.map(product => {
             return (
               <ThreadsListItem key={product.id}>
