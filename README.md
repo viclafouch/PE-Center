@@ -1,70 +1,24 @@
 <br />
 <div align="center">
-  <a href="https://www.styled-components.com">
-    <img alt="styled-components" src="https://www.gstatic.com/alkali/apps/bento/images/characters.png" height="150px" />
-  </a>
+  <img src="https://www.gstatic.com/alkali/apps/bento/images/characters.png" height="150px" />
 </div>
 
-# PE Center (v3.1.0)
+# PE Center
 
-PE Center is an extension which allows users to search, access and copy the help articles of the official Google products (YouTube, Google Chrome, ...). This web extension also allows to retrieve the latest posts created on the official Google's forums.
+PE Center is a web extension which allows users to search, access and copy the help articles of the official Google products (YouTube, Google Chrome, ...). This web extension also allows to retrieve the latest posts created on the official Google's forums.
 
 - [PE Center on Firefox](https://addons.mozilla.org/fr/firefox/addon/pe-center/)
 - [PE Center on Google Chrome](https://chrome.google.com/webstore/detail/pe-center/hanknpkmjbfhcalmipokkfplndkohgdm)
 
-[![PE VIDEO](https://github.com/viclafouch/PE-Center/blob/master/screenshot-video.png)](https://www.youtube.com/watch?v=BDYCFtLuT1M)
-
-#### Langs supported :
-
-- Français
-- English
-- Deutsch
-- Português (Brasil)
-- Español
-- Pусский
-- Yкраїнська
-- Indonesia
-- Türkçe
-- Polski
-- 日本語‎
-
-#### Products supported :
-
-- YouTube
-- Google Search
-- Google Photos
-- Google AdSense
-- Google Maps
-- Gmail
-- Google Chrome
-- Google Calendar
-- Google Account
-- Google Play
-- Google My Business
-- Google Translate
-- Google Fi
-- G Suite Administrator
-- Files by Google
-- Docs Editor
-- Course Kit
-- Google Drive
-- Pixel Phone
-- Search Console
-- Google Classroom
-- Jamboard
-- Expeditions
-- Android
-
-### What I use:
+### What I use 🚀
 
 - [ReactJS](https://github.com/facebook/react) - Framework JS.
-- [Google Support Crawler](https://github.com/viclafouch/google-support-crawler) Unofficial API of Google Products
+- [PE Crawler](https://github.com/viclafouch/PE-crawler) - API.
+- [Material UI](https://material-ui.com) - React components.
 - [Styled-components](https://github.com/styled-components/styled-components) - CSS in JS.
 - [React-i18next](https://github.com/i18next/react-i18next) - Internationalization for React.
 
-At least but not last, this extension uses an API specially developed for this project, called [GSC (Google Support Crawler)](https://github.com/viclafouch/google-support-crawler).
-
-### Installing from source
+### Installing from source 🧰
 
 1. Clone the repository: `git clone https://github.com/viclafouch/PE-Center.git`
 2. Install the npm dependencies `npm install`
@@ -84,6 +38,6 @@ Only on **Google Chrome** :
 
 ## Made with ❤️ for PE
 
-<img alt="styled-components" src="https://gstatic.com/alkali/apps/bento/images/product_experts_logo_text_v2.png" width="150px" />
+<img src="https://gstatic.com/alkali/apps/bento/images/product_experts_logo_text_v2.png" width="150px" />
 
 _"Save the day, one answer at a time"_
