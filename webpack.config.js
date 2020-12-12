@@ -68,6 +68,12 @@ module.exports = (env, argv) => {
       new FixStyleOnlyEntriesPlugin(),
       new HTMLInlineCSSWebpackPlugin(),
       new MiniCssExtractPlugin(),
+      new webpack.DefinePlugin({
+        'process.env.NODE_ENV': JSON.stringify(argv.mode),
+        'process.env.npm_package_version': JSON.stringify(
+          process.env.npm_package_version
+        )
+      }),
       new HtmlWebpackPlugin({
         theme: 'light',
         template: path.join(__dirname, 'src', 'html', 'popup.html'),

@@ -6,7 +6,7 @@
     "dev": "npm run dev:chrome",
     "dev:chrome": "npx cross-env TARGET=chrome webpack --mode=development",
     "dev:firefox": "npx cross-env TARGET=firefox webpack --mode=development",
-    "build": "npm-run-all --parallel build:chrome build:firefox",
+    "build": "npm-run-all build:chrome build:firefox",
     "build:chrome": "npx cross-env TARGET=chrome webpack --mode=production",
     "build:firefox": "npx cross-env TARGET=firefox webpack --mode=production",
     "publish": "node tasks/publish.js",
