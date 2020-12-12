@@ -30,6 +30,7 @@ async function removeFiles(directory) {
 
 async function publish() {
   try {
+    console.info(`\x1b[1;32mPE-Center@${process.env.npm_package_version}\x1b[m`)
     browsers.forEach(async browser => {
       const entry = path.join(entryOutput, browser)
       const output = path.join(rootOutput, browser)
@@ -38,10 +39,11 @@ async function publish() {
           `${browser} has no build directory, please run npm build.`
         )
       }
+
       await removeFiles(output)
       zip.addLocalFolder(entry, '')
       zip.writeZip(path.join(output, zipFileName))
-      console.log(`${browser} extension ready to be published`)
+      console.info(`\x1b[1;32m${browser} extension ready to be published\x1b[m`)
     })
   } catch (error) {
     console.error(error)

@@ -16,7 +16,8 @@ if (!browsers.includes(currentBrowser)) {
     `Please specify the TARGET environment. \n Possible values: ${browsers}`
   )
 } else {
-  console.info(`\x1b[1;32mBuilding for target ${currentBrowser}...\x1b[m`)
+  console.info(`\x1b[1;32mPE-Center@${process.env.npm_package_version}\x1b[m`)
+  console.info(`\x1b[1;32mBuilding for ${currentBrowser}...\x1b[m`)
 }
 
 const outputPath = path.join(__dirname, 'build', currentBrowser)
