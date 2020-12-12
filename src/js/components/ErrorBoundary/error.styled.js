@@ -1,3 +1,4 @@
+import { Typography } from '@material-ui/core'
 import styled from 'styled-components'
 
 const FatalErrorStyled = styled.div`
@@ -13,11 +14,19 @@ const FatalErrorStyled = styled.div`
   justify-content: center;
   text-align: center;
 
+  button {
+    margin-top: 30px;
+  }
+
   a {
     text-decoration: underline;
-    color: #15c;
+    color: #6699f3;
     cursor: pointer;
   }
 `
 
-export { FatalErrorStyled }
+const ErrorIdStyled = styled(Typography)`
+  margin-top: 10px;
+`
+
+export { FatalErrorStyled, ErrorIdStyled }

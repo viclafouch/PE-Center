@@ -1,15 +1,23 @@
 import React, { Component } from 'react'
-import { Typography } from '@material-ui/core'
-import { handleAnchor } from '@utils/browser'
+import { Button, Typography } from '@material-ui/core'
+import { HARD_RELOAD } from '@shared/constants'
+import {
+  clearStorage,
+  handleAnchor,
+  sendMessageToBackground
+} from '@utils/browser'
+import Sentry from '@utils/sentry'
 import PropTypes from 'prop-types'
 
-import { FatalErrorStyled } from './error.styled'
+import { ErrorIdStyled, FatalErrorStyled } from './error.styled'
 
 export class ErrorBoundary extends Component {
   constructor() {
     super()
     this.state = {
-      hasError: false
+      hasError: false,
+      eventId: '',
+      errorInfo: ''
     }
   }
 
@@ -17,12 +25,23 @@ export class ErrorBoundary extends Component {
     return { hasError: true }
   }
 
-  componentDidCatch(error) {
-    console.error(error)
+  componentDidCatch(error, errorInfo) {
+    Sentry.withScope(scope => {
+      scope.setExtras(errorInfo)
+      const eventId = Sentry.captureException(error)
+      this.setState({ eventId, errorInfo })
+    })
+  }
+
+  async hardReload() {
+    await clearStorage('local')
+    await clearStorage('sync')
+    await sendMessageToBackground(HARD_RELOAD)
+    window.location.reload()
   }
 
   render() {
-    const { hasError } = this.state
+    const { hasError, eventId } = this.state
     const { children } = this.props
 
     if (hasError)
@@ -31,7 +50,7 @@ export class ErrorBoundary extends Component {
           <Typography variant="h5" color="error" gutterBottom>
             An error happened :(
           </Typography>
-          <Typography>
+          <Typography gutterBottom>
             An unknown error occurred. Please try to{' '}
             <a
               href="https://chrome.google.com/webstore/detail/pe-center/hanknpkmjbfhcalmipokkfplndkohgdm"
@@ -52,6 +71,15 @@ export class ErrorBoundary extends Component {
             </a>
             .
           </Typography>
+          <Button
+            onClick={this.hardReload}
+            color="primary"
+            size="small"
+            variant="contained"
+          >
+            Clear cache
+          </Button>
+          <ErrorIdStyled variant="caption">{eventId}</ErrorIdStyled>
         </FatalErrorStyled>
       )
     return children

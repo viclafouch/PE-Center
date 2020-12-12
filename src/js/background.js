@@ -1,5 +1,5 @@
 import * as api from '@shared/api'
-import { SEND_THEME } from '@shared/constants'
+import { HARD_RELOAD, SEND_THEME } from '@shared/constants'
 import { getProductLogoByName, getThreadUrl } from '@utils'
 import {
   browser_,
@@ -44,6 +44,10 @@ browser_.runtime.onMessage.addListener((request, sender, sendResponse) => {
       browser_.browserAction.setPopup({ popup: `popup-${payload.theme}.html` })
       sendResponse(undefined)
       break
+    case HARD_RELOAD:
+      start()
+      sendResponse(undefined)
+      break
     default:
       sendResponse(undefined)
       break
@@ -83,7 +87,7 @@ const notifyThread = async ({ thread, openThreadLinkIn, product }) => {
   })
 }
 
-async function start() {
+async function getThreads() {
   const settings = await getBrowserStorage('sync', null, defaultSettingsItems)
   const defaultStorage = await getBrowserStorage('local', null, defaultAppItems)
 
@@ -164,7 +168,7 @@ const saveProducts = async () => {
   }
 }
 
-;(async () => {
+async function start() {
   createAlarm('threads', {
     delayInMinutes: 2,
     periodInMinutes: 1
@@ -176,7 +180,7 @@ const saveProducts = async () => {
 
   browser_.alarms.onAlarm.addListener(alarmInfo => {
     if (alarmInfo.name === 'threads') {
-      start()
+      getThreads()
     } else if (alarmInfo.name === 'products') {
       saveProducts()
     }
@@ -185,4 +189,6 @@ const saveProducts = async () => {
   getBrowserStorage('sync', null, defaultSettingsItems).then(settings => {
     browser_.browserAction.setPopup({ popup: `popup-${settings.theme}.html` })
   })
-})()
+}
+
+start()

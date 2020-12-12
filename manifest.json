@@ -12,7 +12,7 @@
     "https://pe-crawler.herokuapp.com/*"
   ],
   "browser_action": {
-    "default_popup": "popup-light.html",
+    "default_popup": "popup-dark.html",
     "default_title": "PE Center",
     "default_icon": "icons/icon_16.png"
   },
