@@ -15,7 +15,7 @@ const FatalErrorStyled = styled.div`
   text-align: center;
 
   button {
-    margin-top: 30px;
+    margin: 30px auto 10px;
   }
 
   a {

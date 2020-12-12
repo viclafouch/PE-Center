@@ -37,6 +37,14 @@ const defaultAppItems = [
   }
 ]
 
+const handleOnAlarm = alarmInfo => {
+  if (alarmInfo.name === 'threads') {
+    getThreads()
+  } else if (alarmInfo.name === 'products') {
+    saveProducts()
+  }
+}
+
 browser_.runtime.onMessage.addListener((request, sender, sendResponse) => {
   const { type, payload } = request
   switch (type) {
@@ -178,13 +186,11 @@ async function start() {
     periodInMinutes: 10
   })
 
-  browser_.alarms.onAlarm.addListener(alarmInfo => {
-    if (alarmInfo.name === 'threads') {
-      getThreads()
-    } else if (alarmInfo.name === 'products') {
-      saveProducts()
-    }
-  })
+  if (browser_.alarms.onAlarm.hasListeners()) {
+    browser_.alarms.onAlarm.removeListener(handleOnAlarm)
+  }
+
+  browser_.alarms.onAlarm.addListener(handleOnAlarm)
 
   getBrowserStorage('sync', null, defaultSettingsItems).then(settings => {
     browser_.browserAction.setPopup({ popup: `popup-${settings.theme}.html` })
