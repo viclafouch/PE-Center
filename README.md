@@ -10,6 +10,15 @@ PE Center is a web extension which allows users to search, access and copy the h
 - [PE Center on Firefox](https://addons.mozilla.org/fr/firefox/addon/pe-center/)
 - [PE Center on Google Chrome](https://chrome.google.com/webstore/detail/pe-center/hanknpkmjbfhcalmipokkfplndkohgdm)
 
+### Features
+- No registration.
+- Dark theme.
+- Filters by lang and product.
+- Can enable notification for new threads.
+- Mark as "read" a thread if you read it on the Community Console.
+- Can copy or open a hyperlink of a Help Center article.
+- Can configure the platform to open a link (Help center / Community Console)
+
 ### What I use 🚀
 
 - [ReactJS](https://github.com/facebook/react) - Framework JS.
