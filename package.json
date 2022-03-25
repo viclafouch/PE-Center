@@ -1,6 +1,6 @@
 {
   "name": "pe-center",
-  "version": "3.1.1",
+  "version": "3.2.0",
   "description": "A web extension which allows to find and copy any tips about the Google Help Center.",
   "scripts": {
     "dev": "npm run dev:chrome",
