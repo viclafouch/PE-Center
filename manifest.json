@@ -6,7 +6,6 @@
   "permissions": [
     "storage",
     "clipboardWrite",
-    "tabs",
     "alarms",
     "notifications",
     "https://pe-crawler.herokuapp.com/*"
