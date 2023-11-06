@@ -95,14 +95,6 @@ module.exports = (env, argv) => {
             force: true,
             transform: function (content) {
               const manifestContent = JSON.parse(content.toString())
-              if (currentBrowser === 'chrome') {
-                delete manifestContent['browser_specific_settings']
-              }
-              if (IS_DEV) {
-                manifestContent['content_security_policy'] =
-                  "script-src 'self' 'unsafe-eval'; object-src 'self'"
-                manifestContent['permissions'].push('http://localhost:3000/*')
-              }
               return Buffer.from(
                 JSON.stringify(
                   {

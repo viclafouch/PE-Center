@@ -1,22 +1,24 @@
 {
   "name": "PE Center",
   "short_name": "PE Center",
-  "manifest_version": 2,
+  "manifest_version": 3,
   "author": "Victor de la Fouchardiere",
   "permissions": [
     "storage",
     "clipboardWrite",
     "alarms",
-    "notifications",
+    "notifications"
+  ],
+  "host_permissions": [
     "https://pe-crawler.herokuapp.com/*"
   ],
-  "browser_action": {
+  "action": {
     "default_popup": "popup-dark.html",
     "default_title": "PE Center",
     "default_icon": "icons/icon_16.png"
   },
   "background": {
-    "scripts": ["background.bundle.js"]
+    "service_worker": "background.bundle.js"
   },
   "content_scripts": [
     {
@@ -28,15 +30,5 @@
     "16": "icons/icon_16.png",
     "48": "icons/icon_48.png",
     "128": "icons/icon_128.png"
-  },
-  "commands": {
-    "_execute_browser_action": {
-      "suggested_key": {
-        "default": "Alt+T",
-        "windows": "Alt+T",
-        "mac": "Alt+T"
-      }
-    }
-  },
-  "content_security_policy": "script-src 'self'; object-src 'self'"
+  }
 }

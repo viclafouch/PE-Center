@@ -30,6 +30,17 @@ function Popup({ initalCurrentView }) {
       enqueueSnackbar(t('error.offline.title'), {
         variant: 'error'
       })
+    } else {
+      enqueueSnackbar(
+        <span>
+          06/11/23 : This app may stop working in a future... If you still need
+          it, please contact me at <u>victor.delafouchardiere@gmail.com</u>
+        </span>,
+        {
+          variant: 'error',
+          autoHideDuration: 8000
+        }
+      )
     }
   }, [isOnline, enqueueSnackbar, t])
 

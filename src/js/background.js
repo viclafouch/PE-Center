@@ -49,7 +49,7 @@ browser_.runtime.onMessage.addListener((request, sender, sendResponse) => {
   const { type, payload } = request
   switch (type) {
     case SEND_THEME:
-      browser_.browserAction.setPopup({ popup: `popup-${payload.theme}.html` })
+      browser_.action.setPopup({ popup: `popup-${payload.theme}.html` })
       sendResponse(undefined)
       break
     case HARD_RELOAD:
@@ -193,7 +193,7 @@ async function start() {
   browser_.alarms.onAlarm.addListener(handleOnAlarm)
 
   getBrowserStorage('sync', null, defaultSettingsItems).then(settings => {
-    browser_.browserAction.setPopup({ popup: `popup-${settings.theme}.html` })
+    browser_.action.setPopup({ popup: `popup-${settings.theme}.html` })
   })
 }
 

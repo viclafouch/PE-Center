@@ -5,7 +5,7 @@ export const browser_ = chrome || browser
  * @param {string} value - The badge value
  */
 export const setBadgeText = value =>
-  browser_.browserAction.setBadgeText({
+  browser_.action.setBadgeText({
     text: value.toString()
   })
 
@@ -13,7 +13,7 @@ export const setBadgeText = value =>
  * Get the badge value
  */
 export const getBadgeText = () =>
-  new Promise(resolve => browser_.browserAction.getBadgeText({}, resolve))
+  new Promise(resolve => browser_.action.getBadgeText({}, resolve))
 
 /**
  * Clear all items of a storage type
