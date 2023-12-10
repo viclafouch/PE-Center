@@ -6,7 +6,6 @@ import {
   handleAnchor,
   sendMessageToBackground
 } from '@utils/browser'
-import Sentry from '@utils/sentry'
 import PropTypes from 'prop-types'
 
 import { ErrorIdStyled, FatalErrorStyled } from './error.styled'
@@ -23,14 +22,6 @@ export class ErrorBoundary extends Component {
 
   static getDerivedStateFromError() {
     return { hasError: true }
-  }
-
-  componentDidCatch(error, errorInfo) {
-    Sentry.withScope(scope => {
-      scope.setExtras(errorInfo)
-      const eventId = Sentry.captureException(error)
-      this.setState({ eventId, errorInfo })
-    })
   }
 
   async hardReload() {

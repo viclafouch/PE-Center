@@ -5,20 +5,12 @@
   "author": "Victor de la Fouchardiere",
   "permissions": [
     "storage",
-    "clipboardWrite",
-    "alarms",
-    "notifications"
-  ],
-  "host_permissions": [
-    "https://pe-crawler.herokuapp.com/*"
+    "clipboardWrite"
   ],
   "action": {
     "default_popup": "popup-dark.html",
     "default_title": "PE Center",
     "default_icon": "icons/icon_16.png"
-  },
-  "background": {
-    "service_worker": "background.bundle.js"
   },
   "content_scripts": [
     {

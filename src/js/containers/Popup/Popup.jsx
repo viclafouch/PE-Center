@@ -4,7 +4,7 @@ import Footer from '@components/Footer/Footer'
 import Header from '@components/Header/Header'
 import Offline from '@components/Offline/Offline'
 import * as api from '@shared/api'
-import { ANSWERS_VIEW, SETTINGS_VIEW, THREADS_VIEW } from '@shared/constants'
+import { ANSWERS_VIEW, SETTINGS_VIEW } from '@shared/constants'
 import { SET_PRODUCTS } from '@stores/constants'
 import { DefaultContext } from '@stores/Default'
 import { setBrowserStorage } from '@utils/browser'
@@ -14,7 +14,6 @@ import PropTypes from 'prop-types'
 import { PopupStyled, SwipeableViews } from './popup.styled'
 import AnswersView from './Views/Answers/Answers'
 import SettingsView from './Views/Settings/Settings'
-import ThreadsView from './Views/Threads/Threads'
 
 import useNetwork from '@/js/hooks/use-network'
 
@@ -30,24 +29,13 @@ function Popup({ initalCurrentView }) {
       enqueueSnackbar(t('error.offline.title'), {
         variant: 'error'
       })
-    } else {
-      enqueueSnackbar(
-        <span>
-          06/11/23 : This app may stop working in a future... If you still need
-          it, please contact me at <u>victor.delafouchardiere@gmail.com</u>
-        </span>,
-        {
-          variant: 'error',
-          autoHideDuration: 8000
-        }
-      )
     }
   }, [isOnline, enqueueSnackbar, t])
 
   const transform = useMemo(() => {
     let transformPercent = 0
-    if (currentView === THREADS_VIEW) transformPercent = 100
-    else if (currentView === SETTINGS_VIEW) transformPercent = 200
+    // if (currentView === THREADS_VIEW) transformPercent = 100
+    if (currentView === SETTINGS_VIEW) transformPercent = 100
     return `translate(-${transformPercent}%, 0px)`
   }, [currentView])
 
@@ -89,12 +77,12 @@ function Popup({ initalCurrentView }) {
               >
                 <AnswersView />
               </div>
-              <div
+              {/* <div
                 data-swipeable
                 aria-hidden={state.currentView !== THREADS_VIEW}
               >
                 <ThreadsView />
-              </div>
+              </div> */}
               <div
                 data-swipeable
                 aria-hidden={state.currentView !== SETTINGS_VIEW}

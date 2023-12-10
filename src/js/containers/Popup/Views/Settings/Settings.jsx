@@ -4,20 +4,13 @@ import Checkbox from '@material-ui/core/Checkbox'
 import FormControl from '@material-ui/core/FormControl'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormGroup from '@material-ui/core/FormGroup'
-import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
 import ListItemText from '@material-ui/core/ListItemText'
 import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
 import Switch from '@material-ui/core/Switch'
 import Typography from '@material-ui/core/Typography'
-import {
-  ANSWERS_VIEW,
-  DARK_THEME,
-  PRIVATE_THREAD_LINK,
-  PUBLIC_THREAD_LINK,
-  THREADS_VIEW
-} from '@shared/constants'
+import { DARK_THEME, PRIVATE_THREAD_LINK } from '@shared/constants'
 import { handleAnchor } from '@utils/browser'
 import { useSnackbar } from 'notistack'
 
@@ -27,11 +20,8 @@ import { FormStyled, MyProfil } from './settings.styled'
 import { languages } from '@/js/i18n'
 import {
   SET_LANG,
-  SET_LIMIT_PER_PRODUCT,
   SET_OPEN_LINK_ANSWER_IN,
   SET_PRODUCTS_ID_SELECTED,
-  SET_START_VIEW,
-  TOGGLE_NOTIFICATIONS,
   TOGGLE_THEME
 } from '@/js/stores/constants'
 import { DefaultContext } from '@/js/stores/Default'
@@ -48,7 +38,7 @@ const MenuPropsMaxHeightLang = (rows = 3) => ({
 function Settings() {
   const { enqueueSnackbar } = useSnackbar()
   const [settings, settingsDispatch] = useContext(SettingsContext)
-  const [defaultState, defaultDispatch] = useContext(DefaultContext)
+  const [defaultState] = useContext(DefaultContext)
   const { t } = useTranslation()
 
   const handleSwitchTheme = () => {
@@ -56,13 +46,6 @@ function Settings() {
       type: TOGGLE_THEME
     })
   }
-
-  const handleSwitchNotifications = () => {
-    defaultDispatch({
-      type: TOGGLE_NOTIFICATIONS
-    })
-  }
-
   const handleChangeSettings = (type, payload) => {
     settingsDispatch({
       type,
@@ -135,7 +118,7 @@ function Settings() {
             />
           </FormGroup>
         </FormControl>
-        <FormControl fullWidth required>
+        {/* <FormControl fullWidth required>
           <FormGroup>
             <FormControlLabel
               control={
@@ -148,7 +131,7 @@ function Settings() {
               label={t('notifications')}
             />
           </FormGroup>
-        </FormControl>
+        </FormControl> */}
         <FormControl fullWidth required margin="dense">
           <InputLabel htmlFor="lang">{t('language')}</InputLabel>
           <Select
@@ -165,7 +148,7 @@ function Settings() {
             ))}
           </Select>
         </FormControl>
-        <FormControl fullWidth required margin="dense">
+        {/* <FormControl fullWidth required margin="dense">
           <InputLabel htmlFor="limit-threads">{t('limitThread')}</InputLabel>
           <Select
             value={settings.limitThreadsPerProduct}
@@ -186,8 +169,8 @@ function Settings() {
               50
             </MenuItem>
           </Select>
-        </FormControl>
-        <FormControl fullWidth required margin="dense">
+        </FormControl> */}
+        {/* <FormControl fullWidth required margin="dense">
           <InputLabel htmlFor="open-in">{t('openIn')}</InputLabel>
           <Select
             value={settings.openThreadLinkIn}
@@ -205,8 +188,8 @@ function Settings() {
               {t('communityConsole')}
             </MenuItem>
           </Select>
-        </FormControl>
-        <FormControl fullWidth required margin="dense">
+        </FormControl> */}
+        {/* <FormControl fullWidth required margin="dense">
           <InputLabel htmlFor="start-page">{t('launchPage')}</InputLabel>
           <Select
             value={settings.startView}
@@ -229,7 +212,7 @@ function Settings() {
               {t('newPostsPage')}
             </MenuItem>
           </Select>
-        </FormControl>
+        </FormControl> */}
       </FormStyled>
       <MyProfil>
         <Typography component="p" variant="body2">

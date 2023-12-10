@@ -2,7 +2,6 @@ import React from 'react'
 import Tab from '@material-ui/core/Tab'
 import Tabs from '@material-ui/core/Tabs'
 import AssignmentIcon from '@material-ui/icons/Assignment'
-import RssFeedIcon from '@material-ui/icons/RssFeed'
 import SettingsIcon from '@material-ui/icons/Settings'
 import { ANSWERS_VIEW, SETTINGS_VIEW, THREADS_VIEW } from '@shared/constants'
 import PropTypes from 'prop-types'
@@ -32,11 +31,11 @@ function Footer({ setCurrentView, currentView }) {
           icon={<AssignmentIcon />}
           {...a11yProps(0, 'Tab 1')}
         />
-        <Tab
+        {/* <Tab
           value={THREADS_VIEW}
           icon={<RssFeedIcon />}
           {...a11yProps(1, 'Tab 2')}
-        />
+        /> */}
         <Tab
           value={SETTINGS_VIEW}
           icon={<SettingsIcon />}

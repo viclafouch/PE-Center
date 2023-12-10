@@ -1,8 +1,8 @@
 import { IS_DEV } from '@shared/constants'
 
 const API_URL = IS_DEV
-  ? 'https://pe-crawler.herokuapp.com'
-  : 'https://pe-crawler.herokuapp.com'
+  ? 'http://localhost:5000'
+  : 'https://pe-crawler-static.vercel.app'
 
 const request = (path = '/', params = {}) => {
   const url = API_URL + path

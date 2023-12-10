@@ -95,6 +95,11 @@ module.exports = (env, argv) => {
             force: true,
             transform: function (content) {
               const manifestContent = JSON.parse(content.toString())
+
+              manifestContent['host_permissions'] = IS_DEV
+                ? ['http://localhost/*']
+                : ['https://pe-crawler-static.vercel.app/*']
+
               return Buffer.from(
                 JSON.stringify(
                   {
